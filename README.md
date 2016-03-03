@@ -1,2 +1,2 @@
 # DistributedComputing
-Story Time with Jim Waldo 
+Storytime with Jim Waldo 
