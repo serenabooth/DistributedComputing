@@ -1,4 +1,5 @@
-import time
+from datetime import datetime
+import time 
 import socket
 import sys
 from threading import *
@@ -18,27 +19,31 @@ class Clock(Thread):
         self.clock_time = 0
 
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.settimeout(self.ticks_per_min)
         try:
             self.s.bind(('', port))
         except socket.error as msg:
             print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
             sys.exit()
         self.s.listen(10)
+        # self.s.setblocking(0)
 
         global socket_connections
         socket_connections[str(self.id)] = self.s 
 
     def run(self):
         while True: 
-            print str(time.time()) + str(self.id) + " says hello"
+            print str(datetime.now()) + str(self.id) + " says hello"
             time.sleep(5)
             # c, addr = self.s.accept()
             # data = c.recv(1024)
             # if data: print data
             # c.close()
 
-    def log(self):
-        print "TO DO"
+    def log(self, msg=None):
+        f = open(self.logbook, 'a')
+        f.write(" System time: " + str(datetime.now()) + " Logical clock time: " + self.clock_time)
+        f.close()
 
     def receive_event(self, msg):
         # update clocktime based on received, then add 1

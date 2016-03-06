@@ -4,4 +4,8 @@
     - OK, not sure what type of communication I want between these clocks. How about a socket between each pair of models? Initialized after the models... (Spent some time looking at other solutions like ZMQ, can't find anything perfect)
 
 03/06, 1:30pm, Serena
-    - 
+    - Start a thread per clock. Keep all class variables as well as a dictionary of all sockets which all clocks can access. 
+        - Back to the question of the intereference of the GIL... 
+    - Startup code in clock.__init__(...), logical clock responses to go in clock.run(...)
+    - Not sure how to determine the number of messages waiting for processing on a socket... 
+    - Not sure how to get remaining time until timeout on a socket. 
