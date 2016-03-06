@@ -1,2 +1,3 @@
 # DistributedComputing
-Story Time with Jim Waldo 
+Serena Booth
+Michelle Cone
