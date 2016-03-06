@@ -1,8 +1,16 @@
 import socket
 import os
+import random
+from clock import *
 
-clock_1 = clock(1, 1, "logbook_clock_1")
-clock_2 = clock(2, 1, "logbook_clock_2")
-clock_3 = clock(3, 1, "logbook_clock_3")
+clock_1 = Clock(1, random.randint(1, 6), "logbook_clock_1", 8000)
+clock_2 = Clock(2, random.randint(1, 6), "logbook_clock_2", 8080)
+clock_3 = Clock(3, random.randint(1, 6), "logbook_clock_3", 8888)
+
+clock_1.start()
+clock_2.start()
+clock_3.start() 
+
+#clock_1.send_event(clock_2)
 
 
