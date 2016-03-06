@@ -11,6 +11,3 @@ clock_1.start()
 clock_2.start()
 clock_3.start() 
 
-#clock_1.send_event(clock_2)
-
-
