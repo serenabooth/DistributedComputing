@@ -37,26 +37,36 @@ class Clock(Thread):
     def run(self):
         global socket_connections
         while True: 
-            print str(datetime.now()) + str(self.id) + " says hello"
+            print str(datetime.now()) + ": Clock " + str(self.id) + " says hello"
 
             #time.sleep(5)
-            try: 
-                # If the socket hasn't timed out, receive incoming messages.
-                c, addr = self.s.accept()
-                data = c.recv(1024)
-                if data: self.msg_queue.append(data)
-                c.close()
-            except socket.timeout:
-                # If the socket has timed out, restart the timeout, and perform an instruction.
-                operation_instr = random.randint(1,3)
-                if operation_instr == 1: 
-                    self.send_event(socket_connections['1'])
-                elif operation_instr == 2: 
-                    self.receive_event()
-                elif operation_instr == 3: 
-                    self.internal_event()
+            tmp_timeout = self.s.gettimeout()
 
-                print "Exception! timed out!"
+
+            while (tmp_timeout > 0): 
+                try: 
+                    tmp_timeout = self.s.gettimeout()
+                    # If the socket hasn't timed out, receive incoming messages.
+                    c, addr = self.s.accept()
+                    print "trying to get data "
+                    data = c.recv(1024).decode()
+                    if data: 
+                        self.msg_queue.append(data)
+                        print "got some! " + data
+                        self.s.settimeout(tmp_timeout)
+                    c.close()
+                except socket.timeout: 
+                    tmp_timeout = 0
+                    self.s.settimeout(self.ticks_per_min)
+                    # If the socket has timed out, restart the timeout, and perform an instruction.
+                    print "complete an instruction"
+                    operation_instr = 1
+                    if operation_instr == 1: 
+                        self.send_event(socket_connections['1'])
+                    elif operation_instr == 2: 
+                        self.receive_event()
+                    elif operation_instr == 3: 
+                        self.internal_event()
 
     def log(self, msg=None):
         f = open(self.logbook, 'a')
@@ -66,15 +76,25 @@ class Clock(Thread):
 
     def receive_event(self):
         # update clocktime based on received, then add 1
-        print "TO DO"
+        print "RECEIVE - TO DO"
 
-    def send_event(self, dst_socket):
-        sent = dst_socket.send(b'Oi you sent something to me')
-        if sent == 0:
-            raise RuntimeError("socket connection broken")
+    def send_event(self, dst):
+        #self.s.settimeout(10)
+        print "trying to send"
+        try: 
+            c, addr = dst.accept()
+            print "c " + c
+            print "addr " + addr
+            msg = 'Hello other logical clock'
+            sent = addr.send(msg.encode())
+            if sent == 0:
+                raise RuntimeError("socket connection broken")
+            c.close()
+        except socket.timeout: 
+            print "During send, socket timeout"
         self.clock_time += 1
-        print "TO DO"
+        print "SEND - TO DO"
 
     def internal_event (self):
         self.clock_time += 1
-        print "TO DO"
+        print "INTERNAL - TO DO"
