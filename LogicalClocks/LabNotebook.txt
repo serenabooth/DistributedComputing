@@ -13,3 +13,13 @@
 
 03/06, 5pm, Serena  
     - So we want to use the socket's timeout to indicate that we are able to run another instruction. How does one do this without constantly using exception-catching, which seems like bad style? 
+
+3/07, 8pm, Michelle & Serena
+    - We decided to have a clock object which contains two sockets, a client socket and a server socket. Each clock object has its own thread.
+    - The server socket is contantly listening and accepting connections, but times out based on the ticks per minute of its internal clock. 
+    - This timeout indicates when an action can be performed for that particular clock, so when it happens, a new thread is started to perform the appropriate action.
+    - This new thread picks a random number to determine which action to perform (per the specification).
+    - The client socket is used to perform these actions. It connects to the other server sockets when sending information (so that the server socket can continue accepting connections). 
+    - Current issue:
+        - After running a simple test to continuously send and accept messages (based on the clock times, but without actually updating clocks), we get a bad file descriptor error after a few iterations.
+            - We initially thought this was caused by the server socket being closed for a short period of time, but further tests to retry to connect seem to indicate that something else is the problem. 
