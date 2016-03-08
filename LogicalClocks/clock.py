@@ -97,21 +97,20 @@ class Clock(Thread):
     def run(self):
         global socket_connections
 
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.settimeout(self.ticks_per_min)
-        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        try:
-            self.server.bind(('', self.port_server))
-        except socket.error as msg:
-            print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
-            sys.exit()
-        self.server.listen(10)
 
         while True: 
             print str(datetime.now()) + ": Clock " + str(self.id) + " says hello"
 
             #print " connecting to server "
-
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server.settimeout(self.ticks_per_min)
+            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            try:
+                self.server.bind(('', self.port_server))
+            except socket.error as msg:
+                print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
+                sys.exit()
+            self.server.listen(10)
             # set up server (listening) socket
 
             try: 
@@ -134,16 +133,6 @@ class Clock(Thread):
                 print "exception: " + str(e)
                 print "complete an instruction"
                 self.client_do_stuff()
-
-                self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.server.settimeout(self.ticks_per_min)
-                self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                try:
-                    self.server.bind(('', self.port_server))
-                except socket.error as msg:
-                    print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
-                    sys.exit()
-                self.server.listen(10)
 
 
             # If the socket has timed out, restart the timeout, and perform an instruction.
@@ -178,7 +167,7 @@ class Clock(Thread):
             print "try again"
             print "(EXCEPTING) My id is " + str(self.id) + str(e)
             #sys.exit()
-            #self.send_event(dst)
+            self.send_event(dst)
 
     def internal_event (self):
         self.clock_time += 1
