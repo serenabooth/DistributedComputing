@@ -36,9 +36,8 @@ class Clock(Thread):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.settimeout(None)
 
-
         global socket_connections
-        socket_connections[str(self.id)] = self.client
+        socket_connections[str(self.id)] = self.port_server
 
     # @threaded 
     # def server_receive(self):
@@ -47,13 +46,38 @@ class Clock(Thread):
 
     @threaded 
     def client_do_stuff(self):
-        operation_instr = 1 #random.randint(1,3)
-        if operation_instr == 1: 
-            self.send_event(socket_connections['1'])
-        elif operation_instr == 2: 
+        print "client time"
+        #global socket_connections
+
+        if not self.msg_queue.empty(): 
             self.receive_event()
-        elif operation_instr == 3: 
-            self.internal_event()
+        else: 
+            self.send_event(socket_connections['1'])
+            # op = random.randint(1,10)
+            # if op == 1: 
+            #     print "to do"
+            # elif op == 2: 
+            #     print "to do"
+            # elif op == 3: 
+            #     print "to do"
+            # else: 
+            #     print "to do"
+        # if queue has message, 
+            # receive_event 
+        # otherwise: 
+            # generate value 1-10
+            # if 1, 
+                #   send to machine (a) 
+                # + other stuff 
+            # if 2
+                # send to machine (b) 
+                # + other stuff 
+            # if 3 
+                # send to both
+                # + other stuff
+            # if other, 
+                # internal event.   
+
 
     def run(self):
         global socket_connections
@@ -78,10 +102,11 @@ class Clock(Thread):
                 print "accepting messages on server"
                 c, addr = self.server.accept()
                 data, addr_2 = c.recvfrom(1024)
+                data = data.decode()
                 print "trying to get data "
                 #data = self.server.recvfrom(1024)
                 if data: 
-                    self.msg_queue.append(data)
+                    self.msg_queue.put(data)
                     print "got some! " + data
                     # does this work? 
                 c.close()
@@ -106,8 +131,22 @@ class Clock(Thread):
         print "RECEIVE - TO DO"
 
     def send_event(self, dst):
-        #self.s.settimeout(10)
-        print "trying to send"
+
+        try: 
+            self.client.connect(('', dst))
+            msg='HI OTHER SOCKET'
+
+            self.client.send(msg.encode())
+            print "trying to send"
+            self.client.close()
+        except Exception, e: 
+            print "try again"
+            print e
+            sys.exit()
+            self.send_event(dst)
+
+
+
         # try: 
         #     c, addr = dst.accept()
         #     print "c " + c
