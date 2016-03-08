@@ -96,26 +96,48 @@ class Clock(Thread):
 
     def run(self):
         global socket_connections
-
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.settimeout(self.ticks_per_min)
+        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            self.server.bind(('', self.port_server))
+        except socket.error as msg:
+            print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
+            sys.exit()
+        self.server.listen(10)
 
         while True: 
             print str(datetime.now()) + ": Clock " + str(self.id) + " says hello"
 
             #print " connecting to server "
-            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.server.settimeout(self.ticks_per_min)
-            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            try:
-                self.server.bind(('', self.port_server))
-            except socket.error as msg:
-                print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
-                sys.exit()
-            self.server.listen(10)
+    
             # set up server (listening) socket
 
             try: 
+                start_time = time.time() 
+
                 c, addr = self.server.accept()
                 data, addr_2 = c.recvfrom(1024)
+
+                self.server.shutdown(socket.SHUT_RDWR)
+                self.server.close()
+
+                end_time = time.time() 
+
+
+                self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.server.settimeout(end_time - start_time)
+                self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                try:
+                    self.server.bind(('', self.port_server))
+                except socket.error as msg:
+                    print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
+                    sys.exit()
+                self.server.listen(10)
+
+                print "Ticks: " + str(self.ticks_per_min) + " Time diff: " + str(end_time - start_time)
+                print self.server.gettimeout()
+
                 data = data.decode()
                 print "trying to get data "
                 #data = self.server.recvfrom(1024)
@@ -134,6 +156,15 @@ class Clock(Thread):
                 print "complete an instruction"
                 self.client_do_stuff()
 
+                self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.server.settimeout(self.ticks_per_min)
+                self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                try:
+                    self.server.bind(('', self.port_server))
+                except socket.error as msg:
+                    print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
+                    sys.exit()
+                self.server.listen(10)
 
             # If the socket has timed out, restart the timeout, and perform an instruction.
 
@@ -164,7 +195,7 @@ class Clock(Thread):
             self.client.shutdown(socket.SHUT_RDWR)
             self.client.close()
         except Exception, e: 
-            print "try again"
+            #print "try again"
             print "(EXCEPTING) My id is " + str(self.id) + str(e)
             #sys.exit()
             self.send_event(dst)
