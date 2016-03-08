@@ -32,9 +32,9 @@ class Clock(Thread):
         self.port_client = port_client
         self.port_server = port_server
 
-        # set up client (receiving) socket
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client.settimeout(None)
+        # # set up client (receiving) socket
+        # self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # self.client.settimeout(None)
 
         global socket_connections
         socket_connections[str(self.id)] = self.port_server
@@ -43,6 +43,18 @@ class Clock(Thread):
     # def server_receive(self):
     #     print "TO DO"
 
+    # @threaded
+    # def listen_up(self, c, addr):
+    #     print "accepting messages on server"
+    #     data, addr_2 = c.recvfrom(1024)
+    #     data = data.decode()
+    #     print "trying to get data "
+    #     #data = self.server.recvfrom(1024)
+    #     if data: 
+    #         self.msg_queue.put(data)
+    #         print str(self.id) + " got some! " + data
+    #         # does this work? 
+    #     c.close()
 
     @threaded 
     def client_do_stuff(self):
@@ -52,7 +64,10 @@ class Clock(Thread):
         if not self.msg_queue.empty(): 
             self.receive_event()
         else: 
-            self.send_event(socket_connections['1'])
+            if (not self.id == 1): 
+                self.send_event(socket_connections['1'])
+            else: 
+                print "maybe that was the problem"
             # op = random.randint(1,10)
             # if op == 1: 
             #     print "to do"
@@ -82,24 +97,24 @@ class Clock(Thread):
     def run(self):
         global socket_connections
 
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.settimeout(self.ticks_per_min)
+        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            self.server.bind(('', self.port_server))
+        except socket.error as msg:
+            print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
+            sys.exit()
+        self.server.listen(10)
+
         while True: 
             print str(datetime.now()) + ": Clock " + str(self.id) + " says hello"
 
-            print "connecting to server"
+            #print " connecting to server "
 
             # set up server (listening) socket
-            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.server.settimeout(self.ticks_per_min)
-            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            try:
-                self.server.bind(('', self.port_server))
-            except socket.error as msg:
-                print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
-                sys.exit()
-            self.server.listen(10)
 
             try: 
-                print "accepting messages on server"
                 c, addr = self.server.accept()
                 data, addr_2 = c.recvfrom(1024)
                 data = data.decode()
@@ -107,15 +122,28 @@ class Clock(Thread):
                 #data = self.server.recvfrom(1024)
                 if data: 
                     self.msg_queue.put(data)
-                    print "got some! " + data
+                    print str(self.id) + "got some! " + data
                     # does this work? 
-                c.close()
+
+                # should we close the connection? 
+                # c.close()
 
             except Exception, e: 
+                self.server.shutdown(socket.SHUT_RDWR)
                 self.server.close()
-                print "exception" + str(e)
+                print "exception: " + str(e)
                 print "complete an instruction"
                 self.client_do_stuff()
+
+                self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.server.settimeout(self.ticks_per_min)
+                self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                try:
+                    self.server.bind(('', self.port_server))
+                except socket.error as msg:
+                    print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
+                    sys.exit()
+                self.server.listen(10)
 
 
             # If the socket has timed out, restart the timeout, and perform an instruction.
@@ -133,33 +161,24 @@ class Clock(Thread):
     def send_event(self, dst):
 
         try: 
+
+            self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client.settimeout(None)
+
+            print "(TRYING) My id is " + str(self.id) 
+
             self.client.connect(('', dst))
-            msg='HI OTHER SOCKET'
+            msg='HI OTHER SOCKET from ' + str(self.id)
 
             self.client.send(msg.encode())
             print "trying to send"
+            self.client.shutdown(socket.SHUT_RDWR)
             self.client.close()
         except Exception, e: 
             print "try again"
-            print e
-            sys.exit()
-            self.send_event(dst)
-
-
-
-        # try: 
-        #     c, addr = dst.accept()
-        #     print "c " + c
-        #     print "addr " + addr
-        #     msg = 'Hello other logical clock'
-        #     sent = c.send(msg)
-        #     if sent == 0:
-        #         raise RuntimeError("socket connection broken")
-        #     c.close()
-        # except socket.timeout: 
-        #     print "During send, socket timeout"
-        # self.clock_time += 1
-        # print "SEND - TO DO"
+            print "(EXCEPTING) My id is " + str(self.id) + str(e)
+            #sys.exit()
+            #self.send_event(dst)
 
     def internal_event (self):
         self.clock_time += 1
