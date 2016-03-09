@@ -18,7 +18,6 @@ class Clock(Thread):
     socket_connections = {}
 
     def __init__(self, id, ticks_per_min, logbook, port_client, port_server):
-        Thread.__init__(self)
         print "Clock " + str(id) + " started with clock time " + str(ticks_per_min)
 
         self.id = id
@@ -39,6 +38,7 @@ class Clock(Thread):
         global socket_connections
         socket_connections[self.id] = self.port_server
 
+        Thread.__init__(self)
         #time.sleep(ticks_per_min)
 
     @threaded 
@@ -99,20 +99,15 @@ class Clock(Thread):
 
             try: 
                 start_time = time.time() 
-
                 c, addr = self.server.accept()
                 data, addr_2 = c.recvfrom(1024)
 
                 self.server.shutdown(socket.SHUT_RDWR)
                 self.server.close()
-
                 end_time = time.time() 
-
 
                 self.start_server_socket()
 
-                #print "Ticks: " + str(self.ticks_per_min) + " Time diff: " + str(end_time - start_time)
-                #print self.server.gettimeout()
                 data = data.decode()
                 # print "trying to get data "
                 #data = self.server.recvfrom(1024)
@@ -141,16 +136,20 @@ class Clock(Thread):
                             " Logical clock time: " + self.clock_time)
         f.close()
 
-    def receive_event(self):
-        # update clocktime based on received, then add 1
-        print "RECEIVE - TO DO"
+    def connect_client_socket(self, dst):
+        try: 
+            self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client.settimeout(None)
+            self.client.connect(('', dst))
+        except Exception, e:
+            print "Connecting to client socket exception " + str(e) 
+            self.connect_client_socket(dst)
 
     def send_event(self, dsts):
         for dst in dsts: 
+            self.connect_client_socket(dst)
+
             try: 
-                self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.client.settimeout(None)
-                self.client.connect(('', dst))
                 #print "(TRYING) My id is " + str(self.id) 
                 msg="" + str(self.id) + ": " + str(self.clock_time)
 
@@ -158,9 +157,15 @@ class Clock(Thread):
                 #print "trying to send"
                 self.client.shutdown(socket.SHUT_RDWR)
                 self.client.close()
+
             except Exception, e: 
                 print "(EXCEPTING) My id is " + str(self.id) + str(e)
                 self.send_event([dst])
+
+    def receive_event(self):
+        msg = self.msg_queue.get()
+        # update clocktime based on received, then add 1
+        print "RECEIVE - TO DO"
 
     def internal_event (self):
         self.clock_time += 1
