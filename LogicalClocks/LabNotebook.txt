@@ -23,3 +23,10 @@
     - Current issue:
         - After running a simple test to continuously send and accept messages (based on the clock times, but without actually updating clocks), we get a bad file descriptor error after a few iterations.
             - We initially thought this was caused by the server socket being closed for a short period of time, but further tests to retry to connect seem to indicate that something else is the problem. 
+
+3/08, 7:05 pm, Michelle & Serena
+    - Discovered that previously described issue was related to attempting to call connect for a client socket after closing the socket (easy fix)
+    - Successfully figured out how to send responses to the correct machines (based on specification)
+        - Piped output with print statements to a file to make sure that messages were being correctly sent and received
+    - Current messages do not contain logical clock information
+    - We still have not implemented the logical clock portion
