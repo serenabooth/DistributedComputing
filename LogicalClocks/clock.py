@@ -37,46 +37,41 @@ class Clock(Thread):
         # self.client.settimeout(None)
 
         global socket_connections
-        socket_connections[str(self.id)] = self.port_server
-
-    # @threaded 
-    # def server_receive(self):
-    #     print "TO DO"
-
-    # @threaded
-    # def listen_up(self, c, addr):
-    #     print "accepting messages on server"
-    #     data, addr_2 = c.recvfrom(1024)
-    #     data = data.decode()
-    #     print "trying to get data "
-    #     #data = self.server.recvfrom(1024)
-    #     if data: 
-    #         self.msg_queue.put(data)
-    #         print str(self.id) + " got some! " + data
-    #         # does this work? 
-    #     c.close()
+        socket_connections[self.id] = self.port_server
 
     @threaded 
     def client_do_stuff(self):
         print "client time"
         #global socket_connections
 
-        if not self.msg_queue.empty(): 
-            self.receive_event()
+        # if not self.msg_queue.empty(): 
+        #     self.receive_event()
+        # else: 
+        op = random.randint(1,3)
+
+        set_of_clocks_excluding_me = socket_connections.keys()
+        set_of_clocks_excluding_me.remove(self.id)
+        print "set of clocks: " + str(set_of_clocks_excluding_me)
+
+        if op == 1: 
+            clock_to_deal_with = socket_connections[set_of_clocks_excluding_me[0]]
+            self.send_event(clock_to_deal_with)
+
+            print "Sending from " + str(self.id) + " to " + str(set_of_clocks_excluding_me[0])
+        elif op == 2: 
+            clock_to_deal_with = socket_connections[set_of_clocks_excluding_me[1]]
+            self.send_event(clock_to_deal_with)
+
+            print "Sending from " + str(self.id) + " to " + str(set_of_clocks_excluding_me[1])
+
+        elif op == 3: 
+            for clock_id in set_of_clocks_excluding_me:
+                self.send_event(socket_connections[clock_id])
+            print "Sending from " + str(self.id) + " to both" 
+
+            #print "to do"
         else: 
-            if (not self.id == 1): 
-                self.send_event(socket_connections['1'])
-            else: 
-                print "maybe that was the problem"
-            # op = random.randint(1,10)
-            # if op == 1: 
-            #     print "to do"
-            # elif op == 2: 
-            #     print "to do"
-            # elif op == 3: 
-            #     print "to do"
-            # else: 
-            #     print "to do"
+            print "to do"
         # if queue has message, 
             # receive_event 
         # otherwise: 
