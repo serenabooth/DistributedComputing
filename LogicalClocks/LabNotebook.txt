@@ -2,7 +2,8 @@
     - Really not all that sure what I'm doing.
     - Planning to go after an OO-looking architecture, so a clock will be an object. 
     - OK, not sure what type of communication I want between these clocks. How about a socket between each pair of models? Initialized after the models... (Spent some time looking at other solutions like ZMQ, can't find anything perfect) Resolution: one socket per clock, and all other clocks can send messages to that. 
-        - One port per socket, which is questionable. 
+        - One port per socket. 
+        - Update: two sockets per clock, one acting as a "server" (receiving messages) and one acting as a "client" (sending messages) 
 
 03/06, 1:30pm, Serena
     - Start a thread per clock. Keep all class variables as well as a dictionary of all sockets which all clocks can access. 
@@ -13,6 +14,7 @@
 
 03/06, 5pm, Serena  
     - So we want to use the socket's timeout to indicate that we are able to run another instruction. How does one do this without constantly using exception-catching, which seems like bad style? 
+        - On reconsidering, this isn't so bad. It's analagous to a callback, since the sockets are guaranteed to time out, and we're sure to run the exception code on every iteration. It would be preferable to find a callback on socket timeout, but I don't believe this exists. 
 
 3/07, near beginning of 5 pm meeting, Michelle & Serena
     - After talking with Professor Waldo, we realized that we need to use a server socket that times out based on the ticks per minute of the logical clock and resets the timeout of the socket when something is received
@@ -48,5 +50,6 @@
         - Implementing the actual logical clock was extremely easy (30 minutes max) after getting sockets to work
             - Using many try and except statements, which was necessary for python, made the code incredibly complicated
                 - It took 95% of our time just to get sockets working such that messages could be sent back and forth between threads
-    - Relying on exception catching seems like a horrible design decision
-        - This is not the way that someone would ever do this in the real world but there doesn't seem to be another way to do this in python
+    - Relying on exception catching still seems less preferable than using an explicit callback function
+        - Would people rely on exception catching out in the software world? 
+        - But there doesn't seem to be another way to do this in python?
