@@ -34,3 +34,9 @@
 3/10, 8:36 pm, Michelle & Serena
     - Got logical clock working
     - Checked several log outputs to make sure that they made sense 
+    - Important takeaway: use adult language in future (we've finally seen the light)
+        - Implementing the actual logical clock was extremely easy (30 minutes max) after getting sockets to work
+            - Using many try and except statements, which was necessary for python, made the code incredibly complicated
+                - It took 95% of our time just to get sockets working such that messages could be sent back and forth between threads
+    - Relying on exception catching seems like a horrible design decision
+        - This is not the way that someone would ever do this in the real world but there doesn't seem to be another way to do this in python
