@@ -25,7 +25,7 @@ class Clock(Thread):
         self.logbook = logbook
 
         f = open(self.logbook, 'a')
-        f.write("\n\n\n\n\n\n\n\n STARTUP " + str(time.time()))
+        f.write("\n\n\n\n\n\n\n\n STARTUP " + str(datetime.now()) + " with clock time " + str(ticks_per_min) + "\n")
         f.close()
 
         self.clock_time = 0
@@ -35,26 +35,19 @@ class Clock(Thread):
         self.port_client = port_client
         self.port_server = port_server
 
-        # # set up client (receiving) socket
-        # self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # self.client.settimeout(None)
-
         global socket_connections
         socket_connections[self.id] = self.port_server
 
         Thread.__init__(self)
-        #time.sleep(ticks_per_min)
 
     @threaded 
     def client_do_stuff(self):
-        #print "client time"
-        #global socket_connections
-
         if not self.msg_queue.empty(): 
             msg_sender = self.receive_event()
             self.clock_time += 1
-            self.log("Received message from " + str(msg_sender) + "; messages left to process: " + 
-                str(self.msg_queue.qsize()))
+            self.log(" Received message from " + str(msg_sender[:msg_sender.index(":")]) + " with LC time " + 
+                                 str(msg_sender[msg_sender.index(":") + 2:]) + 
+                                 "; messages left to process: " + str(self.msg_queue.qsize()))
         else: 
             op = random.randint(1,10)
 
@@ -64,26 +57,26 @@ class Clock(Thread):
             if op == 1: 
                 cur_time = self.send_event([socket_connections[set_of_clocks_excluding_me[0]]])
                 self.clock_time += 1
-                self.log("Sending to " + str(set_of_clocks_excluding_me[0]) + " at LC time: " + str(cur_time))
+                self.log(" Sending to " + str(set_of_clocks_excluding_me[0]) + " at LC time: " + str(cur_time))
 
             elif op == 2: 
                 cur_time = self.send_event([socket_connections[set_of_clocks_excluding_me[1]]])
                 self.clock_time += 1
-                self.log("Sending to " + str(set_of_clocks_excluding_me[1]) + " at LC time: " + str(cur_time))
+                self.log(" Sending to " + str(set_of_clocks_excluding_me[1]) + " at LC time: " + str(cur_time))
 
             elif op == 3: 
                 dsts = [socket_connections[clock_id] for clock_id in set_of_clocks_excluding_me] 
                 cur_time = self.send_event(dsts)
                 self.clock_time += 1
-                self.log("Sending to " + str(set_of_clocks_excluding_me) + " at LC time: " + str(cur_time))
+                self.log(" Sending to " + str(set_of_clocks_excluding_me) + " at LC time: " + str(cur_time))
             else: 
                 self.internal_event()
 
 
-    def start_server_socket(self):
+    def start_server_socket(self, time):
         try: 
             self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.server.settimeout(self.ticks_per_min)
+            self.server.settimeout(time)
             self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             try:
                 self.server.bind(('', self.port_server))
@@ -98,14 +91,9 @@ class Clock(Thread):
     def run(self):
         global socket_connections
 
-        self.start_server_socket()
+        self.start_server_socket(self.ticks_per_min)
 
         while True: 
-            #print str(datetime.now()) + ": Clock " + str(self.id) + " says hello"
-
-            #print " connecting to server "
-    
-            # set up server (listening) socket
 
             try: 
                 start_time = time.time() 
@@ -116,18 +104,13 @@ class Clock(Thread):
                 self.server.close()
                 end_time = time.time() 
 
-                self.start_server_socket()
+                self.start_server_socket(end_time - start_time)
 
                 data = data.decode()
-                # print "trying to get data "
-                #data = self.server.recvfrom(1024)
+
                 if data: 
                     self.msg_queue.put(data)
                     print str(self.id) + " got some! " + data
-                    # does this work? 
-
-                # should we close the connection? 
-                # c.close()
 
             except Exception, e: 
                 self.server.shutdown(socket.SHUT_RDWR)
@@ -136,16 +119,14 @@ class Clock(Thread):
                 print "complete an instruction"
                 self.client_do_stuff()
 
-                self.start_server_socket()
-
-            # If the socket has timed out, restart the timeout, and perform an instruction.
+                self.start_server_socket(self.ticks_per_min)
 
     def log(self, msg=None):
         f = open(self.logbook, 'a')
         if msg: 
             f.write(" System time: " + str(datetime.now()) + 
                             " Logical clock time: " + str(self.clock_time) + 
-                            " Message: " + str(msg) + '\n')
+                            " " + str(msg) + '\n')
         else:
             f.write(" System time: " + str(datetime.now()) + 
                             " Logical clock time: " + str(self.clock_time) + '\n')
