@@ -30,3 +30,7 @@
         - Piped output with print statements to a file to make sure that messages were being correctly sent and received
     - Current messages do not contain logical clock information
     - We still have not implemented the logical clock portion
+
+3/10, 8:36 pm, Michelle & Serena
+    - Got logical clock working
+    - Checked several log outputs to make sure that they made sense 
