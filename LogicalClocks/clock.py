@@ -46,29 +46,37 @@ class Clock(Thread):
         #print "client time"
         #global socket_connections
 
-        # if not self.msg_queue.empty(): 
-        #     self.receive_event()
-        # else: 
-        op = 3 # random.randint(1,10)
-
-        set_of_clocks_excluding_me = socket_connections.keys()
-        set_of_clocks_excluding_me.remove(self.id)
-
-        if op == 1: 
-            self.send_event([socket_connections[set_of_clocks_excluding_me[0]]])
+        if not self.msg_queue.empty(): 
+            self.receive_event()
             self.clock_time += 1
-            print "Sending from " + str(self.id) + " to " + str(set_of_clocks_excluding_me[0])
-        elif op == 2: 
-            self.send_event([socket_connections[set_of_clocks_excluding_me[1]]])
-            self.clock_time += 1
-            print "Sending from " + str(self.id) + " to " + str(set_of_clocks_excluding_me[1])
-        elif op == 3: 
-            dsts = [socket_connections[clock_id] for clock_id in set_of_clocks_excluding_me] 
-            self.send_event(dsts)
-            self.clock_time += 1
-            print "Sending from " + str(self.id) + " to both" 
+            self.log("Received message; messages left to process: " + str(self.msg_queue.qsize()))
         else: 
-            print "to do"
+            op = random.randint(1,10)
+
+            set_of_clocks_excluding_me = socket_connections.keys()
+            set_of_clocks_excluding_me.remove(self.id)
+
+            if op == 1: 
+                self.send_event([socket_connections[set_of_clocks_excluding_me[0]]])
+                self.clock_time += 1
+                self.log("Sending to " + str(set_of_clocks_excluding_me[0]))
+                print "Sending from " + str(self.id) + " to " + str(set_of_clocks_excluding_me[0])
+            elif op == 2: 
+                self.send_event([socket_connections[set_of_clocks_excluding_me[1]]])
+                self.clock_time += 1
+                self.log("Sending to " + str(set_of_clocks_excluding_me[1]))
+                print "Sending from " + str(self.id) + " to " + str(set_of_clocks_excluding_me[1])
+            elif op == 3: 
+                dsts = [socket_connections[clock_id] for clock_id in set_of_clocks_excluding_me] 
+                self.send_event(dsts)
+                self.clock_time += 1
+                self.log("Sending to " + str(set_of_clocks_excluding_me))
+                print "Sending from " + str(self.id) + " to both" 
+            else: 
+                self.internal_event()
+                self.clock_time += 1
+                self.log()
+                print "to do"
 
     def start_server_socket(self):
         try: 
@@ -132,8 +140,13 @@ class Clock(Thread):
 
     def log(self, msg=None):
         f = open(self.logbook, 'a')
-        f.write(" System time: " + str(datetime.now()) + 
-                            " Logical clock time: " + self.clock_time)
+        if msg: 
+            f.write(" System time: " + str(datetime.now()) + 
+                            " Logical clock time: " + str(self.clock_time) + 
+                            " Message: " + str(msg) + '\n')
+        else:
+            f.write(" System time: " + str(datetime.now()) + 
+                            " Logical clock time: " + str(self.clock_time) + '\n')
         f.close()
 
     def connect_client_socket(self, dst):
@@ -165,8 +178,8 @@ class Clock(Thread):
     def receive_event(self):
         msg = self.msg_queue.get()
         # update clocktime based on received, then add 1
+        print "RECEIVED " + msg
         print "RECEIVE - TO DO"
 
     def internal_event (self):
-        self.clock_time += 1
         print "INTERNAL - TO DO"
