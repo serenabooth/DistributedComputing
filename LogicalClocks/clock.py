@@ -51,7 +51,7 @@ class Clock(Thread):
             self.clock_time += 1
             self.log("Received message; messages left to process: " + str(self.msg_queue.qsize()))
         else: 
-            op = random.randint(1,10)
+            op = 3 # random.randint(1,10)
 
             set_of_clocks_excluding_me = socket_connections.keys()
             set_of_clocks_excluding_me.remove(self.id)

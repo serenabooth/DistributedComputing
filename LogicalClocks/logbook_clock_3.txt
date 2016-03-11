@@ -1,0 +1,23 @@
+ System time: 2016-03-10 19:35:36.402607 Logical clock time: 1 Message: Sending to [1, 2]
+ System time: 2016-03-10 19:35:39.405688 Logical clock time: 2 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:35:42.410056 Logical clock time: 3
+ System time: 2016-03-10 19:35:45.413937 Logical clock time: 4
+ System time: 2016-03-10 19:35:48.417929 Logical clock time: 5 Message: Sending to 1
+ System time: 2016-03-10 19:35:51.421760 Logical clock time: 6
+ System time: 2016-03-10 19:35:54.425706 Logical clock time: 7
+ System time: 2016-03-10 19:35:57.433001 Logical clock time: 8 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:36:00.437578 Logical clock time: 9
+ System time: 2016-03-10 19:38:59.056266 Logical clock time: 1
+ System time: 2016-03-10 19:39:02.064751 Logical clock time: 2 Message: Sending to [1, 2]
+ System time: 2016-03-10 19:39:25.396337 Logical clock time: 1 Message: Sending to [1, 2]
+ System time: 2016-03-10 19:39:28.401279 Logical clock time: 2 Message: Received message; messages left to process: 1
+ System time: 2016-03-10 19:39:31.406525 Logical clock time: 3 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:39:34.414054 Logical clock time: 4 Message: Sending to [1, 2]
+ System time: 2016-03-10 19:39:37.420987 Logical clock time: 5 Message: Received message; messages left to process: 1
+ System time: 2016-03-10 19:39:40.425286 Logical clock time: 6 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:40:09.280859 Logical clock time: 1 Message: Sending to [1, 2]
+ System time: 2016-03-10 19:40:12.284965 Logical clock time: 2 Message: Received message; messages left to process: 1
+ System time: 2016-03-10 19:40:15.290082 Logical clock time: 3 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:40:18.296853 Logical clock time: 4 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:40:21.302309 Logical clock time: 5 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:40:27.308775 Logical clock time: 6 Message: Received message; messages left to process: 1

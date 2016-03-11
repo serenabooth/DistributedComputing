@@ -1,0 +1,23 @@
+ System time: 2016-03-10 19:35:36.398620 Logical clock time: 1
+ System time: 2016-03-10 19:35:39.406845 Logical clock time: 2 Message: Received message; messages left to process: 1
+ System time: 2016-03-10 19:35:42.411586 Logical clock time: 3 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:35:45.416835 Logical clock time: 4 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:35:51.421491 Logical clock time: 5 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:35:54.424757 Logical clock time: 6
+ System time: 2016-03-10 19:35:57.429091 Logical clock time: 7
+ System time: 2016-03-10 19:36:00.433451 Logical clock time: 8
+ System time: 2016-03-10 19:38:59.054651 Logical clock time: 1
+ System time: 2016-03-10 19:39:02.058319 Logical clock time: 2
+ System time: 2016-03-10 19:39:25.395401 Logical clock time: 1 Message: Sending to [2, 3]
+ System time: 2016-03-10 19:39:28.400714 Logical clock time: 2 Message: Received message; messages left to process: 1
+ System time: 2016-03-10 19:39:31.406107 Logical clock time: 3 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:39:34.413675 Logical clock time: 4 Message: Sending to [2, 3]
+ System time: 2016-03-10 19:39:37.420887 Logical clock time: 5 Message: Received message; messages left to process: 1
+ System time: 2016-03-10 19:39:40.424552 Logical clock time: 6 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:40:09.281248 Logical clock time: 1 Message: Sending to [2, 3]
+ System time: 2016-03-10 19:40:12.284812 Logical clock time: 2 Message: Received message; messages left to process: 0
+ System time: 2016-03-10 19:40:15.291664 Logical clock time: 3 Message: Sending to [2, 3]
+ System time: 2016-03-10 19:40:18.297926 Logical clock time: 4 Message: Sending to [2, 3]
+ System time: 2016-03-10 19:40:21.303498 Logical clock time: 5 Message: Sending to [2, 3]
+ System time: 2016-03-10 19:40:24.306282 Logical clock time: 6 Message: Sending to [2, 3]
+ System time: 2016-03-10 19:40:27.311927 Logical clock time: 7 Message: Sending to [2, 3]
