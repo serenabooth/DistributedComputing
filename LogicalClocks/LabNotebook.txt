@@ -14,6 +14,16 @@
 03/06, 5pm, Serena  
     - So we want to use the socket's timeout to indicate that we are able to run another instruction. How does one do this without constantly using exception-catching, which seems like bad style? 
 
+3/07, near beginning of 5 pm meeting, Michelle & Serena
+    - After talking with Professor Waldo, we realized that we need to use a server socket that times out based on the ticks per minute of the logical clock and resets the timeout of the socket when something is received
+        - This is necessary to get around python's GIL
+        - We keep track of the start time of the socket
+        - When a message is received by clock thread A the GIL is passed to another clock thread 
+            - This means that clock thread A stops running right after a successful accept call
+                - After receiving the GIL again, we check the end time and subtract the start time
+                    - This gives us the time that clock thread A was not running, so we set the timeout to this time instead (giving clock thread A back the time it lost when it did not have the GIL)
+                        - This ensures that all the clock threads run for the same amount of time
+
 3/07, 8pm, Michelle & Serena
     - We decided to have a clock object which contains two sockets, a client socket and a server socket. Each clock object has its own thread.
     - The server socket is contantly listening and accepting connections, but times out based on the ticks per minute of its internal clock. 
