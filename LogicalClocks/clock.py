@@ -1,10 +1,7 @@
 from datetime import datetime
-import time 
-import socket
-import sys
 from threading import *
-import Queue
-import random
+import sys, time, socket, random, Queue
+
 
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 def threaded(fn):
@@ -25,7 +22,8 @@ class Clock(Thread):
         self.logbook = logbook
 
         f = open(self.logbook, 'a')
-        f.write("\n\n\n\n\n\n\n\n STARTUP " + str(datetime.now()) + " with clock time " + str(ticks_per_min) + "\n")
+        f.write("\n\n\n\n\n\n\n\n STARTUP " + str(datetime.now()) + 
+                                " with clock time " + str(ticks_per_min) + "\n")
         f.close()
 
         self.clock_time = 0
@@ -68,7 +66,7 @@ class Clock(Thread):
             try:
                 self.server.bind(('', self.port_server))
             except socket.error as msg:
-                print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message : ' + str(msg[1])
+                print "Bind failed. Error Code : " + str(msg[0]) + " Message : " + str(msg[1])
                 sys.exit()
             self.server.listen(10)
         except Exception, e: 
@@ -129,29 +127,26 @@ class Clock(Thread):
             self.connect_client_socket(dst)
 
     def send_event_helper(self, dsts):
-        dsts = [socket_connections[clock_id] for clock_id in dsts] 
-
         for dst in dsts: 
             self.connect_client_socket(dst)
 
             try: 
-                #print "(TRYING) My id is " + str(self.id) 
                 msg="" + str(self.id) + ": " + str(self.clock_time)
-
                 self.client.send(msg.encode())
-                #print "trying to send"
                 self.client.shutdown(socket.SHUT_RDWR)
                 self.client.close()
-
             except Exception, e: 
                 print "(EXCEPTING) My id is " + str(self.id) + str(e)
                 self.send_event_helper([dst])       
 
     def send_event(self, dsts):
-        self.send_event_helper(dsts)
-        cur_time = self.clock_time
-        self.clock_time += 1
-        self.log(" Sending to " + str(dsts) + " at LC time: " + str(cur_time))
+        if dsts: 
+            dsts = [socket_connections[clock_id] for clock_id in dsts] 
+
+            self.send_event_helper(dsts)
+            cur_time = self.clock_time
+            self.clock_time += 1
+            self.log(" Sending to " + str(dsts) + " at LC time: " + str(cur_time))
 
     def receive_event(self):
         msg = self.msg_queue.get()
@@ -160,8 +155,8 @@ class Clock(Thread):
         self.clock_time = max(self.clock_time, int(other_system_clock))
 
         self.clock_time += 1
-        self.log(" Received message from " + str(msg[:msg.index(":")]) + " with LC time " + 
-                                 str(msg[msg.index(":") + 2:]) + 
+        self.log(" Received message from " + str(msg[:msg.index(":")]) + 
+                                " with LC time " + str(msg[msg.index(":") + 2:]) + 
                                  "; messages left to process: " + str(self.msg_queue.qsize()))
 
     def internal_event (self):

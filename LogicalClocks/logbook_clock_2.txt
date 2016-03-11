@@ -37,3 +37,81 @@
  System time: 2016-03-11 18:34:02.332163 Logical clock time: 36
  System time: 2016-03-11 18:34:03.335203 Logical clock time: 37  Sending to [1, 3] at LC time: 36
  System time: 2016-03-11 18:34:04.336367 Logical clock time: 38
+
+
+
+
+
+
+
+
+ STARTUP 2016-03-11 18:37:19.596311 with clock time 4
+ System time: 2016-03-11 18:37:22.613522 Logical clock time: 1  Received message from 3 with LC time 0; messages left to process: 1
+ System time: 2016-03-11 18:37:24.622680 Logical clock time: 3  Received message from 1 with LC time 2; messages left to process: 1
+ System time: 2016-03-11 18:37:24.629497 Logical clock time: 5  Received message from 3 with LC time 4; messages left to process: 1
+
+
+
+
+
+
+
+
+ STARTUP 2016-03-11 18:42:27.505873 with clock time 4
+
+
+
+
+
+
+
+
+ STARTUP 2016-03-11 18:43:47.043402 with clock time 2
+ System time: 2016-03-11 18:43:49.047841 Logical clock time: 1
+ System time: 2016-03-11 18:43:51.051333 Logical clock time: 2
+ System time: 2016-03-11 18:43:53.054235 Logical clock time: 3
+
+
+
+
+
+
+
+
+ STARTUP 2016-03-11 18:44:18.872902 with clock time 4
+ System time: 2016-03-11 18:44:22.879240 Logical clock time: 1
+
+
+
+
+
+
+
+
+ STARTUP 2016-03-11 18:44:53.032406 with clock time 5
+ System time: 2016-03-11 18:44:58.036802 Logical clock time: 1
+ System time: 2016-03-11 18:45:03.043167 Logical clock time: 2
+
+
+
+
+
+
+
+
+ STARTUP 2016-03-11 18:45:54.761110 with clock time 3
+ System time: 2016-03-11 18:45:57.767768 Logical clock time: 1
+ System time: 2016-03-11 18:45:57.773243 Logical clock time: 2  Received message from 3 with LC time 0; messages left to process: 0
+ System time: 2016-03-11 18:46:03.779568 Logical clock time: 3  Received message from 3 with LC time 1; messages left to process: 0
+ System time: 2016-03-11 18:46:06.784840 Logical clock time: 4  Sending to [5000] at LC time: 3
+ System time: 2016-03-11 18:46:09.787575 Logical clock time: 5
+ System time: 2016-03-11 18:46:12.791685 Logical clock time: 6
+ System time: 2016-03-11 18:46:15.795577 Logical clock time: 7
+ System time: 2016-03-11 18:46:18.800555 Logical clock time: 8  Sending to [5000, 5888] at LC time: 7
+ System time: 2016-03-11 18:46:21.803397 Logical clock time: 9
+ System time: 2016-03-11 18:46:24.808587 Logical clock time: 10  Sending to [5000] at LC time: 9
+ System time: 2016-03-11 18:46:27.818579 Logical clock time: 11  Sending to [5000, 5888] at LC time: 10
+ System time: 2016-03-11 18:46:30.816783 Logical clock time: 12
+ System time: 2016-03-11 18:46:30.834477 Logical clock time: 14  Received message from 3 with LC time 13; messages left to process: 0
+ System time: 2016-03-11 18:46:33.838591 Logical clock time: 15
+ System time: 2016-03-11 18:46:36.841860 Logical clock time: 16  Sending to [5888] at LC time: 15
