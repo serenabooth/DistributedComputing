@@ -43,11 +43,7 @@ class Clock(Thread):
     @threaded 
     def client_do_stuff(self):
         if not self.msg_queue.empty(): 
-            msg_sender = self.receive_event()
-            self.clock_time += 1
-            self.log(" Received message from " + str(msg_sender[:msg_sender.index(":")]) + " with LC time " + 
-                                 str(msg_sender[msg_sender.index(":") + 2:]) + 
-                                 "; messages left to process: " + str(self.msg_queue.qsize()))
+            self.receive_event()
         else: 
             op = random.randint(1,10)
 
@@ -55,20 +51,11 @@ class Clock(Thread):
             set_of_clocks_excluding_me.remove(self.id)
 
             if op == 1: 
-                cur_time = self.send_event([socket_connections[set_of_clocks_excluding_me[0]]])
-                self.clock_time += 1
-                self.log(" Sending to " + str(set_of_clocks_excluding_me[0]) + " at LC time: " + str(cur_time))
-
+                self.send_event([set_of_clocks_excluding_me[0]])
             elif op == 2: 
-                cur_time = self.send_event([socket_connections[set_of_clocks_excluding_me[1]]])
-                self.clock_time += 1
-                self.log(" Sending to " + str(set_of_clocks_excluding_me[1]) + " at LC time: " + str(cur_time))
-
+                self.send_event([set_of_clocks_excluding_me[1]])
             elif op == 3: 
-                dsts = [socket_connections[clock_id] for clock_id in set_of_clocks_excluding_me] 
-                cur_time = self.send_event(dsts)
-                self.clock_time += 1
-                self.log(" Sending to " + str(set_of_clocks_excluding_me) + " at LC time: " + str(cur_time))
+                self.send_event(set_of_clocks_excluding_me)
             else: 
                 self.internal_event()
 
@@ -141,7 +128,9 @@ class Clock(Thread):
             print "Connecting to client socket exception " + str(e) 
             self.connect_client_socket(dst)
 
-    def send_event(self, dsts):
+    def send_event_helper(self, dsts):
+        dsts = [socket_connections[clock_id] for clock_id in dsts] 
+
         for dst in dsts: 
             self.connect_client_socket(dst)
 
@@ -156,16 +145,24 @@ class Clock(Thread):
 
             except Exception, e: 
                 print "(EXCEPTING) My id is " + str(self.id) + str(e)
-                self.send_event([dst])
+                self.send_event_helper([dst])       
 
-        return self.clock_time
+    def send_event(self, dsts):
+        self.send_event_helper(dsts)
+        cur_time = self.clock_time
+        self.clock_time += 1
+        self.log(" Sending to " + str(dsts) + " at LC time: " + str(cur_time))
 
     def receive_event(self):
         msg = self.msg_queue.get()
         other_system_clock = msg[msg.index(":") + 1:] 
         # print "OTHER SYSTEM CLOCK: " + other_system_clock 
         self.clock_time = max(self.clock_time, int(other_system_clock))
-        return msg 
+
+        self.clock_time += 1
+        self.log(" Received message from " + str(msg[:msg.index(":")]) + " with LC time " + 
+                                 str(msg[msg.index(":") + 2:]) + 
+                                 "; messages left to process: " + str(self.msg_queue.qsize()))
 
     def internal_event (self):
         self.clock_time += 1

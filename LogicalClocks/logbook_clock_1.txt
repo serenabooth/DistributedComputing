@@ -1,9 +1,16 @@
-
-
-
-
-
-
-
-
- STARTUP 2016-03-11 13:35:09.351233 with clock time 5
+ STARTUP 2016-03-11 18:33:24.250048 with clock time 3
+ System time: 2016-03-11 18:33:27.256938 Logical clock time: 1  Sending to [2] at LC time: 0
+ System time: 2016-03-11 18:33:30.260673 Logical clock time: 2  Sending to [2] at LC time: 1
+ System time: 2016-03-11 18:33:33.263920 Logical clock time: 3
+ System time: 2016-03-11 18:33:36.269102 Logical clock time: 4  Sending to [3] at LC time: 3
+ System time: 2016-03-11 18:33:36.279476 Logical clock time: 10  Received message from 2 with LC time 9; messages left to process: 0
+ System time: 2016-03-11 18:33:39.283529 Logical clock time: 11
+ System time: 2016-03-11 18:33:42.287936 Logical clock time: 12
+ System time: 2016-03-11 18:33:45.292597 Logical clock time: 13
+ System time: 2016-03-11 18:33:47.301659 Logical clock time: 20  Received message from 2 with LC time 19; messages left to process: 0
+ System time: 2016-03-11 18:33:50.304792 Logical clock time: 21
+ System time: 2016-03-11 18:33:50.306968 Logical clock time: 24  Received message from 2 with LC time 23; messages left to process: 0
+ System time: 2016-03-11 18:33:54.316537 Logical clock time: 25  Received message from 2 with LC time 24; messages left to process: 2
+ System time: 2016-03-11 18:33:58.326301 Logical clock time: 26  Received message from 2 with LC time 25; messages left to process: 2
+ System time: 2016-03-11 18:34:02.333670 Logical clock time: 27  Received message from 2 with LC time 26; messages left to process: 2
+ System time: 2016-03-11 18:34:04.337474 Logical clock time: 30  Received message from 2 with LC time 29; messages left to process: 2
