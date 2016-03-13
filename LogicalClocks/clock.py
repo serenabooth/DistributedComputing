@@ -122,6 +122,7 @@ class Clock(Thread):
 
                 self.server.shutdown(socket.SHUT_RDWR)
                 self.server.close()
+
                 # keep track of the time that the server finishes receiving
                 # a request
                 end_time = time.time() 
@@ -173,7 +174,7 @@ class Clock(Thread):
 
     def send_event_helper(self, dsts):
         """ 
-        Attempt to connect to dsts and send a message, one at a time. 
+        Attempt to connect to each dst in dsts and send a message, one at a time. 
         Retry the connection if the server is not available.
         """
         # for each server in dsts
@@ -181,7 +182,7 @@ class Clock(Thread):
             # connect the client socket to the server
             self.connect_client_socket(dst)
 
-            # attempt to send a message with clock id and logical clock time
+            # attempt to send a message with the clock id and logical clock time
             # shutdown the server when finished
             try: 
                 msg="" + str(self.id) + ": " + str(self.clock_time)
@@ -202,6 +203,7 @@ class Clock(Thread):
             self.send_event_helper(dsts)
 
             # keep track of the logical clock time when the message was sent
+            # so that it can be put in the log
             cur_time = self.clock_time
 
             # update the logical clock time
@@ -216,8 +218,10 @@ class Clock(Thread):
         logical clock time appropriately.
         """
         msg = self.msg_queue.get()
+
         # get the logical clock time of the machine that sent the message
         other_system_clock = msg[msg.index(":") + 1:] 
+        
         # set the clock time to the maximum of self's clock time and other 
         # system's clock time
         self.clock_time = max(self.clock_time, int(other_system_clock))
