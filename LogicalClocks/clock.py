@@ -4,6 +4,7 @@ import sys, time, socket, random, Queue
 
 
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
+# yay decorators
 def threaded(fn):
     """ Creates a new thread to run the function fn """
     def wrapper(*args, **kwargs):
@@ -25,6 +26,17 @@ class Clock(Thread):
         and the server socket port to port_sever.
         The client socket will be used to connect to other servers and the 
         server socket will be listening for connections.
+
+        Store id, ticks_per_min, logbook, port_client, and port_server as 
+        instance variables. 
+
+        params: 
+            id: int
+            ticks_per_min: int
+            logbook: string
+            port_client: int
+            port_server: int 
+        return: void
         """
         print "Clock " + str(id) + " started with clock time " + str(ticks_per_min)
 
@@ -53,10 +65,13 @@ class Clock(Thread):
         Thread.__init__(self)
 
     @threaded 
-    def perform_random_action(self):
+    def perform_clock_instruction(self):
         """
         Perform a random action unless there is a message in msg_queue. 
         The probability of each action is defined by the assignment specification.
+
+        params: Clock 
+        returns: void
         """
         if not self.msg_queue.empty(): 
             self.receive_event()
@@ -86,6 +101,11 @@ class Clock(Thread):
         """ 
         Start up the server socket with a timeout of time, binding it to 
         self.port_server. 
+
+        params: 
+            self: Clock
+            time: float
+        returns: void
         """
         try: 
             self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -94,8 +114,8 @@ class Clock(Thread):
             try:
                 self.server.bind(('', self.port_server))
             except socket.error as msg:
-                print "Bind failed. Error Code : " + str(msg[0]) + " Message : " 
-                        + str(msg[1])
+                print "Bind failed. Error Code : " \
+                        + str(msg[0]) + " Message : " + str(msg[1])
                 sys.exit()
             self.server.listen(10)
         except Exception, e: 
@@ -107,6 +127,10 @@ class Clock(Thread):
         Start up the server socket and accept connections for self.ticks_per_min.
         When the socket times out, perform a random action in a new thread and 
         start up the server socket again.
+
+        params: 
+            self: Clock
+        returns: void
         """
         global socket_connections
 
@@ -138,19 +162,27 @@ class Clock(Thread):
                     self.msg_queue.put(data)
                     print str(self.id) + " got some! " + data
 
+            # every time the socket timesout, callback to the clock's instruction
             except Exception, e:
                 # shutdown the server first 
                 self.server.shutdown(socket.SHUT_RDWR)
                 self.server.close()
                 print "exception: " + str(e)
                 print "complete an instruction"
-                self.perform_random_action()
-
+                self.perform_clock_instruction()
+                # restart server
                 self.start_server_socket(self.ticks_per_min)
 
     def log(self, msg=None):
-        """ Writes the appropriate information to the clock log """
+        """ Writes the appropriate information to the clock log 
+
+        params: 
+            self: Clock
+            msg: string
+        returns: void
+        """
         f = open(self.logbook, 'a')
+        # if send or receive, write message
         if msg: 
             f.write(" System time: " + str(datetime.now()) + 
                     " Logical clock time: " + str(self.clock_time) + 
@@ -163,7 +195,15 @@ class Clock(Thread):
         f.close()
 
     def connect_client_socket(self, dst):
-        """ Starts up the client socket with no timeout, binded to the port dst """
+        """ 
+        Starts up the client socket with no timeout, binded to the port dst
+
+        params: 
+            self: clock_time   
+            dst: socket port, int
+        returns: 
+            void
+        """
         try: 
             self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client.settimeout(None)
@@ -176,6 +216,12 @@ class Clock(Thread):
         """ 
         Attempt to connect to each dst in dsts and send a message, one at a time. 
         Retry the connection if the server is not available.
+
+        params: 
+            self: Clock
+            dsts: socket port (int)
+        returns: 
+            void
         """
         # for each server in dsts
         for dst in dsts: 
@@ -195,9 +241,19 @@ class Clock(Thread):
                 self.send_event_helper([dst])       
 
     def send_event(self, dsts):
-        """ Sends a message to dsts, which can be one machine or multiple """
+        """ 
+        Sends a message to dsts, which can be one machine or multiple 
+
+        params: 
+            self: Clock
+            dsts: list of clock ids (list of ints)
+
+        returns: void 
+        """
+
         # get a list of the port numbers to send a message to
         if dsts: 
+            dsts_copy = dsts
             dsts = [socket_connections[clock_id] for clock_id in dsts] 
 
             self.send_event_helper(dsts)
@@ -210,12 +266,16 @@ class Clock(Thread):
             self.clock_time += 1
 
             # log sending the message
-            self.log(" Sending to " + str(dsts) + " at LC time: " + str(cur_time))
+            self.log(" Sending to " + str(dsts_copy) + " at LC time: " + str(cur_time))
 
     def receive_event(self):
         """ 
         Process a received message by putting it into msg_queue and updating the
         logical clock time appropriately.
+
+        params: 
+            self: Clock
+        return: void
         """
         msg = self.msg_queue.get()
 
@@ -234,8 +294,12 @@ class Clock(Thread):
 
     def internal_event (self):
         """ 
-        Perform an internal event, which just increases the logical clock time
+        Perform an internal event, which increases the logical clock time
         and logs the the current system time and logical clock time.
+
+        params: 
+            self: Clock
+        returns: void
         """
         self.clock_time += 1
         self.log()

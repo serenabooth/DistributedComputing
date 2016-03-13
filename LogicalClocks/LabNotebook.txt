@@ -1,3 +1,19 @@
+
+Clock analysis: 
+
+We run our system 5 times for a duration of 1 minute, and store these results in logs entitled, "clock_1_FINALLOG.txt," "clock_2_FINALLOG.txt," and "clock_3_FINALLOG.txt".
+
+In our first run of the system, clock 1 had an internal clock tick rate of 1 second; clock 2 had an internal rate of 4 seconds, and clock 3 had a rate of 3 seconds. In this computation, clock 1 never jumps, and the other two clocks drift away from clock 1's values, with large jumps. Clock 2 jumps from a logical clock value of 9 to 26; clock 3 jumps from 38 to 47. We found this example representative: the larger the difference in clock tick rates, the greater the jumps and clock drifts in the systems. Likewise, the larger the difference in clock tick rates, the more likely messages are to become enqueued for processing. However, given the high probability of an internal event (60%), the message queues were never outrageous.
+
+One interesting case was our third trial, in which all clocks had a tick rate of 3 seconds. In this example, the clocks frequently send and receive messages, but the values of the clocks rarely jump or drift. Only one clock, clock 3, jumps ever during the computation. 
+
+Having run this system on three internal machines which can vary their internal times by an order of magnitude, we then ran the system wherein all clocks had the same tick rate (3 ticks per second), and with decreased probability of an internal event (25%, versus our usual 60%). The logs from this computation are stored in "clock_1_small_difference.txt," "clock_2_small_difference.txt," and "clock_3_small_difference.txt." In this computation, we saw one clock dominating the computation: it was repeatedly sending messages, and the other clocks were continually processing messages off of their internal queue. At some point during the computation, this clock lost its dominant position, and a different clock took over as dominant. Originally, clock 1 dominated; then clock 3 took over; then clock 2 took over; and then clock 1 resumed its original dominance. 
+
+If we repeat the computation above but remove the possibility of an internal event occuring (pr. 0), then one clock (either that with the lowest clock tick rate, or at random if all have the same rates) dominates for the entirety of the computation; that clock continually sends messages, and the other clocks continually process messages. 
+
+
+---------------------------Begin Lab Notebook---------------------------
+
 03/05, 9:05pm, Serena. 
     - Really not all that sure what I'm doing.
     - Planning to go after an OO-looking architecture, so a clock will be an object. 
@@ -50,6 +66,7 @@
         - Implementing the actual logical clock was extremely easy (30 minutes max) after getting sockets to work
             - Using many try and except statements, which was necessary for python, made the code incredibly complicated
                 - It took 95% of our time just to get sockets working such that messages could be sent back and forth between threads
-    - Relying on exception catching still seems less preferable than using an explicit callback function
+    - Relying on exception catching still seems less preferable than using an explicit callback function...
         - Would people rely on exception catching out in the software world? 
         - But there doesn't seem to be another way to do this in python?
+
