@@ -1,0 +1,12 @@
+#boxed {
+    height: 200px;
+    border: 1px solid green ;
+    overflow-y: auto;
+
+}
+
+#msg_out {
+    height: 100px;
+    width: 500px;
+    border: 1px solid green ;
+}

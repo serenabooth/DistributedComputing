@@ -1,0 +1,33 @@
+<html>
+
+<header>
+    <title>CS262</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+    </script>
+
+    <script type="text/javascript">
+        function deleteCookieAndAccount() {
+            var delete_acct; 
+            var name = document.cookie
+
+            var testing = document.cookie +'; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            //window.alert(testing);
+            document.cookie = testing;
+
+            delete_acct = $.ajax({
+                    url: "/delete_acct" + name,
+                    type: 'GET',
+                    });
+        }
+
+        $(document).ready(function() {
+            deleteCookieAndAccount();
+        }); 
+    </script>
+</header>
+
+<body>
+    <h1>User account deleted!</h1>
+</body>
+
+</html>

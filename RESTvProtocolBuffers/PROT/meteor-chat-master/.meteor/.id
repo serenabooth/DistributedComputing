@@ -1,0 +1,11 @@
+# This file contains a token that is unique to your project.
+# Check it into your repository along with the rest of this directory.
+# It can be used for purposes such as:
+#   - ensuring you don't accidentally deploy one app on top of another
+#   - providing package authors with aggregated statistics
+
+<<<<<<< HEAD
+11j92bf1fch6fh1qmr22b
+=======
+wiwcxy25fht5cexxop
+>>>>>>> chatapp

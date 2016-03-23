@@ -1,0 +1,54 @@
+<head>
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Protocol Buffer Chat</h1>
+      {{> loginButtons}}
+
+      {{#if currentUser}}
+        <input type="submit" value="Log User Info" class="logCurrentUser">
+        <input type="submit" value="Log User Groups" class="logUserGroups">
+      {{/if}}
+    </header>
+
+    <!-- groups -->
+    <div class="row">
+      <div class="col-lg-4">
+        {{#each groups}}
+          {{> group}}
+        {{/each}}
+      </div>
+      <!-- messages -->
+      <div class="col-lg-8">
+        {{> messages}}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- bootstrap js -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
+
+<template name="group">
+  <li class="{{#if selectedGroup}}selectedGroup{{/if}}">
+    <span class="text groupName">{{groupName}}</span>
+  </li> 
+</template>
+
+<template name="messages">
+  <h4>Room: {{groupChat}}</h4>
+  <div id="messages" style="background-color: #ffffff; border: 1px solid darkgray; max-height: 200px; overflow: auto">
+        {{#each messages}}
+            {{> message}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="message">
+    <p><strong>{{sender}}</strong> <span style="font-size: 0.7em; color: darkgray">({{createdAt}})</span>: <i>{{content}}</i></p>
+</template>

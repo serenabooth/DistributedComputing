@@ -1,0 +1,122 @@
+<html>
+
+<header>
+    <title>CS262</title>
+    <link href="cs262.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+    </script>
+
+    <script> 
+        /***
+        * Credit: http://blog.oddbit.com/2013/11/23/long-polling-with-ja/
+        * Request new messages from server. 
+        * The request is open until the server responds: 
+        *       - On success, the client sends a confirmation GET request
+        *       - On error, the time before dispatch is increased
+        *
+        * NOTE: If one navigates away from the page before response received,  
+        * a broken pipe exception will occur. This error can be safely ignored ;) 
+        ***/
+        function poll() {
+            var poll_interval=0;
+            var get_url; 
+            get_url = $.ajax({
+                    url: "/getmsg" + document.cookie,
+                    type: 'GET',
+                    //cache: false,
+
+                    success: function(data) {
+                            var message_id = get_url.getResponseHeader("message_id");
+
+                            // if message received has a sensical id value, 
+                            // send a confirmation response via GET request
+                            if (message_id != "-1") {
+                                var msg_to_add = "<div> "+ data + "</div>";
+                                var message_posted = $("#boxed").append(msg_to_add);
+                                $("#boxed").scrollTop($("#boxed")[0].scrollHeight);
+                                
+                                $.ajax({
+                                    url: "/receivedmsg" + message_id,
+                                    type: 'GET',
+                                });
+                            }
+                            
+                            poll_interval=0;
+                    },
+                    error: function () {
+                            poll_interval=1000;
+                    },
+                    complete: function (data) {
+                            setTimeout(poll, poll_interval);
+                    },
+            });
+        }
+
+        function getLastTenMessages () {
+            var get_messages = $.ajax({
+                url: "/getLastMessages",
+                type: 'GET',
+                cache: false,
+                success: function(data) {
+                    var msgs_received = get_messages.getResponseHeader("messages_found");
+                    if (msgs_received == "0") {
+                        //var msg_to_add = "<div> "+ data + "</div>";
+                        var message_posted = $("#boxed").prepend(data);
+                    }
+                },
+            });
+        }
+
+        /***
+        * Check user has session cookie and initiate long polling
+        ***/ 
+        $(document).ready(function() {
+            if (document.cookie == "") {
+                window.alert("You are not signed in.")
+                window.location.replace("/");
+            }
+            getLastTenMessages();
+            poll();
+        }); 
+
+    </script>
+
+</header>
+
+<body>
+    <h1>CS262: Welcome, <script>document.write(document.cookie)</script>!</h1>
+
+    <div id="boxed">
+    </div> <br/><br/>
+
+    <form id="myForm" method="POST" action="/messages">
+        <label>Message recipient: </label>
+        <input id="recipient" type="text" name="recipient" /><br/><br/>
+        <label>Insert your message (120 character limit): </label>
+        <input id="msg_out" type="text" name="content"/><br/>
+        <input type="submit" value="Send"/>
+    </form>
+
+    <form method="GET" action="/create_group.html">
+        <input type="submit" value="Create Group"/>
+    </form>
+
+    <form method="GET" action="/join_group.html">
+        <input type="submit" value="Join Existing Group"/>
+    </form>
+
+    <form method="GET" action="/see_groups.html">
+        <input type="submit" value="See Existing Groups"/>
+    </form>
+
+    <form method="GET" action="/see_users.html">
+        <input type="submit" value="See Existing Users"/>
+    </form>
+    <form method="GET" action="/delete_useraccount.html">
+        <input type="submit" value="Delete your account"/>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<template name="listNew">
+  <div class="page auth">
+    <nav>
+      <div class="nav-group">
+        <a href="#" class="js-menu nav-item"><span class="icon-list-unordered"></span></a>
+      </div>
+    </nav>
+
+    <div class="content-scrollable">
+      <div class="wrapper-auth">
+        <h1 class="title-auth">Create New Group.</h1>
+        <p class="subtitle-auth" >Create new chat group by entering user accounts.</p>
+
+        <form class="new-list">
+          <div class="input-symbol">
+            <input type="text" name="emails" placeholder="User Accounts" />
+            <span class="icon-user-add" title="User Accounts"></span>
+          </div>
+          <button type="submit" name="listCreate" class="btn-primary">Create</button>
+        </form>
+        <br/>
+        <form class="search">
+          <div class="input-symbol ">
+            <input type="text" name="search-entry" placeholder="Search for users" />
+            <span class="icon-user-add" title="User Accounts"></span>
+          </div>
+          <button type="submit" name="search" class="btn-primary">Search</button>
+        </form>
+        <div>
+          Search results
+          {{searchResults}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,40 @@
+<html>
+
+<header>
+    <title>CS262</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+    </script>
+
+    <script type="text/javascript">
+    // http://www.the-art-of-web.com/javascript/setcookie/
+        function setCookie(value)
+        {
+            document.cookie = value;
+        }
+
+        function storeValues(form)  
+        {
+            setCookie(form.user_name.value);
+        }
+
+        $(document).ready(function() {
+        });
+
+    </script> 
+</header>
+
+<body>
+    <h1>CS262: Chat <br/>Log in to your account</h1>
+
+    <form name="myForm" method="POST" action="/login" onsubmit="return storeValues(this);">
+        <label>Insert your username: </label>
+        <input type="text" name="user_name"/>
+        <label>Insert your password: </label>
+        <input type="text" name="user_password"/>
+        <input type="submit" value="Send"/>
+    </form>
+
+</body>
+
+</html>

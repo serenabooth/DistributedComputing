@@ -1,0 +1,66 @@
+<template name="appBody">
+  <div id="container" class="{{menuOpen}} {{cordova}}">
+
+    <section id="menu">
+      {{#if currentUser}}
+        <div class="btns-group-vertical">
+          <a href="#" class="js-user-menu btn-secondary">
+            {{#if userMenuOpen}}
+              <span class="icon-arrow-up"></span>
+              {{else}}
+              <span class="icon-arrow-down"></span>
+            {{/if}}
+            {{username}}
+          </a>
+          {{#if userMenuOpen}}
+            <a class="js-logout btn-secondary">Logout</a>
+            <a class="js-delete btn-secondary">Delete Account</a>
+          {{/if}}
+        </div>
+      {{else}}
+        <div class="btns-group">
+          <a href="{{pathFor 'signin'}}" class="btn-secondary">Sign In</a>
+          <a href="{{pathFor 'join'}}" class="btn-secondary">Join</a>
+        </div>
+      {{/if}}
+
+      {{#if currentUser}}
+        <div class="list-todos">
+          <a class="js-new-list link-list-new" href="{{pathFor 'listNew'}}"><span class="icon-plus"></span>New Group</a>
+
+          {{#each lists}}
+            <a href="{{pathFor 'listsShow'}}" class="list-todo {{activeListClass}}" title="{{name}}">
+              {{#if userId}}
+                <span class="icon-lock"></span>
+              {{/if}}
+              {{#if messageCount}}
+                <span class="count-list">{{messageCount}}</span>
+              {{/if}}
+              {{name}}
+            </a>
+          {{/each}}
+        </div>
+      {{/if}}
+    </section>
+
+    {{#unless connected}}
+      <div class="notifications">
+        <div class="notification">
+          <span class="icon-sync"></span>
+          <div class="meta">
+            <div class="title-notification">Trying to connect</div>
+            <div class="description">There seems to be a connection issue</div>
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+
+    <div class="content-overlay"></div>
+
+    <div id="content-container">
+      {{#each thisArray}}
+        {{> yield}}
+      {{/each}}
+    </div>
+  </div>
+</template>
