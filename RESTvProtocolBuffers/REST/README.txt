@@ -11,6 +11,8 @@ BaseHTTPServer:
 CGI:
 	used to process input via forms submitted by users from HTML pages
 
+The client’s environment must have access to HTTP passed over port 8080 and must be able to run JavaScript. The server must likewise be able to access HTTP passed over port 8080, via an HTTPServer library. The server must also run Python.
+
 ~~~~~~~ INSTALLATION ~~~~~~~
 
 MySQLdb: 
@@ -29,7 +31,7 @@ to handle POST (using method do_POST) and GET (using method do_GET) requests.
 
 Data is stored in a MySQL database. The details of this database are outlined below.  
 
-On launching the server, a user is directed to home.html. From here, users can 
+On launching the server, a client/user is directed to home.html. From here, users can 
 navigate between different HTML pages with the following functionalities: 
 	
 	- home.html: sign up for or log in to service
