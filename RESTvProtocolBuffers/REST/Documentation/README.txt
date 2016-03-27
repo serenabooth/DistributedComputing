@@ -51,10 +51,6 @@ navigate between different HTML pages with the following functionalities:
 
 ~~~~~~~~~~ MySQL: ~~~~~~~~~~ 
 
-We provide an example SQL database in /SQL_dump/cs262.sql. Please import this database, and set your credentials in following line in webchat.py: db = MySQLdb.connect(...). 
-
-----------------------------
-
 database name: messages
 database columns: 
           id (bigint, primary key, unique) 
