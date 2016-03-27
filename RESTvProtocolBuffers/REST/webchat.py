@@ -10,7 +10,6 @@ from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from os import curdir, sep
 import cgi
 import MySQLdb
-import time
 
 global db
 
@@ -192,6 +191,9 @@ def lookup_last_ten_messages_for_user(username):
     """
     Looks up the ten messages most recently sent to username and returns a list
     of dictionaries (dictionary explained in dictionary_from_messages_query).
+    
+    :param user_name: a string corresponding to a user name in the database
+    :return: Dunno
     """
     with db: 
         cur = db.cursor()
@@ -210,9 +212,13 @@ def concat_messages(msgs):
         msg_ret += "<div> " + msgs[i]["sender"] + ": " + msgs[i]["content"] + " </div>"
     return msg_ret
 
-#This class will handles any incoming request from
-#the browser 
+
 class myHandler(BaseHTTPRequestHandler):
+    """
+        This class will handle any incoming HTTP request from
+        the browser 
+    """
+
     def display_error_message(self, url_direction, error_msg):
         """ Displays the text error_msg on the the page url_direction """
         f = open(curdir + sep + url_direction) 

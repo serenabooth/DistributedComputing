@@ -8,14 +8,26 @@
 
     <script type="text/javascript">
         // http://www.the-art-of-web.com/javascript/setcookie/
-        function setCookie(value) {
+        function setCookie(value)  {
+            /* 
+            Set document cookie
+
+            :param value: string corresponding to username
+            :type value: string
+            */
             document.cookie = value;
         }
 
-        function storeValues(form) {
+        function storeValues(form)  {
+        /* 
+        Get value from form on submit; pass value of username to setCookie
+
+        :param form: form consisting of username and user password
+        :type value: HTML form
+        :return: void
+        */
             setCookie(form.user_name.value);
         }
-
     </script> 
 </header>
 
