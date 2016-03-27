@@ -69,7 +69,7 @@ def get_all_from_table(table_name, table_col_name):
 def check_if_exists(tbl_name, col_name, col_value):
     """
     A MySQL query that returns True if there exists an entry in tbl_name where 
-    the value of the column col_name is col_value. Returns False otherwise.
+    the value of the column col_name is equal to col_value. Returns False otherwise.
 
     :param tbl_name: The name of a table in the database.
     :type tbl_name: string
@@ -173,7 +173,7 @@ def lookup_message_for_user(username):
 
 def evaluate_message_receipt(username):
     """
-    Looks up any messages with a status of 1, which means they were marked by the
+    Looks up any messages directed to user with username with a status of 1, which means they were marked by the
     server to be sent, but have not yet been received by the client. If any of 
     of these messages were last sent more than a minute ago, their status is 
     changed back to 0 to indicate that they have not been sent. This guarantees
@@ -217,7 +217,7 @@ def mark_message_as_seen(msg_val):
 
 def delete_acct(username):
     """ 
-    Delete the account username.
+    Delete the account associated with a username from the users table.
 
     :param username: A user in the users table.
     :type username: string
