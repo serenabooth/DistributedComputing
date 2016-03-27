@@ -348,7 +348,7 @@ class myHandler(BaseHTTPRequestHandler):
         """
         Handler for GET requests which are dispatched from HTML pages.
 
-        return: None
+        :return: None
         """
 
         print self.path
@@ -476,7 +476,7 @@ class myHandler(BaseHTTPRequestHandler):
         """
         Handler for GET requests which are dispatched from HTML pages.
 
-        return: None
+        :return: None
         """
 
         # format form from HTML
