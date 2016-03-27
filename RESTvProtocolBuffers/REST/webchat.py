@@ -33,8 +33,10 @@ def dictionary_from_messages_query(result):
 
     :param result: The values in each column for a given row in the messages table. 
     :type result: list of strings or None
-    :return: If result was not None, a dictionary with the column name as the key, 
-    and the value for that column as the value. If result was None, returns None.
+    :return: One entry in them messages table. If result was not None, a 
+    dictionary with the column name in the messages table as the key, and the 
+    value for that column as the value. 
+    If result was None, returns None.
     :return type: dict or None
     """
     if result:
@@ -150,6 +152,14 @@ def lookup_message_for_user(username):
     The status of the message is updated to 1 to indicate that the server intends
     to send it to the client, but has not yet done so. The time_last_sent is also
     set to the current time stamp. 
+
+    :param username: The name of the user in the users table.
+    :type username: string
+    :return: An entry in the messages table corresponding to username. If there 
+    are no new messages, None. Otherwise, a dictionary with the column name in 
+    the messages table as the key, and the value for that 
+    column as the value. 
+    :return type: dict or None
     """
     with db: 
         cur = db.cursor()
@@ -165,7 +175,14 @@ def evaluate_message_receipt(username):
     """
     Looks up any messages with a status of 1, which means they were marked by the
     server to be sent, but have not yet been received by the client. If any of 
-    of these messages 
+    of these messages were last sent more than a minute ago, their status is 
+    changed back to 0 to indicate that they have not been sent. This guarantees
+    that the server will retry sending the message to the client.
+
+    :param username: The name of a user in the users table.
+    :type username: string
+    :return: None
+    :return type: None
     """
     with db: 
         cur = db.cursor()
@@ -186,6 +203,12 @@ def mark_message_as_seen(msg_val):
     Sets the status of the message with id msg_val to 2. This indicates that the
     message has been received by the client and does not need to be sent again.
     The time_last_sent is also updated to the current time stamp.
+
+    :param msg_val: The unique id that corresponds to the message that will be
+    marked as sent. 
+    :type msg_val: string
+    :return: None
+    :type return: None
     """
     with db: 
         cur = db.cursor()
@@ -193,13 +216,28 @@ def mark_message_as_seen(msg_val):
                     "time_last_sent = CURRENT_TIMESTAMP WHERE id = " + msg_val)
 
 def delete_acct(username):
-    """ Delete the account username. """
+    """ 
+    Delete the account username.
+
+    :param username: A user in the users table.
+    :type username: string
+    :return: None
+    :type return: None
+    """
+
     with db:
         cur = db.cursor()
         cur.execute("DELETE FROM users WHERE user_name = '" + str(username) + "'")
 
 def lookup_group_users(group):
-    """ Returns a list of all the users in group """
+    """ 
+    Returns a list of all the users in group
+
+    :param group:
+    :type group:
+    :return:
+    :type return:
+    """
     with db: 
         cur = db.cursor() 
         cur.execute("SELECT user_name FROM groups WHERE group_name = '" + 
@@ -214,6 +252,15 @@ def lookup_by_regex(name, tbl_name, col_name):
     If user uses * operator, convert * to %, for SQL syntax. 
     Then query using the LIKE keyword. 
     Further details: http://dev.mysql.com/doc/refman/5.7/en/pattern-matching.html
+
+    :param name:
+    :type name:
+    :param tbl_name:
+    :type tbl_name:
+    :param col_name:
+    :type col_name:
+    :return:
+    :type return:
     """
     with db: 
         all_from_db = None
@@ -235,10 +282,12 @@ def lookup_by_regex(name, tbl_name, col_name):
 def lookup_last_ten_messages_for_user(username):
     """
     Looks up the ten messages most recently sent to username and returns a list
-    of dictionaries (dictionary explained in dictionary_from_messages_query).
-    
-    :param user_name: a string corresponding to a user name in the database
-    :return: Dunno
+    of dictionaries.
+
+    :param username:
+    :type username:
+    :return:
+    :type return:
     """
     with db: 
         cur = db.cursor()
@@ -251,7 +300,14 @@ def lookup_last_ten_messages_for_user(username):
         return None
 
 def concat_messages(msgs):
-    """ Takes a list of message dictionaries to create an HTML string """
+    """ 
+    Takes a list of message dictionaries to create an HTML string 
+
+    :param msgs:
+    :type msgs:
+    :return:
+    :type return:
+    """
     msg_ret = ""
     for i in reversed(range(0, len(msgs))):
         msg_ret += "<div> " + msgs[i]["sender"] + ": " + msgs[i]["content"] + " </div>"
