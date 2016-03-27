@@ -7,11 +7,16 @@
 
     <script type="text/javascript">
         function deleteCookieAndAccount() {
+            /*
+            * Delete user account and remove cookie.
+            *
+            * :return: Void
+            */
             var delete_acct; 
             var name = document.cookie
 
+            // have cookie expire in the past!
             var testing = document.cookie +'; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            //window.alert(testing);
             document.cookie = testing;
 
             delete_acct = $.ajax({
@@ -21,6 +26,9 @@
         }
 
         $(document).ready(function() {
+        /*
+        * On page load, delete user account and remove cookie
+        */
             deleteCookieAndAccount();
         }); 
     </script>

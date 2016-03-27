@@ -16,7 +16,8 @@
             * The request is open until the server responds: 
             *       - On success, the client sends a confirmation GET request
             *       - On error, the time before dispatch is increased
-            *       - On completion (either error or success), dispatch request again with new time
+            *       - On completion (either error or success), 
+            *               dispatch request again with new time
             *
             * NOTE: If one navigates away from the page before response received,  
             * a broken pipe exception will occur. This error can be safely ignored ;) 
@@ -81,11 +82,13 @@
 
         $(document).ready(function() {
             /*
-            Check if page has assigned cookie. If not, prevent user from continuing by redirecting.
-
-            If user is signed in, get the user's last 10 messages and start polling for additional messages
-
-            Function called on page load. No parameters, no return value. 
+            * Check if page has assigned cookie. If not, prevent user 
+            * from continuing by redirecting.
+            *
+            * If user is signed in, get the user's last 10 messages 
+            * and start polling for additional messages
+            *
+            * Function called on page load. No parameters, no return value. 
             */
             if (document.cookie == "") {
                 window.alert("You are not signed in.")

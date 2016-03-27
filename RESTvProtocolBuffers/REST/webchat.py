@@ -344,8 +344,13 @@ class myHandler(BaseHTTPRequestHandler):
         self.wfile.write(error_msg)
         f.close()
 
-    #Handler for the GET requests
     def do_GET(self):
+    """
+        Handler for GET requests which are dispatched from HTML pages.
+
+        return: None
+    """
+
         print self.path
 
         # When the home page is loaded, looks up the last 10 messages and adds
@@ -468,6 +473,13 @@ class myHandler(BaseHTTPRequestHandler):
 
     #Handler for the POST requests
     def do_POST(self): 
+        """
+        Handler for GET requests which are dispatched from HTML pages.
+
+        return: None
+        """
+
+        # format form from HTML
         form = cgi.FieldStorage(
             fp=self.rfile, 
             headers=self.headers,
@@ -617,6 +629,9 @@ class myHandler(BaseHTTPRequestHandler):
         return                  
             
 try:
+    # NOTE: DUE TO SECURITY CONCERNS, WE HAVE DELETED THIS ACCOUNT. 
+    # INSTEAD, PLEASE CREATE A MYSQL DATABASE AND PROVIDE YOUR CREDENTIALS HERE.
+    # we provide a sql database in /SQL_dump/cs262.sql
     db= MySQLdb.connect("mysql.slbooth.com", "262_team_2", "michelleserena", "cs262")
 
     #Create a web server and define the handler to manage the
