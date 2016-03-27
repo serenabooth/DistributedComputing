@@ -233,10 +233,10 @@ def lookup_group_users(group):
     """ 
     Returns a list of all the users in group
 
-    :param group:
-    :type group:
-    :return:
-    :type return:
+    :param group: A group in the groups table.
+    :type group: string
+    :return: A list of the all the users in group.
+    :type return: list of strings
     """
     with db: 
         cur = db.cursor() 
@@ -253,14 +253,15 @@ def lookup_by_regex(name, tbl_name, col_name):
     Then query using the LIKE keyword. 
     Further details: http://dev.mysql.com/doc/refman/5.7/en/pattern-matching.html
 
-    :param name:
-    :type name:
-    :param tbl_name:
-    :type tbl_name:
-    :param col_name:
-    :type col_name:
-    :return:
-    :type return:
+    :param name: A regex that uses * as a wildcard.
+    :type name: string
+    :param tbl_name: A table in the database.
+    :type tbl_name: string
+    :param col_name: A column in tbl_name.
+    :type col_name: string
+    :return: None if no entries match the regex. Otherwise, a list of entries
+    that match.
+    :type return: list of strings or None
     """
     with db: 
         all_from_db = None
@@ -284,10 +285,12 @@ def lookup_last_ten_messages_for_user(username):
     Looks up the ten messages most recently sent to username and returns a list
     of dictionaries.
 
-    :param username:
-    :type username:
-    :return:
-    :type return:
+    :param username: A user in the users table.
+    :type username: string
+    :return: If there are messages for username, a list of dictionaries that 
+    have the column name in the messages table as the key, and the value for 
+    that column as the value. Otherwise, None.
+    :type return: dict or None
     """
     with db: 
         cur = db.cursor()
@@ -303,10 +306,12 @@ def concat_messages(msgs):
     """ 
     Takes a list of message dictionaries to create an HTML string 
 
-    :param msgs:
-    :type msgs:
-    :return:
-    :type return:
+    :param msgs: A list of dictionaries that have the column name in the 
+    messages table as the key, and the value for that column as the value.
+    :type msgs: list of dicts
+    :return: A formatted html string that will be used to display msgs on the 
+    home page for a user. 
+    :type return: string
     """
     msg_ret = ""
     for i in reversed(range(0, len(msgs))):
@@ -316,12 +321,21 @@ def concat_messages(msgs):
 
 class myHandler(BaseHTTPRequestHandler):
     """
-        This class will handle any incoming HTTP request from
-        the browser 
+    This class will handle any incoming HTTP request from
+    the browser 
     """
 
     def display_error_message(self, url_direction, error_msg):
-        """ Displays the text error_msg on the the page url_direction """
+        """ 
+        Displays the text error_msg on the the page url_direction
+
+        :param url_direction: The url of the page to write the error message to.
+        :type url_direction: string
+        :param error_msg: The text of the error message.
+        :type error_msg: string
+        :return: None
+        :type return: None
+        """
         f = open(curdir + sep + url_direction) 
         self.send_response(200)
         self.send_header('Content-type','text/html')
@@ -520,7 +534,7 @@ class myHandler(BaseHTTPRequestHandler):
                 self.display_error_message("create_acct.html", 
                                             "Password field was empty.")
                 return
-            # enfornce unique group names and user names
+            # enforce unique group names and user names
             if (check_if_exists("users", "user_name", form["user_name"].value) or 
                 check_if_exists("groups", "group_name", form["user_name"].value)):
                 self.display_error_message("create_acct.html", 
