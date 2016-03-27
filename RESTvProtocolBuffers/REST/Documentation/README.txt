@@ -11,6 +11,8 @@ BaseHTTPServer:
 CGI:
 	used to process input via forms submitted by users from HTML pages
 
+The client’s environment must have access to HTTP passed over port 8080 and must be able to run JavaScript. The server must likewise be able to access HTTP passed over port 8080, via an HTTPServer library. The server must also run Python.
+
 ~~~~~~~ INSTALLATION ~~~~~~~
 
 MySQLdb: 
@@ -29,7 +31,7 @@ to handle POST (using method do_POST) and GET (using method do_GET) requests.
 
 Data is stored in a MySQL database. The details of this database are outlined below.  
 
-On launching the server, a user is directed to home.html. From here, users can 
+On launching the server, a client/user is directed to home.html. From here, users can 
 navigate between different HTML pages with the following functionalities: 
 	
 	- home.html: sign up for or log in to service
@@ -46,13 +48,17 @@ navigate between different HTML pages with the following functionalities:
 	- join_group.html: join a group
 	- see_groups.html: see all or a subset of groups
 	- see_users.html: see all or a subset of all users
-	- delete_useraccount.html: delete account
+	- delete_useraccount.html: delete your account
 
 
 ~~~~~~~~~~ MySQL: ~~~~~~~~~~ 
 
-database name: messages
-database columns: 
+We provide an example SQL database in /SQL_dump/cs262.sql. Please import this database, and set your credentials in following line in webchat.py: db = MySQLdb.connect(...). 
+
+----------------------------
+
+table name: messages
+table columns: 
           id (bigint, primary key, unique) 
 		  sender (varchar, 80char max length) 
 		  recipient (varchar, 80char max length)
@@ -62,16 +68,16 @@ database columns:
 
 -----------------------------
 
-database name: groups
-database columns: 
+table name: groups
+table columns: 
 		  group_id (bigint, primary key, unique) 
 		  group_name (varchar, 80char max length) 
 		  user_name (varchar, 80char max length) 
 
 -----------------------------
 
-database name: users 
-database columns: 
+table name: users 
+table columns: 
           user_id (bigint, primary key, unique) 
 		  user_name (varchar, 80char max length, unique) 
 		  user_password (varchar, 80char max length) 
