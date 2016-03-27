@@ -22,7 +22,7 @@
             * NOTE: If one navigates away from the page before response received,  
             * a broken pipe exception will occur. This error can be safely ignored ;) 
             *
-            * :return: void
+            * :return: undefined
             ***/
             var poll_interval=0;
             var get_url; 
@@ -64,7 +64,7 @@
             * Query SQL database to retrieve last 10 messages sent to user
             * User determined by cookie
             * 
-            * :return: void
+            * :return: undefined
             */
             var get_messages = $.ajax({
                 url: "/getLastMessages",
