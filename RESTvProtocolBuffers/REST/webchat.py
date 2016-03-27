@@ -345,11 +345,11 @@ class myHandler(BaseHTTPRequestHandler):
         f.close()
 
     def do_GET(self):
-    """
+        """
         Handler for GET requests which are dispatched from HTML pages.
 
         return: None
-    """
+        """
 
         print self.path
 
