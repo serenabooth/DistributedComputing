@@ -16,13 +16,26 @@ global db
 PORT_NUMBER = 8080
 
 def query_result_to_list(results):
-    """ Converts a MySQL query result to a list """
+    """ 
+    Converts a MySQL query result to a list 
+
+    :param results: List corresponding to rows in the database.
+    :type results: list of tuples
+    :return: List of the results for a given query.
+    :type return: list of strings
+    """
     return [result[0] for result in results]
 
 def dictionary_from_messages_query(result):
     """
     Converts a row from the messages table, returned by a MySQL query,
     to a dictionary. The keys are the column names for the messages table.
+
+    :param result: The values in each column for a given row in the messages table. 
+    :type result: list of strings or None
+    :return: If result was not None, a dictionary with the column name as the key, 
+    and the value for that column as the value. If result was None, returns None.
+    :return type: dict or None
     """
     if result:
         return {"id": result[0], "sender": result[1], "recipient": result[2],
@@ -35,6 +48,14 @@ def get_all_from_table(table_name, table_col_name):
     """
     A MySQL query that looks up the value of table_col_name for each row in 
     table_name and returns a list containing the result.
+
+    :param table_name: The name of a table in the database.
+    :type table_name: string
+    :param table_col_name: The name of a column in table_name.
+    :type table_col_name: string
+    :return: A list of strings containing the values of table_col_name for all
+    the entries in table_name.
+    :type return: list of strings
     """
     with db: 
         cur = db.cursor() 
@@ -47,6 +68,15 @@ def check_if_exists(tbl_name, col_name, col_value):
     """
     A MySQL query that returns True if there exists an entry in tbl_name where 
     the value of the column col_name is col_value. Returns False otherwise.
+
+    :param tbl_name: The name of a table in the database.
+    :type tbl_name: string
+    :param col_name: The name of a column in tbl_name.
+    :type col_name: string
+    :param col_value: The value of col_name to look for in tbl_name.
+    :type col_value: string
+    :return: True if the entry exists, False otherwise.
+    :type return: bool
     """
     with db: 
         cur = db.cursor()
@@ -64,6 +94,14 @@ def post_create_helper(table_name, table_values_dict):
     table_values_dict. table_values_dict contains the values submitted by a 
     client POST request. The keys are the names of the columns in table_name and 
     values are the desired values. 
+
+    :param table_name: The name of the table to insert the row into.
+    :type table_name: string
+    :param table_values_dict: A dictionary with the names of the columns in 
+    table_name as keys, and the values to be inserted as values. 
+    :type table_values_dict: dict
+    :return: None
+    :return type: None
     """
     with db: 
         cur = db.cursor()
@@ -78,6 +116,13 @@ def password_correct(table_values_dict):
     in the db for the username entered by the client and compares it to the 
     password the user entered. table_values_dict contains the information 
     submitted by the client.
+
+    :param table_values_dict: A dictionary with the column names of the users
+    table as keys, and with the values as the entries submitted in the login
+    form by the client. 
+    :type table_values_dict: dict
+    :return: True if the password is correct, False otherwise.
+    :return type: bool
     """
 
     # Password is incorrect if password field was left blank
