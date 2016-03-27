@@ -1,0 +1,1279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0034)http://localhost:7464/MySQLdb.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Python: package MySQLdb</title>
+<meta charset="utf-8">
+<style type="text/css"></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="heading">
+<tbody><tr bgcolor="#7799ee">
+<td valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>MySQLdb</strong></big></big> (version 1.2.5)</font></td><td align="right" valign="bottom"><font color="#ffffff" face="helvetica, arial"><a href="http://localhost:7464/">index</a><br><a href="file:///usr/local/lib/python2.7/dist-packages/MySQLdb/__init__.py">/usr/local/lib/python2.7/dist-packages/MySQLdb/__init__.py</a></font></td></tr></tbody></table>
+    <p><tt>MySQLdb&nbsp;-&nbsp;A&nbsp;DB&nbsp;API&nbsp;v2.0&nbsp;compatible&nbsp;interface&nbsp;to&nbsp;MySQL.<br>
+&nbsp;<br>
+This&nbsp;package&nbsp;is&nbsp;a&nbsp;wrapper&nbsp;around&nbsp;_mysql,&nbsp;which&nbsp;mostly&nbsp;implements&nbsp;the<br>
+MySQL&nbsp;C&nbsp;API.<br>
+&nbsp;<br>
+<a href="http://localhost:7464/MySQLdb.html#-connect">connect</a>()&nbsp;--&nbsp;connects&nbsp;to&nbsp;server<br>
+&nbsp;<br>
+See&nbsp;the&nbsp;C&nbsp;API&nbsp;specification&nbsp;and&nbsp;the&nbsp;MySQL&nbsp;documentation&nbsp;for&nbsp;more&nbsp;info<br>
+on&nbsp;other&nbsp;items.<br>
+&nbsp;<br>
+For&nbsp;information&nbsp;on&nbsp;how&nbsp;MySQLdb&nbsp;handles&nbsp;type&nbsp;conversion,&nbsp;see&nbsp;the<br>
+MySQLdb.converters&nbsp;module.</tt></p>
+<p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#aa55cc">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tbody><tr><td width="25%" valign="top"><a href="http://localhost:7464/MySQLdb.connections.html">connections</a><br>
+<a href="http://localhost:7464/MySQLdb.constants.html"><strong>constants</strong>&nbsp;(package)</a><br>
+</td><td width="25%" valign="top"><a href="http://localhost:7464/MySQLdb.converters.html">converters</a><br>
+<a href="http://localhost:7464/MySQLdb.cursors.html">cursors</a><br>
+</td><td width="25%" valign="top"><a href="http://localhost:7464/MySQLdb.release.html">release</a><br>
+<a href="http://localhost:7464/MySQLdb.times.html">times</a><br>
+</td><td width="25%" valign="top"></td></tr></tbody></table></td></tr></tbody></table></p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ee77aa">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/__builtin__.html#frozenset">__builtin__.frozenset</a>(<a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/MySQLdb.html#DBAPISet">DBAPISet</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/datetime.html#date">datetime.date</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/datetime.html#datetime">datetime.datetime</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/datetime.html#time">datetime.time</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>(<a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">_mysql_exceptions.MySQLError</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#Error">_mysql_exceptions.Error</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">_mysql_exceptions.DatabaseError</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#DataError">_mysql_exceptions.DataError</a>
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#IntegrityError">_mysql_exceptions.IntegrityError</a>
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#InternalError">_mysql_exceptions.InternalError</a>
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#NotSupportedError">_mysql_exceptions.NotSupportedError</a>
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#OperationalError">_mysql_exceptions.OperationalError</a>
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#ProgrammingError">_mysql_exceptions.ProgrammingError</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#InterfaceError">_mysql_exceptions.InterfaceError</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#Warning">_mysql_exceptions.Warning</a>(<a href="http://localhost:7464/exceptions.html#Warning">exceptions.Warning</a>, <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">_mysql_exceptions.MySQLError</a>)
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/exceptions.html#Warning">exceptions.Warning</a>(<a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/_mysql_exceptions.html#Warning">_mysql_exceptions.Warning</a>(<a href="http://localhost:7464/exceptions.html#Warning">exceptions.Warning</a>, <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">_mysql_exceptions.MySQLError</a>)
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DBAPISet">class <strong>DBAPISet</strong></a>(<a href="http://localhost:7464/__builtin__.html#frozenset">__builtin__.frozenset</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>A&nbsp;special&nbsp;type&nbsp;of&nbsp;set&nbsp;for&nbsp;which&nbsp;A&nbsp;==&nbsp;x&nbsp;is&nbsp;true&nbsp;if&nbsp;A&nbsp;is&nbsp;a<br>
+<a href="http://localhost:7464/MySQLdb.html#DBAPISet">DBAPISet</a>&nbsp;and&nbsp;x&nbsp;is&nbsp;a&nbsp;member&nbsp;of&nbsp;that&nbsp;set.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/MySQLdb.html#DBAPISet">DBAPISet</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#frozenset">__builtin__.frozenset</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="DBAPISet-__eq__"><strong>__eq__</strong></a>(self, other)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/__builtin__.html#frozenset">__builtin__.frozenset</a>:<br>
+<dl><dt><a name="DBAPISet-__and__"><strong>__and__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__and__">__and__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&amp;y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__cmp__"><strong>__cmp__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__cmp__">__cmp__</a>(y)&nbsp;&lt;==&gt;&nbsp;cmp(x,y)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__contains__"><strong>__contains__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__contains__">__contains__</a>(y)&nbsp;&lt;==&gt;&nbsp;y&nbsp;in&nbsp;x.</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__ge__"><strong>__ge__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__ge__">__ge__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;=y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__gt__"><strong>__gt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__gt__">__gt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__hash__"><strong>__hash__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__hash__">__hash__</a>()&nbsp;&lt;==&gt;&nbsp;hash(x)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__iter__"><strong>__iter__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__iter__">__iter__</a>()&nbsp;&lt;==&gt;&nbsp;iter(x)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__le__"><strong>__le__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__le__">__le__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;=y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__len__"><strong>__len__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__len__">__len__</a>()&nbsp;&lt;==&gt;&nbsp;len(x)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__lt__"><strong>__lt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__lt__">__lt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__ne__"><strong>__ne__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__ne__">__ne__</a>(y)&nbsp;&lt;==&gt;&nbsp;x!=y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__or__"><strong>__or__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__or__">__or__</a>(y)&nbsp;&lt;==&gt;&nbsp;x|y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__rand__"><strong>__rand__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__rand__">__rand__</a>(y)&nbsp;&lt;==&gt;&nbsp;y&amp;x</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt>Return&nbsp;state&nbsp;information&nbsp;for&nbsp;pickling.</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__ror__"><strong>__ror__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__ror__">__ror__</a>(y)&nbsp;&lt;==&gt;&nbsp;y|x</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__rsub__"><strong>__rsub__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__rsub__">__rsub__</a>(y)&nbsp;&lt;==&gt;&nbsp;y-x</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__rxor__"><strong>__rxor__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__rxor__">__rxor__</a>(y)&nbsp;&lt;==&gt;&nbsp;y^x</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__sizeof__"><strong>__sizeof__</strong></a>(...)</dt><dd><tt>S.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__sizeof__">__sizeof__</a>()&nbsp;-&gt;&nbsp;size&nbsp;of&nbsp;S&nbsp;in&nbsp;memory,&nbsp;in&nbsp;bytes</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__sub__"><strong>__sub__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__sub__">__sub__</a>(y)&nbsp;&lt;==&gt;&nbsp;x-y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-__xor__"><strong>__xor__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__xor__">__xor__</a>(y)&nbsp;&lt;==&gt;&nbsp;x^y</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-copy"><strong>copy</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;shallow&nbsp;copy&nbsp;of&nbsp;a&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-difference"><strong>difference</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;difference&nbsp;of&nbsp;two&nbsp;or&nbsp;more&nbsp;sets&nbsp;as&nbsp;a&nbsp;new&nbsp;set.<br>
+&nbsp;<br>
+(i.e.&nbsp;all&nbsp;elements&nbsp;that&nbsp;are&nbsp;in&nbsp;this&nbsp;set&nbsp;but&nbsp;not&nbsp;the&nbsp;others.)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-intersection"><strong>intersection</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;intersection&nbsp;of&nbsp;two&nbsp;or&nbsp;more&nbsp;sets&nbsp;as&nbsp;a&nbsp;new&nbsp;set.<br>
+&nbsp;<br>
+(i.e.&nbsp;elements&nbsp;that&nbsp;are&nbsp;common&nbsp;to&nbsp;all&nbsp;of&nbsp;the&nbsp;sets.)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-isdisjoint"><strong>isdisjoint</strong></a>(...)</dt><dd><tt>Return&nbsp;True&nbsp;if&nbsp;two&nbsp;sets&nbsp;have&nbsp;a&nbsp;null&nbsp;intersection.</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-issubset"><strong>issubset</strong></a>(...)</dt><dd><tt>Report&nbsp;whether&nbsp;another&nbsp;set&nbsp;contains&nbsp;this&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-issuperset"><strong>issuperset</strong></a>(...)</dt><dd><tt>Report&nbsp;whether&nbsp;this&nbsp;set&nbsp;contains&nbsp;another&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-symmetric_difference"><strong>symmetric_difference</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;symmetric&nbsp;difference&nbsp;of&nbsp;two&nbsp;sets&nbsp;as&nbsp;a&nbsp;new&nbsp;set.<br>
+&nbsp;<br>
+(i.e.&nbsp;all&nbsp;elements&nbsp;that&nbsp;are&nbsp;in&nbsp;exactly&nbsp;one&nbsp;of&nbsp;the&nbsp;sets.)</tt></dd></dl>
+
+<dl><dt><a name="DBAPISet-union"><strong>union</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;union&nbsp;of&nbsp;sets&nbsp;as&nbsp;a&nbsp;new&nbsp;set.<br>
+&nbsp;<br>
+(i.e.&nbsp;all&nbsp;elements&nbsp;that&nbsp;are&nbsp;in&nbsp;either&nbsp;set.)</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/__builtin__.html#frozenset">__builtin__.frozenset</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#DBAPISet-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DataError">class <strong>DataError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;for&nbsp;errors&nbsp;that&nbsp;are&nbsp;due&nbsp;to&nbsp;problems&nbsp;with&nbsp;the<br>
+processed&nbsp;data&nbsp;like&nbsp;division&nbsp;by&nbsp;zero,&nbsp;numeric&nbsp;value&nbsp;out&nbsp;of&nbsp;range,<br>
+etc.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DataError">DataError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="DataError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#DataError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="DataError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="DataError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="DataError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="DataError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="DataError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="DataError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="DataError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="DataError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="DataError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DataError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="DataError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DatabaseError">class <strong>DatabaseError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;for&nbsp;errors&nbsp;that&nbsp;are&nbsp;related&nbsp;to&nbsp;the<br>
+database.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="DatabaseError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="DatabaseError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="DatabaseError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="DatabaseError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="DatabaseError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="DatabaseError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="DatabaseError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="DatabaseError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="DatabaseError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="DatabaseError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#DatabaseError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="DatabaseError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><strong>Date</strong> = <a name="Date">class date</a>(<a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt><a href="http://localhost:7464/datetime.html#date">date</a>(year,&nbsp;month,&nbsp;day)&nbsp;--&gt;&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a><br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="date-__add__"><strong>__add__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__add__">__add__</a>(y)&nbsp;&lt;==&gt;&nbsp;x+y</tt></dd></dl>
+
+<dl><dt><a name="date-__eq__"><strong>__eq__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__eq__">__eq__</a>(y)&nbsp;&lt;==&gt;&nbsp;x==y</tt></dd></dl>
+
+<dl><dt><a name="date-__format__"><strong>__format__</strong></a>(...)</dt><dd><tt>Formats&nbsp;self&nbsp;with&nbsp;strftime.</tt></dd></dl>
+
+<dl><dt><a name="date-__ge__"><strong>__ge__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__ge__">__ge__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;=y</tt></dd></dl>
+
+<dl><dt><a name="date-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="date-__gt__"><strong>__gt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__gt__">__gt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;y</tt></dd></dl>
+
+<dl><dt><a name="date-__hash__"><strong>__hash__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__hash__">__hash__</a>()&nbsp;&lt;==&gt;&nbsp;hash(x)</tt></dd></dl>
+
+<dl><dt><a name="date-__le__"><strong>__le__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__le__">__le__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;=y</tt></dd></dl>
+
+<dl><dt><a name="date-__lt__"><strong>__lt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__lt__">__lt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;y</tt></dd></dl>
+
+<dl><dt><a name="date-__ne__"><strong>__ne__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__ne__">__ne__</a>(y)&nbsp;&lt;==&gt;&nbsp;x!=y</tt></dd></dl>
+
+<dl><dt><a name="date-__radd__"><strong>__radd__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__radd__">__radd__</a>(y)&nbsp;&lt;==&gt;&nbsp;y+x</tt></dd></dl>
+
+<dl><dt><a name="date-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#Date-__reduce__">__reduce__</a>()&nbsp;-&gt;&nbsp;(cls,&nbsp;state)</tt></dd></dl>
+
+<dl><dt><a name="date-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="date-__rsub__"><strong>__rsub__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__rsub__">__rsub__</a>(y)&nbsp;&lt;==&gt;&nbsp;y-x</tt></dd></dl>
+
+<dl><dt><a name="date-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="date-__sub__"><strong>__sub__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Date-__sub__">__sub__</a>(y)&nbsp;&lt;==&gt;&nbsp;x-y</tt></dd></dl>
+
+<dl><dt><a name="date-ctime"><strong>ctime</strong></a>(...)</dt><dd><tt>Return&nbsp;<a href="http://localhost:7464/MySQLdb.html#Date-ctime">ctime</a>()&nbsp;style&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="date-fromordinal"><strong>fromordinal</strong></a>(...)</dt><dd><tt>int&nbsp;-&gt;&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;corresponding&nbsp;to&nbsp;a&nbsp;proleptic&nbsp;Gregorian&nbsp;ordinal.</tt></dd></dl>
+
+<dl><dt><a name="date-fromtimestamp"><strong>fromtimestamp</strong></a>(...)</dt><dd><tt>timestamp&nbsp;-&gt;&nbsp;local&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;from&nbsp;a&nbsp;POSIX&nbsp;timestamp&nbsp;(like&nbsp;time.time()).</tt></dd></dl>
+
+<dl><dt><a name="date-isocalendar"><strong>isocalendar</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;3-tuple&nbsp;containing&nbsp;ISO&nbsp;year,&nbsp;week&nbsp;number,&nbsp;and&nbsp;weekday.</tt></dd></dl>
+
+<dl><dt><a name="date-isoformat"><strong>isoformat</strong></a>(...)</dt><dd><tt>Return&nbsp;string&nbsp;in&nbsp;ISO&nbsp;8601&nbsp;format,&nbsp;YYYY-MM-DD.</tt></dd></dl>
+
+<dl><dt><a name="date-isoweekday"><strong>isoweekday</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;day&nbsp;of&nbsp;the&nbsp;week&nbsp;represented&nbsp;by&nbsp;the&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>.<br>
+Monday&nbsp;==&nbsp;1&nbsp;...&nbsp;Sunday&nbsp;==&nbsp;7</tt></dd></dl>
+
+<dl><dt><a name="date-replace"><strong>replace</strong></a>(...)</dt><dd><tt>Return&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;with&nbsp;new&nbsp;specified&nbsp;fields.</tt></dd></dl>
+
+<dl><dt><a name="date-strftime"><strong>strftime</strong></a>(...)</dt><dd><tt>format&nbsp;-&gt;&nbsp;<a href="http://localhost:7464/MySQLdb.html#Date-strftime">strftime</a>()&nbsp;style&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="date-timetuple"><strong>timetuple</strong></a>(...)</dt><dd><tt>Return&nbsp;time&nbsp;tuple,&nbsp;compatible&nbsp;with&nbsp;time.localtime().</tt></dd></dl>
+
+<dl><dt><a name="date-today"><strong>today</strong></a>(...)</dt><dd><tt>Current&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;or&nbsp;datetime:&nbsp;&nbsp;same&nbsp;as&nbsp;self.<strong>__class__</strong>.<a href="http://localhost:7464/MySQLdb.html#Date-fromtimestamp">fromtimestamp</a>(time.time()).</tt></dd></dl>
+
+<dl><dt><a name="date-toordinal"><strong>toordinal</strong></a>(...)</dt><dd><tt>Return&nbsp;proleptic&nbsp;Gregorian&nbsp;ordinal.&nbsp;&nbsp;January&nbsp;1&nbsp;of&nbsp;year&nbsp;1&nbsp;is&nbsp;day&nbsp;1.</tt></dd></dl>
+
+<dl><dt><a name="date-weekday"><strong>weekday</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;day&nbsp;of&nbsp;the&nbsp;week&nbsp;represented&nbsp;by&nbsp;the&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>.<br>
+Monday&nbsp;==&nbsp;0&nbsp;...&nbsp;Sunday&nbsp;==&nbsp;6</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>day</strong></dt>
+</dl>
+<dl><dt><strong>month</strong></dt>
+</dl>
+<dl><dt><strong>year</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#Date-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<dl><dt><strong>max</strong> = datetime.date(9999, 12, 31)</dt></dl>
+
+<dl><dt><strong>min</strong> = datetime.date(1, 1, 1)</dt></dl>
+
+<dl><dt><strong>resolution</strong> = datetime.timedelta(1)</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Error">class <strong>Error</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;that&nbsp;is&nbsp;the&nbsp;base&nbsp;class&nbsp;of&nbsp;all&nbsp;other&nbsp;error&nbsp;exceptions<br>
+(not&nbsp;<a href="http://localhost:7464/MySQLdb.html#Warning">Warning</a>).<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="Error-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#Error-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="Error-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="Error-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="Error-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="Error-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="Error-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Error-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="Error-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="Error-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Error-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Error-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="Error-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="IntegrityError">class <strong>IntegrityError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;when&nbsp;the&nbsp;relational&nbsp;integrity&nbsp;of&nbsp;the&nbsp;database<br>
+is&nbsp;affected,&nbsp;e.g.&nbsp;a&nbsp;foreign&nbsp;key&nbsp;check&nbsp;fails,&nbsp;duplicate&nbsp;key,<br>
+etc.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#IntegrityError">IntegrityError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="IntegrityError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="IntegrityError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="IntegrityError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="IntegrityError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="IntegrityError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="IntegrityError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="IntegrityError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="IntegrityError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="IntegrityError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="IntegrityError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#IntegrityError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="IntegrityError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="InterfaceError">class <strong>InterfaceError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;for&nbsp;errors&nbsp;that&nbsp;are&nbsp;related&nbsp;to&nbsp;the&nbsp;database<br>
+interface&nbsp;rather&nbsp;than&nbsp;the&nbsp;database&nbsp;itself.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#InterfaceError">InterfaceError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="InterfaceError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="InterfaceError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="InterfaceError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="InterfaceError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="InterfaceError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="InterfaceError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="InterfaceError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="InterfaceError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="InterfaceError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="InterfaceError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InterfaceError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="InterfaceError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="InternalError">class <strong>InternalError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;when&nbsp;the&nbsp;database&nbsp;encounters&nbsp;an&nbsp;internal<br>
+error,&nbsp;e.g.&nbsp;the&nbsp;cursor&nbsp;is&nbsp;not&nbsp;valid&nbsp;anymore,&nbsp;the&nbsp;transaction&nbsp;is<br>
+out&nbsp;of&nbsp;sync,&nbsp;etc.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#InternalError">InternalError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="InternalError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#InternalError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="InternalError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="InternalError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="InternalError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="InternalError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="InternalError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="InternalError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="InternalError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="InternalError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="InternalError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#InternalError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="InternalError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MySQLError">class <strong>MySQLError</strong></a>(<a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;related&nbsp;to&nbsp;operation&nbsp;with&nbsp;MySQL.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="MySQLError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="MySQLError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="MySQLError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="MySQLError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="MySQLError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="MySQLError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="MySQLError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="MySQLError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="MySQLError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="MySQLError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#MySQLError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="MySQLError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="NotSupportedError">class <strong>NotSupportedError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;in&nbsp;case&nbsp;a&nbsp;method&nbsp;or&nbsp;database&nbsp;API&nbsp;was&nbsp;used<br>
+which&nbsp;is&nbsp;not&nbsp;supported&nbsp;by&nbsp;the&nbsp;database,&nbsp;e.g.&nbsp;requesting&nbsp;a<br>
+.rollback()&nbsp;on&nbsp;a&nbsp;connection&nbsp;that&nbsp;does&nbsp;not&nbsp;support&nbsp;transaction&nbsp;or<br>
+has&nbsp;transactions&nbsp;turned&nbsp;off.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#NotSupportedError">NotSupportedError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="NotSupportedError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="NotSupportedError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="NotSupportedError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="NotSupportedError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="NotSupportedError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="NotSupportedError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NotSupportedError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="NotSupportedError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="NotSupportedError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="NotSupportedError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#NotSupportedError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="NotSupportedError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="OperationalError">class <strong>OperationalError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;for&nbsp;errors&nbsp;that&nbsp;are&nbsp;related&nbsp;to&nbsp;the&nbsp;database's<br>
+operation&nbsp;and&nbsp;not&nbsp;necessarily&nbsp;under&nbsp;the&nbsp;control&nbsp;of&nbsp;the&nbsp;programmer,<br>
+e.g.&nbsp;an&nbsp;unexpected&nbsp;disconnect&nbsp;occurs,&nbsp;the&nbsp;data&nbsp;source&nbsp;name&nbsp;is&nbsp;not<br>
+found,&nbsp;a&nbsp;transaction&nbsp;could&nbsp;not&nbsp;be&nbsp;processed,&nbsp;a&nbsp;memory&nbsp;allocation<br>
+error&nbsp;occurred&nbsp;during&nbsp;processing,&nbsp;etc.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#OperationalError">OperationalError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="OperationalError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="OperationalError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="OperationalError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="OperationalError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="OperationalError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="OperationalError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="OperationalError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="OperationalError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="OperationalError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="OperationalError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#OperationalError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="OperationalError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ProgrammingError">class <strong>ProgrammingError</strong></a>(<a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;for&nbsp;programming&nbsp;errors,&nbsp;e.g.&nbsp;table&nbsp;not&nbsp;found<br>
+or&nbsp;already&nbsp;exists,&nbsp;syntax&nbsp;error&nbsp;in&nbsp;the&nbsp;SQL&nbsp;statement,&nbsp;wrong&nbsp;number<br>
+of&nbsp;parameters&nbsp;specified,&nbsp;etc.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#ProgrammingError">ProgrammingError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#DatabaseError">DatabaseError</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Error">Error</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><a name="ProgrammingError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="ProgrammingError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ProgrammingError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ProgrammingError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="ProgrammingError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ProgrammingError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProgrammingError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="ProgrammingError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="ProgrammingError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ProgrammingError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#ProgrammingError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="ProgrammingError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><strong>Time</strong> = <a name="Time">class time</a>(<a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>time([hour[,&nbsp;minute[,&nbsp;second[,&nbsp;microsecond[,&nbsp;tzinfo]]]]])&nbsp;--&gt;&nbsp;a&nbsp;time&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a><br>
+&nbsp;<br>
+All&nbsp;arguments&nbsp;are&nbsp;optional.&nbsp;tzinfo&nbsp;may&nbsp;be&nbsp;None,&nbsp;or&nbsp;an&nbsp;instance&nbsp;of<br>
+a&nbsp;tzinfo&nbsp;subclass.&nbsp;The&nbsp;remaining&nbsp;arguments&nbsp;may&nbsp;be&nbsp;ints&nbsp;or&nbsp;longs.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="time-__eq__"><strong>__eq__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__eq__">__eq__</a>(y)&nbsp;&lt;==&gt;&nbsp;x==y</tt></dd></dl>
+
+<dl><dt><a name="time-__format__"><strong>__format__</strong></a>(...)</dt><dd><tt>Formats&nbsp;self&nbsp;with&nbsp;strftime.</tt></dd></dl>
+
+<dl><dt><a name="time-__ge__"><strong>__ge__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__ge__">__ge__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;=y</tt></dd></dl>
+
+<dl><dt><a name="time-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="time-__gt__"><strong>__gt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__gt__">__gt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;y</tt></dd></dl>
+
+<dl><dt><a name="time-__hash__"><strong>__hash__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__hash__">__hash__</a>()&nbsp;&lt;==&gt;&nbsp;hash(x)</tt></dd></dl>
+
+<dl><dt><a name="time-__le__"><strong>__le__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__le__">__le__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;=y</tt></dd></dl>
+
+<dl><dt><a name="time-__lt__"><strong>__lt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__lt__">__lt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;y</tt></dd></dl>
+
+<dl><dt><a name="time-__ne__"><strong>__ne__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__ne__">__ne__</a>(y)&nbsp;&lt;==&gt;&nbsp;x!=y</tt></dd></dl>
+
+<dl><dt><a name="time-__nonzero__"><strong>__nonzero__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__nonzero__">__nonzero__</a>()&nbsp;&lt;==&gt;&nbsp;x&nbsp;!=&nbsp;0</tt></dd></dl>
+
+<dl><dt><a name="time-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#Time-__reduce__">__reduce__</a>()&nbsp;-&gt;&nbsp;(cls,&nbsp;state)</tt></dd></dl>
+
+<dl><dt><a name="time-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="time-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Time-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="time-dst"><strong>dst</strong></a>(...)</dt><dd><tt>Return&nbsp;self.<strong>tzinfo</strong>.<a href="http://localhost:7464/MySQLdb.html#Time-dst">dst</a>(self).</tt></dd></dl>
+
+<dl><dt><a name="time-isoformat"><strong>isoformat</strong></a>(...)</dt><dd><tt>Return&nbsp;string&nbsp;in&nbsp;ISO&nbsp;8601&nbsp;format,&nbsp;HH:MM:SS[.mmmmmm][+HH:MM].</tt></dd></dl>
+
+<dl><dt><a name="time-replace"><strong>replace</strong></a>(...)</dt><dd><tt>Return&nbsp;time&nbsp;with&nbsp;new&nbsp;specified&nbsp;fields.</tt></dd></dl>
+
+<dl><dt><a name="time-strftime"><strong>strftime</strong></a>(...)</dt><dd><tt>format&nbsp;-&gt;&nbsp;<a href="http://localhost:7464/MySQLdb.html#Time-strftime">strftime</a>()&nbsp;style&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="time-tzname"><strong>tzname</strong></a>(...)</dt><dd><tt>Return&nbsp;self.<strong>tzinfo</strong>.<a href="http://localhost:7464/MySQLdb.html#Time-tzname">tzname</a>(self).</tt></dd></dl>
+
+<dl><dt><a name="time-utcoffset"><strong>utcoffset</strong></a>(...)</dt><dd><tt>Return&nbsp;self.<strong>tzinfo</strong>.<a href="http://localhost:7464/MySQLdb.html#Time-utcoffset">utcoffset</a>(self).</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>hour</strong></dt>
+</dl>
+<dl><dt><strong>microsecond</strong></dt>
+</dl>
+<dl><dt><strong>minute</strong></dt>
+</dl>
+<dl><dt><strong>second</strong></dt>
+</dl>
+<dl><dt><strong>tzinfo</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#Time-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<dl><dt><strong>max</strong> = datetime.time(23, 59, 59, 999999)</dt></dl>
+
+<dl><dt><strong>min</strong> = datetime.time(0, 0)</dt></dl>
+
+<dl><dt><strong>resolution</strong> = datetime.timedelta(0, 0, 1)</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><strong>Timestamp</strong> = <a name="Timestamp">class datetime</a>(<a href="http://localhost:7464/datetime.html#date">date</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>datetime(year,&nbsp;month,&nbsp;day[,&nbsp;hour[,&nbsp;minute[,&nbsp;second[,&nbsp;microsecond[,tzinfo]]]]])<br>
+&nbsp;<br>
+The&nbsp;year,&nbsp;month&nbsp;and&nbsp;day&nbsp;arguments&nbsp;are&nbsp;required.&nbsp;tzinfo&nbsp;may&nbsp;be&nbsp;None,&nbsp;or&nbsp;an<br>
+instance&nbsp;of&nbsp;a&nbsp;tzinfo&nbsp;subclass.&nbsp;The&nbsp;remaining&nbsp;arguments&nbsp;may&nbsp;be&nbsp;ints&nbsp;or&nbsp;longs.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/datetime.html#datetime">datetime</a></dd>
+<dd><a href="http://localhost:7464/datetime.html#date">date</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="datetime-__add__"><strong>__add__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__add__">__add__</a>(y)&nbsp;&lt;==&gt;&nbsp;x+y</tt></dd></dl>
+
+<dl><dt><a name="datetime-__eq__"><strong>__eq__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__eq__">__eq__</a>(y)&nbsp;&lt;==&gt;&nbsp;x==y</tt></dd></dl>
+
+<dl><dt><a name="datetime-__ge__"><strong>__ge__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__ge__">__ge__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;=y</tt></dd></dl>
+
+<dl><dt><a name="datetime-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="datetime-__gt__"><strong>__gt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__gt__">__gt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;y</tt></dd></dl>
+
+<dl><dt><a name="datetime-__hash__"><strong>__hash__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__hash__">__hash__</a>()&nbsp;&lt;==&gt;&nbsp;hash(x)</tt></dd></dl>
+
+<dl><dt><a name="datetime-__le__"><strong>__le__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__le__">__le__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;=y</tt></dd></dl>
+
+<dl><dt><a name="datetime-__lt__"><strong>__lt__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__lt__">__lt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;y</tt></dd></dl>
+
+<dl><dt><a name="datetime-__ne__"><strong>__ne__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__ne__">__ne__</a>(y)&nbsp;&lt;==&gt;&nbsp;x!=y</tt></dd></dl>
+
+<dl><dt><a name="datetime-__radd__"><strong>__radd__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__radd__">__radd__</a>(y)&nbsp;&lt;==&gt;&nbsp;y+x</tt></dd></dl>
+
+<dl><dt><a name="datetime-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#Timestamp-__reduce__">__reduce__</a>()&nbsp;-&gt;&nbsp;(cls,&nbsp;state)</tt></dd></dl>
+
+<dl><dt><a name="datetime-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="datetime-__rsub__"><strong>__rsub__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__rsub__">__rsub__</a>(y)&nbsp;&lt;==&gt;&nbsp;y-x</tt></dd></dl>
+
+<dl><dt><a name="datetime-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="datetime-__sub__"><strong>__sub__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__sub__">__sub__</a>(y)&nbsp;&lt;==&gt;&nbsp;x-y</tt></dd></dl>
+
+<dl><dt><a name="datetime-astimezone"><strong>astimezone</strong></a>(...)</dt><dd><tt>tz&nbsp;-&gt;&nbsp;convert&nbsp;to&nbsp;local&nbsp;time&nbsp;in&nbsp;new&nbsp;timezone&nbsp;tz</tt></dd></dl>
+
+<dl><dt><a name="datetime-combine"><strong>combine</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/datetime.html#date">date</a>,&nbsp;time&nbsp;-&gt;&nbsp;datetime&nbsp;with&nbsp;same&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;and&nbsp;time&nbsp;fields</tt></dd></dl>
+
+<dl><dt><a name="datetime-ctime"><strong>ctime</strong></a>(...)</dt><dd><tt>Return&nbsp;<a href="http://localhost:7464/MySQLdb.html#Timestamp-ctime">ctime</a>()&nbsp;style&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="datetime-date"><strong>date</strong></a>(...)</dt><dd><tt>Return&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;same&nbsp;year,&nbsp;month&nbsp;and&nbsp;day.</tt></dd></dl>
+
+<dl><dt><a name="datetime-dst"><strong>dst</strong></a>(...)</dt><dd><tt>Return&nbsp;self.<strong>tzinfo</strong>.<a href="http://localhost:7464/MySQLdb.html#Timestamp-dst">dst</a>(self).</tt></dd></dl>
+
+<dl><dt><a name="datetime-fromtimestamp"><strong>fromtimestamp</strong></a>(...)</dt><dd><tt>timestamp[,&nbsp;tz]&nbsp;-&gt;&nbsp;tz's&nbsp;local&nbsp;time&nbsp;from&nbsp;POSIX&nbsp;timestamp.</tt></dd></dl>
+
+<dl><dt><a name="datetime-isoformat"><strong>isoformat</strong></a>(...)</dt><dd><tt>[sep]&nbsp;-&gt;&nbsp;string&nbsp;in&nbsp;ISO&nbsp;8601&nbsp;format,&nbsp;YYYY-MM-DDTHH:MM:SS[.mmmmmm][+HH:MM].<br>
+&nbsp;<br>
+sep&nbsp;is&nbsp;used&nbsp;to&nbsp;separate&nbsp;the&nbsp;year&nbsp;from&nbsp;the&nbsp;time,&nbsp;and&nbsp;defaults&nbsp;to&nbsp;'T'.</tt></dd></dl>
+
+<dl><dt><a name="datetime-now"><strong>now</strong></a>(...)</dt><dd><tt>[tz]&nbsp;-&gt;&nbsp;new&nbsp;datetime&nbsp;with&nbsp;tz's&nbsp;local&nbsp;day&nbsp;and&nbsp;time.</tt></dd></dl>
+
+<dl><dt><a name="datetime-replace"><strong>replace</strong></a>(...)</dt><dd><tt>Return&nbsp;datetime&nbsp;with&nbsp;new&nbsp;specified&nbsp;fields.</tt></dd></dl>
+
+<dl><dt><a name="datetime-strptime"><strong>strptime</strong></a>(...)</dt><dd><tt>string,&nbsp;format&nbsp;-&gt;&nbsp;new&nbsp;datetime&nbsp;parsed&nbsp;from&nbsp;a&nbsp;string&nbsp;(like&nbsp;time.<a href="http://localhost:7464/MySQLdb.html#Timestamp-strptime">strptime</a>()).</tt></dd></dl>
+
+<dl><dt><a name="datetime-time"><strong>time</strong></a>(...)</dt><dd><tt>Return&nbsp;time&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;same&nbsp;time&nbsp;but&nbsp;with&nbsp;tzinfo=None.</tt></dd></dl>
+
+<dl><dt><a name="datetime-timetuple"><strong>timetuple</strong></a>(...)</dt><dd><tt>Return&nbsp;time&nbsp;tuple,&nbsp;compatible&nbsp;with&nbsp;time.localtime().</tt></dd></dl>
+
+<dl><dt><a name="datetime-timetz"><strong>timetz</strong></a>(...)</dt><dd><tt>Return&nbsp;time&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;same&nbsp;time&nbsp;and&nbsp;tzinfo.</tt></dd></dl>
+
+<dl><dt><a name="datetime-tzname"><strong>tzname</strong></a>(...)</dt><dd><tt>Return&nbsp;self.<strong>tzinfo</strong>.<a href="http://localhost:7464/MySQLdb.html#Timestamp-tzname">tzname</a>(self).</tt></dd></dl>
+
+<dl><dt><a name="datetime-utcfromtimestamp"><strong>utcfromtimestamp</strong></a>(...)</dt><dd><tt>timestamp&nbsp;-&gt;&nbsp;UTC&nbsp;datetime&nbsp;from&nbsp;a&nbsp;POSIX&nbsp;timestamp&nbsp;(like&nbsp;time.<a href="http://localhost:7464/MySQLdb.html#Timestamp-time">time</a>()).</tt></dd></dl>
+
+<dl><dt><a name="datetime-utcnow"><strong>utcnow</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;new&nbsp;datetime&nbsp;representing&nbsp;UTC&nbsp;day&nbsp;and&nbsp;time.</tt></dd></dl>
+
+<dl><dt><a name="datetime-utcoffset"><strong>utcoffset</strong></a>(...)</dt><dd><tt>Return&nbsp;self.<strong>tzinfo</strong>.<a href="http://localhost:7464/MySQLdb.html#Timestamp-utcoffset">utcoffset</a>(self).</tt></dd></dl>
+
+<dl><dt><a name="datetime-utctimetuple"><strong>utctimetuple</strong></a>(...)</dt><dd><tt>Return&nbsp;UTC&nbsp;time&nbsp;tuple,&nbsp;compatible&nbsp;with&nbsp;time.localtime().</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>hour</strong></dt>
+</dl>
+<dl><dt><strong>microsecond</strong></dt>
+</dl>
+<dl><dt><strong>minute</strong></dt>
+</dl>
+<dl><dt><strong>second</strong></dt>
+</dl>
+<dl><dt><strong>tzinfo</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#Timestamp-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<dl><dt><strong>max</strong> = datetime.datetime(9999, 12, 31, 23, 59, 59, 999999)</dt></dl>
+
+<dl><dt><strong>min</strong> = datetime.datetime(1, 1, 1, 0, 0)</dt></dl>
+
+<dl><dt><strong>resolution</strong> = datetime.timedelta(0, 0, 1)</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/datetime.html#date">date</a>:<br>
+<dl><dt><a name="datetime-__format__"><strong>__format__</strong></a>(...)</dt><dd><tt>Formats&nbsp;self&nbsp;with&nbsp;strftime.</tt></dd></dl>
+
+<dl><dt><a name="datetime-fromordinal"><strong>fromordinal</strong></a>(...)</dt><dd><tt>int&nbsp;-&gt;&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;corresponding&nbsp;to&nbsp;a&nbsp;proleptic&nbsp;Gregorian&nbsp;ordinal.</tt></dd></dl>
+
+<dl><dt><a name="datetime-isocalendar"><strong>isocalendar</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;3-tuple&nbsp;containing&nbsp;ISO&nbsp;year,&nbsp;week&nbsp;number,&nbsp;and&nbsp;weekday.</tt></dd></dl>
+
+<dl><dt><a name="datetime-isoweekday"><strong>isoweekday</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;day&nbsp;of&nbsp;the&nbsp;week&nbsp;represented&nbsp;by&nbsp;the&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>.<br>
+Monday&nbsp;==&nbsp;1&nbsp;...&nbsp;Sunday&nbsp;==&nbsp;7</tt></dd></dl>
+
+<dl><dt><a name="datetime-strftime"><strong>strftime</strong></a>(...)</dt><dd><tt>format&nbsp;-&gt;&nbsp;<a href="http://localhost:7464/MySQLdb.html#Timestamp-strftime">strftime</a>()&nbsp;style&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="datetime-today"><strong>today</strong></a>(...)</dt><dd><tt>Current&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;or&nbsp;datetime:&nbsp;&nbsp;same&nbsp;as&nbsp;self.<strong>__class__</strong>.<a href="http://localhost:7464/MySQLdb.html#Timestamp-fromtimestamp">fromtimestamp</a>(time.<a href="http://localhost:7464/MySQLdb.html#Timestamp-time">time</a>()).</tt></dd></dl>
+
+<dl><dt><a name="datetime-toordinal"><strong>toordinal</strong></a>(...)</dt><dd><tt>Return&nbsp;proleptic&nbsp;Gregorian&nbsp;ordinal.&nbsp;&nbsp;January&nbsp;1&nbsp;of&nbsp;year&nbsp;1&nbsp;is&nbsp;day&nbsp;1.</tt></dd></dl>
+
+<dl><dt><a name="datetime-weekday"><strong>weekday</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;day&nbsp;of&nbsp;the&nbsp;week&nbsp;represented&nbsp;by&nbsp;the&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>.<br>
+Monday&nbsp;==&nbsp;0&nbsp;...&nbsp;Sunday&nbsp;==&nbsp;6</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/datetime.html#date">date</a>:<br>
+<dl><dt><strong>day</strong></dt>
+</dl>
+<dl><dt><strong>month</strong></dt>
+</dl>
+<dl><dt><strong>year</strong></dt>
+</dl>
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Warning">class <strong>Warning</strong></a>(<a href="http://localhost:7464/exceptions.html#Warning">exceptions.Warning</a>, <a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Exception&nbsp;raised&nbsp;for&nbsp;important&nbsp;warnings&nbsp;like&nbsp;data&nbsp;truncations<br>
+while&nbsp;inserting,&nbsp;etc.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#Warning">Warning</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Warning">exceptions.Warning</a></dd>
+<dd><a href="http://localhost:7464/_mysql_exceptions.html#MySQLError">MySQLError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#StandardError">exceptions.StandardError</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="http://localhost:7464/__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#Warning">exceptions.Warning</a>:<br>
+<dl><dt><a name="Warning-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/exceptions.html#Warning">exceptions.Warning</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;</dt><dd><tt>T.<a href="http://localhost:7464/MySQLdb.html#Warning-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="Warning-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="Warning-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="Warning-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="Warning-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="Warning-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Warning-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="Warning-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="Warning-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Warning-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="http://localhost:7464/MySQLdb.html#Warning-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="Warning-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="http://localhost:7464/exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></tbody></table></p></td></tr></tbody></table></p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#eeaa77">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-Binary"><strong>Binary</strong></a>(x)</dt></dl>
+ <dl><dt><a name="-Connect"><strong>Connect</strong></a>(*args, **kwargs)</dt><dd><tt>Factory&nbsp;function&nbsp;for&nbsp;connections.Connection.</tt></dd></dl>
+ <dl><dt><a name="-Connection"><strong>Connection</strong></a> = Connect(*args, **kwargs)</dt><dd><tt>Factory&nbsp;function&nbsp;for&nbsp;connections.Connection.</tt></dd></dl>
+ <dl><dt><a name="-DateFromTicks"><strong>DateFromTicks</strong></a>(ticks)</dt><dd><tt>Convert&nbsp;UNIX&nbsp;ticks&nbsp;into&nbsp;a&nbsp;<a href="http://localhost:7464/datetime.html#date">date</a>&nbsp;instance.</tt></dd></dl>
+ <dl><dt><a name="-TimeFromTicks"><strong>TimeFromTicks</strong></a>(ticks)</dt><dd><tt>Convert&nbsp;UNIX&nbsp;ticks&nbsp;into&nbsp;a&nbsp;time&nbsp;instance.</tt></dd></dl>
+ <dl><dt><a name="-TimestampFromTicks"><strong>TimestampFromTicks</strong></a>(ticks)</dt><dd><tt>Convert&nbsp;UNIX&nbsp;ticks&nbsp;into&nbsp;a&nbsp;datetime&nbsp;instance.</tt></dd></dl>
+ <dl><dt><a name="-connect"><strong>connect</strong></a> = Connect(*args, **kwargs)</dt><dd><tt>Factory&nbsp;function&nbsp;for&nbsp;connections.Connection.</tt></dd></dl>
+ <dl><dt><a name="-debug"><strong>debug</strong></a>(...)</dt><dd><tt>Does&nbsp;a&nbsp;DBUG_PUSH&nbsp;with&nbsp;the&nbsp;given&nbsp;string.<br>
+mysql_debug()&nbsp;uses&nbsp;the&nbsp;Fred&nbsp;Fish&nbsp;debug&nbsp;library.<br>
+To&nbsp;use&nbsp;this&nbsp;function,&nbsp;you&nbsp;must&nbsp;compile&nbsp;the&nbsp;client&nbsp;library&nbsp;to<br>
+support&nbsp;debugging.</tt></dd></dl>
+ <dl><dt><a name="-escape"><strong>escape</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#-escape">escape</a>(obj,&nbsp;dict)&nbsp;--&nbsp;escape&nbsp;any&nbsp;special&nbsp;characters&nbsp;in&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;obj<br>
+using&nbsp;mapping&nbsp;dict&nbsp;to&nbsp;provide&nbsp;quoting&nbsp;functions&nbsp;for&nbsp;each&nbsp;type.<br>
+Returns&nbsp;a&nbsp;SQL&nbsp;literal&nbsp;string.</tt></dd></dl>
+ <dl><dt><a name="-escape_dict"><strong>escape_dict</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#-escape_sequence">escape_sequence</a>(d,&nbsp;dict)&nbsp;--&nbsp;escape&nbsp;any&nbsp;special&nbsp;characters&nbsp;in<br>
+dictionary&nbsp;d&nbsp;using&nbsp;mapping&nbsp;dict&nbsp;to&nbsp;provide&nbsp;quoting&nbsp;functions&nbsp;for&nbsp;each&nbsp;type.<br>
+Returns&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;escaped&nbsp;items.</tt></dd></dl>
+ <dl><dt><a name="-escape_sequence"><strong>escape_sequence</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#-escape_sequence">escape_sequence</a>(seq,&nbsp;dict)&nbsp;--&nbsp;escape&nbsp;any&nbsp;special&nbsp;characters&nbsp;in&nbsp;sequence<br>
+seq&nbsp;using&nbsp;mapping&nbsp;dict&nbsp;to&nbsp;provide&nbsp;quoting&nbsp;functions&nbsp;for&nbsp;each&nbsp;type.<br>
+Returns&nbsp;a&nbsp;tuple&nbsp;of&nbsp;escaped&nbsp;items.</tt></dd></dl>
+ <dl><dt><a name="-escape_string"><strong>escape_string</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#-escape_string">escape_string</a>(s)&nbsp;--&nbsp;quote&nbsp;any&nbsp;SQL-interpreted&nbsp;characters&nbsp;in&nbsp;string&nbsp;s.<br>
+&nbsp;<br>
+Use&nbsp;connection.<a href="http://localhost:7464/MySQLdb.html#-escape_string">escape_string</a>(s),&nbsp;if&nbsp;you&nbsp;use&nbsp;it&nbsp;at&nbsp;all.<br>
+_mysql.<a href="http://localhost:7464/MySQLdb.html#-escape_string">escape_string</a>(s)&nbsp;cannot&nbsp;handle&nbsp;character&nbsp;sets.&nbsp;You&nbsp;are<br>
+probably&nbsp;better&nbsp;off&nbsp;using&nbsp;connection.<a href="http://localhost:7464/MySQLdb.html#-escape">escape</a>(o)&nbsp;instead,&nbsp;since<br>
+it&nbsp;will&nbsp;escape&nbsp;entire&nbsp;sequences&nbsp;as&nbsp;well&nbsp;as&nbsp;strings.</tt></dd></dl>
+ <dl><dt><a name="-get_client_info"><strong>get_client_info</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#-get_client_info">get_client_info</a>()&nbsp;--&nbsp;Returns&nbsp;a&nbsp;string&nbsp;that&nbsp;represents<br>
+the&nbsp;client&nbsp;library&nbsp;version.</tt></dd></dl>
+ <dl><dt><a name="-string_literal"><strong>string_literal</strong></a>(...)</dt><dd><tt><a href="http://localhost:7464/MySQLdb.html#-string_literal">string_literal</a>(obj)&nbsp;--&nbsp;converts&nbsp;<a href="http://localhost:7464/__builtin__.html#object">object</a>&nbsp;obj&nbsp;into&nbsp;a&nbsp;SQL&nbsp;string&nbsp;literal.<br>
+This&nbsp;means,&nbsp;any&nbsp;special&nbsp;SQL&nbsp;characters&nbsp;are&nbsp;escaped,&nbsp;and&nbsp;it&nbsp;is&nbsp;enclosed<br>
+within&nbsp;single&nbsp;quotes.&nbsp;In&nbsp;other&nbsp;words,&nbsp;it&nbsp;performs:<br>
+&nbsp;<br>
+"'%s'"&nbsp;%&nbsp;<a href="http://localhost:7464/MySQLdb.html#-escape_string">escape_string</a>(str(obj))<br>
+&nbsp;<br>
+Use&nbsp;connection.<a href="http://localhost:7464/MySQLdb.html#-string_literal">string_literal</a>(obj),&nbsp;if&nbsp;you&nbsp;use&nbsp;it&nbsp;at&nbsp;all.<br>
+_mysql.<a href="http://localhost:7464/MySQLdb.html#-string_literal">string_literal</a>(obj)&nbsp;cannot&nbsp;handle&nbsp;character&nbsp;sets.</tt></dd></dl>
+</td></tr></tbody></table></p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#55aa55">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>BINARY</strong> = DBAPISet([249, 250, 251, 252])<br>
+<strong>DATE</strong> = DBAPISet([10, 14])<br>
+<strong>NULL</strong> = 'NULL'<br>
+<strong>NUMBER</strong> = DBAPISet([0, 1, 3, 4, 5, 8, 9, 13])<br>
+<strong>ROWID</strong> = DBAPISet([])<br>
+<strong>STRING</strong> = DBAPISet([253, 254, 247])<br>
+<strong>TIME</strong> = DBAPISet([11])<br>
+<strong>TIMESTAMP</strong> = DBAPISet([12, 7])<br>
+<strong>__all__</strong> = ['BINARY', 'Binary', 'Connect', 'Connection', 'DATE', 'Date', 'Time', 'Timestamp', 'DateFromTicks', 'TimeFromTicks', 'TimestampFromTicks', 'DataError', 'DatabaseError', 'Error', 'FIELD_TYPE', 'IntegrityError', 'InterfaceError', 'InternalError', 'MySQLError', 'NULL', ...]<br>
+<strong>__author__</strong> = 'Andy Dustman &lt;farcepest@gmail.com&gt;'<br>
+<strong>__revision__</strong> = ''<br>
+<strong>__version__</strong> = '1.2.5'<br>
+<strong>apilevel</strong> = '2.0'<br>
+<strong>paramstyle</strong> = 'format'<br>
+<strong>threadsafety</strong> = 1<br>
+<strong>version_info</strong> = (1, 2, 5, 'final', 1)</td></tr></tbody></table></p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#7799ee">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Andy&nbsp;Dustman&nbsp;&lt;farcepest@gmail.com&gt;</td></tr></tbody></table>
+</p></body></html>

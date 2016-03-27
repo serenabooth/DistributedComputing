@@ -8,25 +8,28 @@
     </script>
 
     <script> 
-        /***
-        * Credit: http://blog.oddbit.com/2013/11/23/long-polling-with-ja/
-        * Request new messages from server. 
-        * The request is open until the server responds: 
-        *       - On success, the client sends a confirmation GET request
-        *       - On error, the time before dispatch is increased
-        *
-        * NOTE: If one navigates away from the page before response received,  
-        * a broken pipe exception will occur. This error can be safely ignored ;) 
-        ***/
+
         function poll() {
+            /***
+            * Credit: http://blog.oddbit.com/2013/11/23/long-polling-with-ja/
+            * Request new messages from server. 
+            * The request is open until the server responds: 
+            *       - On success, the client sends a confirmation GET request
+            *       - On error, the time before dispatch is increased
+            *       - On completion (either error or success), dispatch request again with new time
+            *
+            * NOTE: If one navigates away from the page before response received,  
+            * a broken pipe exception will occur. This error can be safely ignored ;) 
+            *
+            * :return: void
+            ***/
             var poll_interval=0;
             var get_url; 
             get_url = $.ajax({
                     url: "/getmsg" + document.cookie,
                     type: 'GET',
-                    //cache: false,
-
                     success: function(data) {
+                            // handshake protocol to confirm success 
                             var message_id = get_url.getResponseHeader("message_id");
 
                             // if message received has a sensical id value, 
@@ -45,15 +48,23 @@
                             poll_interval=0;
                     },
                     error: function () {
+                            // increase time before redispatching request
                             poll_interval=1000;
                     },
                     complete: function (data) {
+                            // set time to redispatch function
                             setTimeout(poll, poll_interval);
                     },
             });
         }
 
         function getLastTenMessages () {
+            /*
+            * Query SQL database to retrieve last 10 messages sent to user
+            * User determined by cookie
+            * 
+            * :return: void
+            */
             var get_messages = $.ajax({
                 url: "/getLastMessages",
                 type: 'GET',
@@ -68,10 +79,14 @@
             });
         }
 
-        /***
-        * Check user has session cookie and initiate long polling
-        ***/ 
         $(document).ready(function() {
+            /*
+            Check if page has assigned cookie. If not, prevent user from continuing by redirecting.
+
+            If user is signed in, get the user's last 10 messages and start polling for additional messages
+
+            Function called on page load. No parameters, no return value. 
+            */
             if (document.cookie == "") {
                 window.alert("You are not signed in.")
                 window.location.replace("/");

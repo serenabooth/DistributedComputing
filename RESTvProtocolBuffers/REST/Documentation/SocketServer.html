@@ -1,0 +1,1339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0039)http://localhost:7464/SocketServer.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Python: module SocketServer</title>
+<meta charset="utf-8">
+<style type="text/css"></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="heading">
+<tbody><tr bgcolor="#7799ee">
+<td valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>SocketServer</strong></big></big> (version 0.4)</font></td><td align="right" valign="bottom"><font color="#ffffff" face="helvetica, arial"><a href="http://localhost:7464/">index</a><br><a href="file:///usr/lib/python2.7/SocketServer.py">/usr/lib/python2.7/SocketServer.py</a><br><a href="http://docs.python.org/library/SocketServer">Module Docs</a></font></td></tr></tbody></table>
+    <p><tt>Generic&nbsp;socket&nbsp;server&nbsp;classes.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;tries&nbsp;to&nbsp;capture&nbsp;the&nbsp;various&nbsp;aspects&nbsp;of&nbsp;defining&nbsp;a&nbsp;server:<br>
+&nbsp;<br>
+For&nbsp;socket-based&nbsp;servers:<br>
+&nbsp;<br>
+-&nbsp;address&nbsp;family:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;AF_INET{,6}:&nbsp;IP&nbsp;(Internet&nbsp;Protocol)&nbsp;sockets&nbsp;(default)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;AF_UNIX:&nbsp;Unix&nbsp;domain&nbsp;sockets<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;others,&nbsp;e.g.&nbsp;AF_DECNET&nbsp;are&nbsp;conceivable&nbsp;(see&nbsp;&lt;socket.h&gt;<br>
+-&nbsp;socket&nbsp;type:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;SOCK_STREAM&nbsp;(reliable&nbsp;stream,&nbsp;e.g.&nbsp;TCP)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;SOCK_DGRAM&nbsp;(datagrams,&nbsp;e.g.&nbsp;UDP)<br>
+&nbsp;<br>
+For&nbsp;request-based&nbsp;servers&nbsp;(including&nbsp;socket-based):<br>
+&nbsp;<br>
+-&nbsp;client&nbsp;address&nbsp;verification&nbsp;before&nbsp;further&nbsp;looking&nbsp;at&nbsp;the&nbsp;request<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(This&nbsp;is&nbsp;actually&nbsp;a&nbsp;hook&nbsp;for&nbsp;any&nbsp;processing&nbsp;that&nbsp;needs&nbsp;to&nbsp;look<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;the&nbsp;request&nbsp;before&nbsp;anything&nbsp;else,&nbsp;e.g.&nbsp;logging)<br>
+-&nbsp;how&nbsp;to&nbsp;handle&nbsp;multiple&nbsp;requests:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;synchronous&nbsp;(one&nbsp;request&nbsp;is&nbsp;handled&nbsp;at&nbsp;a&nbsp;time)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;forking&nbsp;(each&nbsp;request&nbsp;is&nbsp;handled&nbsp;by&nbsp;a&nbsp;new&nbsp;process)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;threading&nbsp;(each&nbsp;request&nbsp;is&nbsp;handled&nbsp;by&nbsp;a&nbsp;new&nbsp;thread)<br>
+&nbsp;<br>
+The&nbsp;classes&nbsp;in&nbsp;this&nbsp;module&nbsp;favor&nbsp;the&nbsp;server&nbsp;type&nbsp;that&nbsp;is&nbsp;simplest&nbsp;to<br>
+write:&nbsp;a&nbsp;synchronous&nbsp;TCP/IP&nbsp;server.&nbsp;&nbsp;This&nbsp;is&nbsp;bad&nbsp;class&nbsp;design,&nbsp;but<br>
+save&nbsp;some&nbsp;typing.&nbsp;&nbsp;(There's&nbsp;also&nbsp;the&nbsp;issue&nbsp;that&nbsp;a&nbsp;deep&nbsp;class&nbsp;hierarchy<br>
+slows&nbsp;down&nbsp;method&nbsp;lookups.)<br>
+&nbsp;<br>
+There&nbsp;are&nbsp;five&nbsp;classes&nbsp;in&nbsp;an&nbsp;inheritance&nbsp;diagram,&nbsp;four&nbsp;of&nbsp;which&nbsp;represent<br>
+synchronous&nbsp;servers&nbsp;of&nbsp;four&nbsp;types:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+------------+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;BaseServer&nbsp;|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+------------+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+-----------+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+------------------+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>&nbsp;|-------&gt;|&nbsp;<a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a>&nbsp;|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+-----------+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+------------------+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+-----------+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+--------------------+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;<a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>&nbsp;|-------&gt;|&nbsp;<a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a>&nbsp;|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+-----------+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+--------------------+<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;<a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a>&nbsp;derives&nbsp;from&nbsp;<a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>,&nbsp;not&nbsp;from<br>
+<a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a>&nbsp;--&nbsp;the&nbsp;only&nbsp;difference&nbsp;between&nbsp;an&nbsp;IP&nbsp;and&nbsp;a&nbsp;Unix<br>
+stream&nbsp;server&nbsp;is&nbsp;the&nbsp;address&nbsp;family,&nbsp;which&nbsp;is&nbsp;simply&nbsp;repeated&nbsp;in&nbsp;both<br>
+unix&nbsp;server&nbsp;classes.<br>
+&nbsp;<br>
+Forking&nbsp;and&nbsp;threading&nbsp;versions&nbsp;of&nbsp;each&nbsp;type&nbsp;of&nbsp;server&nbsp;can&nbsp;be&nbsp;created<br>
+using&nbsp;the&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>&nbsp;and&nbsp;<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>&nbsp;mix-in&nbsp;classes.&nbsp;&nbsp;For<br>
+instance,&nbsp;a&nbsp;threading&nbsp;UDP&nbsp;server&nbsp;class&nbsp;is&nbsp;created&nbsp;as&nbsp;follows:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class&nbsp;<a href="http://localhost:7464/SocketServer.html#ThreadingUDPServer">ThreadingUDPServer</a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>,&nbsp;<a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>):&nbsp;pass<br>
+&nbsp;<br>
+The&nbsp;Mix-in&nbsp;class&nbsp;must&nbsp;come&nbsp;first,&nbsp;since&nbsp;it&nbsp;overrides&nbsp;a&nbsp;method&nbsp;defined<br>
+in&nbsp;<a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>!&nbsp;Setting&nbsp;the&nbsp;various&nbsp;member&nbsp;variables&nbsp;also&nbsp;changes<br>
+the&nbsp;behavior&nbsp;of&nbsp;the&nbsp;underlying&nbsp;server&nbsp;mechanism.<br>
+&nbsp;<br>
+To&nbsp;implement&nbsp;a&nbsp;service,&nbsp;you&nbsp;must&nbsp;derive&nbsp;a&nbsp;class&nbsp;from<br>
+<a href="http://localhost:7464/SocketServer.html#BaseRequestHandler">BaseRequestHandler</a>&nbsp;and&nbsp;redefine&nbsp;its&nbsp;handle()&nbsp;method.&nbsp;&nbsp;You&nbsp;can&nbsp;then&nbsp;run<br>
+various&nbsp;versions&nbsp;of&nbsp;the&nbsp;service&nbsp;by&nbsp;combining&nbsp;one&nbsp;of&nbsp;the&nbsp;server&nbsp;classes<br>
+with&nbsp;your&nbsp;request&nbsp;handler&nbsp;class.<br>
+&nbsp;<br>
+The&nbsp;request&nbsp;handler&nbsp;class&nbsp;must&nbsp;be&nbsp;different&nbsp;for&nbsp;datagram&nbsp;or&nbsp;stream<br>
+services.&nbsp;&nbsp;This&nbsp;can&nbsp;be&nbsp;hidden&nbsp;by&nbsp;using&nbsp;the&nbsp;request&nbsp;handler<br>
+subclasses&nbsp;<a href="http://localhost:7464/SocketServer.html#StreamRequestHandler">StreamRequestHandler</a>&nbsp;or&nbsp;<a href="http://localhost:7464/SocketServer.html#DatagramRequestHandler">DatagramRequestHandler</a>.<br>
+&nbsp;<br>
+Of&nbsp;course,&nbsp;you&nbsp;still&nbsp;have&nbsp;to&nbsp;use&nbsp;your&nbsp;head!<br>
+&nbsp;<br>
+For&nbsp;instance,&nbsp;it&nbsp;makes&nbsp;no&nbsp;sense&nbsp;to&nbsp;use&nbsp;a&nbsp;forking&nbsp;server&nbsp;if&nbsp;the&nbsp;service<br>
+contains&nbsp;state&nbsp;in&nbsp;memory&nbsp;that&nbsp;can&nbsp;be&nbsp;modified&nbsp;by&nbsp;requests&nbsp;(since&nbsp;the<br>
+modifications&nbsp;in&nbsp;the&nbsp;child&nbsp;process&nbsp;would&nbsp;never&nbsp;reach&nbsp;the&nbsp;initial&nbsp;state<br>
+kept&nbsp;in&nbsp;the&nbsp;parent&nbsp;process&nbsp;and&nbsp;passed&nbsp;to&nbsp;each&nbsp;child).&nbsp;&nbsp;In&nbsp;this&nbsp;case,<br>
+you&nbsp;can&nbsp;use&nbsp;a&nbsp;threading&nbsp;server,&nbsp;but&nbsp;you&nbsp;will&nbsp;probably&nbsp;have&nbsp;to&nbsp;use<br>
+locks&nbsp;to&nbsp;avoid&nbsp;two&nbsp;requests&nbsp;that&nbsp;come&nbsp;in&nbsp;nearly&nbsp;simultaneous&nbsp;to&nbsp;apply<br>
+conflicting&nbsp;changes&nbsp;to&nbsp;the&nbsp;server&nbsp;state.<br>
+&nbsp;<br>
+On&nbsp;the&nbsp;other&nbsp;hand,&nbsp;if&nbsp;you&nbsp;are&nbsp;building&nbsp;e.g.&nbsp;an&nbsp;HTTP&nbsp;server,&nbsp;where&nbsp;all<br>
+data&nbsp;is&nbsp;stored&nbsp;externally&nbsp;(e.g.&nbsp;in&nbsp;the&nbsp;file&nbsp;system),&nbsp;a&nbsp;synchronous<br>
+class&nbsp;will&nbsp;essentially&nbsp;render&nbsp;the&nbsp;service&nbsp;"deaf"&nbsp;while&nbsp;one&nbsp;request&nbsp;is<br>
+being&nbsp;handled&nbsp;--&nbsp;which&nbsp;may&nbsp;be&nbsp;for&nbsp;a&nbsp;very&nbsp;long&nbsp;time&nbsp;if&nbsp;a&nbsp;client&nbsp;is&nbsp;slow<br>
+to&nbsp;read&nbsp;all&nbsp;the&nbsp;data&nbsp;it&nbsp;has&nbsp;requested.&nbsp;&nbsp;Here&nbsp;a&nbsp;threading&nbsp;or&nbsp;forking<br>
+server&nbsp;is&nbsp;appropriate.<br>
+&nbsp;<br>
+In&nbsp;some&nbsp;cases,&nbsp;it&nbsp;may&nbsp;be&nbsp;appropriate&nbsp;to&nbsp;process&nbsp;part&nbsp;of&nbsp;a&nbsp;request<br>
+synchronously,&nbsp;but&nbsp;to&nbsp;finish&nbsp;processing&nbsp;in&nbsp;a&nbsp;forked&nbsp;child&nbsp;depending&nbsp;on<br>
+the&nbsp;request&nbsp;data.&nbsp;&nbsp;This&nbsp;can&nbsp;be&nbsp;implemented&nbsp;by&nbsp;using&nbsp;a&nbsp;synchronous<br>
+server&nbsp;and&nbsp;doing&nbsp;an&nbsp;explicit&nbsp;fork&nbsp;in&nbsp;the&nbsp;request&nbsp;handler&nbsp;class<br>
+handle()&nbsp;method.<br>
+&nbsp;<br>
+Another&nbsp;approach&nbsp;to&nbsp;handling&nbsp;multiple&nbsp;simultaneous&nbsp;requests&nbsp;in&nbsp;an<br>
+environment&nbsp;that&nbsp;supports&nbsp;neither&nbsp;threads&nbsp;nor&nbsp;fork&nbsp;(or&nbsp;where&nbsp;these&nbsp;are<br>
+too&nbsp;expensive&nbsp;or&nbsp;inappropriate&nbsp;for&nbsp;the&nbsp;service)&nbsp;is&nbsp;to&nbsp;maintain&nbsp;an<br>
+explicit&nbsp;table&nbsp;of&nbsp;partially&nbsp;finished&nbsp;requests&nbsp;and&nbsp;to&nbsp;use&nbsp;select()&nbsp;to<br>
+decide&nbsp;which&nbsp;request&nbsp;to&nbsp;work&nbsp;on&nbsp;next&nbsp;(or&nbsp;whether&nbsp;to&nbsp;handle&nbsp;a&nbsp;new<br>
+incoming&nbsp;request).&nbsp;&nbsp;This&nbsp;is&nbsp;particularly&nbsp;important&nbsp;for&nbsp;stream&nbsp;services<br>
+where&nbsp;each&nbsp;client&nbsp;can&nbsp;potentially&nbsp;be&nbsp;connected&nbsp;for&nbsp;a&nbsp;long&nbsp;time&nbsp;(if<br>
+threads&nbsp;or&nbsp;subprocesses&nbsp;cannot&nbsp;be&nbsp;used).<br>
+&nbsp;<br>
+Future&nbsp;work:<br>
+-&nbsp;Standard&nbsp;classes&nbsp;for&nbsp;Sun&nbsp;RPC&nbsp;(which&nbsp;uses&nbsp;either&nbsp;UDP&nbsp;or&nbsp;TCP)<br>
+-&nbsp;Standard&nbsp;mix-in&nbsp;classes&nbsp;to&nbsp;implement&nbsp;various&nbsp;authentication<br>
+&nbsp;&nbsp;and&nbsp;encryption&nbsp;schemes<br>
+-&nbsp;Standard&nbsp;framework&nbsp;for&nbsp;select-based&nbsp;multiplexing<br>
+&nbsp;<br>
+XXX&nbsp;Open&nbsp;problems:<br>
+-&nbsp;What&nbsp;to&nbsp;do&nbsp;with&nbsp;out-of-band&nbsp;data?<br>
+&nbsp;<br>
+BaseServer:<br>
+-&nbsp;split&nbsp;generic&nbsp;"request"&nbsp;functionality&nbsp;out&nbsp;into&nbsp;BaseServer&nbsp;class.<br>
+&nbsp;&nbsp;Copyright&nbsp;(C)&nbsp;2000&nbsp;&nbsp;Luke&nbsp;Kenneth&nbsp;Casson&nbsp;Leighton&nbsp;&lt;lkcl@samba.org&gt;<br>
+&nbsp;<br>
+&nbsp;&nbsp;example:&nbsp;read&nbsp;entries&nbsp;from&nbsp;a&nbsp;SQL&nbsp;database&nbsp;(requires&nbsp;overriding<br>
+&nbsp;&nbsp;get_request()&nbsp;to&nbsp;return&nbsp;a&nbsp;table&nbsp;entry&nbsp;from&nbsp;the&nbsp;database).<br>
+&nbsp;&nbsp;entry&nbsp;is&nbsp;processed&nbsp;by&nbsp;a&nbsp;RequestHandlerClass.</tt></p>
+<p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#aa55cc">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tbody><tr><td width="25%" valign="top"><a href="http://localhost:7464/errno.html">errno</a><br>
+<a href="http://localhost:7464/os.html">os</a><br>
+</td><td width="25%" valign="top"><a href="http://localhost:7464/select.html">select</a><br>
+<a href="http://localhost:7464/socket.html">socket</a><br>
+</td><td width="25%" valign="top"><a href="http://localhost:7464/sys.html">sys</a><br>
+<a href="http://localhost:7464/threading.html">threading</a><br>
+</td><td width="25%" valign="top"></td></tr></tbody></table></td></tr></tbody></table></p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ee77aa">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#BaseRequestHandler">BaseRequestHandler</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#DatagramRequestHandler">DatagramRequestHandler</a>
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#StreamRequestHandler">StreamRequestHandler</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ForkingTCPServer">ForkingTCPServer</a>(<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ForkingUDPServer">ForkingUDPServer</a>(<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ThreadingTCPServer">ThreadingTCPServer</a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ThreadingUDPServer">ThreadingUDPServer</a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ThreadingUnixDatagramServer">ThreadingUnixDatagramServer</a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="http://localhost:7464/SocketServer.html#ThreadingUnixStreamServer">ThreadingUnixStreamServer</a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a>)
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BaseRequestHandler">class <strong>BaseRequestHandler</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Base&nbsp;class&nbsp;for&nbsp;request&nbsp;handler&nbsp;classes.<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;is&nbsp;instantiated&nbsp;for&nbsp;each&nbsp;request&nbsp;to&nbsp;be&nbsp;handled.&nbsp;&nbsp;The<br>
+constructor&nbsp;sets&nbsp;the&nbsp;instance&nbsp;variables&nbsp;request,&nbsp;client_address<br>
+and&nbsp;server,&nbsp;and&nbsp;then&nbsp;calls&nbsp;the&nbsp;<a href="http://localhost:7464/SocketServer.html#BaseRequestHandler-handle">handle</a>()&nbsp;method.&nbsp;&nbsp;To&nbsp;implement&nbsp;a<br>
+specific&nbsp;service,&nbsp;all&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;is&nbsp;to&nbsp;derive&nbsp;a&nbsp;class&nbsp;which<br>
+defines&nbsp;a&nbsp;<a href="http://localhost:7464/SocketServer.html#BaseRequestHandler-handle">handle</a>()&nbsp;method.<br>
+&nbsp;<br>
+The&nbsp;<a href="http://localhost:7464/SocketServer.html#BaseRequestHandler-handle">handle</a>()&nbsp;method&nbsp;can&nbsp;find&nbsp;the&nbsp;request&nbsp;as&nbsp;self.<strong>request</strong>,&nbsp;the<br>
+client&nbsp;address&nbsp;as&nbsp;self.<strong>client_address</strong>,&nbsp;and&nbsp;the&nbsp;server&nbsp;(in&nbsp;case&nbsp;it<br>
+needs&nbsp;access&nbsp;to&nbsp;per-server&nbsp;information)&nbsp;as&nbsp;self.<strong>server</strong>.&nbsp;&nbsp;Since&nbsp;a<br>
+separate&nbsp;instance&nbsp;is&nbsp;created&nbsp;for&nbsp;each&nbsp;request,&nbsp;the&nbsp;<a href="http://localhost:7464/SocketServer.html#BaseRequestHandler-handle">handle</a>()&nbsp;method<br>
+can&nbsp;define&nbsp;arbitrary&nbsp;other&nbsp;instance&nbsp;variariables.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="BaseRequestHandler-__init__"><strong>__init__</strong></a>(self, request, client_address, server)</dt></dl>
+
+<dl><dt><a name="BaseRequestHandler-finish"><strong>finish</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BaseRequestHandler-handle"><strong>handle</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BaseRequestHandler-setup"><strong>setup</strong></a>(self)</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DatagramRequestHandler">class <strong>DatagramRequestHandler</strong></a>(<a href="http://localhost:7464/SocketServer.html#BaseRequestHandler">BaseRequestHandler</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Define&nbsp;self.<strong>rfile</strong>&nbsp;and&nbsp;self.<strong>wfile</strong>&nbsp;for&nbsp;datagram&nbsp;sockets.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="DatagramRequestHandler-finish"><strong>finish</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="DatagramRequestHandler-setup"><strong>setup</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseRequestHandler">BaseRequestHandler</a>:<br>
+<dl><dt><a name="DatagramRequestHandler-__init__"><strong>__init__</strong></a>(self, request, client_address, server)</dt></dl>
+
+<dl><dt><a name="DatagramRequestHandler-handle"><strong>handle</strong></a>(self)</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForkingMixIn">class <strong>ForkingMixIn</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Mix-in&nbsp;class&nbsp;to&nbsp;handle&nbsp;each&nbsp;request&nbsp;in&nbsp;a&nbsp;new&nbsp;process.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ForkingMixIn-collect_children"><strong>collect_children</strong></a>(self)</dt><dd><tt>Internal&nbsp;routine&nbsp;to&nbsp;wait&nbsp;for&nbsp;children&nbsp;that&nbsp;have&nbsp;exited.</tt></dd></dl>
+
+<dl><dt><a name="ForkingMixIn-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Wait&nbsp;for&nbsp;zombies&nbsp;after&nbsp;self.<strong>timeout</strong>&nbsp;seconds&nbsp;of&nbsp;inactivity.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ForkingMixIn-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Fork&nbsp;a&nbsp;new&nbsp;subprocess&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>active_children</strong> = None</dt></dl>
+
+<dl><dt><strong>max_children</strong> = 40</dt></dl>
+
+<dl><dt><strong>timeout</strong> = 300</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForkingTCPServer">class <strong>ForkingTCPServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#ForkingTCPServer">ForkingTCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>:<br>
+<dl><dt><a name="ForkingTCPServer-collect_children"><strong>collect_children</strong></a>(self)</dt><dd><tt>Internal&nbsp;routine&nbsp;to&nbsp;wait&nbsp;for&nbsp;children&nbsp;that&nbsp;have&nbsp;exited.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Wait&nbsp;for&nbsp;zombies&nbsp;after&nbsp;self.<strong>timeout</strong>&nbsp;seconds&nbsp;of&nbsp;inactivity.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Fork&nbsp;a&nbsp;new&nbsp;subprocess&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>:<br>
+<dl><dt><strong>active_children</strong> = None</dt></dl>
+
+<dl><dt><strong>max_children</strong> = 40</dt></dl>
+
+<dl><dt><strong>timeout</strong> = 300</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="ForkingTCPServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-close_request"><strong>close_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;clean&nbsp;up&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-get_request"><strong>get_request</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;request&nbsp;and&nbsp;client&nbsp;address&nbsp;from&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-server_activate"><strong>server_activate</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;activate&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;shutdown&nbsp;and&nbsp;close&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>address_family</strong> = 2</dt></dl>
+
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="ForkingTCPServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#ForkingTCPServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="ForkingTCPServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForkingUDPServer">class <strong>ForkingUDPServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#ForkingUDPServer">ForkingUDPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>:<br>
+<dl><dt><a name="ForkingUDPServer-collect_children"><strong>collect_children</strong></a>(self)</dt><dd><tt>Internal&nbsp;routine&nbsp;to&nbsp;wait&nbsp;for&nbsp;children&nbsp;that&nbsp;have&nbsp;exited.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Wait&nbsp;for&nbsp;zombies&nbsp;after&nbsp;self.<strong>timeout</strong>&nbsp;seconds&nbsp;of&nbsp;inactivity.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Fork&nbsp;a&nbsp;new&nbsp;subprocess&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>:<br>
+<dl><dt><strong>active_children</strong> = None</dt></dl>
+
+<dl><dt><strong>max_children</strong> = 40</dt></dl>
+
+<dl><dt><strong>timeout</strong> = 300</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><a name="ForkingUDPServer-close_request"><strong>close_request</strong></a>(self, request)</dt></dl>
+
+<dl><dt><a name="ForkingUDPServer-get_request"><strong>get_request</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ForkingUDPServer-server_activate"><strong>server_activate</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ForkingUDPServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>max_packet_size</strong> = 8192</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 2</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="ForkingUDPServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>address_family</strong> = 2</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="ForkingUDPServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#ForkingUDPServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="ForkingUDPServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="StreamRequestHandler">class <strong>StreamRequestHandler</strong></a>(<a href="http://localhost:7464/SocketServer.html#BaseRequestHandler">BaseRequestHandler</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Define&nbsp;self.<strong>rfile</strong>&nbsp;and&nbsp;self.<strong>wfile</strong>&nbsp;for&nbsp;stream&nbsp;sockets.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="StreamRequestHandler-finish"><strong>finish</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="StreamRequestHandler-setup"><strong>setup</strong></a>(self)</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>disable_nagle_algorithm</strong> = False</dt></dl>
+
+<dl><dt><strong>rbufsize</strong> = -1</dt></dl>
+
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+<dl><dt><strong>wbufsize</strong> = 0</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseRequestHandler">BaseRequestHandler</a>:<br>
+<dl><dt><a name="StreamRequestHandler-__init__"><strong>__init__</strong></a>(self, request, client_address, server)</dt></dl>
+
+<dl><dt><a name="StreamRequestHandler-handle"><strong>handle</strong></a>(self)</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TCPServer">class <strong>TCPServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Base&nbsp;class&nbsp;for&nbsp;various&nbsp;socket-based&nbsp;server&nbsp;classes.<br>
+&nbsp;<br>
+Defaults&nbsp;to&nbsp;synchronous&nbsp;IP&nbsp;stream&nbsp;(i.e.,&nbsp;TCP).<br>
+&nbsp;<br>
+Methods&nbsp;for&nbsp;the&nbsp;caller:<br>
+&nbsp;<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-__init__">__init__</a>(server_address,&nbsp;RequestHandlerClass,&nbsp;bind_and_activate=True)<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-serve_forever">serve_forever</a>(poll_interval=0.5)<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-shutdown">shutdown</a>()<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-handle_request">handle_request</a>()&nbsp;&nbsp;#&nbsp;if&nbsp;you&nbsp;don't&nbsp;use&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-serve_forever">serve_forever</a>()<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-fileno">fileno</a>()&nbsp;-&gt;&nbsp;int&nbsp;&nbsp;&nbsp;#&nbsp;for&nbsp;select()<br>
+&nbsp;<br>
+Methods&nbsp;that&nbsp;may&nbsp;be&nbsp;overridden:<br>
+&nbsp;<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-server_bind">server_bind</a>()<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-server_activate">server_activate</a>()<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-get_request">get_request</a>()&nbsp;-&gt;&nbsp;request,&nbsp;client_address<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-handle_timeout">handle_timeout</a>()<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-verify_request">verify_request</a>(request,&nbsp;client_address)<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-process_request">process_request</a>(request,&nbsp;client_address)<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-shutdown_request">shutdown_request</a>(request)<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-close_request">close_request</a>(request)<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-handle_error">handle_error</a>()<br>
+&nbsp;<br>
+Methods&nbsp;for&nbsp;derived&nbsp;classes:<br>
+&nbsp;<br>
+-&nbsp;<a href="http://localhost:7464/SocketServer.html#TCPServer-finish_request">finish_request</a>(request,&nbsp;client_address)<br>
+&nbsp;<br>
+Class&nbsp;variables&nbsp;that&nbsp;may&nbsp;be&nbsp;overridden&nbsp;by&nbsp;derived&nbsp;classes&nbsp;or<br>
+instances:<br>
+&nbsp;<br>
+-&nbsp;timeout<br>
+-&nbsp;address_family<br>
+-&nbsp;socket_type<br>
+-&nbsp;request_queue_size&nbsp;(only&nbsp;for&nbsp;stream&nbsp;sockets)<br>
+-&nbsp;allow_reuse_address<br>
+&nbsp;<br>
+Instance&nbsp;variables:<br>
+&nbsp;<br>
+-&nbsp;server_address<br>
+-&nbsp;RequestHandlerClass<br>
+-&nbsp;socket<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TCPServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-close_request"><strong>close_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;clean&nbsp;up&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-get_request"><strong>get_request</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;request&nbsp;and&nbsp;client&nbsp;address&nbsp;from&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-server_activate"><strong>server_activate</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;activate&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;shutdown&nbsp;and&nbsp;close&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>address_family</strong> = 2</dt></dl>
+
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="TCPServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Call&nbsp;finish_request.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>&nbsp;and&nbsp;<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#TCPServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="TCPServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ThreadingMixIn">class <strong>ThreadingMixIn</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>Mix-in&nbsp;class&nbsp;to&nbsp;handle&nbsp;each&nbsp;request&nbsp;in&nbsp;a&nbsp;new&nbsp;thread.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ThreadingMixIn-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Start&nbsp;a&nbsp;new&nbsp;thread&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingMixIn-process_request_thread"><strong>process_request_thread</strong></a>(self, request, client_address)</dt><dd><tt>Same&nbsp;as&nbsp;in&nbsp;BaseServer&nbsp;but&nbsp;as&nbsp;a&nbsp;thread.<br>
+&nbsp;<br>
+In&nbsp;addition,&nbsp;exception&nbsp;handling&nbsp;is&nbsp;done&nbsp;here.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>daemon_threads</strong> = False</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ThreadingTCPServer">class <strong>ThreadingTCPServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingTCPServer">ThreadingTCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><a name="ThreadingTCPServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Start&nbsp;a&nbsp;new&nbsp;thread&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-process_request_thread"><strong>process_request_thread</strong></a>(self, request, client_address)</dt><dd><tt>Same&nbsp;as&nbsp;in&nbsp;BaseServer&nbsp;but&nbsp;as&nbsp;a&nbsp;thread.<br>
+&nbsp;<br>
+In&nbsp;addition,&nbsp;exception&nbsp;handling&nbsp;is&nbsp;done&nbsp;here.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><strong>daemon_threads</strong> = False</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="ThreadingTCPServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-close_request"><strong>close_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;clean&nbsp;up&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-get_request"><strong>get_request</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;request&nbsp;and&nbsp;client&nbsp;address&nbsp;from&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-server_activate"><strong>server_activate</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;activate&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;shutdown&nbsp;and&nbsp;close&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>address_family</strong> = 2</dt></dl>
+
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="ThreadingTCPServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#ThreadingTCPServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingTCPServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ThreadingUDPServer">class <strong>ThreadingUDPServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingUDPServer">ThreadingUDPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><a name="ThreadingUDPServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Start&nbsp;a&nbsp;new&nbsp;thread&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-process_request_thread"><strong>process_request_thread</strong></a>(self, request, client_address)</dt><dd><tt>Same&nbsp;as&nbsp;in&nbsp;BaseServer&nbsp;but&nbsp;as&nbsp;a&nbsp;thread.<br>
+&nbsp;<br>
+In&nbsp;addition,&nbsp;exception&nbsp;handling&nbsp;is&nbsp;done&nbsp;here.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><strong>daemon_threads</strong> = False</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><a name="ThreadingUDPServer-close_request"><strong>close_request</strong></a>(self, request)</dt></dl>
+
+<dl><dt><a name="ThreadingUDPServer-get_request"><strong>get_request</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ThreadingUDPServer-server_activate"><strong>server_activate</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ThreadingUDPServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>max_packet_size</strong> = 8192</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 2</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="ThreadingUDPServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>address_family</strong> = 2</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="ThreadingUDPServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#ThreadingUDPServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUDPServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ThreadingUnixDatagramServer">class <strong>ThreadingUnixDatagramServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingUnixDatagramServer">ThreadingUnixDatagramServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><a name="ThreadingUnixDatagramServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Start&nbsp;a&nbsp;new&nbsp;thread&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-process_request_thread"><strong>process_request_thread</strong></a>(self, request, client_address)</dt><dd><tt>Same&nbsp;as&nbsp;in&nbsp;BaseServer&nbsp;but&nbsp;as&nbsp;a&nbsp;thread.<br>
+&nbsp;<br>
+In&nbsp;addition,&nbsp;exception&nbsp;handling&nbsp;is&nbsp;done&nbsp;here.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><strong>daemon_threads</strong> = False</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a>:<br>
+<dl><dt><strong>address_family</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><a name="ThreadingUnixDatagramServer-close_request"><strong>close_request</strong></a>(self, request)</dt></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-get_request"><strong>get_request</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-server_activate"><strong>server_activate</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>max_packet_size</strong> = 8192</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 2</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="ThreadingUnixDatagramServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="ThreadingUnixDatagramServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#ThreadingUnixDatagramServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixDatagramServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ThreadingUnixStreamServer">class <strong>ThreadingUnixStreamServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>, <a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingUnixStreamServer">ThreadingUnixStreamServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><a name="ThreadingUnixStreamServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Start&nbsp;a&nbsp;new&nbsp;thread&nbsp;to&nbsp;process&nbsp;the&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-process_request_thread"><strong>process_request_thread</strong></a>(self, request, client_address)</dt><dd><tt>Same&nbsp;as&nbsp;in&nbsp;BaseServer&nbsp;but&nbsp;as&nbsp;a&nbsp;thread.<br>
+&nbsp;<br>
+In&nbsp;addition,&nbsp;exception&nbsp;handling&nbsp;is&nbsp;done&nbsp;here.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>:<br>
+<dl><dt><strong>daemon_threads</strong> = False</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a>:<br>
+<dl><dt><strong>address_family</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="ThreadingUnixStreamServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-close_request"><strong>close_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;clean&nbsp;up&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-get_request"><strong>get_request</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;request&nbsp;and&nbsp;client&nbsp;address&nbsp;from&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-server_activate"><strong>server_activate</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;activate&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;shutdown&nbsp;and&nbsp;close&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="ThreadingUnixStreamServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#ThreadingUnixStreamServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="ThreadingUnixStreamServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UDPServer">class <strong>UDPServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan="2"><tt>UDP&nbsp;server&nbsp;class.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UDPServer-close_request"><strong>close_request</strong></a>(self, request)</dt></dl>
+
+<dl><dt><a name="UDPServer-get_request"><strong>get_request</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UDPServer-server_activate"><strong>server_activate</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UDPServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>max_packet_size</strong> = 8192</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 2</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="UDPServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>address_family</strong> = 2</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="UDPServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Call&nbsp;finish_request.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>&nbsp;and&nbsp;<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#UDPServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="UDPServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UnixDatagramServer">class <strong>UnixDatagramServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#UnixDatagramServer">UnixDatagramServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>address_family</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><a name="UnixDatagramServer-close_request"><strong>close_request</strong></a>(self, request)</dt></dl>
+
+<dl><dt><a name="UnixDatagramServer-get_request"><strong>get_request</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UnixDatagramServer-server_activate"><strong>server_activate</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UnixDatagramServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#UDPServer">UDPServer</a>:<br>
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>max_packet_size</strong> = 8192</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 2</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="UnixDatagramServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="UnixDatagramServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Call&nbsp;finish_request.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>&nbsp;and&nbsp;<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#UnixDatagramServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="UnixDatagramServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table> </p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#ffc8d8">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UnixStreamServer">class <strong>UnixStreamServer</strong></a>(<a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="http://localhost:7464/SocketServer.html#UnixStreamServer">UnixStreamServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a></dd>
+<dd><a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>address_family</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><a name="UnixStreamServer-__init__"><strong>__init__</strong></a>(self, server_address, RequestHandlerClass, bind_and_activate<font color="#909090">=True</font>)</dt><dd><tt>Constructor.&nbsp;&nbsp;May&nbsp;be&nbsp;extended,&nbsp;do&nbsp;not&nbsp;override.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-close_request"><strong>close_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;clean&nbsp;up&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-fileno"><strong>fileno</strong></a>(self)</dt><dd><tt>Return&nbsp;socket&nbsp;file&nbsp;number.<br>
+&nbsp;<br>
+Interface&nbsp;required&nbsp;by&nbsp;select().</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-get_request"><strong>get_request</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;request&nbsp;and&nbsp;client&nbsp;address&nbsp;from&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-server_activate"><strong>server_activate</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;activate&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-server_bind"><strong>server_bind</strong></a>(self)</dt><dd><tt>Called&nbsp;by&nbsp;constructor&nbsp;to&nbsp;bind&nbsp;the&nbsp;socket.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-server_close"><strong>server_close</strong></a>(self)</dt><dd><tt>Called&nbsp;to&nbsp;clean-up&nbsp;the&nbsp;server.<br>
+&nbsp;<br>
+May&nbsp;be&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-shutdown_request"><strong>shutdown_request</strong></a>(self, request)</dt><dd><tt>Called&nbsp;to&nbsp;shutdown&nbsp;and&nbsp;close&nbsp;an&nbsp;individual&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#TCPServer">TCPServer</a>:<br>
+<dl><dt><strong>allow_reuse_address</strong> = False</dt></dl>
+
+<dl><dt><strong>request_queue_size</strong> = 5</dt></dl>
+
+<dl><dt><strong>socket_type</strong> = 1</dt></dl>
+
+<hr>
+Methods inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><a name="UnixStreamServer-finish_request"><strong>finish_request</strong></a>(self, request, client_address)</dt><dd><tt>Finish&nbsp;one&nbsp;request&nbsp;by&nbsp;instantiating&nbsp;RequestHandlerClass.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-handle_error"><strong>handle_error</strong></a>(self, request, client_address)</dt><dd><tt>Handle&nbsp;an&nbsp;error&nbsp;gracefully.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;is&nbsp;to&nbsp;print&nbsp;a&nbsp;traceback&nbsp;and&nbsp;continue.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-handle_request"><strong>handle_request</strong></a>(self)</dt><dd><tt>Handle&nbsp;one&nbsp;request,&nbsp;possibly&nbsp;blocking.<br>
+&nbsp;<br>
+Respects&nbsp;self.<strong>timeout</strong>.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-handle_timeout"><strong>handle_timeout</strong></a>(self)</dt><dd><tt>Called&nbsp;if&nbsp;no&nbsp;new&nbsp;request&nbsp;arrives&nbsp;within&nbsp;self.<strong>timeout</strong>.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-process_request"><strong>process_request</strong></a>(self, request, client_address)</dt><dd><tt>Call&nbsp;finish_request.<br>
+&nbsp;<br>
+Overridden&nbsp;by&nbsp;<a href="http://localhost:7464/SocketServer.html#ForkingMixIn">ForkingMixIn</a>&nbsp;and&nbsp;<a href="http://localhost:7464/SocketServer.html#ThreadingMixIn">ThreadingMixIn</a>.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-serve_forever"><strong>serve_forever</strong></a>(self, poll_interval<font color="#909090">=0.5</font>)</dt><dd><tt>Handle&nbsp;one&nbsp;request&nbsp;at&nbsp;a&nbsp;time&nbsp;until&nbsp;shutdown.<br>
+&nbsp;<br>
+Polls&nbsp;for&nbsp;shutdown&nbsp;every&nbsp;poll_interval&nbsp;seconds.&nbsp;Ignores<br>
+self.<strong>timeout</strong>.&nbsp;If&nbsp;you&nbsp;need&nbsp;to&nbsp;do&nbsp;periodic&nbsp;tasks,&nbsp;do&nbsp;them&nbsp;in<br>
+another&nbsp;thread.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Stops&nbsp;the&nbsp;serve_forever&nbsp;loop.<br>
+&nbsp;<br>
+Blocks&nbsp;until&nbsp;the&nbsp;loop&nbsp;has&nbsp;finished.&nbsp;This&nbsp;must&nbsp;be&nbsp;called&nbsp;while<br>
+<a href="http://localhost:7464/SocketServer.html#UnixStreamServer-serve_forever">serve_forever</a>()&nbsp;is&nbsp;running&nbsp;in&nbsp;another&nbsp;thread,&nbsp;or&nbsp;it&nbsp;will<br>
+deadlock.</tt></dd></dl>
+
+<dl><dt><a name="UnixStreamServer-verify_request"><strong>verify_request</strong></a>(self, request, client_address)</dt><dd><tt>Verify&nbsp;the&nbsp;request.&nbsp;&nbsp;May&nbsp;be&nbsp;overridden.<br>
+&nbsp;<br>
+Return&nbsp;True&nbsp;if&nbsp;we&nbsp;should&nbsp;proceed&nbsp;with&nbsp;this&nbsp;request.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="http://localhost:7464/SocketServer.html#BaseServer">BaseServer</a>:<br>
+<dl><dt><strong>timeout</strong> = None</dt></dl>
+
+</td></tr></tbody></table></p></td></tr></tbody></table></p><p>
+<table width="100%" cellspacing="0" cellpadding="2" border="0" summary="section">
+<tbody><tr bgcolor="#55aa55">
+<td colspan="3" valign="bottom">&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__all__</strong> = ['TCPServer', 'UDPServer', 'ForkingUDPServer', 'ForkingTCPServer', 'ThreadingUDPServer', 'ThreadingTCPServer', 'BaseRequestHandler', 'StreamRequestHandler', 'DatagramRequestHandler', 'ThreadingMixIn', 'ForkingMixIn', 'UnixStreamServer', 'UnixDatagramServer', 'ThreadingUnixStreamServer', 'ThreadingUnixDatagramServer']<br>
+<strong>__version__</strong> = '0.4'</td></tr></tbody></table>
+</p></body></html>
