@@ -165,7 +165,10 @@ class Clock(Thread):
             # every time the socket timesout, callback to the clock's instruction
             except Exception, e:
                 # shutdown the server first 
-                self.server.shutdown(socket.SHUT_RDWR)
+                try: 
+                    self.server.shutdown(socket.SHUT_RDWR)
+                except:
+                    pass
                 self.server.close()
                 print "exception: " + str(e)
                 print "complete an instruction"
