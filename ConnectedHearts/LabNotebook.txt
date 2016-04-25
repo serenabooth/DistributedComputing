@@ -1,3 +1,21 @@
+TO DO:
+    _ [DUE: 04/29] build hardware 
+        _ remove mirror from cabinet
+        _ replace mirror in cabinet w/ one-way mirror 
+        _ embed pi with webcam behind mirror
+        _ embed 12x+ lightbulbs in mirror 
+        _ set static IPs for mFi devices
+    _ [DUE: 04/30] webcam pulse capture
+    _ [DUE: 04/30] leader election via bully
+        _ 13 threads, 1 for pi, 12 for lightbulbs
+        _ assign UUIDS for 12 lightbulbs
+        _ on startup, run bully leader election
+    _ [DUE: 05/01] Presentation draft
+    _ [DUE: 05/02] Presentation
+    _ [DUE: 05/07] Gossip algorithm! 
+    _ [DUE: 05/09] Whole project, including documentation
+
 04/25
     - Design finalized 
-    
+        - Embedding bulbs around a medicine cabinet
+        - 
