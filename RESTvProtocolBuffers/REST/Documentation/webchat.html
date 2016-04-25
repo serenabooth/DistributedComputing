@@ -66,11 +66,11 @@ Methods defined here:<br>
 
 <dl><dt><a name="myHandler-do_GET"><strong>do_GET</strong></a>(self)</dt><dd><tt>Handler&nbsp;for&nbsp;GET&nbsp;requests&nbsp;which&nbsp;are&nbsp;dispatched&nbsp;from&nbsp;HTML&nbsp;pages.<br>
 &nbsp;<br>
-return:&nbsp;None</tt></dd></dl>
+:return:&nbsp;None</tt></dd></dl>
 
 <dl><dt><a name="myHandler-do_POST"><strong>do_POST</strong></a>(self)</dt><dd><tt>Handler&nbsp;for&nbsp;GET&nbsp;requests&nbsp;which&nbsp;are&nbsp;dispatched&nbsp;from&nbsp;HTML&nbsp;pages.<br>
 &nbsp;<br>
-return:&nbsp;None</tt></dd></dl>
+:return:&nbsp;None</tt></dd></dl>
 
 <hr>
 Methods inherited from <a href="BaseHTTPServer.html#BaseHTTPRequestHandler">BaseHTTPServer.BaseHTTPRequestHandler</a>:<br>
@@ -198,7 +198,7 @@ Methods inherited from <a href="SocketServer.html#BaseRequestHandler">SocketServ
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl><dt><a name="-check_if_exists"><strong>check_if_exists</strong></a>(tbl_name, col_name, col_value)</dt><dd><tt>A&nbsp;MySQL&nbsp;query&nbsp;that&nbsp;returns&nbsp;True&nbsp;if&nbsp;there&nbsp;exists&nbsp;an&nbsp;entry&nbsp;in&nbsp;tbl_name&nbsp;where&nbsp;<br>
-the&nbsp;value&nbsp;of&nbsp;the&nbsp;column&nbsp;col_name&nbsp;is&nbsp;col_value.&nbsp;Returns&nbsp;False&nbsp;otherwise.<br>
+the&nbsp;value&nbsp;of&nbsp;the&nbsp;column&nbsp;col_name&nbsp;is&nbsp;equal&nbsp;to&nbsp;col_value.&nbsp;Returns&nbsp;False&nbsp;otherwise.<br>
 &nbsp;<br>
 :param&nbsp;tbl_name:&nbsp;The&nbsp;name&nbsp;of&nbsp;a&nbsp;table&nbsp;in&nbsp;the&nbsp;database.<br>
 :type&nbsp;tbl_name:&nbsp;string<br>
@@ -216,7 +216,7 @@ messages&nbsp;table&nbsp;as&nbsp;the&nbsp;key,&nbsp;and&nbsp;the&nbsp;value&nbsp
 :return:&nbsp;A&nbsp;formatted&nbsp;html&nbsp;string&nbsp;that&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;display&nbsp;msgs&nbsp;on&nbsp;the&nbsp;<br>
 home&nbsp;page&nbsp;for&nbsp;a&nbsp;user.&nbsp;<br>
 :type&nbsp;return:&nbsp;string</tt></dd></dl>
- <dl><dt><a name="-delete_acct"><strong>delete_acct</strong></a>(username)</dt><dd><tt>Delete&nbsp;the&nbsp;account&nbsp;username.<br>
+ <dl><dt><a name="-delete_acct"><strong>delete_acct</strong></a>(username)</dt><dd><tt>Delete&nbsp;the&nbsp;account&nbsp;associated&nbsp;with&nbsp;a&nbsp;username&nbsp;from&nbsp;the&nbsp;users&nbsp;table.<br>
 &nbsp;<br>
 :param&nbsp;username:&nbsp;A&nbsp;user&nbsp;in&nbsp;the&nbsp;users&nbsp;table.<br>
 :type&nbsp;username:&nbsp;string<br>
@@ -232,7 +232,7 @@ dictionary&nbsp;with&nbsp;the&nbsp;column&nbsp;name&nbsp;in&nbsp;the&nbsp;messag
 value&nbsp;for&nbsp;that&nbsp;column&nbsp;as&nbsp;the&nbsp;value.&nbsp;<br>
 If&nbsp;result&nbsp;was&nbsp;None,&nbsp;returns&nbsp;None.<br>
 :return&nbsp;type:&nbsp;dict&nbsp;or&nbsp;None</tt></dd></dl>
- <dl><dt><a name="-evaluate_message_receipt"><strong>evaluate_message_receipt</strong></a>(username)</dt><dd><tt>Looks&nbsp;up&nbsp;any&nbsp;messages&nbsp;with&nbsp;a&nbsp;status&nbsp;of&nbsp;1,&nbsp;which&nbsp;means&nbsp;they&nbsp;were&nbsp;marked&nbsp;by&nbsp;the<br>
+ <dl><dt><a name="-evaluate_message_receipt"><strong>evaluate_message_receipt</strong></a>(username)</dt><dd><tt>Looks&nbsp;up&nbsp;any&nbsp;messages&nbsp;directed&nbsp;to&nbsp;user&nbsp;with&nbsp;username&nbsp;with&nbsp;a&nbsp;status&nbsp;of&nbsp;1,&nbsp;which&nbsp;means&nbsp;they&nbsp;were&nbsp;marked&nbsp;by&nbsp;the<br>
 server&nbsp;to&nbsp;be&nbsp;sent,&nbsp;but&nbsp;have&nbsp;not&nbsp;yet&nbsp;been&nbsp;received&nbsp;by&nbsp;the&nbsp;client.&nbsp;If&nbsp;any&nbsp;of&nbsp;<br>
 of&nbsp;these&nbsp;messages&nbsp;were&nbsp;last&nbsp;sent&nbsp;more&nbsp;than&nbsp;a&nbsp;minute&nbsp;ago,&nbsp;their&nbsp;status&nbsp;is&nbsp;<br>
 changed&nbsp;back&nbsp;to&nbsp;0&nbsp;to&nbsp;indicate&nbsp;that&nbsp;they&nbsp;have&nbsp;not&nbsp;been&nbsp;sent.&nbsp;This&nbsp;guarantees<br>
@@ -344,7 +344,7 @@ table_name&nbsp;as&nbsp;keys,&nbsp;and&nbsp;the&nbsp;values&nbsp;to&nbsp;be&nbsp
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><strong>PORT_NUMBER</strong> = 8080<br>
 <strong>curdir</strong> = '.'<br>
-<strong>db</strong> = &lt;_mysql.connection open to 'mysql.slbooth.com' at 22a0480&gt;<br>
+<strong>db</strong> = &lt;_mysql.connection open to 'mysql.slbooth.com' at 19f02f0&gt;<br>
 <strong>sep</strong> = '/'<br>
 <strong>server</strong> = &lt;BaseHTTPServer.HTTPServer instance&gt;</td></tr></table>
 </body></html>
