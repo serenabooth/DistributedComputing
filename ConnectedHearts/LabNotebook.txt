@@ -38,6 +38,7 @@ TO DO:
     Today's goals: 
         - any process can initiate an election
         - random timeout per socket, since we want to avoid having all bulbs initiate election at the same time
+        
     We want to avoid creating a connected graph for communication. 
         - We give the selected leader a "leader socket"
         - And each follower a "follower socket"
