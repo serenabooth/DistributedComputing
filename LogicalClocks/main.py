@@ -15,4 +15,3 @@ clock_3 = Clock(3, random.randint(1,6),
 clock_1.start()
 clock_2.start()
 clock_3.start() 
-

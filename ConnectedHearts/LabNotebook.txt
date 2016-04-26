@@ -16,6 +16,16 @@ TO DO:
     _ [DUE: 05/09] Whole project, including documentation
 
 04/25
-    - Design finalized 
+    - Physical hardware design finalized 
         - Embedding bulbs around a medicine cabinet
-        - 
+        - Using a webcam behind one-way glass to determine heartbeat of person before mirror
+        - Pi, ethernet switch, 3x ethernet cables, 12x bulbs, 2x smart power strips, 1x nonsmart power strip embedded in cabinet
+    - Bully! 
+        - on startup, each bulb creates a list of all other bulb uuids 
+            - if all 12 bulbs responded, max uuid bulb is leader
+            - otherwise, wait up to 20 seconds. max uuid of the bulb responses is leader 
+        - going forward, any bulb can query the current leader. If the leader doesn't respond within <x> seconds, bulb a declares an election
+            - bulb a sends election message to all bulbs with higher uuid 
+                - if no responses, bulb a becomes leader! 
+                    - sends message to all bulbs with lower uuid to declare itself leader
+                - if response, other bulb declares election. 
