@@ -10,7 +10,11 @@ TO DO:
         _ 13 threads, 1 for pi, 12 for lightbulbs
         _ assign UUIDS for 12 lightbulbs
         _ on startup, run bully leader election
+    _ [DUE: 04/30] 
+        _ parallel control of 2x mFi devices 
     _ [DUE: 05/01] Presentation draft
+        _ slides
+        _ demo working
     _ [DUE: 05/02] Presentation
     _ [DUE: 05/07] Gossip algorithm! 
     _ [DUE: 05/09] Whole project, including documentation
@@ -29,3 +33,14 @@ TO DO:
                 - if no responses, bulb a becomes leader! 
                     - sends message to all bulbs with lower uuid to declare itself leader
                 - if response, other bulb declares election. 
+
+04/26   
+    Today's goals: 
+        - any process can initiate an election
+        - random timeout per socket, since we want to avoid having all bulbs initiate election at the same time
+    We want to avoid creating a connected graph for communication. 
+        - We give the selected leader a "leader socket"
+        - And each follower a "follower socket"
+        - Any follower can query the leader. Given no response, the follower initiates an election. 
+            - Design question: do we initialize sockets between the current process and the processes with higher ids?
+            - or do we fall back on address manipulation
