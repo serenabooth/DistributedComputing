@@ -12,12 +12,18 @@ def threaded(fn):
     return wrapper
 
 class Bulb(Thread):
-	def __init__(self, id):
+	def __init__(self, id, follower_socket_port):
 		self.id = id
 		self.uuid = uuid.uuid4()
 		self.uuid_dict = {}
 		self.bulb_list = None
 		self.leader = None
+
+		self.leader_socket = None
+		self.leader_socket_port = 8000
+		self.follower_socket = None
+		self.follower_socket_port = follower_socket_port
+		#print self.follower_socket_port
 
 		self.uuid_dict[self.uuid] = self
 
@@ -40,7 +46,7 @@ class Bulb(Thread):
 	@threaded
 	def first_leader_election(self):
 		#print "is this working"
-		timeout = time.time() + 20
+		timeout = time.time() + 1
 		while True:
 			if time.time() > timeout:
 				break
@@ -48,6 +54,40 @@ class Bulb(Thread):
 				self.leader = self.uuid_dict[max(self.uuid_dict.keys())]
 		self.leader = self.uuid_dict[max(self.uuid_dict.keys())]
 		print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
+		if self.leader.id == self.id:
+			print "Hi, I'm the leader: " + str(self.id)
+			self.set_up_leader_socket()
+		else:
+			print "Hi, I'm a follower: " + str(self.id)
+			self.set_up_follower_socket()
+
+	def set_up_leader_socket(self):
+		try: 
+			self.leader_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			self.leader_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+			try:
+				self.leader_socket.bind(('', self.leader_socket_port))
+			except socket.error as msg:
+				print "Bind failed. Error Code : " \
+						+ str(msg[0]) + " Message : " + str(msg[1])
+				sys.exit()
+			self.leader_socket.listen(12)
+			print "Successfully started socket at port " + str(self.leader_socket_port)
+		except Exception, e: 
+			print "Exception: " + str(e)
+			self.set_up_leader_socket() 
+
+	def set_up_follower_socket(self):
+		try:
+			self.follower_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			#print self.follower_socket_port
+			#print type(self.follower_socket_port)
+			self.follower_socket.connect(('', self.follower_socket_port))
+			print "Sucessfully started socket at port " + str(self.follower_socket_port)
+		except Exception, e:
+			print "Connecting follower socket exception " + str(e)
+			#self.set_up_follower_socket()
+
 
 	def run(self):
 		print "Hi I'm bulb_" + str(self.id) + "\n"
