@@ -16,6 +16,30 @@ import uuid
     #def wrapper(*args, **kwargs):
     #    Thread(target=fn, args=args, kwargs=kwargs).start()
     #return wrapper
+class BulbQueue(Queue.Queue, object):
+    def __init__(self):
+        super(BulbQueue, self).__init__()
+        self.queuesize = 0
+
+    def empty(self):
+        return super(BulbQueue, self).empty()
+
+    def size(self):
+        return self.queuesize
+
+    def get(self):
+        if not self.empty():
+            self.queuesize -= 1
+            return super(BulbQueue, self).get() 
+        else:
+            return None
+
+    def put(self, item):
+        if not super(BulbQueue, self).full():
+            super(BulbQueue, self).put(item)
+            self.queuesize += 1
+        else:
+            None
 
 class Bulb(multiprocessing.Process):
     def __init__(self, id):
@@ -26,13 +50,7 @@ class Bulb(multiprocessing.Process):
         self.bulb_list = None
         self.leader = None
         self.new_election = False
-        self.queue = multiprocessing.Queue()
-
-        #self.leader_socket = None
-        #self.leader_socket_port = 8000
-        #self.follower_socket = None
-        #self.follower_socket_port = follower_socket_port
-        #print self.follower_socket_port
+        self.q = BulbQueue()
 
         self.uuid_dict[self.uuid] = self
 
@@ -42,15 +60,15 @@ class Bulb(multiprocessing.Process):
     def send_uuid(self):
         #print "Is the thread getting here? \n"
         for bulb in self.bulb_list:
-            bulb.queue.put(self.uuid)
+            bulb.q.put(self.uuid)
             bulb.uuid_dict[self.uuid] = self
             #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"
 
     def get_max_uuid(self):
-        curr_uuid = self.queue.get()
+        curr_uuid = self.q.get()
         curr_max = curr_uuid
-        while not self.queue.empty():
-            curr_uuid = self.queue.get()
+        while not self.q.empty():
+            curr_uuid = self.q.get()
             if curr_uuid > curr_max:
                 curr_max = curr_uuid
         return curr_max
@@ -168,7 +186,7 @@ class Bulb(multiprocessing.Process):
                 pass"""
 
     def run(self):
-        print "Hi I'm bulb_" + str(self.id) + "\n"
+        print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.q.size()) + "\n"
         self.leader_election()
 
 
