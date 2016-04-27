@@ -45,7 +45,7 @@ class Bulb(Thread):
             bulb.add_uuid(self, self.uuid)  
 
     @threaded
-    def first_leader_election(self):
+    def leader_election(self):
         #print "is this working"
         timeout = time.time() + 1
         while True:
@@ -54,7 +54,12 @@ class Bulb(Thread):
             if len(self.uuid_dict) == 12:
                 self.leader = self.uuid_dict[max(self.uuid_dict.keys())]
         self.leader = self.uuid_dict[max(self.uuid_dict.keys())]
-        print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
+        if (self == self.leader):
+            sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
+            return
+        #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
+        sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
+        self.new_election = False
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + "\n"
             self.set_up_leader_socket()
@@ -62,9 +67,16 @@ class Bulb(Thread):
             print "Hi, I'm a follower: " + str(self.id) + "\n"
             connection_timeout = random.randint(1,20)
             self.connect_to_leader_socket(connection_timeout, time.time())
+        sys.stderr.write("Number of bulbs in dict: " + str(len(self.uuid_dict)) + " I'm thread " + str(self.id) + "\n")
+        self.ping_leader_socket()
 
     @threaded
     def set_up_leader_socket(self):
+        try:
+            self.leader_socket.shutdown(socket.SHUT_RDWR)
+            self.leader_socket.close()
+        except:
+            pass
         try: 
             self.leader_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.leader_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -89,7 +101,7 @@ class Bulb(Thread):
     def connect_to_leader_socket(self, connection_timeout, start_time):
         if self.new_election: 
             print "New election started by someone else. I am " + str(self.id) + "\n"
-            return
+            self.leader_election()
         elif time.time() < start_time + connection_timeout:
             try:
                 self.follower_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -101,16 +113,44 @@ class Bulb(Thread):
                 sys.stderr.write("Connecting follower socket exception " + str(e) + "\n")
                 self.connect_to_leader_socket(connection_timeout, start_time)
         else:
-            self.new_election = True
-            for bulb in self.bulb_list:
-                bulb.new_election = True  
-            print "Let's start a new leader election after timeout: " + str(connection_timeout) + ". I am " + str(self.id) + "\n"
-            return
+            try:
+                self.follower_socket.connect(('', self.leader_socket_port))
+                self.connect_to_leader_socket(connection_timeout, time.time())
+            except Exception, e:
+                self.setup_new_election()
+                print "Let's start a new leader election after timeout: " + str(connection_timeout) + ". I am " + str(self.id) + "\n"
+                self.leader_election()
+
+    @threaded
+    def ping_leader_socket(self):
+        msg = "Are you alive?"
+        while True or not self.new_election:
+            try:
+                self.follower_socket.send(msg.encode())
+            except Exception, e:
+                self.setup_new_election()
+                break
+        self.leader_election()
+
+    def setup_new_election(self):
+        self.new_election = True
+        for bulb in self.bulb_list:
+            bulb.new_election = True  
+            bulb.empty_uuid_dict()
+            sys.stderr.write("I emptied my dictionary, see: " + str(bulb.uuid_dict) + "\n")
+        for bulb in self.bulb_list:
+            sys.stderr.write("Dictionary size: " + str(len(self.uuid_dict)))
+            try:
+                bulb.send_uuid()
+                sys.stderr.write("I'm bulb number " + str(self.id) + "\n")
+            except Exception, e:
+                pass
 
     def run(self):
         print "Hi I'm bulb_" + str(self.id) + "\n"
         self.send_uuid()
-        
+        self.leader_election()
+        return
 
 
 

@@ -1,0 +1,375 @@
+id: 8, leader: 5
+id: 6, leader: 5
+id: 7, leader: 5
+id: 4, leader: 5
+I actually exited. I'm the leader. id: 5, leader: 5
+id: 9, leader: 5
+id: 3, leader: 5
+Number of bulbs in dict: 12 I'm thread 6
+id: 2, leader: 5
+Connecting follower socket exception [Errno 61] Connection refused
+Number of bulbs in dict: 12 I'm thread 9
+Number of bulbs in dict: 12 I'm thread 7
+id: 1, leader: 5
+Number of bulbs in dict: 12 I'm thread 4
+id: 10, leader: 5
+id: 12, leader: 5
+Number of bulbs in dict: 12 I'm thread 8
+Connecting follower socket exception [Errno 61] Connection refused
+id: 11, leader: 5
+Connecting follower socket exception [Errno 61] Connection refused
+Number of bulbs in dict: 12 I'm thread 3
+Connecting follower socket exception [Errno 61] Connection refused
+I emptied my dictionary, see: {}
+Number of bulbs in dict: 12 I'm thread 2
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Number of bulbs in dict: 12 I'm thread 10
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Number of bulbs in dict: 12 I'm thread 1
+Number of bulbs in dict: 0 I'm thread 12
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0I'm bulb number 6
+Dictionary size: 1I'm bulb number 6
+Dictionary size: 2I'm bulb number 6
+Dictionary size: 3I'm bulb number 6
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0I emptied my dictionary, see: {}
+Number of bulbs in dict: 4 I'm thread 11
+I'm bulb number 6
+I emptied my dictionary, see: {}
+Dictionary size: 1I'm bulb number 6
+I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+I'm bulb number 6
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 0I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 7
+I emptied my dictionary, see: {}
+Dictionary size: 1I'm bulb number 7
+I emptied my dictionary, see: {}
+I'm bulb number 6
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 3I'm bulb number 4
+Dictionary size: 3I'm bulb number 4
+Dictionary size: 3Dictionary size: 3I'm bulb number 6
+Dictionary size: 4Dictionary size: 4I'm bulb number 7
+I emptied my dictionary, see: {}
+Dictionary size: 5I'm bulb number 6
+I emptied my dictionary, see: {}
+I'm bulb number 4
+Dictionary size: 6I'm bulb number 7
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0I'm bulb number 6
+I emptied my dictionary, see: {}
+I'm bulb number 4
+I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 2Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 3I'm bulb number 9
+Dictionary size: 4I'm bulb number 9
+Dictionary size: 5I'm bulb number 4
+I'm bulb number 9
+I'm bulb number 6
+I'm bulb number 7
+Dictionary size: 7Dictionary size: 7Dictionary size: 7I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 4
+I'm bulb number 7
+Dictionary size: 8I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0I'm bulb number 9
+Dictionary size: 2I'm bulb number 9
+Dictionary size: 3I'm bulb number 9
+Dictionary size: 3I emptied my dictionary, see: {}
+I'm bulb number 4
+I'm bulb number 9
+Dictionary size: 1I'm bulb number 7
+I'm bulb number 4
+Dictionary size: 2Dictionary size: 5I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 5I emptied my dictionary, see: {}
+I'm bulb number 9
+I'm bulb number 7
+Dictionary size: 5I'm bulb number 4
+Dictionary size: 3Dictionary size: 6I emptied my dictionary, see: {}
+I'm bulb number 9
+I'm bulb number 4
+Dictionary size: 4I'm bulb number 7
+I emptied my dictionary, see: {}
+Dictionary size: 7I'm bulb number 4
+I'm bulb number 7
+Dictionary size: 8Dictionary size: 8I'm bulb number 7
+I'm bulb number 9
+Dictionary size: 8Dictionary size: 8I'm bulb number 7
+I'm bulb number 9
+Dictionary size: 9I'm bulb number 9
+Dictionary size: 6I'm bulb number 4
+Dictionary size: 9I'm bulb number 8
+Dictionary size: 10I'm bulb number 8
+Dictionary size: 11I'm bulb number 8
+Dictionary size: 12I emptied my dictionary, see: {}
+I'm bulb number 8
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 8
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 8
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 8
+Dictionary size: 2Dictionary size: 1I'm bulb number 8
+I'm bulb number 3
+Dictionary size: 3I'm bulb number 8
+Dictionary size: 6Dictionary size: 4I emptied my dictionary, see: {}
+I'm bulb number 8
+I emptied my dictionary, see: {}
+Dictionary size: 5I'm bulb number 3
+Dictionary size: 8I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 8
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 7I'm bulb number 8
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 3
+Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1I'm bulb number 2
+I'm bulb number 3
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 4I'm bulb number 3
+Dictionary size: 1I'm bulb number 2
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2I'm bulb number 3
+I emptied my dictionary, see: {}
+I'm bulb number 2
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 4I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 2
+I'm bulb number 12
+I'm bulb number 3
+I emptied my dictionary, see: {}
+Dictionary size: 3Dictionary size: 3I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 12
+I emptied my dictionary, see: {}
+Dictionary size: 4I'm bulb number 12
+Dictionary size: 5Dictionary size: 2I'm bulb number 1
+I'm bulb number 3
+Dictionary size: 4I'm bulb number 1
+Dictionary size: 4I'm bulb number 1
+Dictionary size: 6Dictionary size: 4I'm bulb number 3
+Dictionary size: 7I'm bulb number 3
+Dictionary size: 6I'm bulb number 1
+I'm bulb number 2
+Dictionary size: 9I'm bulb number 10
+Dictionary size: 8I'm bulb number 10
+Dictionary size: 9Dictionary size: 10I'm bulb number 2
+Dictionary size: 9I'm bulb number 12
+Dictionary size: 10I'm bulb number 12
+I'm bulb number 1
+Dictionary size: 9I'm bulb number 1
+Dictionary size: 11I'm bulb number 2
+I'm bulb number 3
+Dictionary size: 11Dictionary size: 11Dictionary size: 11I'm bulb number 10
+I'm bulb number 3
+Dictionary size: 12I'm bulb number 1
+Dictionary size: 12Dictionary size: 12I'm bulb number 12
+I'm bulb number 10
+Dictionary size: 12Dictionary size: 12I'm bulb number 12
+Dictionary size: 12I'm bulb number 10
+I'm bulb number 1
+Dictionary size: 12Dictionary size: 12Dictionary size: 12I'm bulb number 2
+I'm bulb number 10
+I'm bulb number 12
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 12Dictionary size: 12I'm bulb number 2
+Dictionary size: 12I'm bulb number 1
+I emptied my dictionary, see: {}
+I'm bulb number 10
+I'm bulb number 2
+Dictionary size: 12I'm bulb number 10
+Dictionary size: 12I'm bulb number 1
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 12Dictionary size: 12Dictionary size: 12I'm bulb number 1
+I'm bulb number 12
+I emptied my dictionary, see: {}
+I'm bulb number 10
+Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 2
+I emptied my dictionary, see: {}
+Dictionary size: 3Dictionary size: 0I'm bulb number 2
+Dictionary size: 3Dictionary size: 2I'm bulb number 10
+I'm bulb number 12
+Dictionary size: 4I'm bulb number 11
+Dictionary size: 3Dictionary size: 4I'm bulb number 12
+Dictionary size: 5I'm bulb number 1
+I'm bulb number 10
+I'm bulb number 12
+I'm bulb number 11
+Dictionary size: 5Dictionary size: 5I'm bulb number 10
+I'm bulb number 11
+Dictionary size: 6I'm bulb number 11
+Dictionary size: 7I'm bulb number 11
+Dictionary size: 8I'm bulb number 11
+Dictionary size: 9I'm bulb number 11
+Dictionary size: 10I'm bulb number 11
+Dictionary size: 11I'm bulb number 11
+Dictionary size: 12I'm bulb number 11
+Dictionary size: 12I'm bulb number 11
+Dictionary size: 12I'm bulb number 11
+id: 3, leader: 5
+id: 12, leader: 5
+id: 8, leader: 5
+id: 10, leader: 5
+id: 1, leader: 5
+id: 6, leader: 5
+id: 2, leader: 5
+id: 6, leader: 5
+id: 11, leader: 5
+id: 9, leader: 5
+id: 7, leader: 5
+id: 4, leader: 5
+id: 4, leader: 5
+id: 7, leader: 5
+id: 9, leader: 5
+Number of bulbs in dict: 12 I'm thread 1
+Number of bulbs in dict: 12 I'm thread 10
+Number of bulbs in dict: 12 I'm thread 6
+Number of bulbs in dict: 12 I'm thread 3
+Number of bulbs in dict: 12 I'm thread 11
+Number of bulbs in dict: 12 I'm thread 8
+Number of bulbs in dict: 12 I'm thread 6
+Number of bulbs in dict: 12 I'm thread 4
+Number of bulbs in dict: 12 I'm thread 2
+Number of bulbs in dict: 12 I'm thread 12
+id: 8, leader: 5
+Number of bulbs in dict: 12 I'm thread 7
+Number of bulbs in dict: 12 I'm thread 4
+Number of bulbs in dict: 12 I'm thread 9
+Number of bulbs in dict: 12 I'm thread 7
+Connecting follower socket exception [Errno 61] Connection refused
+id: 3, leader: 5
+Number of bulbs in dict: 12 I'm thread 9
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+id: 2, leader: 5
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Number of bulbs in dict: 0 I'm thread 8
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0I emptied my dictionary, see: {}
+I'm bulb number 1
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I'm bulb number 1
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0I'm bulb number 10
+I'm bulb number 1
+I emptied my dictionary, see: {}
