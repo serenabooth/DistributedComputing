@@ -1,0 +1,289 @@
+Hi I'm bulb_8
+Hi I'm bulb_9
+
+
+Hi I'm bulb_6
+
+Hi I'm bulb_7
+
+Hi I'm bulb_4
+
+Hi I'm bulb_5
+
+Hi I'm bulb_2
+
+Hi I'm bulb_3
+
+Hi I'm bulb_12
+
+Hi I'm bulb_1
+
+Hi I'm bulb_10
+
+Hi I'm bulb_11
+
+Hi, I'm a follower: 6
+
+Hi, I'm a follower: 4
+
+Hi, I'm a follower: 7
+
+Hi, I'm a follower: 2
+Hi, I'm a follower: 3
+
+
+Hi, I'm a follower: 12
+
+Hi, I'm a follower: 8
+
+Hi, I'm a follower: 5
+
+Hi, I'm a follower: 9
+
+Hi, I'm a follower: 10
+
+Hi, I'm a follower: 1
+
+Hi, I'm the leader: 11
+
+Successfully started socket at port 8000
+
+
+777 Sucessfully started follower socket for 7
+
+
+999 Sucessfully started follower socket for 9
+
+
+666 Sucessfully started follower socket for 6
+
+
+222 Sucessfully started follower socket for 2
+
+
+101010 Sucessfully started follower socket for 10
+
+
+111 Sucessfully started follower socket for 1
+
+
+444 Sucessfully started follower socket for 4
+
+
+333 Sucessfully started follower socket for 3
+
+New election started by someone else. I am 5
+
+New election started by someone else. I am 12
+
+
+888 Sucessfully started follower socket for 8
+
+Hi, I'm a follower: 12
+
+
+121212 Sucessfully started follower socket for 12
+
+Hi, I'm the leader: 11
+
+Successfully started socket at port 8000
+
+Hi, I'm a follower: 5
+
+
+555 Sucessfully started follower socket for 5
+
+Hi, I'm a follower: 7
+
+
+777 Sucessfully started follower socket for 7
+
+Hi, I'm a follower: 3
+
+
+333 Sucessfully started follower socket for 3
+
+Hi, I'm a follower: 12
+
+
+121212 Sucessfully started follower socket for 12
+
+Hi, I'm a follower: 6
+
+
+666 Sucessfully started follower socket for 6
+
+Hi, I'm a follower: 10
+
+
+101010 Sucessfully started follower socket for 10
+
+Hi, I'm a follower: 8
+
+
+888 Sucessfully started follower socket for 8
+
+Hi, I'm a follower: 9
+
+Hi, I'm a follower: 4
+
+
+999 Sucessfully started follower socket for 9
+
+New election started by someone else. I am 4
+
+Hi, I'm a follower: 1
+
+
+111 Sucessfully started follower socket for 1
+
+Hi, I'm a follower: 4
+
+
+444 Sucessfully started follower socket for 4
+
+Hi, I'm a follower: 2
+
+
+222 Sucessfully started follower socket for 2
+
+Hi, I'm the leader: 11
+
+Successfully started socket at port 8000
+
+Hi, I'm a follower: 8
+
+Hi, I'm a follower: 7
+
+Hi, I'm a follower: 5
+
+
+888 Sucessfully started follower socket for 8
+
+Hi, I'm a follower: 12
+
+Hi, I'm a follower: 12
+
+777 Sucessfully started follower socket for 7
+
+
+Hi, I'm a follower: 5
+
+Hi, I'm a follower: 10
+
+Hi, I'm a follower: 3
+
+
+555 Sucessfully started follower socket for 5
+
+
+121212 Sucessfully started follower socket for 12
+
+
+121212 Sucessfully started follower socket for 12
+
+
+555 Sucessfully started follower socket for 5
+
+
+101010 Sucessfully started follower socket for 10
+
+
+333 Sucessfully started follower socket for 3
+
+Hi, I'm the leader: 11
+
+Successfully started socket at port 8000
+
+Hi, I'm a follower: 6
+
+
+666 Sucessfully started follower socket for 6
+
+Hi, I'm a follower: 4
+
+New election started by someone else. I am 4
+
+Hi, I'm a follower: 5
+
+
+555 Sucessfully started follower socket for 5
+
+Hi, I'm a follower: 7
+
+
+777 Sucessfully started follower socket for 7
+
+Hi, I'm a follower: 4
+
+
+444 Sucessfully started follower socket for 4
+
+Hi, I'm a follower: 9
+
+New election started by someone else. I am 9
+
+Hi, I'm a follower: 12
+
+
+121212 Sucessfully started follower socket for 12
+
+Hi, I'm a follower: 9
+
+Hi, I'm a follower: 8
+
+
+999 Sucessfully started follower socket for 9
+
+
+888 Sucessfully started follower socket for 8
+
+Hi, I'm a follower: 2
+
+
+222 Sucessfully started follower socket for 2
+
+Hi, I'm a follower: 1
+
+
+111 Sucessfully started follower socket for 1
+
+Hi, I'm a follower: 3
+
+Hi, I'm a follower: 10
+
+
+333 Sucessfully started follower socket for 3
+
+
+101010 Sucessfully started follower socket for 10
+
+Hi, I'm the leader: 11
+
+Successfully started socket at port 8000
+
+Hi, I'm a follower: 12
+Hi, I'm a follower: 6
+
+Hi, I'm a follower: 4
+
+
+Hi, I'm a follower: 9
+
+Hi, I'm a follower: 4
+
+Hi, I'm a follower: 7
+
+Hi, I'm a follower: 2
+
+Hi, I'm a follower: 12
+
+Hi, I'm a follower: 4
+
+Hi, I'm a follower: 5
+
+Hi, I'm a follower: 5
+
+New election started by someone else. I am 6
+
+Let's start a new leader election after timeout: 2

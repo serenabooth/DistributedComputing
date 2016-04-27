@@ -14,5 +14,5 @@ for bulb in bulb_objects_list:
 for bulb in bulb_objects_list:
 	bulb.start()
 
-for bulb in bulb_objects_list:
-	bulb.first_leader_election()
+#for bulb in bulb_objects_list:
+	#bulb.leader_election()
