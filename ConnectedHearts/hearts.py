@@ -6,7 +6,12 @@ import uuid
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 # yay decorators
 def threaded(fn):
-    """ Creates a new thread to run the function fn """
+    """ 
+    Creates a new thread to run the function fn. Use by writing "@threaded" above function to thread.
+
+    fn: function 
+    returns: None 
+    """
     def wrapper(*args, **kwargs):
         Thread(target=fn, args=args, kwargs=kwargs).start()
     return wrapper
