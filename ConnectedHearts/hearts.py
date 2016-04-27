@@ -16,6 +16,7 @@ import uuid
     #def wrapper(*args, **kwargs):
     #    Thread(target=fn, args=args, kwargs=kwargs).start()
     #return wrapper
+
 class BulbQueue(Queue.Queue, object):
     def __init__(self):
         super(BulbQueue, self).__init__()
@@ -35,12 +36,8 @@ class BulbQueue(Queue.Queue, object):
             return None
 
     def put(self, item):
-        if not super(BulbQueue, self).full():
-            super(BulbQueue, self).put(item)
-            self.queuesize += 1
-            return True
-        else:
-            return False
+        super(BulbQueue, self).put(item)
+        self.queuesize += 1
 
 class Bulb(multiprocessing.Process):
     def __init__(self, id):
@@ -52,6 +49,7 @@ class Bulb(multiprocessing.Process):
         self.leader = None
         self.new_election = False
         self.uuid_q = BulbQueue()
+        self.task_q = BulbQueue()
 
         self.uuid_dict[self.uuid] = self
 
@@ -61,19 +59,35 @@ class Bulb(multiprocessing.Process):
     def send_uuid(self):
         #print "Is the thread getting here? \n"
         for bulb in self.bulb_list:
+            #print "Here's my id: " + str(bulb.id) + "\n"
             bulb.uuid_q.put(self.uuid)
             bulb.uuid_dict[self.uuid] = self
             #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"
 
+    def create_queue_copy(self, q):
+        q_copy = BulbQueue()
+        for i in q.queue:
+            q_copy.put(i)
+        return q_copy
+
     def get_max_uuid(self):
-        curr_uuid = self.uuid_q.get()
+        q = self.create_queue_copy(self.uuid_q)
+        curr_uuid = q.get()
         curr_max = curr_uuid
-        while not self.uuid_q.empty():
-            curr_uuid = self.uuid_q.get()
+        while not q.empty():
+            curr_uuid = q.get()
             if curr_uuid > curr_max:
                 curr_max = curr_uuid
         return curr_max
 
+    def add_to_task_q(self, item):
+        self.task_q.put(item)
+
+    """def print_leader_q(self):
+        print "Am I getting here? \n"
+        while not self.task_q.empty():
+            print "What about here? \n"
+            sys.stderr.write(self.task_q.get())"""
 
     #@threaded
     def leader_election(self):
@@ -84,106 +98,42 @@ class Bulb(multiprocessing.Process):
             if time.time() > timeout:
                 break
             if self.uuid_q.size() == 12:
+                #print "Before timeout. My uuid queue: " + str(self.uuid_q.size()) + "\n"
                 #print "Do I ever get here? \n"
                 break
         self.leader = self.uuid_dict[self.get_max_uuid()]
+        #print "After timeout. My uuid queue: " + str(self.uuid_q.size()) + "\n"
         #print "Or here? " + str(self.leader.id) + "\n" 
         """if (self == self.leader):
             sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
             return"""
         #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
-        sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
+        #sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
         self.new_election = False
         if self.leader.id == self.id:
-            print "Hi, I'm the leader: " + str(self.id) + "\n"
+            print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
+            timeout = time.time() + 5
+            while True:
+                #print "Leader. Here's my queue size: " + str(self.task_q.size())
+                if time.time() > timeout:
+                    break
+            #self.print_leader_q()
             #self.set_up_leader_socket()
         else:
             print "Hi, I'm a follower: " + str(self.id) + "\n"
-            connection_timeout = random.randint(1,20)
+            self.send_msg_to_leader(str(self.id))
             #self.connect_to_leader_socket(connection_timeout, time.time())
         #sys.stderr.write("Number of bulbs in dict: " + str(len(self.uuid_dict)) + " I'm thread " + str(self.id) + "\n")
         #self.ping_leader_socket()
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
-    #@threaded
-    """def set_up_leader_socket(self):
-        try:
-            self.leader_socket.shutdown(socket.SHUT_RDWR)
-            self.leader_socket.close()
-        except:
-            pass
-        try: 
-            self.leader_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.leader_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            try:
-                self.leader_socket.bind(('', self.leader_socket_port))
-            except socket.error as msg:
-                sys.stderr.write("Bind failed. Error Code : " \
-                        + str(msg[0]) + " Message : " + str(msg[1]) + "\n")
-                sys.exit()
-            self.leader_socket.listen(12)
-            try:
-                self.leader_socket.shutdown(socket.SHUT_RDWR)
-            except:
-                pass
-            self.leader_socket.close()
-            print "Successfully started socket at port " + str(self.leader_socket_port) + "\n"
-        except Exception, e: 
-            sys.stderr.write("Exception: " + str(e))
-            self.set_up_leader_socket() 
-
-    #@threaded
-    def connect_to_leader_socket(self, connection_timeout, start_time):
-        print "Do I get here? \n"
-        if self.new_election: 
-            print "New election started by someone else. I am " + str(self.id) + "\n"
-            self.leader_election()
-        #elif time.time() < start_time + connection_timeout:
-        try:
-            self.follower_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #print self.follower_socket_port
-            #print type(self.follower_socket_port)
-            self.follower_socket.connect(('', self.leader_socket_port))
-            print "\n" + str(self.id) + str(self.id) + str(self.id) + " Sucessfully started follower socket for " + str(self.id) + "\n"
-        except Exception, e:
-            sys.stderr.write("Connecting follower socket exception " + str(e) + "\n")
-            self.connect_to_leader_socket(connection_timeout, start_time)
-        else:
-            try:
-                self.follower_socket.connect(('', self.leader_socket_port))
-                self.connect_to_leader_socket(connection_timeout, time.time())
-            except Exception, e:
-                self.setup_new_election()
-                print "Let's start a new leader election after timeout: " + str(connection_timeout) + ". I am " + str(self.id) + "\n"
-                self.leader_election()
-
-    #@threaded
-    def ping_leader_socket(self):
-        msg = "Are you alive?"
-        while True or not self.new_election:
-            try:
-                self.follower_socket.send(msg.encode())
-            except Exception, e:
-                self.setup_new_election()
-                break
-        self.leader_election()
-
-    def setup_new_election(self):
-        self.new_election = True
+    def send_msg_to_leader(self, msg):
+        print "Send leader msg to " + str(self.leader.id) + "\n"
         for bulb in self.bulb_list:
-            bulb.new_election = True  
-            bulb.empty_uuid_dict()
-            sys.stderr.write("I emptied my dictionary, see: " + str(bulb.uuid_dict) + "\n")
-        for bulb in self.bulb_list:
-            sys.stderr.write("Dictionary size: " + str(len(self.uuid_dict)))
-            try:
-                bulb.send_uuid()
-                #sys.stderr.write("I'm bulb number " + str(self.id) + "\n")
-                if (bulb.id == bulb.leader.id):
-                    sys.stderr.write("This shouldn't have worked. Fuck you. \n")
-            except Exception, e:
-                sys.stderr("Beautiful exception \n")
-                pass"""
+            if bulb.id == self.leader.id:
+                bulb.add_to_task_q(msg)
+                print "My queue size: " + str(bulb.task_q.size()) + "\n"
+        #print "Leader task queue: " + str(self.leader.task_q.size()) + " My task queue: " + str(self.task_q.size()) + " My uuid queue: " + str(self.uuid_q.size()) + "\n"
 
     def run(self):
         print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_q.size()) + "\n"
