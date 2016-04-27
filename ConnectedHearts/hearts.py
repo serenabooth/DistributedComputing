@@ -47,6 +47,7 @@ class Bulb(Thread):
     @threaded
     def leader_election(self):
         #print "is this working"
+        self.leader = None
         timeout = time.time() + 1
         while True:
             if time.time() > timeout:
@@ -142,8 +143,11 @@ class Bulb(Thread):
             sys.stderr.write("Dictionary size: " + str(len(self.uuid_dict)))
             try:
                 bulb.send_uuid()
-                sys.stderr.write("I'm bulb number " + str(self.id) + "\n")
+                #sys.stderr.write("I'm bulb number " + str(self.id) + "\n")
+                if (bulb.id == bulb.leader.id):
+                    sys.stderr.write("This shouldn't have worked. Fuck you. \n")
             except Exception, e:
+                sys.stderr("Beautiful exception \n")
                 pass
 
     def run(self):

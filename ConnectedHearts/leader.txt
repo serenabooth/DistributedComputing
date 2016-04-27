@@ -1,375 +1,529 @@
-id: 8, leader: 5
-id: 6, leader: 5
-id: 7, leader: 5
-id: 4, leader: 5
-I actually exited. I'm the leader. id: 5, leader: 5
-id: 9, leader: 5
-id: 3, leader: 5
+id: 9, leader: 12
+id: 7, leader: 12
+id: 8, leader: 12
+id: 6, leader: 12
+id: 11, leader: 12
+id: 4, leader: 12
+I actually exited. I'm the leader. id: 12, leader: 12
+id: 2, leader: 12
+id: 1, leader: 12
+id: 3, leader: 12
+id: 5, leader: 12
+id: 10, leader: 12
+Number of bulbs in dict: 12 I'm thread 7
+Number of bulbs in dict: 12 I'm thread 1
+Number of bulbs in dict: 12 I'm thread 5
 Number of bulbs in dict: 12 I'm thread 6
-id: 2, leader: 5
+Number of bulbs in dict: 12 I'm thread 10
+Connecting follower socket exception [Errno 61] Connection refused
 Connecting follower socket exception [Errno 61] Connection refused
 Number of bulbs in dict: 12 I'm thread 9
-Number of bulbs in dict: 12 I'm thread 7
-id: 1, leader: 5
-Number of bulbs in dict: 12 I'm thread 4
-id: 10, leader: 5
-id: 12, leader: 5
-Number of bulbs in dict: 12 I'm thread 8
 Connecting follower socket exception [Errno 61] Connection refused
-id: 11, leader: 5
+Number of bulbs in dict: 12 I'm thread 8
+Number of bulbs in dict: 12 I'm thread 11
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
 Connecting follower socket exception [Errno 61] Connection refused
 Number of bulbs in dict: 12 I'm thread 3
+Number of bulbs in dict: 12 I'm thread 2
+Number of bulbs in dict: 12 I'm thread 4
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
 Connecting follower socket exception [Errno 61] Connection refused
 I emptied my dictionary, see: {}
-Number of bulbs in dict: 12 I'm thread 2
+Connecting follower socket exception [Errno 61] Connection refused
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Number of bulbs in dict: 12 I'm thread 10
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Number of bulbs in dict: 12 I'm thread 1
-Number of bulbs in dict: 0 I'm thread 12
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Dictionary size: 0I'm bulb number 6
-Dictionary size: 1I'm bulb number 6
-Dictionary size: 2I'm bulb number 6
-Dictionary size: 3I'm bulb number 6
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Connecting follower socket exception [Errno 61] Connection refused
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 Dictionary size: 0I emptied my dictionary, see: {}
-Number of bulbs in dict: 4 I'm thread 11
-I'm bulb number 6
-I emptied my dictionary, see: {}
-Dictionary size: 1I'm bulb number 6
-I emptied my dictionary, see: {}
-Dictionary size: 2I emptied my dictionary, see: {}
-I'm bulb number 6
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 2Dictionary size: 2Dictionary size: 2I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 2I emptied my dictionary, see: {}
+Dictionary size: 3Dictionary size: 3I emptied my dictionary, see: {}
+Dictionary size: 3I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 0Dictionary size: 0I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I'm bulb number 7
-I emptied my dictionary, see: {}
-Dictionary size: 1I'm bulb number 7
-I emptied my dictionary, see: {}
-I'm bulb number 6
+Dictionary size: 2Dictionary size: 1Dictionary size: 4Dictionary size: 5Dictionary size: 3Dictionary size: 6Dictionary size: 4I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Dictionary size: 3I'm bulb number 4
-Dictionary size: 3I'm bulb number 4
-Dictionary size: 3Dictionary size: 3I'm bulb number 6
-Dictionary size: 4Dictionary size: 4I'm bulb number 7
+Dictionary size: 1I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Dictionary size: 5I'm bulb number 6
-I emptied my dictionary, see: {}
-I'm bulb number 4
-Dictionary size: 6I'm bulb number 7
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 0I'm bulb number 6
-I emptied my dictionary, see: {}
-I'm bulb number 4
-I emptied my dictionary, see: {}
-Dictionary size: 2Dictionary size: 2Dictionary size: 2I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 3I'm bulb number 9
-Dictionary size: 4I'm bulb number 9
-Dictionary size: 5I'm bulb number 4
-I'm bulb number 9
-I'm bulb number 6
-I'm bulb number 7
-Dictionary size: 7Dictionary size: 7Dictionary size: 7I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I'm bulb number 4
-I'm bulb number 7
+Dictionary size: 7Dictionary size: 2Dictionary size: 8Dictionary size: 4This shouldn't have worked. Fuck you. 
+Dictionary size: 5Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 9Dictionary size: 10Dictionary size: 6I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+This shouldn't have worked. Fuck you. 
+Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 11I emptied my dictionary, see: {}
 Dictionary size: 8I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Dictionary size: 0I'm bulb number 9
-Dictionary size: 2I'm bulb number 9
-Dictionary size: 3I'm bulb number 9
+Dictionary size: 8I emptied my dictionary, see: {UUID('dd220434-0a78-40ef-ba4d-c1721303a424'): <Bulb(Thread-10, stopped 123145344368640)>}
+I emptied my dictionary, see: {}
+Dictionary size: 8I emptied my dictionary, see: {}
+Dictionary size: 8I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 0Dictionary size: 1Dictionary size: 3Dictionary size: 3Dictionary size: 4Dictionary size: 5Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 7Dictionary size: 3I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 4Dictionary size: 9Dictionary size: 2Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 10This shouldn't have worked. Fuck you. 
+Dictionary size: 11Dictionary size: 7Dictionary size: 11I emptied my dictionary, see: {}
+Dictionary size: 8I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 10I emptied my dictionary, see: {}
 Dictionary size: 3I emptied my dictionary, see: {}
-I'm bulb number 4
-I'm bulb number 9
-Dictionary size: 1I'm bulb number 7
-I'm bulb number 4
-Dictionary size: 2Dictionary size: 5I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 Dictionary size: 5I emptied my dictionary, see: {}
-I'm bulb number 9
-I'm bulb number 7
-Dictionary size: 5I'm bulb number 4
-Dictionary size: 3Dictionary size: 6I emptied my dictionary, see: {}
-I'm bulb number 9
-I'm bulb number 4
-Dictionary size: 4I'm bulb number 7
 I emptied my dictionary, see: {}
-Dictionary size: 7I'm bulb number 4
-I'm bulb number 7
-Dictionary size: 8Dictionary size: 8I'm bulb number 7
-I'm bulb number 9
-Dictionary size: 8Dictionary size: 8I'm bulb number 7
-I'm bulb number 9
-Dictionary size: 9I'm bulb number 9
-Dictionary size: 6I'm bulb number 4
-Dictionary size: 9I'm bulb number 8
-Dictionary size: 10I'm bulb number 8
-Dictionary size: 11I'm bulb number 8
-Dictionary size: 12I emptied my dictionary, see: {}
-I'm bulb number 8
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 7I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 1Dictionary size: 2This shouldn't have worked. Fuck you. 
+Dictionary size: 9I emptied my dictionary, see: {}
+Dictionary size: 5Dictionary size: 10I emptied my dictionary, see: {}
+Dictionary size: 11Dictionary size: 9Dictionary size: 11This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+Dictionary size: 10Dictionary size: 10Dictionary size: 12Dictionary size: 11Dictionary size: 11Dictionary size: 11Dictionary size: 12Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 12Dictionary size: 12This shouldn't have worked. Fuck you. 
+Dictionary size: 12Dictionary size: 12Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 Dictionary size: 1I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I'm bulb number 8
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 Dictionary size: 2I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-I'm bulb number 8
 I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
 Dictionary size: 1I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
+Dictionary size: 3Dictionary size: 4Dictionary size: 5Dictionary size: 6Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 6Dictionary size: 6Dictionary size: 6Dictionary size: 6Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 7I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
 I emptied my dictionary, see: {}
-I'm bulb number 8
-Dictionary size: 2Dictionary size: 1I'm bulb number 8
-I'm bulb number 3
-Dictionary size: 3I'm bulb number 8
-Dictionary size: 6Dictionary size: 4I emptied my dictionary, see: {}
-I'm bulb number 8
 I emptied my dictionary, see: {}
-Dictionary size: 5I'm bulb number 3
+This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 7I emptied my dictionary, see: {}
+Dictionary size: 8Dictionary size: 3Dictionary size: 10Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 2Dictionary size: 3Dictionary size: 4Dictionary size: 5Dictionary size: 6Dictionary size: 7Dictionary size: 8This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 10Dictionary size: 10Dictionary size: 10I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12This shouldn't have worked. Fuck you. 
+Dictionary size: 12Dictionary size: 12Dictionary size: 12id: 1, leader: 12
+id: 4, leader: 12
+id: 7, leader: 12
+id: 5, leader: 12
+id: 1, leader: 12
+id: 7, leader: 12
+id: 11, leader: 12
+id: 9, leader: 12
+id: 10, leader: 12
+id: 5, leader: 12
+id: 10, leader: 12
+id: 6, leader: 12
+id: 6, leader: 12
+id: 11, leader: 12
+id: 9, leader: 12
+Number of bulbs in dict: 12 I'm thread 7
+Number of bulbs in dict: 12 I'm thread 1
+Number of bulbs in dict: 12 I'm thread 4
+Number of bulbs in dict: 12 I'm thread 1
+Number of bulbs in dict: 12 I'm thread 5
+id: 8, leader: 12
+id: 3, leader: 12
+id: 8, leader: 12
+id: 3, leader: 12
+id: 2, leader: 12
+Number of bulbs in dict: 12 I'm thread 9
+Number of bulbs in dict: 12 I'm thread 10
+Number of bulbs in dict: 12 I'm thread 11
+Number of bulbs in dict: 12 I'm thread 7
+Number of bulbs in dict: 12 I'm thread 10
+Number of bulbs in dict: 12 I'm thread 6
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Number of bulbs in dict: 12 I'm thread 5
+Number of bulbs in dict: 12 I'm thread 9
+Number of bulbs in dict: 12 I'm thread 11
+Connecting follower socket exception [Errno 61] Connection refused
+Number of bulbs in dict: 12 I'm thread 6
+Number of bulbs in dict: 12 I'm thread 3
+Number of bulbs in dict: 12 I'm thread 8
+Connecting follower socket exception [Errno 61] Connection refused
+Number of bulbs in dict: 12 I'm thread 3
+Number of bulbs in dict: 12 I'm thread 2
+Number of bulbs in dict: 12 I'm thread 8
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+Connecting follower socket exception [Errno 61] Connection refused
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+id: 4, leader: 12
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Connecting follower socket exception [Errno 61] Connection refused
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 1Dictionary size: 2Dictionary size: 3Dictionary size: 4Dictionary size: 5Dictionary size: 6I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 7I emptied my dictionary, see: {}
 Dictionary size: 8I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+Dictionary size: 9I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-I'm bulb number 8
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 7I'm bulb number 8
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I'm bulb number 3
-Dictionary size: 2I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 1I'm bulb number 2
-I'm bulb number 3
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 4I'm bulb number 3
-Dictionary size: 1I'm bulb number 2
-I emptied my dictionary, see: {}
+Dictionary size: 10I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 Dictionary size: 0I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 2I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Dictionary size: 2I'm bulb number 3
 I emptied my dictionary, see: {}
-I'm bulb number 2
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 4Dictionary size: 5Dictionary size: 6I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 2Dictionary size: 3Dictionary size: 6I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 7Dictionary size: 5Dictionary size: 8I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+Dictionary size: 2Dictionary size: 3I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 3Dictionary size: 4I emptied my dictionary, see: {}
+Dictionary size: 4I emptied my dictionary, see: {}
+Dictionary size: 5Dictionary size: 6Dictionary size: 8Dictionary size: 9I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 10Dictionary size: 11Dictionary size: 12Dictionary size: 12I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+Dictionary size: 12Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 2I emptied my dictionary, see: {}
+Dictionary size: 3Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 5I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 1Dictionary size: 8Dictionary size: 7Dictionary size: 9This shouldn't have worked. Fuck you. 
+Dictionary size: 10Dictionary size: 9Dictionary size: 9Dictionary size: 7Dictionary size: 10Dictionary size: 11Dictionary size: 11Dictionary size: 10Dictionary size: 11Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 12Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+Dictionary size: 3Dictionary size: 4I emptied my dictionary, see: {}
+Dictionary size: 12Dictionary size: 12This shouldn't have worked. Fuck you. 
+Dictionary size: 12Dictionary size: 12Dictionary size: 6I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 8I emptied my dictionary, see: {}
+Dictionary size: 9I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 2Dictionary size: 3I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 4I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+Dictionary size: 5Dictionary size: 6I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 1Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {UUID('28c0374b-fbd6-44d3-89c2-bf457c2ef959'): <Bulb(Thread-9, stopped 123145310715904)>}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 3I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 5Dictionary size: 5I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 3Number of bulbs in dict: 1 I'm thread 4
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 2Dictionary size: 3I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 4Dictionary size: 4Dictionary size: 5Dictionary size: 4Dictionary size: 6Dictionary size: 6Dictionary size: 7Dictionary size: 7I emptied my dictionary, see: {}
+Dictionary size: 7Dictionary size: 7Dictionary size: 7Dictionary size: 7Dictionary size: 7Dictionary size: 7Dictionary size: 8Dictionary size: 8This shouldn't have worked. Fuck you. 
+Dictionary size: 9I emptied my dictionary, see: {}
+Dictionary size: 9Dictionary size: 9Dictionary size: 9Dictionary size: 10This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+id: 2, leader: 12
+This shouldn't have worked. Fuck you. 
+Dictionary size: 11Dictionary size: 11Dictionary size: 11I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+Dictionary size: 12Dictionary size: 0Dictionary size: 3Dictionary size: 4Dictionary size: 12Dictionary size: 5Dictionary size: 12Dictionary size: 8Dictionary size: 7This shouldn't have worked. Fuck you. 
+Dictionary size: 9Dictionary size: 9Dictionary size: 9Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 12I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 3I emptied my dictionary, see: {}
+Dictionary size: 4I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 2Dictionary size: 5Dictionary size: 4Dictionary size: 5Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 5Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 8I emptied my dictionary, see: {}
+Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 7I emptied my dictionary, see: {}
+Dictionary size: 3Dictionary size: 8Dictionary size: 4Dictionary size: 9I emptied my dictionary, see: {}
+Dictionary size: 5I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 11I emptied my dictionary, see: {}
+Dictionary size: 7Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 11Dictionary size: 8Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+Dictionary size: 5Dictionary size: 6Dictionary size: 6I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 2I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 3I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 2This shouldn't have worked. Fuck you. 
+Dictionary size: 3Dictionary size: 4Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 6Dictionary size: 2Dictionary size: 8Dictionary size: 3I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 9Dictionary size: 4I emptied my dictionary, see: {}
+Dictionary size: 10Dictionary size: 5I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 7Dictionary size: 3Dictionary size: 8I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 4I emptied my dictionary, see: {}
+Dictionary size: 9I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+Dictionary size: 6I emptied my dictionary, see: {}
+Dictionary size: 10I emptied my dictionary, see: {}
+Dictionary size: 1I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 11Dictionary size: 12I emptied my dictionary, see: {UUID('dd220434-0a78-40ef-ba4d-c1721303a424'): <Bulb(Thread-10, stopped 123145344368640)>, UUID('27ae54e5-17a2-40d2-954d-8568902a1183'): <Bulb(Thread-11, stopped 123145314922496)>}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+This shouldn't have worked. Fuck you. 
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 Dictionary size: 4I emptied my dictionary, see: {}
-Dictionary size: 2Dictionary size: 2I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I'm bulb number 2
-I'm bulb number 12
-I'm bulb number 3
-I emptied my dictionary, see: {}
-Dictionary size: 3Dictionary size: 3I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I'm bulb number 12
-I emptied my dictionary, see: {}
-Dictionary size: 4I'm bulb number 12
-Dictionary size: 5Dictionary size: 2I'm bulb number 1
-I'm bulb number 3
-Dictionary size: 4I'm bulb number 1
-Dictionary size: 4I'm bulb number 1
-Dictionary size: 6Dictionary size: 4I'm bulb number 3
-Dictionary size: 7I'm bulb number 3
-Dictionary size: 6I'm bulb number 1
-I'm bulb number 2
-Dictionary size: 9I'm bulb number 10
-Dictionary size: 8I'm bulb number 10
-Dictionary size: 9Dictionary size: 10I'm bulb number 2
-Dictionary size: 9I'm bulb number 12
-Dictionary size: 10I'm bulb number 12
-I'm bulb number 1
-Dictionary size: 9I'm bulb number 1
-Dictionary size: 11I'm bulb number 2
-I'm bulb number 3
-Dictionary size: 11Dictionary size: 11Dictionary size: 11I'm bulb number 10
-I'm bulb number 3
-Dictionary size: 12I'm bulb number 1
-Dictionary size: 12Dictionary size: 12I'm bulb number 12
-I'm bulb number 10
-Dictionary size: 12Dictionary size: 12I'm bulb number 12
-Dictionary size: 12I'm bulb number 10
-I'm bulb number 1
-Dictionary size: 12Dictionary size: 12Dictionary size: 12I'm bulb number 2
-I'm bulb number 10
-I'm bulb number 12
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 12Dictionary size: 12I'm bulb number 2
-Dictionary size: 12I'm bulb number 1
-I emptied my dictionary, see: {}
-I'm bulb number 10
-I'm bulb number 2
-Dictionary size: 12I'm bulb number 10
-Dictionary size: 12I'm bulb number 1
+Dictionary size: 8Dictionary size: 9I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 0Dictionary size: 12Dictionary size: 12Dictionary size: 12I'm bulb number 1
-I'm bulb number 12
-I emptied my dictionary, see: {}
-I'm bulb number 10
-Dictionary size: 12I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I'm bulb number 2
-I emptied my dictionary, see: {}
-Dictionary size: 3Dictionary size: 0I'm bulb number 2
-Dictionary size: 3Dictionary size: 2I'm bulb number 10
-I'm bulb number 12
-Dictionary size: 4I'm bulb number 11
-Dictionary size: 3Dictionary size: 4I'm bulb number 12
-Dictionary size: 5I'm bulb number 1
-I'm bulb number 10
-I'm bulb number 12
-I'm bulb number 11
-Dictionary size: 5Dictionary size: 5I'm bulb number 10
-I'm bulb number 11
-Dictionary size: 6I'm bulb number 11
-Dictionary size: 7I'm bulb number 11
-Dictionary size: 8I'm bulb number 11
-Dictionary size: 9I'm bulb number 11
-Dictionary size: 10I'm bulb number 11
-Dictionary size: 11I'm bulb number 11
-Dictionary size: 12I'm bulb number 11
-Dictionary size: 12I'm bulb number 11
-Dictionary size: 12I'm bulb number 11
-id: 3, leader: 5
-id: 12, leader: 5
-id: 8, leader: 5
-id: 10, leader: 5
-id: 1, leader: 5
-id: 6, leader: 5
-id: 2, leader: 5
-id: 6, leader: 5
-id: 11, leader: 5
-id: 9, leader: 5
-id: 7, leader: 5
-id: 4, leader: 5
-id: 4, leader: 5
-id: 7, leader: 5
-id: 9, leader: 5
-Number of bulbs in dict: 12 I'm thread 1
-Number of bulbs in dict: 12 I'm thread 10
-Number of bulbs in dict: 12 I'm thread 6
-Number of bulbs in dict: 12 I'm thread 3
-Number of bulbs in dict: 12 I'm thread 11
-Number of bulbs in dict: 12 I'm thread 8
-Number of bulbs in dict: 12 I'm thread 6
-Number of bulbs in dict: 12 I'm thread 4
-Number of bulbs in dict: 12 I'm thread 2
-Number of bulbs in dict: 12 I'm thread 12
-id: 8, leader: 5
-Number of bulbs in dict: 12 I'm thread 7
-Number of bulbs in dict: 12 I'm thread 4
-Number of bulbs in dict: 12 I'm thread 9
-Number of bulbs in dict: 12 I'm thread 7
-Connecting follower socket exception [Errno 61] Connection refused
-id: 3, leader: 5
-Number of bulbs in dict: 12 I'm thread 9
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-id: 2, leader: 5
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-Connecting follower socket exception [Errno 61] Connection refused
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Number of bulbs in dict: 0 I'm thread 8
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-I emptied my dictionary, see: {}
-Dictionary size: 0I emptied my dictionary, see: {}
-I'm bulb number 1
 I emptied my dictionary, see: {}
 Dictionary size: 1I emptied my dictionary, see: {}
+Dictionary size: 6I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-I'm bulb number 1
+Dictionary size: 1Dictionary size: 7I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 1Dictionary size: 3Dictionary size: 4I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 5I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 6I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 8I emptied my dictionary, see: {}
+Dictionary size: 9I emptied my dictionary, see: {}
+Dictionary size: 12I emptied my dictionary, see: {}
+Dictionary size: 10Dictionary size: 8Dictionary size: 10Dictionary size: 12Dictionary size: 9This shouldn't have worked. Fuck you. 
+Dictionary size: 12Dictionary size: 11Dictionary size: 10Dictionary size: 10Dictionary size: 12Dictionary size: 11Dictionary size: 11Dictionary size: 11Dictionary size: 10Dictionary size: 11Dictionary size: 11Dictionary size: 12Dictionary size: 12Dictionary size: 12This shouldn't have worked. Fuck you. 
+Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12This shouldn't have worked. Fuck you. 
+Dictionary size: 12This shouldn't have worked. Fuck you. 
+Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Dictionary size: 12Number of bulbs in dict: 12 I'm thread 2
+id: 6, leader: 12
+id: 11, leader: 12
+id: 9, leader: 12
+id: 3, leader: 12
+id: 6, leader: 12
+id: 10, leader: 12
+id: 1, leader: 12
+id: 5, leader: 12
+id: 2, leader: 12
+id: 8, leader: 12
+id: 8, leader: 12
+id: 3, leader: 12
+id: 4, leader: 12
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Dictionary size: 2I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
 I emptied my dictionary, see: {}
-Dictionary size: 0I'm bulb number 10
-I'm bulb number 1
 I emptied my dictionary, see: {}
+I emptied my dictionary, see: {}
+Dictionary size: 0Dictionary size: 1Dictionary size: 2Dictionary size: 3
