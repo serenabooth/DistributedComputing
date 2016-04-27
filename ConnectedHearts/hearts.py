@@ -1,6 +1,6 @@
 from datetime import datetime
-from multiprocessing import *
-from threading import *
+import multiprocessing
+import threading
 import sys, time, socket, random, Queue
 import uuid
 
@@ -17,7 +17,7 @@ import uuid
     #    Thread(target=fn, args=args, kwargs=kwargs).start()
     #return wrapper
 
-class Bulb(Process):
+class Bulb(multiprocessing.Process):
     def __init__(self, id):
         super(Bulb, self).__init__()
         self.id = id
@@ -26,10 +26,11 @@ class Bulb(Process):
         self.bulb_list = None
         self.leader = None
         self.new_election = False
+        self.queue = multiprocessing.Queue()
 
-        self.leader_socket = None
-        self.leader_socket_port = 8000
-        self.follower_socket = None
+        #self.leader_socket = None
+        #self.leader_socket_port = 8000
+        #self.follower_socket = None
         #self.follower_socket_port = follower_socket_port
         #print self.follower_socket_port
 
@@ -38,18 +39,22 @@ class Bulb(Process):
     def register_bulbs(self, all_bulb_objects):
         self.bulb_list = all_bulb_objects
 
-    def empty_uuid_dict(self):
-        self.uuid_dict = {}
-
-    def add_uuid(self, bulb, bulb_uuid):
-        if bulb_uuid not in self.uuid_dict.values():
-            self.uuid_dict[bulb_uuid] = bulb
-
     def send_uuid(self):
         #print "Is the thread getting here? \n"
         for bulb in self.bulb_list:
-            bulb.add_uuid(self, self.uuid)  
+            bulb.queue.put(self.uuid)
+            bulb.uuid_dict[self.uuid] = self
             #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"
+
+    def get_max_uuid(self):
+        curr_uuid = self.queue.get()
+        curr_max = curr_uuid
+        while not self.queue.empty():
+            curr_uuid = self.queue.get()
+            if curr_uuid > curr_max:
+                curr_max = curr_uuid
+        return curr_max
+
 
     #@threaded
     def leader_election(self):
@@ -59,11 +64,11 @@ class Bulb(Process):
         while True:
             if time.time() > timeout:
                 break
-            if len(self.uuid_dict) == 12:
-                self.leader = self.uuid_dict[max(self.uuid_dict.keys())]
+            #if self.queue.qsize() == 12:
+            #    self.leader = get_max_uuid()
                 #print "Do I ever get here? " + str(self.leader.id) + "\n"
-                break
-        self.leader = self.uuid_dict[max(self.uuid_dict.keys())]
+            #    break
+        self.leader = self.uuid_dict[self.get_max_uuid()]
         #print "Or here? " + str(self.leader.id) + "\n" 
         """if (self == self.leader):
             sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
@@ -83,7 +88,7 @@ class Bulb(Process):
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
     #@threaded
-    def set_up_leader_socket(self):
+    """def set_up_leader_socket(self):
         try:
             self.leader_socket.shutdown(socket.SHUT_RDWR)
             self.leader_socket.close()
@@ -99,11 +104,11 @@ class Bulb(Process):
                         + str(msg[0]) + " Message : " + str(msg[1]) + "\n")
                 sys.exit()
             self.leader_socket.listen(12)
-            """try:
+            try:
                 self.leader_socket.shutdown(socket.SHUT_RDWR)
             except:
                 pass
-            self.leader_socket.close()"""
+            self.leader_socket.close()
             print "Successfully started socket at port " + str(self.leader_socket_port) + "\n"
         except Exception, e: 
             sys.stderr.write("Exception: " + str(e))
@@ -112,9 +117,9 @@ class Bulb(Process):
     #@threaded
     def connect_to_leader_socket(self, connection_timeout, start_time):
         print "Do I get here? \n"
-        """if self.new_election: 
+        if self.new_election: 
             print "New election started by someone else. I am " + str(self.id) + "\n"
-            self.leader_election()"""
+            self.leader_election()
         #elif time.time() < start_time + connection_timeout:
         try:
             self.follower_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -125,14 +130,14 @@ class Bulb(Process):
         except Exception, e:
             sys.stderr.write("Connecting follower socket exception " + str(e) + "\n")
             self.connect_to_leader_socket(connection_timeout, start_time)
-        """else:
+        else:
             try:
                 self.follower_socket.connect(('', self.leader_socket_port))
                 self.connect_to_leader_socket(connection_timeout, time.time())
             except Exception, e:
                 self.setup_new_election()
                 print "Let's start a new leader election after timeout: " + str(connection_timeout) + ". I am " + str(self.id) + "\n"
-                self.leader_election()"""
+                self.leader_election()
 
     #@threaded
     def ping_leader_socket(self):
@@ -160,10 +165,10 @@ class Bulb(Process):
                     sys.stderr.write("This shouldn't have worked. Fuck you. \n")
             except Exception, e:
                 sys.stderr("Beautiful exception \n")
-                pass
+                pass"""
 
     def run(self):
-        #print "Hi I'm bulb_" + str(self.id) + " and here is my dict size: " + str(len(self.uuid_dict)) + "\n"
+        print "Hi I'm bulb_" + str(self.id) + "\n"
         self.leader_election()
 
 
