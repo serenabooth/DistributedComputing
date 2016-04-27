@@ -1,15 +1,14 @@
 from hearts import *
 
-bulb_objects_dict = {}
+bulb_objects_list = []
 
 for i in range(1, 13):
-	bulb_objects_dict["bulb_" + str(i)] = Bulb(i)
-	bulb_objects_dict["bulb_" + str(i)].id = i
-
-bulb_objects_list = bulb_objects_dict.values()
+	p = Bulb(id = i)
+	bulb_objects_list.append(p)
 
 for bulb in bulb_objects_list:
 	bulb.register_bulbs(bulb_objects_list)
+	bulb.send_uuid()
 
 for bulb in bulb_objects_list:
 	bulb.start()
