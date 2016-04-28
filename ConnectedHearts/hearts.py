@@ -74,21 +74,7 @@ class Bulb(multiprocessing.Process):
         return q_copy
 
     def get_max_uuid(self):
-        # q = self.create_queue_copy(self.uuid_q)
-        # curr_uuid = q.get()
-        # curr_max = curr_uuid
-        # while not q.empty():
-        #     curr_uuid = q.get()
-        #     if curr_uuid > curr_max:
-        #         curr_max = curr_uuid
-        # return curr_max
-
-        curr_max = self.uuid_q[0]
-        print "curr_max: " + str(self.uuid_q[0])
-        for i in range(0, 12):
-            if self.uuid_q[i] > curr_max: 
-                curr_max = self.uuid_q[i]
-        return curr_max
+        return max(self.uuid_q)
 
     def add_to_task_q(self, item):
         self.task_q.put(item)
