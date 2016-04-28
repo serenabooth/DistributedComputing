@@ -40,29 +40,28 @@ class BulbQueue(Queue.Queue, object):
         self.queuesize += 1
 
 class Bulb(multiprocessing.Process):
-    def __init__(self, id):
+    def __init__(self, id, uuid_q, leader_q):
         super(Bulb, self).__init__()
         self.id = id
         self.uuid = uuid.uuid4()
-        self.uuid_dict = {}
-        self.bulb_list = None
+        self.uuid_dict = None
         self.leader = None
         self.new_election = False
-        self.uuid_q = BulbQueue()
-        self.task_q = BulbQueue()
+        self.uuid_q = uuid_q
+        self.leader_q = leader_q
 
-        self.uuid_dict[self.uuid] = self
-
-    def register_bulbs(self, all_bulb_objects):
-        self.bulb_list = all_bulb_objects
+    def register_bulbs(self, bulb_objects_dict):
+        self.uuid_dict = bulb_objects_dict
 
     def send_uuid(self):
-        #print "Is the thread getting here? \n"
+        self.uuid_q.put(self.uuid)
+        self.uuid_dict[self.uuid] = self
+        """#print "Is the thread getting here? \n"
         for bulb in self.bulb_list:
             #print "Here's my id: " + str(bulb.id) + "\n"
             bulb.uuid_q.put(self.uuid)
             bulb.uuid_dict[self.uuid] = self
-            #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"
+            #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"""""
 
     def create_queue_copy(self, q):
         q_copy = BulbQueue()
@@ -83,11 +82,12 @@ class Bulb(multiprocessing.Process):
     def add_to_task_q(self, item):
         self.task_q.put(item)
 
-    """def print_leader_q(self):
+    def print_leader_q(self):
+        q = self.create_queue_copy(self.leader_q)
         print "Am I getting here? \n"
-        while not self.task_q.empty():
+        while not q.empty():
             print "What about here? \n"
-            sys.stderr.write(self.task_q.get())"""
+            sys.stderr.write(q.get() + "\n")
 
     #@threaded
     def leader_election(self):
@@ -108,7 +108,7 @@ class Bulb(multiprocessing.Process):
             sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
             return"""
         #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
-        #sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
+        sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
         self.new_election = False
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
@@ -117,26 +117,23 @@ class Bulb(multiprocessing.Process):
                 #print "Leader. Here's my queue size: " + str(self.task_q.size())
                 if time.time() > timeout:
                     break
-            #self.print_leader_q()
+            self.print_leader_q()
             #self.set_up_leader_socket()
         else:
             print "Hi, I'm a follower: " + str(self.id) + "\n"
-            self.send_msg_to_leader(str(self.id))
+            #self.send_msg_to_leader(str(self.id))
             #self.connect_to_leader_socket(connection_timeout, time.time())
         #sys.stderr.write("Number of bulbs in dict: " + str(len(self.uuid_dict)) + " I'm thread " + str(self.id) + "\n")
         #self.ping_leader_socket()
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
     def send_msg_to_leader(self, msg):
-        print "Send leader msg to " + str(self.leader.id) + "\n"
-        for bulb in self.bulb_list:
-            if bulb.id == self.leader.id:
-                bulb.add_to_task_q(msg)
-                print "My queue size: " + str(bulb.task_q.size()) + "\n"
-        #print "Leader task queue: " + str(self.leader.task_q.size()) + " My task queue: " + str(self.task_q.size()) + " My uuid queue: " + str(self.uuid_q.size()) + "\n"
+        #print "Send leader msg to " + str(self.leader.id) + "\n"
+        self.leader_q.put(msg)
+        print "Leader queue: " + str(self.leader_q.size()) + " Uuid queue: " + str(self.uuid_q.size()) + "\n"
 
     def run(self):
-        print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_q.size()) + "\n"
+        #print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_q.size()) + "\n"
         self.leader_election()
 
 
