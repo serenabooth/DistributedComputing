@@ -78,3 +78,5 @@ TO DO:
         - One queue used for checking if leader is alive and for leader elections
         - Another queue used for instructions to turn on or off
             - Only follow instructions to turn on or off if leader election queue is empty
+
+        - When a new leader election is started, all the bulbs should turn off
