@@ -67,3 +67,10 @@ TO DO:
         - Yay! Resolved! 
 
     - Assign each bulb a "timeout" (random integer) which is the frequency with which they check that the leader is still alive
+
+    TO DO: 
+        - (SERENA) get pulse from picam
+        - constant pings to and leader from followers every (randomtime)
+            - leader responds saying it's alive
+            - if no leader response, bulb initiates an election. 
+                - pings all bulbs with higher UUIDs than itself
