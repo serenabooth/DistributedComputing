@@ -84,7 +84,7 @@ class Bulb(multiprocessing.Process):
 
     def print_leader_q(self):
         q = self.create_queue_copy(self.leader_q)
-        print "Am I getting here? \n"
+        print "Am I getting here?" + str(self.leader_q.size()) + "\n"
         while not q.empty():
             print "What about here? \n"
             sys.stderr.write(q.get() + "\n")
@@ -121,13 +121,16 @@ class Bulb(multiprocessing.Process):
             #self.set_up_leader_socket()
         else:
             print "Hi, I'm a follower: " + str(self.id) + "\n"
-            #self.send_msg_to_leader(str(self.id))
+            self.send_msg_to_leader(str(self.id))
             #self.connect_to_leader_socket(connection_timeout, time.time())
         #sys.stderr.write("Number of bulbs in dict: " + str(len(self.uuid_dict)) + " I'm thread " + str(self.id) + "\n")
         #self.ping_leader_socket()
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
     def send_msg_to_leader(self, msg):
+        bulb_objects_list = self.uuid_dict.values()
+        for i in range(0, len(bulb_objects_list) - 1):
+            print bulb_objects_list[i].leader_q == bulb_objects_list[i + 1].leader_q
         #print "Send leader msg to " + str(self.leader.id) + "\n"
         self.leader_q.put(msg)
         print "Leader queue: " + str(self.leader_q.size()) + " Uuid queue: " + str(self.uuid_q.size()) + "\n"

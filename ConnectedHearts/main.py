@@ -18,8 +18,8 @@ for bulb in bulb_objects_dict.values():
 	bulb.send_uuid()
 	#bulb.send_uuid()
 
-for bulb in bulb_objects_dict.values():
-	bulb.send_msg_to_leader(str(bulb.id))
+#for bulb in bulb_objects_dict.values():
+#	bulb.send_msg_to_leader(str(bulb.id))
 
 for bulb in bulb_objects_dict.values():
 	bulb.start()
