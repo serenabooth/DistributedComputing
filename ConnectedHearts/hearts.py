@@ -1,10 +1,10 @@
 from datetime import datetime
-import multiprocessing
 import threading
 import sys, time, socket, random, Queue
 import uuid
 #from multiprocessing.queues import Queue
-from multiprocessing import Array
+from multiprocessing import Array, Process
+from multiprocessing.queues import Queue
 import ctypes 
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 # yay decorators
@@ -19,8 +19,9 @@ import ctypes
     #    Thread(target=fn, args=args, kwargs=kwargs).start()
     #return wrapper
 
-class BulbQueue(Queue.Queue, object):
+class BulbQueue(Queue):
     def __init__(self):
+        print "Here's the queue type: " + str(type(Queue()))
         super(BulbQueue, self).__init__()
         self.queuesize = 0
 
@@ -41,7 +42,7 @@ class BulbQueue(Queue.Queue, object):
         super(BulbQueue, self).put(item)
         self.queuesize += 1
 
-class Bulb(multiprocessing.Process):
+class Bulb(Process):
     def __init__(self, id, uuid_q, leader_q):
         super(Bulb, self).__init__()
         self.id = id
@@ -67,12 +68,6 @@ class Bulb(multiprocessing.Process):
             bulb.uuid_dict[self.uuid] = self
             #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"""""
 
-    def create_queue_copy(self, q):
-        q_copy = BulbQueue()
-        for i in q.queue:
-            q_copy.put(i)
-        return q_copy
-
     def get_max_uuid(self):
         return max(self.uuid_q)
 
@@ -81,10 +76,9 @@ class Bulb(multiprocessing.Process):
 
     def print_q(self, q):
         q_contents = []
-        q_copy = self.create_queue_copy(q)
-        print "Am I getting here? Queue size: " + str(q.size()) + "\n"
+        #print "Am I getting here? Queue size: " + str(q.size()) + "\n"
         while not q.empty():
-            print "What about here? \n"
+            #print "What about here? \n"
             q_contents.append(str(q.get()))
         return q_contents
 
@@ -117,7 +111,7 @@ class Bulb(multiprocessing.Process):
                 #print "Leader. Here's my queue size: " + str(self.task_q.size())
                 if time.time() > timeout:
                     break
-            self.print_q(self.leader_q)
+            print self.print_q(self.leader_q)
             #self.set_up_leader_socket()
         else:
             print "Hi, I'm a follower: " + str(self.id) + "\n"
@@ -128,12 +122,12 @@ class Bulb(multiprocessing.Process):
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
     def send_msg_to_leader(self, msg):
-        bulb_objects_list = self.uuid_dict.values()
+        #bulb_objects_list = self.uuid_dict.values()
         """for i in range(0, len(bulb_objects_list) - 1):
             print bulb_objects_list[i].leader_q == bulb_objects_list[i + 1].leader_q
         #print "Send leader msg to " + str(self.leader.id) + "\n"""
         self.leader_q.put(msg)
-        print "Leader queue: " + str(self.leader_q.size()) + " Uuid queue: " + str(len(self.uuid_q)) + "\n"
+        #print "Leader queue: " + str(self.leader_q.size()) + " Uuid queue: " + str(len(self.uuid_q)) + "\n"
 
     def run(self):
         #print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_q.size()) + "\n"
