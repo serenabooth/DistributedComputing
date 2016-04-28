@@ -21,7 +21,7 @@ import ctypes
 
 class BulbQueue(Queue):
     def __init__(self):
-        print "Here's the queue type: " + str(type(Queue()))
+        #print "Here's the queue type: " + str(type(Queue()))
         super(BulbQueue, self).__init__()
         self.queuesize = 0
 
@@ -57,9 +57,9 @@ class Bulb(Process):
         self.uuid_dict = bulb_objects_dict
 
     def send_uuid(self):
-        print self.uuid
-        self.uuid_list[self.id - 1] = self.uuid
-        print self.uuid_list[0]
+        #print self.uuid
+        self.uuid_list[self.id] = self.uuid
+        #print self.uuid_list[0]
         self.uuid_dict[self.uuid] = self
         """#print "Is the thread getting here? \n"
         for bulb in self.bulb_list:
