@@ -10,17 +10,11 @@ test_if_queue_works = Queue()
 print test_if_queue_works
 
 uuid_list = Array(ctypes.c_uint64, 12)
-uuid_q = BulbQueue()
-leader_q = BulbQueue()
 
 for i in range(1, 13):
-	p = Bulb(id = i, uuid_q = uuid_list, leader_q = leader_q)
+	p = Bulb(id = i, uuid_list = uuid_list)
 	print p.uuid
 	bulb_objects_dict[p.uuid] = p
-
-bulb_objects_list = bulb_objects_dict.values()
-for i in range(0, len(bulb_objects_list) - 1):
-	print bulb_objects_list[i].leader_q == bulb_objects_list[i + 1].leader_q
 
 for bulb in bulb_objects_dict.values():
 	bulb.register_bulbs(bulb_objects_dict)
