@@ -21,7 +21,7 @@ import ctypes
 
 class BulbQueue(Queue):
     def __init__(self):
-        print "Here's the queue type: " + str(type(Queue()))
+        #print "Here's the queue type: " + str(type(Queue()))
         super(BulbQueue, self).__init__()
         self.queuesize = 0
 
@@ -43,36 +43,33 @@ class BulbQueue(Queue):
         self.queuesize += 1
 
 class Bulb(Process):
-    def __init__(self, id, uuid_q, leader_q):
+    def __init__(self, id, uuid_list):
         super(Bulb, self).__init__()
         self.id = id
         self.uuid = random.randint(1,2**64-1)
         self.uuid_dict = None
         self.leader = None
         self.new_election = False
-        self.uuid_q = uuid_q
-        self.leader_q = leader_q
+        self.uuid_list = uuid_list
+        self.task_q = BulbQueue()
 
     def register_bulbs(self, bulb_objects_dict):
         self.uuid_dict = bulb_objects_dict
 
     def send_uuid(self):
-        print self.uuid
-        self.uuid_q[self.id - 1] = self.uuid
-        print self.uuid_q[0]
+        #print self.uuid
+        self.uuid_list[self.id] = self.uuid
+        #print self.uuid_list[0]
         self.uuid_dict[self.uuid] = self
         """#print "Is the thread getting here? \n"
         for bulb in self.bulb_list:
             #print "Here's my id: " + str(bulb.id) + "\n"
-            bulb.uuid_q.put(self.uuid)
+            bulb.uuid_list.put(self.uuid)
             bulb.uuid_dict[self.uuid] = self
             #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"""""
 
     def get_max_uuid(self):
-        return max(self.uuid_q)
-
-    def add_to_task_q(self, item):
-        self.task_q.put(item)
+        return max(self.uuid_list)
 
     def print_q(self, q):
         q_contents = []
@@ -90,12 +87,12 @@ class Bulb(Process):
         while True:
             if time.time() > timeout:
                 break
-            if len(self.uuid_q) == 12:
-                #print "Before timeout. My uuid queue: " + str(self.uuid_q.size()) + "\n"
+            if len(self.uuid_list) == 12:
+                #print "Before timeout. My uuid queue: " + str(self.uuid_list.size()) + "\n"
                 #print "Do I ever get here? \n"
                 break
         self.leader = self.uuid_dict[self.get_max_uuid()]
-        #print "After timeout. My uuid queue: " + str(self.uuid_q.size()) + "\n"
+        #print "After timeout. My uuid queue: " + str(self.uuid_list.size()) + "\n"
         #print "Or here? " + str(self.leader.id) + "\n" 
         """if (self == self.leader):
             sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
@@ -111,7 +108,7 @@ class Bulb(Process):
                 #print "Leader. Here's my queue size: " + str(self.task_q.size())
                 if time.time() > timeout:
                     break
-            print self.print_q(self.leader_q)
+            print self.print_q(self.task_q)
             #self.set_up_leader_socket()
         else:
             print "Hi, I'm a follower: " + str(self.id) + "\n"
@@ -124,13 +121,13 @@ class Bulb(Process):
     def send_msg_to_leader(self, msg):
         #bulb_objects_list = self.uuid_dict.values()
         """for i in range(0, len(bulb_objects_list) - 1):
-            print bulb_objects_list[i].leader_q == bulb_objects_list[i + 1].leader_q
+            print bulb_objects_list[i].task_q == bulb_objects_list[i + 1].task_q
         #print "Send leader msg to " + str(self.leader.id) + "\n"""
-        self.leader_q.put(msg)
-        #print "Leader queue: " + str(self.leader_q.size()) + " Uuid queue: " + str(len(self.uuid_q)) + "\n"
+        self.leader.task_q.put(msg)
+        #print "Leader queue: " + str(self.task_q.size()) + " Uuid queue: " + str(len(self.uuid_list)) + "\n"
 
     def run(self):
-        #print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_q.size()) + "\n"
+        #print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_list.size()) + "\n"
         self.leader_election()
 
 
