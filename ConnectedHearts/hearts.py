@@ -3,7 +3,9 @@ import multiprocessing
 import threading
 import sys, time, socket, random, Queue
 import uuid
-
+#from multiprocessing.queues import Queue
+from multiprocessing import Array
+import ctypes 
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 # yay decorators
 #def threaded(fn):
@@ -43,7 +45,7 @@ class Bulb(multiprocessing.Process):
     def __init__(self, id, uuid_q, leader_q):
         super(Bulb, self).__init__()
         self.id = id
-        self.uuid = uuid.uuid4()
+        self.uuid = random.randint(1,2**64-1)
         self.uuid_dict = None
         self.leader = None
         self.new_election = False
@@ -54,7 +56,9 @@ class Bulb(multiprocessing.Process):
         self.uuid_dict = bulb_objects_dict
 
     def send_uuid(self):
-        self.uuid_q.put(self.uuid)
+        print self.uuid
+        self.uuid_q[self.id - 1] = self.uuid
+        print self.uuid_q[0]
         self.uuid_dict[self.uuid] = self
         """#print "Is the thread getting here? \n"
         for bulb in self.bulb_list:
@@ -70,13 +74,20 @@ class Bulb(multiprocessing.Process):
         return q_copy
 
     def get_max_uuid(self):
-        q = self.create_queue_copy(self.uuid_q)
-        curr_uuid = q.get()
-        curr_max = curr_uuid
-        while not q.empty():
-            curr_uuid = q.get()
-            if curr_uuid > curr_max:
-                curr_max = curr_uuid
+        # q = self.create_queue_copy(self.uuid_q)
+        # curr_uuid = q.get()
+        # curr_max = curr_uuid
+        # while not q.empty():
+        #     curr_uuid = q.get()
+        #     if curr_uuid > curr_max:
+        #         curr_max = curr_uuid
+        # return curr_max
+
+        curr_max = self.uuid_q[0]
+        print "curr_max: " + str(self.uuid_q[0])
+        for i in range(0, 12):
+            if self.uuid_q[i] > curr_max: 
+                curr_max = self.uuid_q[i]
         return curr_max
 
     def add_to_task_q(self, item):
@@ -99,7 +110,7 @@ class Bulb(multiprocessing.Process):
         while True:
             if time.time() > timeout:
                 break
-            if self.uuid_q.size() == 12:
+            if len(self.uuid_q) == 12:
                 #print "Before timeout. My uuid queue: " + str(self.uuid_q.size()) + "\n"
                 #print "Do I ever get here? \n"
                 break
@@ -112,6 +123,7 @@ class Bulb(multiprocessing.Process):
         #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
         self.new_election = False
+
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
             timeout = time.time() + 5
@@ -135,7 +147,7 @@ class Bulb(multiprocessing.Process):
             print bulb_objects_list[i].leader_q == bulb_objects_list[i + 1].leader_q
         #print "Send leader msg to " + str(self.leader.id) + "\n"""
         self.leader_q.put(msg)
-        print "Leader queue: " + str(self.leader_q.size()) + " Uuid queue: " + str(self.uuid_q.size()) + "\n"
+        print "Leader queue: " + str(self.leader_q.size()) + " Uuid queue: " + str(len(self.uuid_q)) + "\n"
 
     def run(self):
         #print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_q.size()) + "\n"
