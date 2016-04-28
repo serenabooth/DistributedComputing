@@ -75,3 +75,6 @@ TO DO:
             - leader responds saying it's alive
             - if no leader response, bulb initiates an election. 
                 - pings all bulbs with higher UUIDs than itself
+        - One queue used for checking if leader is alive and for leader elections
+        - Another queue used for instructions to turn on or off
+            - Only follow instructions to turn on or off if leader election queue is empty
