@@ -49,12 +49,15 @@ class getPulseApp(object):
 
         self.cameras = []
         self.selected_cam = 0
-        for i in xrange(3):
-            camera = Camera(camera=i)  # first camera by default
-            if camera.valid or not len(self.cameras):
-                self.cameras.append(camera)
-            else:
-                break
+        #for i in xrange(3):
+        #    print "connecting to camera"
+        #    camera = Camera(camera=i)  # first camera by default
+        #    if camera.valid or not len(self.cameras):
+        #        self.cameras.append(camera)
+        #    else:
+        #        break
+        camera = Camera(0)
+        self.cameras.append(camera)
         self.w, self.h = 0, 0
         self.pressed = 0
         # Containerized analysis of recieved image frames (an openMDAO assembly)
