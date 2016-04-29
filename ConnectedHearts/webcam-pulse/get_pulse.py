@@ -83,7 +83,8 @@ class getPulseApp(object):
                              "d": self.toggle_display_plot,
                              "c": self.toggle_cam,
                              "f": self.write_csv}
-
+        self.bpm = 0
+    
     def toggle_cam(self):
         if len(self.cameras) > 1:
             self.processor.find_faces = True
@@ -185,7 +186,7 @@ class getPulseApp(object):
         output_frame = self.processor.frame_out
 
         # show the processed/annotated output frame
-        imshow("Processed", output_frame)
+        #imshow("Processed", output_frame)
 
         # create and/or update the raw data display if needed
         if self.bpm_plot:
@@ -197,8 +198,9 @@ class getPulseApp(object):
         if self.send_udp:
             self.sock.sendto(str(self.processor.bpm), self.udp)
 
+        print self.bpm
         # handle any key presses
-        self.key_handler()
+        #self.key_handler()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Webcam pulse detector.')
