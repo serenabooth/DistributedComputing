@@ -25,7 +25,7 @@ class Camera(object):
         print "trying to make camera"
         self.cam = PiVideoStream()
         print "made object"
-        #self.cam.start()
+        self.cam.start()
         time.sleep(2)
         self.valid = False
         print "initialized!" 
@@ -38,7 +38,7 @@ class Camera(object):
 
     def get_frame(self):
         if self.valid:
-            _,frame = self.cam.read()
+            frame = self.cam.read()
         else:
             frame = np.ones((240,320,3), dtype=np.uint8)
             col = (0,256,256)
