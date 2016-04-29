@@ -51,7 +51,9 @@ class Bulb(Process):
         self.leader = None
         self.new_election = False
         self.uuid_list = uuid_list
-        self.task_q = BulbQueue()
+        self.election_q = BulbQueue()
+        self.state_q = BulbQueue()
+        self.ping_time = random.randint(1,12)
 
     def register_bulbs(self, bulb_objects_dict):
         self.uuid_dict = bulb_objects_dict
@@ -103,16 +105,19 @@ class Bulb(Process):
 
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
-            timeout = time.time() + 5
+
+            """timeout = time.time() + 10
             while True:
-                #print "Leader. Here's my queue size: " + str(self.task_q.size())
+                #print "Leader. Here's my queue size: " + str(self.election_q.size())
                 if time.time() > timeout:
                     break
-            print self.print_q(self.task_q)
-            #self.set_up_leader_socket()
+            print self.print_q(self.election_q)
+            #self.set_up_leader_socket()"""
+            self.respond_to_ping()
         else:
             print "Hi, I'm a follower: " + str(self.id) + "\n"
-            self.send_msg_to_leader(str(self.id))
+            self.ping_leader()
+
             #self.connect_to_leader_socket(connection_timeout, time.time())
         #sys.stderr.write("Number of bulbs in dict: " + str(len(self.uuid_dict)) + " I'm thread " + str(self.id) + "\n")
         #self.ping_leader_socket()
@@ -121,10 +126,34 @@ class Bulb(Process):
     def send_msg_to_leader(self, msg):
         #bulb_objects_list = self.uuid_dict.values()
         """for i in range(0, len(bulb_objects_list) - 1):
-            print bulb_objects_list[i].task_q == bulb_objects_list[i + 1].task_q
+            print bulb_objects_list[i].election_q == bulb_objects_list[i + 1].election_q
         #print "Send leader msg to " + str(self.leader.id) + "\n"""
-        self.leader.task_q.put(msg)
-        #print "Leader queue: " + str(self.task_q.size()) + " Uuid queue: " + str(len(self.uuid_list)) + "\n"
+        self.leader.election_q.put(msg)
+        #print "Leader queue: " + str(self.election_q.size()) + " Uuid queue: " + str(len(self.uuid_list)) + "\n"
+
+    def ping_leader(self):
+        timeout = time.time() + self.ping_time
+        while True:
+            if time.time() > timeout:
+                break
+        self.leader.election_q.put(self.uuid)
+        # wait for response from leader here before pinging
+        # again, by checking if queue has an element in it
+        # if no response, can assume that it's died 
+        # and start leader election
+        # also check for a leader election initiation here
+        self.ping_leader()
+
+    def respond_to_ping(self):
+        while not self.election_q.empty():
+            pinger_uuid = self.election_q.get()
+            self.state_q.put(pinger_uuid)
+            self.uuid_dict[pinger_uuid].election_q.put("I'm the leader")
+        timeout = time.time() + self.ping_time
+        while True:
+            if time.time() > timeout:
+                break
+        self.respond_to_ping()
 
     def run(self):
         #print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_list.size()) + "\n"
