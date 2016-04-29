@@ -5,6 +5,7 @@ import pylab
 import os
 import sys
 
+#pylab.matplotlib.use('gtk3agg')
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
