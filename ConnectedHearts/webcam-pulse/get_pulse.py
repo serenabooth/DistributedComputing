@@ -83,7 +83,7 @@ class getPulseApp(object):
                              "d": self.toggle_display_plot,
                              "c": self.toggle_cam,
                              "f": self.write_csv}
-        self.bpm = 0
+        #self.bpm = 0
     
     def toggle_cam(self):
         if len(self.cameras) > 1:
@@ -198,7 +198,7 @@ class getPulseApp(object):
         if self.send_udp:
             self.sock.sendto(str(self.processor.bpm), self.udp)
 
-        print self.bpm
+        print self.processor.bpm
         # handle any key presses
         #self.key_handler()
 

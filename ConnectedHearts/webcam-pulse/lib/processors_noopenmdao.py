@@ -124,6 +124,7 @@ class findFaceGetPulse(object):
                                                   cv2.COLOR_BGR2GRAY))
         col = (100, 255, 100)
         if self.find_faces:
+            print "looking for faces"
             # cv2.putText(
             #     self.frame_out, "Press 'C' to change camera (current: %s)" % str(
             #         cam),
@@ -142,6 +143,7 @@ class findFaceGetPulse(object):
                                                                flags=cv2.CASCADE_SCALE_IMAGE))
 
             if len(detected) > 0:
+                print "found a face"
                 self.num_frames_showing_face += 1
                 detected.sort(key=lambda a: a[-1] * a[-2])
 
