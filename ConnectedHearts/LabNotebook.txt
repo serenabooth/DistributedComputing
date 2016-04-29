@@ -51,3 +51,32 @@ TO DO:
         - Any follower can query the leader. Given no response, the follower initiates an election. 
             - Design question: do we initialize sockets between the current process and the processes with higher ids?
             - or do we fall back on address manipulation
+
+04/27
+    Software side: 
+        - After conversation with Waldo discussing modeling of virtual machines, we switched from using threads to using processes. 
+        - While conversion was largely straightforward, we ran into an issue where we were creating local copies of memory which we intended to be  shared. We then decided to use the python Multiprocessing queue
+
+    Hardware side: 
+        - Installed picamera, got a demo running (camera_test.py)
+        - Using paramiko, able to SSH directly to the power strips from Python 
+        - Mirror and cabinet arrived! 
+
+04/28
+    - Dealing with a bug where each process has their own queue where we expect memory to be shared. Address of this queue is the same between processes?
+        - Yay! Resolved! 
+            - Had to switch queue type from Queue.Queue to multiprocessing.queues.Queue for process safety
+
+    - Assign each bulb a "timeout" (random integer) which is the frequency with which they check that the leader is still alive
+
+    TO DO: 
+        - (SERENA) get pulse from picam
+        - constant pings to and leader from followers every (randomtime)
+            - leader responds saying it's alive
+            - if no leader response, bulb initiates an election. 
+                - pings all bulbs with higher UUIDs than itself
+        - One queue used for checking if leader is alive and for leader elections
+        - Another queue used for instructions to turn on or off
+            - Only follow instructions to turn on or off if leader election queue is empty
+
+        - When a new leader election is started, all the bulbs should turn off

@@ -8,4 +8,3 @@ try:
     camera.stop_preview()
 finally: 
     camera.close()
-
