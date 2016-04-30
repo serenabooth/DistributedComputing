@@ -198,7 +198,15 @@ class getPulseApp(object):
         if self.send_udp:
             self.sock.sendto(str(self.processor.bpm), self.udp)
 
+        if self.processor.bpm > 0:
+            for cam in self.cameras:
+                cam.release()
+            if self.send_serial:
+                self.serial.close()
+            #sys.exit()
+
         print self.processor.bpm
+        return self.processor.bpm
         # handle any key presses
         #self.key_handler()
 
@@ -213,5 +221,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     App = getPulseApp(args)
-    while True:
-        App.main_loop()
+    pulse_val = App.main_loop()
+    while pulse_val == 0:
+        pulse_val = App.main_loop()
+    print "FINISHED with pulse " + str(pulse_val)
+
