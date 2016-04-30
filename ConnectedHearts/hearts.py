@@ -105,7 +105,7 @@ class Bulb(Process):
 
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
-
+            self.turned_on_list[self.id] = 1
             """timeout = time.time() + 10
             while True:
                 #print "Leader. Here's my queue size: " + str(self.election_q.size())

@@ -13,29 +13,6 @@ import paramiko
     "Creating multiple SSH connections at a time using Paramiko"
 """
 
-# outlock = threading.Lock() 
-
-# cmd = "echo 0 > /proc/power/relay1"
-
-# def workon(host):
-#     print "connected to " + host
-#     c = paramiko.SSHClient()
-#     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-#     c.connect(host, username='ubnt', password='ubnt') 
-#     c.exec_command(cmd)
-
-# def main(): 
-#     hosts = ['192.168.1.20', '192.168.1.21']
-#     threads = []
-#     for h in hosts: 
-#         t = threading.Thread(target=workon, args=(h,))
-#         t.start()
-#         threads.append(t)
-#     for t in threads:
-#         t.join()
-
-# main()
-
 class Pi(Process):
     def __init__(self, bpm, turned_on_list, hosts):
         super(Pi, self).__init__()
@@ -44,7 +21,9 @@ class Pi(Process):
         self.hosts = hosts
 
     def connect(self, host):
-        print "connected to " + host
+        for i in range(0, 12):
+            print str(i) + "is on? " + str(self.turned_on_list[i])
+        print "connecting to " + host
         c = paramiko.SSHClient()
         c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         c.connect(host, username='ubnt', password='ubnt') 
