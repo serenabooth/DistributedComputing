@@ -48,6 +48,7 @@ uuid_list = Array(ctypes.c_uint64, 12)
 power_strip_on_list = Array('i', 12)
 
 face_check = CheckFace(face_visible = face_visible)
+print "face check!"
 face_check.start()
 face_check.join()
 
