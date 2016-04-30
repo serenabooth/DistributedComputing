@@ -47,7 +47,7 @@ class Pi(Process):
             #print on_cmd_builder
             #print off_cmd_builder
             c.exec_command(on_cmd_builder)
-            time.sleet(0.5)
+            time.sleep(0.5)
             #time.sleep(5)
             c.exec_command(off_cmd_builder)            
             time.sleep(60/self.bpm) #TO DO: set me to be the pulse
