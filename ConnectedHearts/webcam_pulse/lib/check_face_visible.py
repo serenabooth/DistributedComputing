@@ -1,5 +1,5 @@
-from lib.device import Camera
-from lib.processors_noopenmdao import findFaceGetPulse
+from device import Camera
+from processors_noopenmdao import findFaceGetPulse
 import cv2
 import time
 
