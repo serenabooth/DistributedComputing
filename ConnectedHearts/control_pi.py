@@ -50,7 +50,7 @@ class Pi(Process):
             time.sleep(0.5)
             #time.sleep(5)
             c.exec_command(off_cmd_builder)            
-            time.sleep(60/self.bpm) #TO DO: set me to be the pulse
+            time.sleep((60/self.bpm) * 4) #TO DO: set me to be the pulse
 
 
     def run(self):
