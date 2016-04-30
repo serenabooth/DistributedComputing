@@ -29,7 +29,7 @@ class CheckFace(Process):
 
     def check_if_face_is_visible(): 
         while not self.face_visible:
-            time.sleep(60)
+            time.sleep(5)
             ct = 0 
 
             for i in range(0,50):
@@ -45,11 +45,15 @@ class CheckFace(Process):
                 if len(detected) > 0: 
                     ct += 1
             if ct < 30:
-                self.face_visible = 0
-
-    def run(self):
-        time.sleep(60)
-        self.cam = Camera(0)
-
+                self.face_visible = 1
+    
+    def check_for_faces(self):
         self.check_if_face_is_visible()
         self.cam.release()
+
+    def run(self):
+        #time.sleep(60)
+        self.cam = Camera(0)
+
+        #self.check_if_face_is_visible()
+        #self.cam.release()

@@ -6,7 +6,7 @@ import ctypes
 from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 
-face_visible = Value('i', 1)
+face_visible = Value('i', 0)
 
 """ 
 Get pulse! 
@@ -52,6 +52,7 @@ print "face check!"
 face_check_process.start()
 face_check_process.join()
 
+print "on to the bulbs"
 for i in range(0, 12):
     p = Bulb(id = i, uuid_list = uuid_list, turned_on_list = power_strip_on_list, face_visible = face_visible)
     #print p.uuid
