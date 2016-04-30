@@ -125,7 +125,18 @@ class Bulb(Process):
     @threaded
     def turn_on(self):
         self.turned_on_list[self.id] = 1
-        self.signal_to_neighbors()
+        neighbor_above_id = (self.id + 1) % 12
+        neighbor_below_id = max(self.id - 1, 0) 
+
+        neighbors_to_signal_to = []
+        if self.turned_on_list[neighbor_above_id] != 1: 
+            neighbor_above_addr = self.uuid_dict[self.uuid_list[neighbor_above_id]]
+            neighbors_to_signal_to.append(neighbor_above_addr)
+        if self.turned_on_list[neighbor_below_id] != 1: 
+            neighbor_below_addr = self.uuid_dict[self.uuid_list[neighbor_below_id]]
+            neighbors_to_signal_to.append(neighbor_below_addr)
+        if len(neighbors_to_signal_to) > 0: 
+            self.signal_to_neighbors(neighbors_to_signal_to)
 
     def send_msg_to_leader(self, msg):
         #bulb_objects_list = self.uuid_dict.values()
@@ -149,20 +160,18 @@ class Bulb(Process):
         self.ping_leader()
 
     @threaded
-    def signal_to_neighbors(self):
-        # TO DO: not sure how long we want this delay to be
+    def signal_to_neighbors(self, list_of_neighbors):
+        """ 
+        Wait for some amount of time and then 
+        tell neighbors to turn on
+        """
+        # TODO: not sure how long we want this delay to be
         timeout = time.time() + self.ping_time
         while True:
             if time.time() > timeout:
                 break
-        neighbor_above_id = (self.id + 1) % 12
-        neighbor_above_addr = self.uuid_dict[self.uuid_list[neighbor_above_id]]
-        neighbor_below_id = max(self.id - 1, 0) 
-        neighbor_below_addr = self.uuid_dict[self.uuid_list[neighbor_below_id]]
-
-        neighbor_above_addr.turn_on()
-        neighbor_below_addr.turn_on()
-        # get neighbors and tell them to turn on. 
+        for neighbor in list_of_neighbors: 
+            neighbor.turn_on()
 
     def respond_to_ping(self):
         while not self.election_q.empty():
