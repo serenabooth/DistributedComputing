@@ -18,6 +18,7 @@ def resource_path(relative_path):
 class CheckFace(Process): 
 
     def __init__(self, face_visible):
+        super(CheckFace, self).__init__()
         self.face_visible = face_visible
         self.cam = None
         #self.cam = Camera(0)

@@ -47,10 +47,10 @@ uuid_list = Array(ctypes.c_uint64, 12)
 """
 power_strip_on_list = Array('i', 12)
 
-face_check = CheckFace(face_visible = face_visible)
+face_check_process = CheckFace(face_visible = face_visible)
 print "face check!"
-face_check.start()
-face_check.join()
+face_check_process.start()
+face_check_process.join()
 
 for i in range(0, 12):
     p = Bulb(id = i, uuid_list = uuid_list, turned_on_list = power_strip_on_list, face_visible = face_visible)
