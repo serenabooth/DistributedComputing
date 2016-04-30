@@ -53,7 +53,10 @@ class CheckFace(Process):
 
     def run(self):
         #time.sleep(60)
+        print "trying for camera"
         self.cam = Camera(0)
+        print "got camera"
+        self.check_for_faces()
 
         #self.check_if_face_is_visible()
         #self.cam.release()
