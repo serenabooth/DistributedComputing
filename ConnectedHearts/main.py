@@ -3,7 +3,7 @@ from control_pi import *
 from multiprocessing.queues import Queue
 from multiprocessing import Array
 import ctypes
-from webcam-pulse.get_pulse import *
+from webcam_pulse.get_pulse import *
 
 """ 
 	Get pulse! 

@@ -38,9 +38,11 @@ class findFaceGetPulse(object):
         self.t0 = time.time()
         self.bpms = []
         self.bpm = 0
-        dpath = resource_path("haarcascade_frontalface_alt.xml")
+        dpath = resource_path("webcam_pulse/haarcascade_frontalface_alt.xml")
+        print dpath
         if not os.path.exists(dpath):
             print "Cascade file not present!"
+            sys.exit()
         self.face_cascade = cv2.CascadeClassifier(dpath)
 
         self.face_rect = [1, 1, 2, 2]

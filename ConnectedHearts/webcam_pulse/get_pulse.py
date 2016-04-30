@@ -226,3 +226,5 @@ if __name__ == "__main__":
         pulse_val = App.main_loop()
     print "FINISHED with pulse " + str(pulse_val)
 
+def __init__(self):
+    print "init"
