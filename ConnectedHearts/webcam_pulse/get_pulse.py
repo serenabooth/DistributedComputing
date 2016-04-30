@@ -199,6 +199,7 @@ class getPulseApp(object):
             self.sock.sendto(str(self.processor.bpm), self.udp)
 
         if self.processor.bpm > 0:
+            print "closing down camera"
             for cam in self.cameras:
                 cam.release()
             if self.send_serial:

@@ -2,6 +2,8 @@ from device import Camera
 from processors_noopenmdao import findFaceGetPulse
 import cv2
 import time
+import os 
+from multiprocessing import Array, Process
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -13,11 +15,13 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-class CheckFace(object): 
+class CheckFace(Process): 
 
     def __init__(self, face_visible):
         self.face_visible = face_visible
-        self.cam = Camera(0)
+        self.cam = None
+        #self.cam = Camera(0)
+        #self.cam.start()
         dpath = resource_path("webcam_pulse/haarcascade_frontalface_alt.xml")
         self.face_cascade = cv2.CascadeClassifier(dpath)
 
@@ -43,5 +47,8 @@ class CheckFace(object):
                 self.face_visible = 1
 
     def run(self):
+        time.sleep(60)
+        self.cam = Camera(0)
+
         self.check_if_face_is_visible()
         self.cam.release()
