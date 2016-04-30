@@ -122,6 +122,7 @@ class Bulb(Process):
         #self.ping_leader_socket()
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
+    @threaded
     def turn_on(self):
         self.turned_on_list[self.id] = 1
         self.signal_to_neighbors()
@@ -134,7 +135,6 @@ class Bulb(Process):
         self.leader.election_q.put(msg)
         #print "Leader queue: " + str(self.election_q.size()) + " Uuid queue: " + str(len(self.uuid_list)) + "\n"
 
-    @threaded
     def ping_leader(self):
         timeout = time.time() + self.ping_time
         while True:
@@ -164,7 +164,6 @@ class Bulb(Process):
         neighbor_below_addr.turn_on()
         # get neighbors and tell them to turn on. 
 
-    @threaded
     def respond_to_ping(self):
         while not self.election_q.empty():
             pinger_uuid = self.election_q.get()
