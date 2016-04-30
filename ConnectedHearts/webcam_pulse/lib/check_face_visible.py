@@ -44,7 +44,7 @@ class CheckFace(Process):
                 if len(detected) > 0: 
                     ct += 1
             if ct < 30:
-                self.face_visible = 1
+                self.face_visible = 0
 
     def run(self):
         time.sleep(60)

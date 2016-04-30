@@ -6,7 +6,11 @@ import ctypes
 from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 
-while True: 
+face_visible = Value('i', 1)
+first_launch = 1 
+
+while not face_visible or first_launch:
+    first_launch += 1  
     """ 
     Get pulse! 
     """
@@ -41,7 +45,6 @@ while True:
         .21 will control bulbs 6-11
     """
     power_strip_on_list = Array('i', 12)
-    face_visible = Value('i', 0)
 
     face_check = CheckFace(face_visible = face_visible)
     face_check.start()
@@ -52,7 +55,7 @@ while True:
         #print p.uuid
         bulb_objects_dict[p.uuid] = p
 
-    for bulb in bulb_objects_dict.values():
+    for bulb in blb_objects_dict.values():
         bulb.register_bulbs(bulb_objects_dict)
         bulb.send_uuid()
 
