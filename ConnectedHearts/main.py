@@ -16,13 +16,13 @@ parser.add_argument('--baud', default=None,
 parser.add_argument('--udp', default=None,
                     help='udp address:port destination for bpm data')
 
-args = parser.parse_args()
-App = getPulseApp(args)
-pulse_val = App.main_loop()
-while pulse_val == 0:
-    pulse_val = App.main_loop()
-print "FINISHED with pulse " + str(pulse_val)
-
+#args = parser.parse_args()
+#App = getPulseApp(args)
+#pulse_val = App.main_loop()
+#while pulse_val == 0:
+#    pulse_val = App.main_loop()
+#print "FINISHED with pulse " + str(pulse_val)
+pulse_val = 70
 bulb_objects_dict = {}
 
 #print type_of_array.bytes()

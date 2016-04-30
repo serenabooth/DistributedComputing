@@ -15,7 +15,7 @@ def threaded(fn):
     returns: None 
     """
     def wrapper(*args, **kwargs):
-       Thread(target=fn, args=args, kwargs=kwargs).start()
+       threading.Thread(target=fn, args=args, kwargs=kwargs).start()
     return wrapper
 
 class BulbQueue(Queue):
