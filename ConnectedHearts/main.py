@@ -47,10 +47,10 @@ uuid_list = Array(ctypes.c_uint64, 12)
 """
 power_strip_on_list = Array('i', 12)
 
-face_check_process = CheckFace(face_visible = face_visible)
+#face_check_process = CheckFace(face_visible = face_visible)
 print "face check!"
-face_check_process.start()
-face_check_process.join()
+#face_check_process.start()
+#face_check_process.join()
 
 print "on to the bulbs"
 for i in range(0, 12):
@@ -58,7 +58,7 @@ for i in range(0, 12):
     #print p.uuid
     bulb_objects_dict[p.uuid] = p
 
-for bulb in blb_objects_dict.values():
+for bulb in bulb_objects_dict.values():
     bulb.register_bulbs(bulb_objects_dict)
     bulb.send_uuid()
 
