@@ -2,7 +2,6 @@ from datetime import datetime
 import threading
 import sys, time, socket, random, Queue
 import uuid
-#from multiprocessing.queues import Queue
 from multiprocessing import Array, Process
 from multiprocessing.queues import Queue
 import ctypes 
@@ -43,7 +42,7 @@ class BulbQueue(Queue):
         self.queuesize += 1
 
 class Bulb(Process):
-    def __init__(self, id, uuid_list):
+    def __init__(self, id, uuid_list, turned_on_list):
         super(Bulb, self).__init__()
         self.id = id
         self.uuid = random.randint(1,2**64-1)
@@ -54,6 +53,7 @@ class Bulb(Process):
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
         self.ping_time = random.randint(1,12)
+        self.turned_on_list = turned_on_list
 
     def register_bulbs(self, bulb_objects_dict):
         self.uuid_dict = bulb_objects_dict

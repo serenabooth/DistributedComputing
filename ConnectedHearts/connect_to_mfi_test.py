@@ -1,6 +1,11 @@
 import sys, os, string, threading
 import paramiko
 
+"""
+    Code outline based on: StackOverflow Question 3485428
+    "Creating multiple SSH connections at a time using Paramiko"
+"""
+
 outlock = threading.Lock() 
 
 cmd = "echo 0 > /proc/power/relay1"
