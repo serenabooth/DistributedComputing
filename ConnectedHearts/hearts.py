@@ -7,16 +7,16 @@ from multiprocessing.queues import Queue
 import ctypes 
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 # yay decorators
-#def threaded(fn):
-    #""" 
-    #Creates a new thread to run the function fn. Use by writing "@threaded" above function to thread.
+def threaded(fn):
+    """ 
+    Creates a new thread to run the function fn. Use by writing "@threaded" above function to thread.
 
-    #fn: function 
-    #returns: None 
-    #"""
-    #def wrapper(*args, **kwargs):
-    #    Thread(target=fn, args=args, kwargs=kwargs).start()
-    #return wrapper
+    fn: function 
+    returns: None 
+    """
+    def wrapper(*args, **kwargs):
+       Thread(target=fn, args=args, kwargs=kwargs).start()
+    return wrapper
 
 class BulbQueue(Queue):
     def __init__(self):
@@ -102,11 +102,9 @@ class Bulb(Process):
         #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
         self.new_election = False
-        if self.id == 7: 
-            self.turned_on_list[7] = 1
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
-            self.turned_on_list[self.id] = 1
+            self.turn_on()
             """timeout = time.time() + 10
             while True:
                 #print "Leader. Here's my queue size: " + str(self.election_q.size())
@@ -124,6 +122,10 @@ class Bulb(Process):
         #self.ping_leader_socket()
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
+    def turn_on(self):
+        self.turned_on_list[self.id] = 1
+        self.signal_to_neighbors()
+
     def send_msg_to_leader(self, msg):
         #bulb_objects_list = self.uuid_dict.values()
         """for i in range(0, len(bulb_objects_list) - 1):
@@ -132,6 +134,7 @@ class Bulb(Process):
         self.leader.election_q.put(msg)
         #print "Leader queue: " + str(self.election_q.size()) + " Uuid queue: " + str(len(self.uuid_list)) + "\n"
 
+    @threaded
     def ping_leader(self):
         timeout = time.time() + self.ping_time
         while True:
@@ -145,6 +148,23 @@ class Bulb(Process):
         # also check for a leader election initiation here
         self.ping_leader()
 
+    @threaded
+    def signal_to_neighbors(self):
+        # TO DO: not sure how long we want this delay to be
+        timeout = time.time() + self.ping_time
+        while True:
+            if time.time() > timeout:
+                break
+        neighbor_above_id = (self.id + 1) % 12
+        neighbor_above_addr = self.uuid_dict[self.uuid_list[neighbor_above_id]]
+        neighbor_below_id = max(self.id - 1, 0) 
+        neighbor_below_addr = self.uuid_dict[self.uuid_list[neighbor_below_id]]
+
+        neighbor_above_addr.turn_on()
+        neighbor_below_addr.turn_on()
+        # get neighbors and tell them to turn on. 
+
+    @threaded
     def respond_to_ping(self):
         while not self.election_q.empty():
             pinger_uuid = self.election_q.get()
