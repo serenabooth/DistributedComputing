@@ -17,6 +17,7 @@ class Pi(Process):
     def __init__(self, bpm, turned_on_list, hosts):
         super(Pi, self).__init__()
         self.bpm = bpm
+        self.sleep_time = max(60 * 2/bpm, 0.5) 
         self.turned_on_list = turned_on_list
         self.hosts = hosts
 
@@ -47,12 +48,12 @@ class Pi(Process):
             #print on_cmd_builder
             #print off_cmd_builder
             c.exec_command(on_cmd_builder)
-            for i in range(0,4):
-                time.sleep((60/self.bpm)) #TO DO: set me to be the pulse
+            #for i in range(0,10):
+            time.sleep(self.sleep_time) #TO DO: set me to be the pulse
             #time.sleep(5)
             c.exec_command(off_cmd_builder) 
-            for i in range(0,4):
-                time.sleep((60/self.bpm)) #TO DO: set me to be the pulse
+            #for i in range(0,10):
+            time.sleep(self.sleep_time) #TO DO: set me to be the pulse
 
 
     def run(self):
