@@ -102,7 +102,8 @@ class Bulb(Process):
         #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
         self.new_election = False
-
+        if self.id == 7: 
+            self.turned_on_list[7] = 1
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
             self.turned_on_list[self.id] = 1

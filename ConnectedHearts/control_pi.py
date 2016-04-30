@@ -43,7 +43,10 @@ class Pi(Process):
                     on_cmd_builder += "&& echo 1 > /proc/power/relay" + str(i+1) + " "
                     off_cmd_builder += "&& echo 0 > /proc/power/relay" + str(i+1) + " "
 
+            print on_cmd_builder
+            print off_cmd_builder
             c.exec_command(on_cmd_builder)
+            time.sleep(5)
             c.exec_command(off_cmd_builder)            
             time.sleep(1) #TO DO: set me to be the pulse
 
