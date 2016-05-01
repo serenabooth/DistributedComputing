@@ -41,13 +41,13 @@ bulb_objects_dict = {}
 
 hosts = ['192.168.1.20', '192.168.1.21']
 
-uuid_list = Array(ctypes.c_uint64, 12)
+uuid_list = Array(ctypes.c_uint64, 13)
 """ 
     One power strip has ip 192.168.1.20; the other, .21
     .20 will control bulbs 0-5
     .21 will control bulbs 6-11
 """
-power_strip_on_list = Array('i', 12)
+power_strip_on_list = Array('i', 13)
 
 #face_check_process = CheckFace(face_visible = face_visible)
 print "face check!"
@@ -55,7 +55,7 @@ print "face check!"
 #face_check_process.join()
 
 print "on to the bulbs"
-for i in range(0, 12):
+for i in range(0, 13):
     p = Bulb(id = i, uuid_list = uuid_list, turned_on_list = power_strip_on_list, face_visible = face_visible)
     #print p.uuid
     bulb_objects_dict[p.uuid] = p
