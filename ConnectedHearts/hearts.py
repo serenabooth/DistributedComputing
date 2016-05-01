@@ -90,7 +90,7 @@ class Bulb(Process):
         while True:
             if time.time() > timeout:
                 break
-            if len(self.uuid_list) == 12:
+            if len(self.uuid_list) == 13:
                 #print "Before timeout. My uuid queue: " + str(self.uuid_list.size()) + "\n"
                 #print "Do I ever get here? \n"
                 break
@@ -126,7 +126,7 @@ class Bulb(Process):
     @threaded
     def turn_on(self):
         self.turned_on_list[self.id] = 1
-        neighbor_above_id = (self.id + 1) % 12
+        neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = max(self.id - 1, 0) 
 
         neighbors_to_signal_to = []

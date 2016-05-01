@@ -38,7 +38,8 @@ class findFaceGetPulse(object):
         self.t0 = time.time()
         self.bpms = []
         self.bpm = 0
-        dpath = resource_path("webcam_pulse/haarcascade_frontalface_alt.xml")
+        #dpath = resource_path("webcam_pulse/haarcascade_frontalface_alt.xml")
+        dpath = "/home/serena/DistributedComputing/ConnectedHearts/webcam_pulse/haarcascade_frontalface_alt.xml"
         print dpath
         if not os.path.exists(dpath):
             print "Cascade file not present!"
@@ -138,7 +139,7 @@ class findFaceGetPulse(object):
             #            (10, 75), cv2.FONT_HERSHEY_PLAIN, 1.25, col)
             self.data_buffer, self.times, self.trained = [], [], False
             detected = list(self.face_cascade.detectMultiScale(self.gray,
-                                                               scaleFactor=1.3,
+                                                               scaleFactor=1.1,
                                                                minNeighbors=4,
                                                                minSize=(
                                                                    50, 50),

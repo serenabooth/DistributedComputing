@@ -37,7 +37,7 @@ class CheckFace(Process):
                 gray = cv2.equalizeHist(cv2.cvtColor(frame,
                                                       cv2.COLOR_BGR2GRAY))
                 detected = list(self.face_cascade.detectMultiScale(gray,
-                                                                   scaleFactor=1.3,
+                                                                   scaleFactor=1.1,
                                                                    minNeighbors=4,
                                                                    minSize=(
                                                                        50, 50),
