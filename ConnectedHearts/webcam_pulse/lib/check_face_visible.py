@@ -17,12 +17,13 @@ class CheckFace(Process):
         self.face_cascade = cv2.CascadeClassifier(dpath)
 
 
-    def check_if_face_is_visible(self): 
+    def check_if_face_is_visible(self):
+        time.sleep(10)
+ 
         print str(self.face_visible)
         print "is face visible? " + str(self.face_visible == 0)
         print "is face visible? " + str(self.face_visible == 1)
         while self.face_visible.value:
-            time.sleep(5)
             ct = 0 
             print "CHECK IF FACE IS VISIBLE"
             for i in range(0,50):

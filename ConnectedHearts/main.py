@@ -93,6 +93,7 @@ while True:
                 bulb.join()
 
             pi.join()
+            time.sleep(10)
     	    
     	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
         continue
