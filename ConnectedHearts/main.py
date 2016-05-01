@@ -78,16 +78,16 @@ while True:
         bulb.send_uuid()
 
     try:
-    	while (face_visible.value):
-            pi = Pi(bpm = pulse_val, 
+        pi = Pi(bpm = pulse_val, 
                               turned_on_list = power_strip_on_list, 
                               hosts = hosts, 
                               face_visible = face_visible)
-            pi.start()
+        pi.start()
 
-            for bulb in bulb_objects_dict.values():
-               bulb.start()
-
+        for bulb in bulb_objects_dict.values():
+           bulb.start()
+           
+    	while (face_visible.value):
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"
             #    bulb.join()
