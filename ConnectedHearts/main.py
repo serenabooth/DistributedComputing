@@ -7,7 +7,7 @@ import ctypes
 from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 
-def kill_all_processes(pi, bulbs, fc = None):
+def kill_all_processes(pi, bulbs, fc):
     pi.terminate()
     if fc:
         fc.terminate()
@@ -59,10 +59,10 @@ while True:
     """
     power_strip_on_list = Array('i', 13)
 
-    #face_check_process = CheckFace(face_visible = face_visible)
+    face_check_process = CheckFace(face_visible = face_visible)
     print "face check!"
-    #face_check_process.start()
-    #face_check_process.join()
+    face_check_process.start()
+    face_check_process.join()
 
     print "on to the bulbs"
     for i in range(0, 13):
@@ -91,12 +91,12 @@ while True:
 
             pi.join()
     	    
-    	kill_all_processes(pi, face_check_process, bulb_objects_dict.values())
+    	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
         continue
     	
 
     except KeyboardInterrupt:
-    	kill_all_processes(pi, bulb_objects_dict.values())
+    	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
 
 
 

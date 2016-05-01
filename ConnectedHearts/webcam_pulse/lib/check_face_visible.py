@@ -13,8 +13,7 @@ class CheckFace(Process):
         self.cam = None
         #self.cam = Camera(0)
         #self.cam.start()
-        dpath = "/home/serena/DistributedComputing/ \
-                    ConnectedHearts/webcam_pulse/haarcascade_frontalface_alt.xml"
+        dpath = "/home/serena/DistributedComputing/ConnectedHearts/webcam_pulse/haarcascade_frontalface_alt.xml"
         self.face_cascade = cv2.CascadeClassifier(dpath)
 
 
