@@ -78,7 +78,7 @@ while True:
         bulb.send_uuid()
 
     try:
-    	while (face_visible):
+    	while (face_visible.value):
             pi = Pi(bpm = pulse_val, 
                               turned_on_list = power_strip_on_list, 
                               hosts = hosts, 

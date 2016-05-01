@@ -149,7 +149,7 @@ class Bulb(Process):
 
     def ping_leader(self):
         timeout = time.time() + self.ping_time
-        while self.face_visible:
+        while self.face_visible.value:
             if time.time() > timeout:
                 break
         self.leader.election_q.put(self.uuid)
@@ -168,7 +168,7 @@ class Bulb(Process):
         """
         # TODO: not sure how long we want this delay to be
         timeout = time.time() + self.ping_time
-        while self.face_visible:
+        while self.face_visible.value:
             if time.time() > timeout:
                 break
         for neighbor in list_of_neighbors: 
@@ -180,7 +180,7 @@ class Bulb(Process):
             self.state_q.put(pinger_uuid)
             self.uuid_dict[pinger_uuid].election_q.put("I'm the leader")
         timeout = time.time() + self.ping_time
-        while self.face_visible:
+        while self.face_visible.value:
             if time.time() > timeout:
                 break
         self.respond_to_ping()
