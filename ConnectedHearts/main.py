@@ -65,7 +65,7 @@ while True:
     face_check_process = CheckFace(face_visible = face_visible, camera_obj = camera_obj)
     print "face check!"
     face_check_process.start()
-    face_check_process.join()
+    #face_check_process.join()
 
     print "on to the bulbs"
     for i in range(0, 13):
@@ -91,8 +91,9 @@ while True:
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"
             #    bulb.join()
-
+            
             #pi.join()
+            time.sleep(10)
     	    
     	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
         continue
