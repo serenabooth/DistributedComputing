@@ -17,11 +17,13 @@ class CheckFace(Process):
         self.face_cascade = cv2.CascadeClassifier(dpath)
 
 
-    def check_if_face_is_visible(): 
-        while not self.face_visible:
+    def check_if_face_is_visible(self): 
+        print "is face visible? " + str(self.face_visible == 0)
+        print "is face visible? " + str(self.face_visible == 1)
+        while self.face_visible:
             time.sleep(5)
             ct = 0 
-
+            print "CHECK IF FACE IS VISIBLE"
             for i in range(0,50):
                 frame = self.cam.getFrame()
                 gray = cv2.equalizeHist(cv2.cvtColor(frame,
@@ -39,7 +41,6 @@ class CheckFace(Process):
     
     def check_for_faces(self):
         self.check_if_face_is_visible()
-        self.cam.release()
 
     def run(self):
         #time.sleep(60)
