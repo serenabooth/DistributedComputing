@@ -62,7 +62,7 @@ while True:
     """
     power_strip_on_list = Array('i', 13)
 
-    face_check_process = CheckFace(face_visible = face_visible)
+    face_check_process = CheckFace(face_visible = face_visible, camera_obj = camera_obj)
     print "face check!"
     face_check_process.start()
     face_check_process.join()
