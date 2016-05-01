@@ -18,6 +18,7 @@ class CheckFace(Process):
 
 
     def check_if_face_is_visible(self): 
+        print str(self.face_visible)
         print "is face visible? " + str(self.face_visible == 0)
         print "is face visible? " + str(self.face_visible == 1)
         while self.face_visible:
