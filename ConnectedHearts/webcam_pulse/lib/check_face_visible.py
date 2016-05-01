@@ -5,16 +5,6 @@ import time
 import os 
 from multiprocessing import Array, Process
 
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
 class CheckFace(Process): 
 
     def __init__(self, face_visible):
@@ -23,7 +13,8 @@ class CheckFace(Process):
         self.cam = None
         #self.cam = Camera(0)
         #self.cam.start()
-        dpath = resource_path("webcam_pulse/haarcascade_frontalface_alt.xml")
+        dpath = "/home/serena/DistributedComputing/ \
+                    ConnectedHearts/webcam_pulse/haarcascade_frontalface_alt.xml"
         self.face_cascade = cv2.CascadeClassifier(dpath)
 
 
