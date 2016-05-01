@@ -88,13 +88,14 @@ while True:
            bulb.start()
            
     	while (face_visible.value):
+            print "face dere?" +  str(face_visible.value)
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"
             #    bulb.join()
 
             #pi.join()
             time.sleep(10)
-    	    
+    	print "About to shut this down"
     	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
         time.sleep(5)
         continue
