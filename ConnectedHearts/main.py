@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from hearts import *
 from control_pi import *
 from multiprocessing.queues import Queue
@@ -7,29 +8,30 @@ from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 
 face_visible = Value('i', 0)
-
+time.sleep(60)
 """ 
 Get pulse! 
 """
-parser = argparse.ArgumentParser(description='Webcam pulse detector.')
-parser.add_argument('--serial', default=None,
-                    help='serial port destination for bpm data')
-parser.add_argument('--baud', default=None,
-                    help='Baud rate for serial transmission')
-parser.add_argument('--udp', default=None,
-                    help='udp address:port destination for bpm data')
+#parser = argparse.ArgumentParser(description='Webcam pulse detector.')
+#parser.add_argument('--serial', default=None,
+#                    help='serial port destination for bpm data')
+#parser.add_argument('--baud', default=None,
+#                    help='Baud rate for serial transmission')
+#parser.add_argument('--udp', default=None,
+#                    help='udp address:port destination for bpm data')
 
-args = parser.parse_args()
-App = getPulseApp(args)
-pulse_val = App.main_loop()
-while pulse_val == 0:
-   pulse_val = App.main_loop()
+#args = parser.parse_args()
+#App = getPulseApp(args)
+#pulse_val = App.main_loop()
+#while pulse_val == 0:
+#   pulse_val = App.main_loop()
 
-if pulse_val > 160: 
-    pulse_val = 160
-if pulse_val < 50:
-    pulse_val = 50
-print "FINISHED with pulse " + str(pulse_val)
+#if pulse_val > 160: 
+#    pulse_val = 160
+#if pulse_val < 50:
+#    pulse_val = 50
+#print "FINISHED with pulse " + str(pulse_val)
+pulse_val = 70
 bulb_objects_dict = {}
 
 #print type_of_array.bytes()
@@ -62,17 +64,26 @@ for bulb in bulb_objects_dict.values():
     bulb.register_bulbs(bulb_objects_dict)
     bulb.send_uuid()
 
-pi = Pi(bpm = pulse_val, turned_on_list = power_strip_on_list, hosts = hosts, face_visible = face_visible)
-pi.start()
+try:
+    pi = Pi(bpm = pulse_val, 
+                      turned_on_list = power_strip_on_list, 
+                      hosts = hosts, 
+                      face_visible = face_visible)
+    pi.start()
 
-for bulb in bulb_objects_dict.values():
-   bulb.start()
+    for bulb in bulb_objects_dict.values():
+       bulb.start()
 
-for bulb in bulb_objects_dict.values():
-  print "joining!"
-  bulb.join()
+    for bulb in bulb_objects_dict.values():
+        print "joining!"
+        bulb.join()
 
-pi.join()
+    pi.join()
+
+except KeyboardInterrupt:
+    pi.terminate()
+    for bulb in bulb_objects_dict.values():
+        bulb.terminate()
 
 #for bulb in bulb_objects_list:
     #bulb.leader_election()

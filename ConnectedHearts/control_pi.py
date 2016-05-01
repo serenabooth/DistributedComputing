@@ -1,7 +1,7 @@
 from datetime import datetime
 import threading
 import sys, os
-import string, time, random, Queue
+import string, time, datetime, random, Queue
 import uuid
 from multiprocessing import Array, Process
 from multiprocessing.queues import Queue
@@ -48,10 +48,12 @@ class Pi(Process):
 
             #print on_cmd_builder
             #print off_cmd_builder
+            print str(datetime.datetime.now()) + str(host) + " on"
             c.exec_command(on_cmd_builder)
             #for i in range(0,10):
             time.sleep(self.sleep_time) #TO DO: set me to be the pulse
             #time.sleep(5)
+            print str(datetime.datetime.now()) + str(host) + " off"
             c.exec_command(off_cmd_builder) 
             #for i in range(0,10):
             time.sleep(self.sleep_time) #TO DO: set me to be the pulse
