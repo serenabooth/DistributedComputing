@@ -1,7 +1,7 @@
 import numpy as np
 import time
 import cv2
-import pylab
+#import pylab
 import os
 import sys
 
@@ -94,30 +94,30 @@ class findFaceGetPulse(object):
         self.trained = not self.trained
         return self.trained
 
-    def plot(self):
-        data = np.array(self.data_buffer).T
-        np.savetxt("data.dat", data)
-        np.savetxt("times.dat", self.times)
-        freqs = 60. * self.freqs
-        idx = np.where((freqs > 50) & (freqs < 180))
-        pylab.figure()
-        n = data.shape[0]
-        for k in xrange(n):
-            pylab.subplot(n, 1, k + 1)
-            pylab.plot(self.times, data[k])
-        pylab.savefig("data.png")
-        pylab.figure()
-        for k in xrange(self.output_dim):
-            pylab.subplot(self.output_dim, 1, k + 1)
-            pylab.plot(self.times, self.pcadata[k])
-        pylab.savefig("data_pca.png")
+    # def plot(self):
+    #     data = np.array(self.data_buffer).T
+    #     np.savetxt("data.dat", data)
+    #     np.savetxt("times.dat", self.times)
+    #     freqs = 60. * self.freqs
+    #     idx = np.where((freqs > 50) & (freqs < 180))
+    #     pylab.figure()
+    #     n = data.shape[0]
+    #     for k in xrange(n):
+    #         pylab.subplot(n, 1, k + 1)
+    #         pylab.plot(self.times, data[k])
+    #     pylab.savefig("data.png")
+    #     pylab.figure()
+    #     for k in xrange(self.output_dim):
+    #         pylab.subplot(self.output_dim, 1, k + 1)
+    #         pylab.plot(self.times, self.pcadata[k])
+    #     pylab.savefig("data_pca.png")
 
-        pylab.figure()
-        for k in xrange(self.output_dim):
-            pylab.subplot(self.output_dim, 1, k + 1)
-            pylab.plot(freqs[idx], self.fft[k][idx])
-        pylab.savefig("data_fft.png")
-        quit()
+    #     pylab.figure()
+    #     for k in xrange(self.output_dim):
+    #         pylab.subplot(self.output_dim, 1, k + 1)
+    #         pylab.plot(freqs[idx], self.fft[k][idx])
+    #     pylab.savefig("data_fft.png")
+    #     quit()
 
     def run(self, cam):
         self.times.append(time.time() - self.t0)
