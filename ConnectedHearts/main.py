@@ -6,6 +6,11 @@ from multiprocessing import Array, Value
 import ctypes
 from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
+from webcam_pulse.lib.device import Camera
+
+camera_obj = Camera(0)
+camera_obj.start()
+
 
 def kill_all_processes(pi, bulbs, fc):
     pi.terminate()
@@ -31,7 +36,7 @@ while True:
                         help='udp address:port destination for bpm data')
 
     args = parser.parse_args()
-    App = getPulseApp(args)
+    App = getPulseApp(args, camera_obj)
     pulse_val = App.main_loop()
     while pulse_val == 0:
        pulse_val = App.main_loop()

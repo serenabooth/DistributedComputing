@@ -7,10 +7,10 @@ from multiprocessing import Array, Process
 
 class CheckFace(Process): 
 
-    def __init__(self, face_visible):
+    def __init__(self, face_visible, camera_obj):
         super(CheckFace, self).__init__()
         self.face_visible = face_visible
-        self.cam = None
+        self.cam = camera_obj
         #self.cam = Camera(0)
         #self.cam.start()
         dpath = "/home/serena/DistributedComputing/ConnectedHearts/webcam_pulse/haarcascade_frontalface_alt.xml"
@@ -43,8 +43,6 @@ class CheckFace(Process):
 
     def run(self):
         #time.sleep(60)
-        print "trying for camera"
-        self.cam = Camera(0)
         print "got camera"
         self.check_for_faces()
 

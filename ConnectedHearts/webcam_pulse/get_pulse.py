@@ -20,7 +20,7 @@ class getPulseApp(object):
     over time, and the detected person's pulse is estimated.
     """
 
-    def __init__(self, args):
+    def __init__(self, args, camera_obj):
         # Imaging device - must be a connected camera (not an ip camera or mjpeg
         # stream)
         serial = args.serial
@@ -57,7 +57,7 @@ class getPulseApp(object):
         #        self.cameras.append(camera)
         #    else:
         #        break
-        camera = Camera(0)
+        camera = camera_obj
         self.cameras.append(camera)
         self.w, self.h = 0, 0
         self.pressed = 0
@@ -202,12 +202,12 @@ class getPulseApp(object):
         if self.send_udp:
             self.sock.sendto(str(self.processor.bpm), self.udp)
 
-        if self.processor.bpm > 0:
-            print "closing down camera"
-            for cam in self.cameras:
-                cam.release()
-            if self.send_serial:
-                self.serial.close()
+        # if self.processor.bpm > 0:
+        #     print "closing down camera"
+        #     for cam in self.cameras:
+        #         cam.release()
+        #     if self.send_serial:
+        #         self.serial.close()
             #sys.exit()
 
         print self.processor.bpm
