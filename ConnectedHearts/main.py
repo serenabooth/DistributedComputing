@@ -9,8 +9,6 @@ from webcam_pulse.lib.check_face_visible import *
 from webcam_pulse.lib.device import Camera
 
 camera_obj = Camera(0)
-camera_obj.start()
-
 
 def kill_all_processes(pi, bulbs, fc):
     pi.terminate()
@@ -102,6 +100,7 @@ while True:
 
     except KeyboardInterrupt:
     	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
+    	camera_obj.release()
 
 
 
