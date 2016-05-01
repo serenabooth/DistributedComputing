@@ -91,11 +91,12 @@ while True:
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"
             #    bulb.join()
-            
+
             #pi.join()
             time.sleep(10)
     	    
     	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
+        time.sleep(5)
         continue
     	
 
