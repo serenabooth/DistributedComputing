@@ -39,7 +39,8 @@ class findFaceGetPulse(object):
         self.bpms = []
         self.bpm = 0
         #dpath = resource_path("webcam_pulse/haarcascade_frontalface_alt.xml")
-        dpath = "/home/serena/DistributedComputing/ConnectedHearts/webcam_pulse/haarcascade_frontalface_alt.xml"
+        dpath = "/home/serena/DistributedComputing/ \
+                    ConnectedHearts/webcam_pulse/haarcascade_frontalface_alt.xml"
         print dpath
         if not os.path.exists(dpath):
             print "Cascade file not present!"
