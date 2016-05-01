@@ -33,13 +33,17 @@ class Pi(Process):
         turn_all_off = "echo turning_all_off "
         for i in range (1,7):
             turn_all_off += "&& echo 0 > /proc/power/relay" + str(i) + " "
+        for i in range(7,9):
+            turn_all_off += "&& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
 
         while self.face_visible: 
             on_cmd_builder = "echo turning_on "
             off_cmd_builder = "echo turning_off "
-            for i in range(0,6):
+            for i in range(0,7):
                 chk_on = i
+                if (host == "192.168.1.21" and i == 6):
+                    continue
                 if (host == "192.168.1.21"):
                     chk_on = i * 2 + 1 
                 if self.turned_on_list[chk_on] == 1:
