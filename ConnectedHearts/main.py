@@ -39,6 +39,14 @@ bulb_objects_dict = {}
 #test_if_queue_works = Queue()
 #print test_if_queue_works
 
+def kill_all_processes(pi, bulbs, fc = None):
+	pi.terminate()
+	if fc:
+		fc.terminate()
+	for bulb in bulbs:
+		bulb.terminate()
+
+
 hosts = ['192.168.1.20', '192.168.1.21']
 
 uuid_list = Array(ctypes.c_uint64, 12)
@@ -65,25 +73,29 @@ for bulb in bulb_objects_dict.values():
     bulb.send_uuid()
 
 try:
-    pi = Pi(bpm = pulse_val, 
-                      turned_on_list = power_strip_on_list, 
-                      hosts = hosts, 
-                      face_visible = face_visible)
-    pi.start()
+	while (face_visible):
+	    pi = Pi(bpm = pulse_val, 
+	                      turned_on_list = power_strip_on_list, 
+	                      hosts = hosts, 
+	                      face_visible = face_visible)
+	    pi.start()
 
-    for bulb in bulb_objects_dict.values():
-       bulb.start()
+	    for bulb in bulb_objects_dict.values():
+	       bulb.start()
 
-    for bulb in bulb_objects_dict.values():
-        print "joining!"
-        bulb.join()
+	    for bulb in bulb_objects_dict.values():
+	        print "joining!"
+	        bulb.join()
 
-    pi.join()
+	    pi.join()
+	    
+	kill_all_processes(pi, face_check_process, bulb_objects_dict.values())
+	
 
 except KeyboardInterrupt:
-    pi.terminate()
-    for bulb in bulb_objects_dict.values():
-        bulb.terminate()
+	kill_all_processes(pi, bulb_objects_dict.values())
+
+
 
 #for bulb in bulb_objects_list:
     #bulb.leader_election()
