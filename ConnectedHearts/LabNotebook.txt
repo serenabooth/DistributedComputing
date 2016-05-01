@@ -80,3 +80,17 @@ TO DO:
             - Only follow instructions to turn on or off if leader election queue is empty
 
         - When a new leader election is started, all the bulbs should turn off
+
+(SERENA) Lab notebook for 4/28-4/30?
+
+5/1
+    Hardware:
+        - Drilled holes in the the cabinet for the lightbulbs
+        - Confirmed that code works for 4 bulbs
+        - Ran into issue where we can only restart bulbs for new pulse by unplugging units and replugging them in, created fix for this in code
+        - Painted inside of cabinet black to prevent any sort of issues with the surface being reflective
+
+    Software
+        - Changed number of bulbs to 13 rather than 12
+        - Wrapped all the code in main in a while True loop so that we can "continue" when we want to rerun it for a new face
+            - We're aware that this is horrible style but it was the easiest way to get it working for right now, might change this later
