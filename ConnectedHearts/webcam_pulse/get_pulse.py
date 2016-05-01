@@ -1,6 +1,7 @@
 from lib.device import Camera
 from lib.processors_noopenmdao import findFaceGetPulse
-from lib.interface import plotXY, imshow, waitKey, destroyWindow
+#from lib.interface import plotXY, imshow, waitKey, destroyWindow
+from lib.interface import waitKey
 from cv2 import moveWindow
 import argparse
 import numpy as np
@@ -86,12 +87,13 @@ class getPulseApp(object):
         #self.bpm = 0
     
     def toggle_cam(self):
-        if len(self.cameras) > 1:
-            self.processor.find_faces = True
-            self.bpm_plot = False
-            destroyWindow(self.plot_title)
-            self.selected_cam += 1
-            self.selected_cam = self.selected_cam % len(self.cameras)
+        print "Not implemented"
+        # if len(self.cameras) > 1:
+        #     self.processor.find_faces = True
+        #     self.bpm_plot = False
+        #     destroyWindow(self.plot_title)
+        #     self.selected_cam += 1
+        #     self.selected_cam = self.selected_cam % len(self.cameras)
 
     def write_csv(self):
         """
@@ -118,33 +120,35 @@ class getPulseApp(object):
         """
         Toggles the data display.
         """
-        if self.bpm_plot:
-            print "bpm plot disabled"
-            self.bpm_plot = False
-            destroyWindow(self.plot_title)
-        else:
-            print "bpm plot enabled"
-            if self.processor.find_faces:
-                self.toggle_search()
-            self.bpm_plot = True
-            self.make_bpm_plot()
-            moveWindow(self.plot_title, self.w, 0)
+        print "Not implemented"
+        #if self.bpm_plot:
+        #     print "bpm plot disabled"
+        #     self.bpm_plot = False
+        #     destroyWindow(self.plot_title)
+        # else:
+        #     print "bpm plot enabled"
+        #     if self.processor.find_faces:
+        #         self.toggle_search()
+        #     self.bpm_plot = True
+        #     self.make_bpm_plot()
+        #     moveWindow(self.plot_title, self.w, 0)
 
     def make_bpm_plot(self):
-        """
-        Creates and/or updates the data display
-        """
-        plotXY([[self.processor.times,
-                 self.processor.samples],
-                [self.processor.freqs,
-                 self.processor.fft]],
-               labels=[False, True],
-               showmax=[False, "bpm"],
-               label_ndigits=[0, 0],
-               showmax_digits=[0, 1],
-               skip=[3, 3],
-               name=self.plot_title,
-               bg=self.processor.slices[0])
+        print "Not Implemented"
+        # """
+        # Creates and/or updates the data display
+        # """
+        # plotXY([[self.processor.times,
+        #          self.processor.samples],
+        #         [self.processor.freqs,
+        #          self.processor.fft]],
+        #        labels=[False, True],
+        #        showmax=[False, "bpm"],
+        #        label_ndigits=[0, 0],
+        #        showmax_digits=[0, 1],
+        #        skip=[3, 3],
+        #        name=self.plot_title,
+        #        bg=self.processor.slices[0])
 
     def key_handler(self):
         """
