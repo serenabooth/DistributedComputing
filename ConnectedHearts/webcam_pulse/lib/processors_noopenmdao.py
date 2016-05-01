@@ -22,7 +22,7 @@ class findFaceGetPulse(object):
 
     def __init__(self, bpm_limits=[], data_spike_limit=250,
                  face_detector_smoothness=10):
-
+        self.found_face = 0
         self.frame_in = np.zeros((10, 10))
         self.frame_out = np.zeros((10, 10))
         self.fps = 0
@@ -146,6 +146,7 @@ class findFaceGetPulse(object):
                                                                flags=cv2.CASCADE_SCALE_IMAGE))
 
             if len(detected) > 0:
+                self.found_face = 1
                 print "found a face"
                 self.num_frames_showing_face += 1
                 detected.sort(key=lambda a: a[-1] * a[-2])
@@ -154,6 +155,7 @@ class findFaceGetPulse(object):
                     self.face_rect = detected[-1]
             else: 
                 self.num_frames_showing_face = 0
+                self.found_face = 0
 
             if self.num_frames_showing_face > 50: 
                 self.find_faces_toggle()
@@ -248,9 +250,11 @@ class findFaceGetPulse(object):
                 # self.ttimes.append(time.time())
                 if gap:
                     text = "(estimate: %0.1f bpm, wait %0.0f s)" % (self.bpm, gap)
-                    self.bmp = 0
+                    self.bpm = 0
                 else:
                     text = "(estimate: %0.1f bpm)" % (self.bpm)
+                if not self.found_face:
+                    self.bpm = -1 
                 tsize = 1
                 cv2.putText(self.frame_out, text,
                            (x - w / 2, y), cv2.FONT_HERSHEY_PLAIN, tsize, col)
