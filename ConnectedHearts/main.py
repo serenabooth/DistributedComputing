@@ -9,6 +9,7 @@ from webcam_pulse.lib.check_face_visible import *
 
 face_visible = Value('i', 0)
 time.sleep(10)
+
 """ 
 Get pulse! 
 """
@@ -73,23 +74,23 @@ for bulb in bulb_objects_dict.values():
     bulb.send_uuid()
 
 try:
-	while (face_visible):
-	    pi = Pi(bpm = pulse_val, 
-	                      turned_on_list = power_strip_on_list, 
-	                      hosts = hosts, 
-	                      face_visible = face_visible)
-	    pi.start()
+	#while (face_visible):
+    pi = Pi(bpm = pulse_val, 
+                      turned_on_list = power_strip_on_list, 
+                      hosts = hosts, 
+                      face_visible = face_visible)
+    pi.start()
 
-	    for bulb in bulb_objects_dict.values():
-	       bulb.start()
+    for bulb in bulb_objects_dict.values():
+       bulb.start()
 
-	    for bulb in bulb_objects_dict.values():
-	        print "joining!"
-	        bulb.join()
+    for bulb in bulb_objects_dict.values():
+        print "joining!"
+        bulb.join()
 
-	    pi.join()
+    pi.join()
 	    
-	kill_all_processes(pi, face_check_process, bulb_objects_dict.values())
+	#kill_all_processes(pi, face_check_process, bulb_objects_dict.values())
 	
 
 except KeyboardInterrupt:

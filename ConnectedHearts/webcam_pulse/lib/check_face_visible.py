@@ -1,6 +1,6 @@
 from device import Camera
 from processors_noopenmdao import findFaceGetPulse
-import cv2
+#import cv2
 import time
 import os 
 from multiprocessing import Array, Process
