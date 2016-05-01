@@ -1,5 +1,5 @@
 from picamerastream import PiVideoStream
-import cv2, time
+#import cv2, time
 import urllib2, base64
 import numpy as np
 from threading import Thread 

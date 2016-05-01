@@ -2,11 +2,11 @@ from lib.device import Camera
 from lib.processors_noopenmdao import findFaceGetPulse
 #from lib.interface import plotXY, imshow, waitKey, destroyWindow
 from lib.interface import waitKey
-from cv2 import moveWindow
+#from cv2 import moveWindow
 import argparse
 import numpy as np
 import datetime
-from serial import Serial
+#from serial import Serial
 import socket
 import sys
 

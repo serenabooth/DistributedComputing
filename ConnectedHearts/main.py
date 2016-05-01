@@ -9,6 +9,7 @@ from webcam_pulse.lib.check_face_visible import *
 
 face_visible = Value('i', 0)
 time.sleep(10)
+
 """ 
 Get pulse! 
 """
@@ -39,6 +40,14 @@ bulb_objects_dict = {}
 #test_if_queue_works = Queue()
 #print test_if_queue_works
 
+def kill_all_processes(pi, bulbs, fc = None):
+	pi.terminate()
+	if fc:
+		fc.terminate()
+	for bulb in bulbs:
+		bulb.terminate()
+
+
 hosts = ['192.168.1.20', '192.168.1.21']
 
 uuid_list = Array(ctypes.c_uint64, 13)
@@ -65,6 +74,7 @@ for bulb in bulb_objects_dict.values():
     bulb.send_uuid()
 
 try:
+	#while (face_visible):
     pi = Pi(bpm = pulse_val, 
                       turned_on_list = power_strip_on_list, 
                       hosts = hosts, 
@@ -79,11 +89,14 @@ try:
         bulb.join()
 
     pi.join()
+	    
+	#kill_all_processes(pi, face_check_process, bulb_objects_dict.values())
+	
 
 except KeyboardInterrupt:
-    pi.terminate()
-    for bulb in bulb_objects_dict.values():
-        bulb.terminate()
+	kill_all_processes(pi, bulb_objects_dict.values())
+
+
 
 #for bulb in bulb_objects_list:
     #bulb.leader_election()

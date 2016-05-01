@@ -1,6 +1,6 @@
-from picamera import PiCamera
-from picamera.array import PiRGBArray
-import cv2, time
+#from picamera import PiCamera
+#from picamera.array import PiRGBArray
+#import cv2, time
 import urllib2, base64
 import numpy as np
 from threading import Thread 
