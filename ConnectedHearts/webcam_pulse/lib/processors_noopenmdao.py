@@ -139,7 +139,7 @@ class findFaceGetPulse(object):
             #            (10, 75), cv2.FONT_HERSHEY_PLAIN, 1.25, col)
             self.data_buffer, self.times, self.trained = [], [], False
             detected = list(self.face_cascade.detectMultiScale(self.gray,
-                                                               scaleFactor=1.3,
+                                                               scaleFactor=1,
                                                                minNeighbors=4,
                                                                minSize=(
                                                                    50, 50),
