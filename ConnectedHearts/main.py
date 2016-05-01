@@ -19,7 +19,7 @@ def kill_all_processes(pi, bulbs, fc):
 
 
 while True: 
-    face_visible = Value('i', 0)
+    face_visible = Value('i', 1)
     time.sleep(10)
 
     """ 

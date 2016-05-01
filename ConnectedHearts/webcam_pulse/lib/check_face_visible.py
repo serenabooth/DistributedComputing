@@ -21,7 +21,7 @@ class CheckFace(Process):
         print str(self.face_visible)
         print "is face visible? " + str(self.face_visible == 0)
         print "is face visible? " + str(self.face_visible == 1)
-        while self.face_visible:
+        while self.face_visible.value:
             time.sleep(5)
             ct = 0 
             print "CHECK IF FACE IS VISIBLE"
@@ -38,7 +38,7 @@ class CheckFace(Process):
                 if len(detected) > 0: 
                     ct += 1
             if ct < 30:
-                self.face_visible = 1
+                self.face_visible.value = 0
     
     def check_for_faces(self):
         self.check_if_face_is_visible()
