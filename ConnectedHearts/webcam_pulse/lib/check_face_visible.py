@@ -15,7 +15,7 @@ class CheckFace(object):
 
 
     def check_if_face_is_visible(self):
-	    ct = 0 
+        ct = 0 
         time.sleep(10)
         print "CHECK IF FACE IS VISIBLE"
         for i in range(0,10):
