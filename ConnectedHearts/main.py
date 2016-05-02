@@ -29,7 +29,6 @@ parser.add_argument('--udp', default=None,
                     help='udp address:port destination for bpm data')
 
 args = parser.parse_args()
-App = getPulseApp(args, camera_obj)
 
 # Outer while loop to catch errors
 while True: 
@@ -38,6 +37,7 @@ while True:
 
     # Perform this _once_ initially
     pulse_val = 0; # App.main_loop()
+    App = getPulseApp(args, camera_obj)
 
     # Generate a pulse
     while pulse_val == 0 or pulse_val == -1: 
