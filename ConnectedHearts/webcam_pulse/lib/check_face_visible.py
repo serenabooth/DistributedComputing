@@ -20,8 +20,8 @@ class CheckFace(object):
         print "CHECK IF FACE IS VISIBLE"
         for i in range(0,10):
             frame = self.cam.get_frame()
-            cv2.imshow("Frame", frame)
-            cv2.waitKey(0)          
+            #cv2.imshow("Frame", frame)
+            #cv2.waitKey(0)          
             gray = cv2.equalizeHist(cv2.cvtColor(frame,
                                                   cv2.COLOR_BGR2GRAY))
             detected = list(self.face_cascade.detectMultiScale(gray,
