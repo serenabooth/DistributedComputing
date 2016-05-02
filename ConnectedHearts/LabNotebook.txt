@@ -94,3 +94,8 @@ TO DO:
         - Changed number of bulbs to 13 rather than 12
         - Wrapped all the code in main in a while True loop so that we can "continue" when we want to rerun it for a new face
             - We're aware that this is horrible style but it was the easiest way to get it working for right now, might change this later
+
+
+5/2
+    NEED TO FIX: 
+        - bulb 0 unable to communicate with bulb 12 (DONE)

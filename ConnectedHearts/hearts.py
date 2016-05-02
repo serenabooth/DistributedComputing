@@ -127,7 +127,7 @@ class Bulb(Process):
     def turn_on(self):
         self.turned_on_list[self.id] = 1
         neighbor_above_id = (self.id + 1) % 13
-        neighbor_below_id = max(self.id - 1, 0) 
+        neighbor_below_id = (self.id - 1) % 13 
 
         neighbors_to_signal_to = []
         if self.turned_on_list[neighbor_above_id] != 1: 
