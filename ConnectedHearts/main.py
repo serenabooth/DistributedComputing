@@ -72,7 +72,7 @@ while True:
     """
     power_strip_on_list = Array('i', 13)
 
-    #face_check_process = CheckFace(face_visible = face_visible, camera_obj = camera_obj)
+    face_check_process = CheckFace(camera_obj = camera_obj)
     #print "face check!"
     #face_check_process.start()
     #face_check_process.join()
@@ -97,7 +97,7 @@ while True:
         for bulb in bulb_objects_dict.values():
            bulb.start()
            
-        while (App.main_loop() != -1):
+        while (face_check_process.check_if_face_is_visible()):
             print "face dere?" +  str(face_visible.value)
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"

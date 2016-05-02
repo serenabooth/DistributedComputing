@@ -223,6 +223,7 @@ class getPulseApp(object):
         #else:
         #    time.sleep(10)
             
+        print "Current bpm: " + str(self.bpm)
         return self.bpm
 
 
