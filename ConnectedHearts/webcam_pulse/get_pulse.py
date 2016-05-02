@@ -198,14 +198,14 @@ class getPulseApp(object):
         #imshow("Processed", output_frame)
 
         # create and/or update the raw data display if needed
-        if self.bpm_plot:
-            self.make_bpm_plot()
+        #if self.bpm_plot:
+        #    self.make_bpm_plot()
 
-        if self.send_serial:
-            self.serial.write(str(self.processor.bpm) + "\r\n")
+        #if self.send_serial:
+        #    self.serial.write(str(self.processor.bpm) + "\r\n")
 
-        if self.send_udp:
-            self.sock.sendto(str(self.processor.bpm), self.udp)
+        #if self.send_udp:
+        #    self.sock.sendto(str(self.processor.bpm), self.udp)
 
         # if self.processor.bpm > 0:
         #     print "closing down camera"

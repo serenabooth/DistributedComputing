@@ -32,13 +32,18 @@ parser.add_argument('--udp', default=None,
 args = parser.parse_args()
 App = getPulseApp(args, camera_obj)
 
+# Outer while loop to catch errors
 while True: 
     face_visible = Value('i', 1)
-    time.sleep(10)
+    #time.sleep(10)
 
-    pulse_val = App.main_loop()
+    # Perform this _once_ initially
+    pulse_val = 0; # App.main_loop()
+
+    # Generate a pulse
     while pulse_val == 0 or pulse_val == -1: 
         pulse_val = App.main_loop()
+        time.sleep(1.0/16.0)
         #if pulse_val == 0: 
         #    print "Found a face in main"
         #    time.sleep(10)
@@ -99,11 +104,12 @@ while True:
             #    bulb.join()
 
             #pi.join()
-            time.sleep(15)
+            time.sleep(5)
+
         print "About to shut this down"
         kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
         time.sleep(5)
-        continue
+        #continue
         
 
     except KeyboardInterrupt:

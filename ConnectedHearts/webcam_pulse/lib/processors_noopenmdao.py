@@ -250,6 +250,7 @@ class findFaceGetPulse(object):
                 # self.ttimes.append(time.time())
                 if gap:
                     text = "(estimate: %0.1f bpm, wait %0.0f s)" % (self.bpm, gap)
+                    print text
                     self.bpm = 0
                 else:
                     text = "(estimate: %0.1f bpm)" % (self.bpm)
