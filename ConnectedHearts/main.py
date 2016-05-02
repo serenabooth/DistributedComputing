@@ -40,6 +40,9 @@ while True:
     pulse_val = App.bpm
     # App.bpm = -1
     while pulse_val == 0 or pulse_val == -1: 
+        if pulse_val == 0: 
+            print "Found a face in main"
+            time.sleep(10)
         pulse_val = App.bpm
 
     if App.bpm > 160: 
