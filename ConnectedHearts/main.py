@@ -35,16 +35,17 @@ while True:
 
     args = parser.parse_args()
     App = getPulseApp(args, camera_obj)
-    pulse_val = App.main_loop()
-    while pulse_val == 0:
-       pulse_val = App.main_loop()
+    App.start()
+    # App.bpm = -1
+    while App.bpm == 0 or App.bpm != -1: 
+        break
 
-    if pulse_val > 160: 
-        pulse_val = 160
-    if pulse_val < 50:
-        pulse_val = 50
-    print "FINISHED with pulse " + str(pulse_val)
-    #pulse_val = 70
+    if App.bpm > 160: 
+        App.bpm = 160
+    if App.bpm < 50:
+        App.bpm = 50
+    print "FINISHED with pulse " + str(App.bpm)
+    #App.bpm = 70
     bulb_objects_dict = {}
 
     #print type_of_array.bytes()
@@ -62,9 +63,9 @@ while True:
     """
     power_strip_on_list = Array('i', 13)
 
-    face_check_process = CheckFace(face_visible = face_visible, camera_obj = camera_obj)
-    print "face check!"
-    face_check_process.start()
+    #face_check_process = CheckFace(face_visible = face_visible, camera_obj = camera_obj)
+    #print "face check!"
+    #face_check_process.start()
     #face_check_process.join()
 
     print "on to the bulbs"
@@ -78,7 +79,7 @@ while True:
         bulb.send_uuid()
 
     try:
-        pi = Pi(bpm = pulse_val, 
+        pi = Pi(bpm = App.bpm, 
                               turned_on_list = power_strip_on_list, 
                               hosts = hosts, 
                               face_visible = face_visible)
@@ -87,7 +88,7 @@ while True:
         for bulb in bulb_objects_dict.values():
            bulb.start()
            
-    	while (face_visible.value):
+        while (App.bpm != -1):
             print "face dere?" +  str(face_visible.value)
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"
@@ -95,15 +96,15 @@ while True:
 
             #pi.join()
             time.sleep(10)
-    	print "About to shut this down"
-    	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
+        print "About to shut this down"
+        kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
         time.sleep(5)
         continue
-    	
+        
 
     except KeyboardInterrupt:
-    	kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
-    	camera_obj.release()
+        kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
+        camera_obj.release()
 
 
 

@@ -2,6 +2,7 @@ from lib.device import Camera
 from lib.processors_noopenmdao import findFaceGetPulse
 #from lib.interface import plotXY, imshow, waitKey, destroyWindow
 from lib.interface import waitKey
+from multiprocessing import Process
 from cv2 import moveWindow
 import argparse
 import numpy as np
@@ -10,7 +11,7 @@ from serial import Serial
 import socket
 import sys
 
-class getPulseApp(object):
+class getPulseApp(Process, object):
 
     """
     Python application that finds a face in a webcam stream, then isolates the
@@ -21,6 +22,7 @@ class getPulseApp(object):
     """
 
     def __init__(self, args, camera_obj):
+        super(getPulseApp, self).__init__()
         # Imaging device - must be a connected camera (not an ip camera or mjpeg
         # stream)
         serial = args.serial
@@ -84,7 +86,9 @@ class getPulseApp(object):
                              "d": self.toggle_display_plot,
                              "c": self.toggle_cam,
                              "f": self.write_csv}
-        #self.bpm = 0
+        self.bpm = 0
+        self.frame_count = 0
+        self.frames_with_face = 0
     
     def toggle_cam(self):
         print "Not implemented"
@@ -171,49 +175,54 @@ class getPulseApp(object):
             if chr(self.pressed) == key:
                 self.key_controls[key]()
 
-    def main_loop(self):
-        """
-        Single iteration of the application's main loop.
-        """
-        # Get current image frame from the camera
-        frame = self.cameras[self.selected_cam].get_frame()
-        self.h, self.w, _c = frame.shape
+    def run(self):
+        while True: 
+            """
+            Single iteration of the application's main loop.
+            """
+            # Get current image frame from the camera
+            frame = self.cameras[self.selected_cam].get_frame()
+            self.h, self.w, _c = frame.shape
 
-        # display unaltered frame
-        # imshow("Original",frame)
+            # display unaltered frame
+            # imshow("Original",frame)
 
-        # set current image frame to the processor's input
-        self.processor.frame_in = frame
-        # process the image frame to perform all needed analysis
-        self.processor.run(self.selected_cam)
-        # collect the output frame for display
-        output_frame = self.processor.frame_out
+            # set current image frame to the processor's input
+            self.processor.frame_in = frame
+            # process the image frame to perform all needed analysis
+            self.processor.run(self.selected_cam)
+            # collect the output frame for display
+            output_frame = self.processor.frame_out
 
-        # show the processed/annotated output frame
-        #imshow("Processed", output_frame)
+            # show the processed/annotated output frame
+            #imshow("Processed", output_frame)
 
-        # create and/or update the raw data display if needed
-        if self.bpm_plot:
-            self.make_bpm_plot()
+            # create and/or update the raw data display if needed
+            if self.bpm_plot:
+                self.make_bpm_plot()
 
-        if self.send_serial:
-            self.serial.write(str(self.processor.bpm) + "\r\n")
+            if self.send_serial:
+                self.serial.write(str(self.processor.bpm) + "\r\n")
 
-        if self.send_udp:
-            self.sock.sendto(str(self.processor.bpm), self.udp)
+            if self.send_udp:
+                self.sock.sendto(str(self.processor.bpm), self.udp)
 
-        # if self.processor.bpm > 0:
-        #     print "closing down camera"
-        #     for cam in self.cameras:
-        #         cam.release()
-        #     if self.send_serial:
-        #         self.serial.close()
-            #sys.exit()
+            # if self.processor.bpm > 0:
+            #     print "closing down camera"
+            #     for cam in self.cameras:
+            #         cam.release()
+            #     if self.send_serial:
+            #         self.serial.close()
+                #sys.exit()
 
-        print self.processor.bpm
-        return self.processor.bpm
-        # handle any key presses
-        #self.key_handler()
+            self.bpm = self.processor.bpm
+            # handle any key presses
+            #self.key_handler()
+            if self.bpm == 0: 
+                continue
+            else:
+                time.sleep(10)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Webcam pulse detector.')
