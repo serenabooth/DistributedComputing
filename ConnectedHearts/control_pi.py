@@ -42,12 +42,12 @@ class Pi(Process):
             off_cmd_builder = "echo turning_off "
             for i in range(0,7):
                 chk_on = i
-                if (host == "192.168.1.21" and i == 6):
-                    continue
                 if (host == "192.168.1.21"):
                     chk_on = i * 2 + 1 
                 else: 
                     chk_on = i * 2
+                    if chk_on == 14: 
+                        continue
                 if self.turned_on_list[chk_on] == 1:
                     on_cmd_builder += "&& echo 1 > /proc/power/relay" + str(i+1) + " "
                     off_cmd_builder += "&& echo 0 > /proc/power/relay" + str(i+1) + " "
