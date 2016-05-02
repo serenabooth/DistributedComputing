@@ -224,7 +224,7 @@ class getPulseApp(object):
             #else:
             #    time.sleep(10)
             break
-         return self.bpm
+        return self.bpm
 
 
 if __name__ == "__main__":
