@@ -31,9 +31,9 @@ class Pi(Process):
         c.connect(host, username='ubnt', password='ubnt') 
 
         turn_all_off = "echo turning_all_off "
-        for i in range (1,7):
+        for i in range (1,8):
             turn_all_off += "&& echo 0 > /proc/power/relay" + str(i) + " "
-        for i in range(7,9):
+        for i in range(8,9):
             turn_all_off += "&& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
 
@@ -43,11 +43,11 @@ class Pi(Process):
             for i in range(0,7):
                 chk_on = i
                 if (host == "192.168.1.21"):
-                    chk_on = i * 2 + 1 
+                    chk_on = i * 2 + 1
+                    if chk_on == 13: 
+                        continue 
                 else: 
                     chk_on = i * 2
-                    if chk_on == 14: 
-                        continue
                 if self.turned_on_list[chk_on] == 1:
                     on_cmd_builder += "&& echo 1 > /proc/power/relay" + str(i+1) + " "
                     off_cmd_builder += "&& echo 0 > /proc/power/relay" + str(i+1) + " "
