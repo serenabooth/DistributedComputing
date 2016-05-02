@@ -235,7 +235,6 @@ class getPulseApp(Process, object):
             print "No person in frame"
             self.run()
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Webcam pulse detector.')
     parser.add_argument('--serial', default=None,
