@@ -107,13 +107,13 @@ while True:
             time.sleep(5)
 
         print "About to shut this down"
-        kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
+        kill_all_processes(pi, bulb_objects_dict.values())
         time.sleep(5)
         #continue
         
 
     except KeyboardInterrupt:
-        kill_all_processes(pi, bulb_objects_dict.values(), face_check_process, App)
+        kill_all_processes(pi, bulb_objects_dict.values(), App)
         camera_obj.release()
 
 
