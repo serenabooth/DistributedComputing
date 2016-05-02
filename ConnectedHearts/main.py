@@ -31,24 +31,24 @@ parser.add_argument('--udp', default=None,
 
 args = parser.parse_args()
 App = getPulseApp(args, camera_obj)
-App.start()
 
 while True: 
     face_visible = Value('i', 1)
     time.sleep(10)
 
-    while App.bpm == 0 or App.bpm == -1: 
-        continue
+    pulse_val = App.main_loop()
+    while pulse_val == 0 or pulse_val == -1: 
+        pulse_val = App.main_loop()
         #if pulse_val == 0: 
         #    print "Found a face in main"
         #    time.sleep(10)
         #pulse_val = App.bpm
 
-    if App.bpm > 160: 
-        App.bpm = 160
-    if App.bpm < 50:
-        App.bpm = 50
-    print "FINISHED with pulse " + str(App.bpm)
+    if pulse_val > 160: 
+        pulse_val = 160
+    if pulse_val < 50:
+        pulse_val = 50
+    print "FINISHED with pulse " + str(pulse_val)
     #App.bpm = 70
     bulb_objects_dict = {}
 
@@ -92,14 +92,14 @@ while True:
         for bulb in bulb_objects_dict.values():
            bulb.start()
            
-        while (App.bpm != -1):
+        while (App.main_loop() != -1):
             print "face dere?" +  str(face_visible.value)
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"
             #    bulb.join()
 
             #pi.join()
-            time.sleep(10)
+            time.sleep(15)
         print "About to shut this down"
         kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
         time.sleep(5)
