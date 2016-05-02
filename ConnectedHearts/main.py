@@ -106,6 +106,7 @@ while True:
             time.sleep(5)
 
         print "About to shut this down"
+        pulse_val = 0
         kill_all_processes(pi, bulb_objects_dict.values())
         time.sleep(5)
         #continue
