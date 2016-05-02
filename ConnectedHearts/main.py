@@ -10,35 +10,37 @@ from webcam_pulse.lib.device import Camera
 
 camera_obj = Camera(0)
 
-def kill_all_processes(pi, bulbs, fc):
+def kill_all_processes(pi, bulbs, fc, app = None):
     pi.terminate()
-    if fc:
-        fc.terminate()
+    fc.terminate()
+    if app:
+        app.terminate()
     for bulb in bulbs:
         bulb.terminate()
 
+""" 
+Get pulse! 
+"""
+parser = argparse.ArgumentParser(description='Webcam pulse detector.')
+parser.add_argument('--serial', default=None,
+                    help='serial port destination for bpm data')
+parser.add_argument('--baud', default=None,
+                    help='Baud rate for serial transmission')
+parser.add_argument('--udp', default=None,
+                    help='udp address:port destination for bpm data')
+
+args = parser.parse_args()
+App = getPulseApp(args, camera_obj)
+App.start()
 
 while True: 
     face_visible = Value('i', 1)
     time.sleep(10)
 
-    """ 
-    Get pulse! 
-    """
-    parser = argparse.ArgumentParser(description='Webcam pulse detector.')
-    parser.add_argument('--serial', default=None,
-                        help='serial port destination for bpm data')
-    parser.add_argument('--baud', default=None,
-                        help='Baud rate for serial transmission')
-    parser.add_argument('--udp', default=None,
-                        help='udp address:port destination for bpm data')
-
-    args = parser.parse_args()
-    App = getPulseApp(args, camera_obj)
-    App.start()
+    pulse_val = App.bpm
     # App.bpm = -1
-    while App.bpm == 0 or App.bpm != -1: 
-        break
+    while pulse_val == 0 or pulse_val == -1: 
+        pulse_val = App.bpm
 
     if App.bpm > 160: 
         App.bpm = 160
@@ -103,7 +105,7 @@ while True:
         
 
     except KeyboardInterrupt:
-        kill_all_processes(pi, bulb_objects_dict.values(), face_check_process)
+        kill_all_processes(pi, bulb_objects_dict.values(), face_check_process, App)
         camera_obj.release()
 
 
