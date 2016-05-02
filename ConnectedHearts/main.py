@@ -10,9 +10,8 @@ from webcam_pulse.lib.device import Camera
 
 camera_obj = Camera(0)
 
-def kill_all_processes(pi, bulbs, fc, app = None):
+def kill_all_processes(pi, bulbs, app = None):
     pi.terminate()
-    fc.terminate()
     if app:
         app.terminate()
     for bulb in bulbs:
