@@ -3,7 +3,7 @@ from lib.processors_noopenmdao import findFaceGetPulse
 #from lib.interface import plotXY, imshow, waitKey, destroyWindow
 from lib.interface import waitKey
 from multiprocessing import Process
-from cv2 import moveWindow, imshow
+from cv2 import moveWindow
 import argparse
 import numpy as np
 import datetime
@@ -185,8 +185,8 @@ class getPulseApp(Process, object):
             self.h, self.w, _c = frame.shape
 
             # display unaltered frame
-            imshow("Original",frame)
-            waitKey(0)
+            # imshow("Original",frame)
+            # waitKey(0)
 
             # set current image frame to the processor's input
             self.processor.frame_in = frame
