@@ -11,7 +11,7 @@ from serial import Serial
 import socket
 import sys
 
-class getPulseApp(object):
+class getPulseApp(Process, object):
 
     """
     Python application that finds a face in a webcam stream, then isolates the
@@ -224,7 +224,16 @@ class getPulseApp(object):
             #else:
             #    time.sleep(10)
             break
-         return self.bpm
+        return self.bpm
+
+    def run(self):
+        pulse_val = self.main_loop()
+        # App.bpm = -1
+        while pulse_val == 0:
+            pulse_val = self.main_loop() 
+        if pulse_val == -1:
+            print "No person in frame"
+            self.run()
 
 
 if __name__ == "__main__":
