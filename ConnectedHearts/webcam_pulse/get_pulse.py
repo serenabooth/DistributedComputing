@@ -11,7 +11,7 @@ from serial import Serial
 import socket
 import sys
 
-class getPulseApp(Process, object):
+class getPulseApp(object):
 
     """
     Python application that finds a face in a webcam stream, then isolates the
@@ -175,7 +175,7 @@ class getPulseApp(Process, object):
             if chr(self.pressed) == key:
                 self.key_controls[key]()
 
-    def run(self):
+    def main_loop(self):
         while True: 
             """
             Single iteration of the application's main loop.
@@ -219,10 +219,12 @@ class getPulseApp(Process, object):
             self.bpm = self.processor.bpm
             # handle any key presses
             #self.key_handler()
-            if self.bpm == 0: 
-                continue
-            else:
-                time.sleep(10)
+            #if self.bpm == 0: 
+            #    continue
+            #else:
+            #    time.sleep(10)
+            break
+         return self.bpm
 
 
 if __name__ == "__main__":

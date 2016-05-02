@@ -31,19 +31,20 @@ parser.add_argument('--udp', default=None,
 
 args = parser.parse_args()
 App = getPulseApp(args, camera_obj)
-App.start()
+#App.start()
 
 while True: 
     face_visible = Value('i', 1)
     time.sleep(10)
 
-    pulse_val = App.bpm
+    pulse_val = App.main_loop()
     # App.bpm = -1
-    while pulse_val == 0 or pulse_val == -1: 
-        if pulse_val == 0: 
-            print "Found a face in main"
-            time.sleep(10)
-        pulse_val = App.bpm
+    while pulse_val == 0:
+        pulse_val = App.main_loop() 
+        #if pulse_val == 0: 
+        #    print "Found a face in main"
+        #    time.sleep(10)
+        #pulse_val = App.bpm
 
     if App.bpm > 160: 
         App.bpm = 160
