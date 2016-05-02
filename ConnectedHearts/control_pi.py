@@ -46,6 +46,8 @@ class Pi(Process):
                     continue
                 if (host == "192.168.1.21"):
                     chk_on = i * 2 + 1 
+                else: 
+                    chk_on = i * 2
                 if self.turned_on_list[chk_on] == 1:
                     on_cmd_builder += "&& echo 1 > /proc/power/relay" + str(i+1) + " "
                     off_cmd_builder += "&& echo 0 > /proc/power/relay" + str(i+1) + " "
