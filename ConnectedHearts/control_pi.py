@@ -31,9 +31,9 @@ class Pi(Process):
         c.connect(host, username='ubnt', password='ubnt') 
 
         turn_all_off = "echo turning_all_off "
-        for i in range (1,7):
+        for i in range (1,8):
             turn_all_off += "&& echo 0 > /proc/power/relay" + str(i) + " "
-        for i in range(7,9):
+        for i in range(8,9):
             turn_all_off += "&& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
 
