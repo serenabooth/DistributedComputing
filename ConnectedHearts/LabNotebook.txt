@@ -1,6 +1,6 @@
 Design notes: 
-    - despite previously promising to use adult languages for multithreaded programming, we decided to use a child language (Python) due to ease of controlling mFi smart powerstrips using manufacturer's distribution of python code.
-
+    - despite previously promising to use adult languages for multithreaded programming, we decided to use a child language (Python) due to ease of controlling mFi smart powerstrips.
+    
 TO DO:
     X [DUE: 04/29] build hardware 
         X remove mirror from cabinet
@@ -21,6 +21,12 @@ TO DO:
     X [DUE: 05/02] Presentation
     _ [DUE: 05/07] Gossip algorithm! 
     _ [DUE: 05/09] Whole project, including documentation
+        _ clean up code
+        _ comment code
+        _ create README
+        _ write paper
+            _ idea introduction, implementation details, results, conclusion
+        _ capture video demo 
 
 04/25
     - Physical hardware design finalized 
@@ -108,3 +114,19 @@ TO DO:
 5/3 
     - increased time for machine to continue displaying heartbeat after user leaves scene to 15 seconds (from 5 seconds)
     - allow operator to switch between pc and pi camera
+
+    - Divying up tasks for working independently: 
+        - (by author) cleanse code
+        - (by author) comment code
+        - (Serena) draft outline of paper
+        - (Michelle) change bulb communication with neighbors
+            - use state_q
+            - instead of (neighbor).turnOn(), use queue to give msg to neighbor to turn on self. 
+            - constantly check queue for message to turn on. 
+        - (Michelle) finish leader election 
+            - allow processes to reinitiate election
+        - (Serena) convert control of powerstrips to processes and use backgrounds  
+        - (Serena) give each bulb its own ssh connection to a powerstrip in a process, and allow it to time itself and turn itself on
+        - (Saturday, together) gossip! 
+            - have bulbs communicate with their neighbors every time they send a signal
+            - have bulbs order the events (their signal vs. their neighbors), and make minor adjustments in direction of leader 
