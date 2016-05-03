@@ -1,4 +1,3 @@
-from picamerastream import PiVideoStream
 import cv2, time
 import urllib2, base64
 import numpy as np
@@ -22,23 +21,39 @@ class ipCamera(object):
 class Camera(object):
 
     def __init__(self, camera = 0):
-        print "trying to make camera"
-        self.cam = PiVideoStream()
-        print "made object"
-        self.cam.start()
-        time.sleep(2)
-        self.valid = False
-        print "initialized!" 
-        try:
-            resp = self.cam.read()
-            self.shape = resp[1].shape
-            self.valid = True
-        except:
-            self.shape = None
+        if camera == 0: 
+            from picamerastream import PiVideoStream
+
+            print "trying to make camera"
+            self.cam = PiVideoStream()
+            print "made object"
+            self.cam.start()
+            time.sleep(2)
+            self.valid = False
+            print "initialized!" 
+            try:
+                resp = self.cam.read()
+                self.shape = resp[1].shape
+                self.valid = True
+            except:
+                self.shape = None
+            self.is_pi_cam = True
+        else: 
+            self.cam = cv2.VideoCapture(0)
+            if not self.cam:
+                self.valid = False
+                raise Exception("Camera not accessible")
+ 
+            self.valid=True
+            self.is_pi_cam = False
+            self.shape = self.get_frame().shape
+
 
     def get_frame(self):
-        if self.valid:
+        if self.valid and self.is_pi_cam:
             frame = self.cam.read()
+        elif self.valid and not self.is_pi_cam: 
+            _, frame = self.cam.read()
         else:
             frame = np.ones((240,320,3), dtype=np.uint8)
             col = (0,256,256)

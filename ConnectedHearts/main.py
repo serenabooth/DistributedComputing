@@ -8,7 +8,9 @@ from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 from webcam_pulse.lib.device import Camera
 
-camera_obj = Camera(0)
+is_on_pi = 1
+
+camera_obj = Camera(is_on_pi)
 
 def kill_all_processes(pi, bulbs, app = None):
     pi.terminate()
