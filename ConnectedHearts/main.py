@@ -105,7 +105,7 @@ while True:
             #    bulb.join()
 
             #pi.join()
-            time.sleep(5)
+            time.sleep(15)
 
         print "About to shut this down"
         pulse_val = 0

@@ -2,23 +2,23 @@ Design notes:
     - despite previously promising to use adult languages for multithreaded programming, we decided to use a child language (Python) due to ease of controlling mFi smart powerstrips using manufacturer's distribution of python code.
 
 TO DO:
-    _ [DUE: 04/29] build hardware 
-        _ remove mirror from cabinet
-        _ replace mirror in cabinet w/ one-way mirror 
-        _ embed pi with webcam behind mirror
-        _ embed 12x+ lightbulbs in mirror 
-        _ set static IPs for mFi devices
-    _ [DUE: 04/30] webcam pulse capture
-    _ [DUE: 04/30] leader election via bully
-        _ 13 threads, 1 for pi, 12 for lightbulbs
-        _ assign UUIDS for 12 lightbulbs
-        _ on startup, run bully leader election
-    _ [DUE: 04/30] 
-        _ parallel control of 2x mFi devices 
-    _ [DUE: 05/01] Presentation draft
-        _ slides
-        _ demo working
-    _ [DUE: 05/02] Presentation
+    X [DUE: 04/29] build hardware 
+        X remove mirror from cabinet
+        X replace mirror in cabinet w/ one-way mirror 
+        X embed pi with webcam behind mirror
+        X embed 12x+ lightbulbs in mirror 
+        X set static IPs for mFi devices
+    X [DUE: 04/30] webcam pulse capture
+    X [DUE: 04/30] leader election via bully
+        X 13 threads, 1 for pi, 12 for lightbulbs
+        X assign UUIDS for 12 lightbulbs
+        X on startup, run bully leader election
+    X [DUE: 04/30] 
+        X parallel control of 2x mFi devices 
+    X [DUE: 05/01] Presentation draft
+        X slides
+        X demo working
+    X [DUE: 05/02] Presentation
     _ [DUE: 05/07] Gossip algorithm! 
     _ [DUE: 05/09] Whole project, including documentation
 
@@ -81,7 +81,12 @@ TO DO:
 
         - When a new leader election is started, all the bulbs should turn off
 
-(SERENA) Lab notebook for 4/28-4/30?
+4/29 - 4/30
+    - Got the picamera up and running
+    - Integrated the pulse code with the picamera as well as the leader election
+    - Set up SSH connections via threads to both linux powerstrips 
+    - Created a communication protocol for bulbs to communicate their on status to their neighbors
+    - Using the "on" bulbs, wrote code to send turn the corresponding relays on and off. 
 
 5/1
     Hardware:
@@ -92,10 +97,14 @@ TO DO:
 
     Software
         - Changed number of bulbs to 13 rather than 12
+        - Check for face's continued presence
         - Wrapped all the code in main in a while True loop so that we can "continue" when we want to rerun it for a new face
-            - We're aware that this is horrible style but it was the easiest way to get it working for right now, might change this later
+            - We're aware that this may be bad style, but it was the easiest way to get it working for right now, might change this later
 
 
-5/2
-    NEED TO FIX: 
-        - bulb 0 unable to communicate with bulb 12 (DONE)
+5/2 
+    - changed bulb 0 unable to communicate with bulb 12 (DONE)
+
+5/3 
+    - increased time for machine to continue displaying heartbeat after user leaves scene to 15 seconds (from 5 seconds)
+    - allow operator to switch between pc and pi camera
