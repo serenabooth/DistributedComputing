@@ -62,7 +62,7 @@ class Pi(Process):
 
 
     def run(self):
-        for host in hosts: 
+        for host in self.hosts: 
             self.connect(self.hosts)
 
         while True: 
