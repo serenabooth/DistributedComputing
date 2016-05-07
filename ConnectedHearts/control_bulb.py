@@ -31,17 +31,17 @@ class BulbControl(Process):
 
         turn_myself_off = "echo 0 > /proc/relay" + str(my_relay_id) + " "
         (stdin, stdout, stderr) = c.exec_command(turn_myself_off)
-        print stdout.readlines()
+        print "Stdout: " + str(stdout.readlines())
 
         while True: 
             on_cmd_builder = "echo 1 > /proc/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/relay" + str(my_relay_id) + " "
-            print str(datetime.datetime.now()) + str(self.host) + " id: " + str(self.id) + " on"
+            print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             #for i in range(0,10):
             time.sleep(max(60 * 2 / self.bpm, 0.5)) #TO DO: set me to be the pulse
             #time.sleep(5)
-            print str(datetime.datetime.now()) + str(self.host) + " id: " + str(self.id) + " off"
+            print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
             #for i in range(0,10):
             time.sleep(max(60 * 2 / self.bpm, 0.5)) #TO DO: set me to be the pulse
