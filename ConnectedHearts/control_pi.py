@@ -19,8 +19,6 @@ class Pi(Process):
         self.hosts = hosts
 
     def connect(self, host):
-        for i in range(0, 12):
-            print str(i) + "is on? " + str(self.turned_on_list[i])
         print "connecting to " + host
         c = paramiko.SSHClient()
         c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
