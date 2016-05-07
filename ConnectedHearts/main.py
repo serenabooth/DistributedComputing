@@ -34,6 +34,18 @@ args = parser.parse_args()
 
 # Outer while loop to catch errors
 while True: 
+
+    hosts = ['192.168.1.20', '192.168.1.21']
+
+    """ 
+        One power strip has ip 192.168.1.20; the other, .21
+        .20 will control bulbs 0-5
+        .21 will control bulbs 6-11
+    """
+    power_strip_on_list = Array('i', 13)
+
+    face_check_process = CheckFace(camera_obj = camera_obj)
+    
     pi = Pi(hosts = hosts)
     pi.start()
     #time.sleep(10)
@@ -63,17 +75,6 @@ while True:
 
     #test_if_queue_works = Queue()
     #print test_if_queue_works
-
-    hosts = ['192.168.1.20', '192.168.1.21']
-
-    """ 
-        One power strip has ip 192.168.1.20; the other, .21
-        .20 will control bulbs 0-5
-        .21 will control bulbs 6-11
-    """
-    power_strip_on_list = Array('i', 13)
-
-    face_check_process = CheckFace(camera_obj = camera_obj)
 
     #print "face check!"
     #face_check_process.start()
