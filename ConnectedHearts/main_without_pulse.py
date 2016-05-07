@@ -53,7 +53,7 @@ while True:
     if pulse_val < 50:
         pulse_val = 50
     print "FINISHED with pulse " + str(pulse_val)"""
-    pulse = 70
+    pulse_val = 70
 
     #print type_of_array.bytes()
 
@@ -75,8 +75,14 @@ while True:
     print "on to the bulbs"
     bulb_objects_list = []
     for i in range(0, 13):
-        p = Bulb(id = i, turned_on_list = power_strip_on_list, face_visible = face_visible)
-        #print p.uuid
+        if i % 2: 
+            host_powerstrip = hosts[0]
+        else:
+            host_powerstrip = hosts[1]
+        p = Bulb(id = i, 
+                    turned_on_list = power_strip_on_list, 
+                    bpm = pulse_val, 
+                    host = host_powerstrip)
         bulb_objects_list.append(p)
 
     for bulb in bulb_objects_list:
