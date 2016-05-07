@@ -5,6 +5,9 @@ import uuid
 from multiprocessing import Array, Process
 from multiprocessing.queues import Queue
 import ctypes 
+from control_bulb import *
+
+
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 # yay decorators
 def threaded(fn):
@@ -42,7 +45,7 @@ class BulbQueue(Queue):
         self.queuesize += 1
 
 class Bulb(Process):
-    def __init__(self, id, uuid_list, turned_on_list):
+    def __init__(self, id, uuid_list, turned_on_list, bpm, host):
         super(Bulb, self).__init__()
         self.id = id
         self.uuid = random.randint(1,2**64-1)
@@ -54,6 +57,8 @@ class Bulb(Process):
         self.state_q = BulbQueue()
         self.ping_time = random.randint(1,12)
         self.turned_on_list = turned_on_list
+        self.bpm = bpm
+        self.host = host
 
     def register_bulbs(self, bulb_objects_dict):
         self.uuid_dict = bulb_objects_dict
@@ -125,6 +130,11 @@ class Bulb(Process):
     @threaded
     def turn_on(self):
         self.turned_on_list[self.id] = 1
+
+        my_ssh_connection = BulbControl(my_id = self.id
+                    bpm = self.bpm, 
+                    hosts = self.host)
+        my_ssh_connection.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
 

@@ -79,7 +79,15 @@ while True:
 
     print "on to the bulbs"
     for i in range(0, 13):
-        p = Bulb(id = i, uuid_list = uuid_list, turned_on_list = power_strip_on_list)
+        if i % 2: 
+            host_powerstrip = hosts[0]
+        else:
+            host_powerstrip = hosts[1]
+        p = Bulb(id = i, 
+                    uuid_list = uuid_list, 
+                    turned_on_list = power_strip_on_list, 
+                    bpm = App.bpm, 
+                    host = host_powerstrip)
         #print p.uuid
         bulb_objects_dict[p.uuid] = p
 
@@ -88,15 +96,15 @@ while True:
         bulb.send_uuid()
 
     try:
-        pi_20 = Pi(bpm = App.bpm, 
-                              turned_on_list = power_strip_on_list, 
-                              hosts = hosts[0])
-        pi_20.start()
+        # pi_20 = Pi(bpm = App.bpm, 
+        #                       turned_on_list = power_strip_on_list, 
+        #                       hosts = hosts[0])
+        # pi_20.start()
 
-        pi_21 = Pi(bpm = App.bpm, 
-                              turned_on_list = power_strip_on_list, 
-                              hosts = hosts[1])
-        pi_21.start()
+        # pi_21 = Pi(bpm = App.bpm, 
+        #                       turned_on_list = power_strip_on_list, 
+        #                       hosts = hosts[1])
+        # pi_21.start()
 
         for bulb in bulb_objects_dict.values():
            bulb.start()
