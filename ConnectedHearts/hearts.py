@@ -189,9 +189,10 @@ class Bulb(Process):
             if time.time() > timeout:
                 break
         for neighbor in list_of_neighbors: 
-            print "Bulb " + str(neighbor.id) + " size before: " + str(neighbor.state_q.size()) + "\n"
+            #print "Bulb " + str(neighbor.id) + " size before: " + str(neighbor.state_q.size()) + "\n"
+            #print "Bulb " + str(self.id) + " signaled to bulb " + str(neighbor.id) + "\n"
             neighbor.state_q.put(1)
-            print "Bulb " + str(neighbor.id) + " size after: " + str(neighbor.state_q.size()) + "\n"
+            #print "Bulb " + str(neighbor.id) + " size after: " + str(neighbor.state_q.size()) + "\n"
 
     def respond_to_ping(self):
         while not self.election_q.empty():
