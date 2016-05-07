@@ -108,8 +108,7 @@ while True:
            bulb.start()
         
         while True:    
-            #while (face_check_process.check_if_face_is_visible()):
-
+        #while (face_check_process.check_if_face_is_visible()):
             time.sleep(30)
 
             print "About to shut this down"
