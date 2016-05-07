@@ -38,12 +38,12 @@ while True:
 
     # Perform this _once_ initially
     pulse_val = 0; # App.main_loop()
-    App = getPulseApp(args, camera_obj)
+    #App = getPulseApp(args, camera_obj)
 
     # Generate a pulse
-    while pulse_val == 0 or pulse_val == -1: 
-        pulse_val = App.main_loop()
-        time.sleep(1.0/16.0)
+    #while pulse_val == 0 or pulse_val == -1: 
+    #    pulse_val = App.main_loop()
+    #    time.sleep(1.0/16.0)
         #if pulse_val == 0: 
         #    print "Found a face in main"
         #    time.sleep(10)
@@ -53,6 +53,7 @@ while True:
         pulse_val = 160
     if pulse_val < 50:
         pulse_val = 50
+    
     print "FINISHED with pulse " + str(pulse_val)
     #App.bpm = 70
     bulb_objects_dict = {}
@@ -86,7 +87,7 @@ while True:
         p = Bulb(id = i, 
                     uuid_list = uuid_list, 
                     turned_on_list = power_strip_on_list, 
-                    bpm = App.bpm, 
+                    bpm = pulse_val, 
                     host = host_powerstrip)
         #print p.uuid
         bulb_objects_dict[p.uuid] = p
