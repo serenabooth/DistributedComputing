@@ -34,7 +34,6 @@ args = parser.parse_args()
 
 # Outer while loop to catch errors
 while True: 
-    face_visible = Value('i', 1)
     #time.sleep(10)
 
     # Perform this _once_ initially
@@ -80,7 +79,7 @@ while True:
 
     print "on to the bulbs"
     for i in range(0, 13):
-        p = Bulb(id = i, uuid_list = uuid_list, turned_on_list = power_strip_on_list, face_visible = face_visible)
+        p = Bulb(id = i, uuid_list = uuid_list, turned_on_list = power_strip_on_list)
         #print p.uuid
         bulb_objects_dict[p.uuid] = p
 

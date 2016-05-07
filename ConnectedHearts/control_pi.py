@@ -66,16 +66,6 @@ class Pi(Process):
 
 
     def run(self):
-        # outlock = threading.Lock() 
-        # # connect via ssh to both power strips
-        # threads = []
-        # for h in self.hosts:
-        #     t = threading.Thread(target = self.connect, args=(h,))
-        #     t.start()
-        #     threads.append(t)
-        # for t in threads:
-        #     t.join()
-
         self.connect(self.hosts)
 
         while True: 
