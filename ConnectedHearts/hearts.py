@@ -131,9 +131,9 @@ class Bulb(Process):
     def turn_on(self):
         self.turned_on_list[self.id] = 1
 
-        my_ssh_connection = BulbControl(my_id = self.id
+        my_ssh_connection = BulbControl(my_id = self.id,
                     bpm = self.bpm, 
-                    hosts = self.host)
+                    host = self.host)
         my_ssh_connection.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
