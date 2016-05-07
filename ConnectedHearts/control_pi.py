@@ -14,13 +14,12 @@ import paramiko
 """
 
 class Pi(Process):
-    def __init__(self, bpm, turned_on_list, hosts, face_visible):
+    def __init__(self, bpm, turned_on_list, hosts):
         super(Pi, self).__init__()
         self.bpm = bpm
         self.sleep_time = max(60 * 2/bpm, 0.5) 
         self.turned_on_list = turned_on_list
         self.hosts = hosts
-        self.face_visible = face_visible
 
     def connect(self, host):
         for i in range(0, 12):
@@ -37,7 +36,7 @@ class Pi(Process):
             turn_all_off += "& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
 
-        while self.face_visible: 
+        while True: 
             on_cmd_builder = "echo turning_on "
             off_cmd_builder = "echo turning_off "
             for i in range(0,7):

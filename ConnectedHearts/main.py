@@ -90,14 +90,12 @@ while True:
     try:
         pi_20 = Pi(bpm = App.bpm, 
                               turned_on_list = power_strip_on_list, 
-                              hosts = hosts[0], 
-                              face_visible = face_visible)
+                              hosts = hosts[0])
         pi_20.start()
 
         pi_21 = Pi(bpm = App.bpm, 
                               turned_on_list = power_strip_on_list, 
-                              hosts = hosts[1], 
-                              face_visible = face_visible)
+                              hosts = hosts[1])
         pi_21.start()
 
         for bulb in bulb_objects_dict.values():
@@ -105,12 +103,6 @@ while True:
         
 	while True:    
         #while (face_check_process.check_if_face_is_visible()):
-            print "face dere?" +  str(face_visible.value)
-            #for bulb in bulb_objects_dict.values():
-            #    print "joining!"
-            #    bulb.join()
-
-            #pi.join()
             time.sleep(30)
 
         print "About to shut this down"
