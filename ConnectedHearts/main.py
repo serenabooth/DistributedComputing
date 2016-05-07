@@ -107,16 +107,16 @@ while True:
         for bulb in bulb_objects_list:
            bulb.start()
         
-	while True:    
-        #while (face_check_process.check_if_face_is_visible()):
+        while True:    
+            #while (face_check_process.check_if_face_is_visible()):
 
-        time.sleep(30)
+            time.sleep(30)
 
-        print "About to shut this down"
-        pulse_val = 0
-        kill_all_processes(pi, bulb_objects_list)
-        time.sleep(5)
-        #continue
+            print "About to shut this down"
+            pulse_val = 0
+            kill_all_processes(pi, bulb_objects_list)
+            time.sleep(5)
+            #continue
         
 
     except KeyboardInterrupt:
