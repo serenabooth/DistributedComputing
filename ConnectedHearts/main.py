@@ -94,9 +94,8 @@ while True:
         bulb.send_uuid()
 
     try:
-        # pi_20 = Pi(bpm = App.bpm, 
-        #                       turned_on_list = power_strip_on_list, 
-        #                       hosts = hosts[0])
+        pi = Pi(hosts = hosts)
+        pi.start()
         # pi_20.start()
 
         # pi_21 = Pi(bpm = App.bpm, 
