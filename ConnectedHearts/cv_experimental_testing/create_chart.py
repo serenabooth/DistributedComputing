@@ -1,18 +1,17 @@
 import seaborn as sns
 import pandas as pd
+import matplotlib.pyplot as plt
+
 sns.set(style="darkgrid")
 
 results = pd.read_csv("experiment_synch_data.csv")
+#results = results.set_index(results.time)
 
-print results.head
+
+print results.head()
 
 colors = sns.cubehelix_palette(8, start=0, rot=-.75)
 
-
-# Load the long-form example gammas dataset
-#gammas = sns.load_dataset("gammas")
-
-# Plot the response with standard error
-#sns.tsplot(data=gammas, time="timepoint", unit="subject",
-#           condition="ROI", value="BOLD signal")
+results.set_index('time').plot()
+plt.show()
 

@@ -23,13 +23,13 @@ while not do_not_run:
 
     if not do_not_run:
         hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        max_bright = hsv_image[0][0][2]
+        max_bright = hsv_image[0][0][2]/255.0
         print max_bright
 
         if on: 
             writer.writerow({'time': str(i), 'expected_brightness': '0', 'real_brightness': str(max_bright)})
         else:
-            writer.writerow({'time': str(i), 'expected_brightness': '255', 'real_brightness': str(max_bright)})
+            writer.writerow({'time': str(i), 'expected_brightness': '1', 'real_brightness': str(max_bright)})
 
         if state_ct == 120: 
             on = (on + 1) % 2
