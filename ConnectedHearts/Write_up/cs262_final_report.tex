@@ -136,9 +136,11 @@ We present a physical distributed system for viewing the human heartbeat. We mod
 
 \section{System Design}
 
+\subsection{Architecture}
 \subsection{Bully: Leader Election}
 \subsection{Inter-bulb Communication}
 \subsection{Realtime Synchronization via Gossip}
+
 \subsubsection{Layout}
 
 As the layout of our system is predetermined, we are able to adjust the gossip algorithm for synchronization in order to ascribe neighboring processes with scores of trustworthiness. As the leader bulb initiates the heartbeat pulsation, the leader is the single most trustworthy bulb. This has implications for all other bulbs, however: as bulbs increase in distance from the leader, a known measure based on the system's fixed layout, their trustworthiness decreases. Thus when a bulb is receiving contradictory gossip from its two neighboring bulbs, it prioritizes the message which was sent by the bulb closer to the leader.  

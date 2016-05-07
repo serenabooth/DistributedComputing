@@ -136,9 +136,10 @@ TO DO:
 
     Today:
         X Convert powerstrips to background commands 
-        _ Convert powerstips to use processes in place of threads
-        _ Give each bulb its own SSH connection
+        X Convert powerstips to use processes in place of threads
+        X Give each bulb its own SSH connection
         _ Change bulb communication with neighbors
+        _ Gossip 
         _ Finish leader election
 
         (Goal) Gossip 

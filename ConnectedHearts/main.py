@@ -34,6 +34,21 @@ args = parser.parse_args()
 
 # Outer while loop to catch errors
 while True: 
+
+    hosts = ['192.168.1.20', '192.168.1.21']
+
+    """ 
+        One power strip has ip 192.168.1.20; the other, .21
+        .20 will control bulbs 0-5
+        .21 will control bulbs 6-11
+    """
+    power_strip_on_list = Array('i', 13)
+
+    face_check_process = CheckFace(camera_obj = camera_obj)
+
+    pi = Pi(hosts = hosts)
+    pi.start()
+    pi.join()
     #time.sleep(10)
 
     # Perform this _once_ initially
@@ -62,16 +77,6 @@ while True:
     #test_if_queue_works = Queue()
     #print test_if_queue_works
 
-    hosts = ['192.168.1.20', '192.168.1.21']
-
-    """ 
-        One power strip has ip 192.168.1.20; the other, .21
-        .20 will control bulbs 0-5
-        .21 will control bulbs 6-11
-    """
-    power_strip_on_list = Array('i', 13)
-
-    face_check_process = CheckFace(camera_obj = camera_obj)
     #print "face check!"
     #face_check_process.start()
     #face_check_process.join()
@@ -79,7 +84,7 @@ while True:
     print "on to the bulbs"
     bulb_objects_list = []
     for i in range(0, 13):
-        if i % 2: 
+        if i % 2 == 0: 
             host_powerstrip = hosts[0]
         else:
             host_powerstrip = hosts[1]
@@ -94,9 +99,6 @@ while True:
         bulb.send_uuid()
 
     try:
-        # pi_20 = Pi(bpm = App.bpm, 
-        #                       turned_on_list = power_strip_on_list, 
-        #                       hosts = hosts[0])
         # pi_20.start()
 
         # pi_21 = Pi(bpm = App.bpm, 

@@ -14,60 +14,51 @@ import paramiko
 """
 
 class Pi(Process):
-    def __init__(self, bpm, turned_on_list, hosts):
+    def __init__(self, hosts):
         super(Pi, self).__init__()
-        self.bpm = bpm
-        self.sleep_time = max(60 * 2/bpm, 0.5) 
-        self.turned_on_list = turned_on_list
         self.hosts = hosts
 
     def connect(self, host):
-        for i in range(0, 12):
-            print str(i) + "is on? " + str(self.turned_on_list[i])
-        print "connecting to " + host
+        print "connecting to " + str(host)
         c = paramiko.SSHClient()
         c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         c.connect(host, username='ubnt', password='ubnt') 
 
         turn_all_off = "echo turning_all_off "
-        for i in range (1,8):
+        for i in range(1,8):
             turn_all_off += "& echo 0 > /proc/power/relay" + str(i) + " "
         for i in range(8,9):
             turn_all_off += "& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
 
-        while True: 
-            on_cmd_builder = "echo turning_on "
-            off_cmd_builder = "echo turning_off "
-            for i in range(0,7):
-                chk_on = i
-                if (host == "192.168.1.21"):
-                    chk_on = i * 2 + 1
-                    if chk_on == 13: 
-                        continue 
-                else: 
-                    chk_on = i * 2
-                if self.turned_on_list[chk_on] == 1:
-                    on_cmd_builder += "& echo 1 > /proc/power/relay" + str(i+1) + " "
-                    off_cmd_builder += "& echo 0 > /proc/power/relay" + str(i+1) + " "
+        # while True: 
+        #     on_cmd_builder = "echo turning_on "
+        #     off_cmd_builder = "echo turning_off "
+        #     for i in range(0,7):
+        #         chk_on = i
+        #         if (host == "192.168.1.21"):
+        #             chk_on = i * 2 + 1
+        #             if chk_on == 13: 
+        #                 continue 
+        #         else: 
+        #             chk_on = i * 2
+        #         if self.turned_on_list[chk_on] == 1:
+        #             on_cmd_builder += "& echo 1 > /proc/power/relay" + str(i+1) + " "
+        #             off_cmd_builder += "& echo 0 > /proc/power/relay" + str(i+1) + " "
 
-            #print on_cmd_builder
-            #print off_cmd_builder
-            print str(datetime.datetime.now()) + str(host) + " on"
-            c.exec_command(on_cmd_builder)
-            #for i in range(0,10):
-            time.sleep(self.sleep_time) #TO DO: set me to be the pulse
-            #time.sleep(5)
-            print str(datetime.datetime.now()) + str(host) + " off"
-            c.exec_command(off_cmd_builder) 
-            #for i in range(0,10):
-            time.sleep(self.sleep_time) #TO DO: set me to be the pulse
+        #     #print on_cmd_builder
+        #     #print off_cmd_builder
+        #     print str(datetime.datetime.now()) + str(host) + " on"
+        #     c.exec_command(on_cmd_builder)
+        #     #for i in range(0,10):
+        #     time.sleep(self.sleep_time) #TO DO: set me to be the pulse
+        #     #time.sleep(5)
+        #     print str(datetime.datetime.now()) + str(host) + " off"
+        #     c.exec_command(off_cmd_builder) 
+        #     #for i in range(0,10):
+        #     time.sleep(self.sleep_time) #TO DO: set me to be the pulse
 
 
     def run(self):
-        self.connect(self.hosts)
-
-        while True: 
-            print "I am running"
-            time.sleep(5)
-
+        for host in self.hosts: 
+            self.connect(host)
