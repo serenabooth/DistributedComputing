@@ -45,9 +45,10 @@ while True:
     power_strip_on_list = Array('i', 13)
 
     face_check_process = CheckFace(camera_obj = camera_obj)
-    
+
     pi = Pi(hosts = hosts)
     pi.start()
+    pi.join()
     #time.sleep(10)
 
     # Perform this _once_ initially
