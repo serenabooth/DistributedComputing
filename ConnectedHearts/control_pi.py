@@ -61,8 +61,4 @@ class Pi(Process):
 
     def run(self):
         for host in self.hosts: 
-            self.connect(self.hosts)
-
-        while True: 
-            print "I am running"
-            time.sleep(5)
+            self.connect(host)
