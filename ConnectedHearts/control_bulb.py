@@ -27,7 +27,7 @@ class BulbControl(Process):
         c.connect(self.host, username='ubnt', password='ubnt') 
         print c
 
-        my_relay_id = int(self.id * 1.0 / 2)
+        my_relay_id = int(self.id * 1.0 / 2) + 1
 
         turn_myself_off = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
         (stdin, stdout, stderr) = c.exec_command(turn_myself_off)

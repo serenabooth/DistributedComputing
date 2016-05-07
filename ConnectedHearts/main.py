@@ -107,10 +107,9 @@ while True:
         for bulb in bulb_objects_list:
            bulb.start()
         
-	while True:    
+        while True:    
         #while (face_check_process.check_if_face_is_visible()):
-
-        time.sleep(30)
+            time.sleep(30)
 
         print "About to shut this down"
         pulse_val = 0
