@@ -79,7 +79,7 @@ while True:
     print "on to the bulbs"
     bulb_objects_list = []
     for i in range(0, 13):
-        if not i % 2: 
+        if i % 2 == 0: 
             host_powerstrip = hosts[0]
         else:
             host_powerstrip = hosts[1]
