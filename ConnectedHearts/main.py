@@ -56,7 +56,6 @@ while True:
         pulse_val = 50
     print "FINISHED with pulse " + str(pulse_val)
     #App.bpm = 70
-    bulb_objects_dict = {}
 
     #print type_of_array.bytes()
 
@@ -65,7 +64,6 @@ while True:
 
     hosts = ['192.168.1.20', '192.168.1.21']
 
-    uuid_list = Array(ctypes.c_uint64, 13)
     """ 
         One power strip has ip 192.168.1.20; the other, .21
         .20 will control bulbs 0-5
@@ -79,13 +77,14 @@ while True:
     #face_check_process.join()
 
     print "on to the bulbs"
+    bulb_objects_list = []
     for i in range(0, 13):
-        p = Bulb(id = i, uuid_list = uuid_list, turned_on_list = power_strip_on_list, face_visible = face_visible)
+        p = Bulb(id = i, turned_on_list = power_strip_on_list, face_visible = face_visible)
         #print p.uuid
-        bulb_objects_dict[p.uuid] = p
+        bulb_objects_list.append(p)
 
-    for bulb in bulb_objects_dict.values():
-        bulb.register_bulbs(bulb_objects_dict)
+    for bulb in bulb_objects_list:
+        bulb.register_bulbs(bulb_objects_list)
         bulb.send_uuid()
 
     try:
@@ -95,28 +94,24 @@ while True:
                               face_visible = face_visible)
         pi.start()
 
-        for bulb in bulb_objects_dict.values():
+        for bulb in bulb_objects_list:
            bulb.start()
         
 	while True:    
         #while (face_check_process.check_if_face_is_visible()):
             print "face dere?" +  str(face_visible.value)
-            #for bulb in bulb_objects_dict.values():
-            #    print "joining!"
-            #    bulb.join()
 
-            #pi.join()
             time.sleep(30)
 
         print "About to shut this down"
         pulse_val = 0
-        kill_all_processes(pi, bulb_objects_dict.values())
+        kill_all_processes(pi, bulb_objects_list)
         time.sleep(5)
         #continue
         
 
     except KeyboardInterrupt:
-        kill_all_processes(pi, bulb_objects_dict.values(), App)
+        kill_all_processes(pi, bulb_objects_list, App)
         camera_obj.release()
 
 

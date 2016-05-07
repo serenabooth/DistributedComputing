@@ -42,37 +42,39 @@ class BulbQueue(Queue):
         self.queuesize += 1
 
 class Bulb(Process):
-    def __init__(self, id, uuid_list, turned_on_list, face_visible):
+    def __init__(self, id, turned_on_list, face_visible):
         super(Bulb, self).__init__()
         self.id = id
         self.uuid = random.randint(1,2**64-1)
-        self.uuid_dict = None
+        self.uuid_dict = {}
+        self.bulb_objects_list = None
         self.leader = None
         self.new_election = False
-        self.uuid_list = uuid_list
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
         self.ping_time = random.randint(1,12)
         self.turned_on_list = turned_on_list
         self.face_visible = face_visible
 
-    def register_bulbs(self, bulb_objects_dict):
-        self.uuid_dict = bulb_objects_dict
+    def register_bulbs(self, bulb_objects_list):
+        self.bulb_objects_list = bulb_objects_list
+        self.create_uuid_dict()
 
     def send_uuid(self):
-        #print self.uuid
-        self.uuid_list[self.id] = self.uuid
-        #print self.uuid_list[0]
-        self.uuid_dict[self.uuid] = self
-        """#print "Is the thread getting here? \n"
-        for bulb in self.bulb_list:
-            #print "Here's my id: " + str(bulb.id) + "\n"
-            bulb.uuid_list.put(self.uuid)
-            bulb.uuid_dict[self.uuid] = self
-            #print "I'm bulb " + str(bulb.id) +  " What about here? The dict: " + str(bulb.uuid_dict) + "\n"""""
+        for bulb in self.bulb_objects_list:
+            bulb.election_q.put(self.uuid)
+
+    def create_uuid_dict(self):
+        for bulb in self.bulb_objects_list:
+            self.uuid_dict[bulb.uuid] = bulb
 
     def get_max_uuid(self):
-        return max(self.uuid_list)
+        curr_max = self.election_q.get()
+        while (self.election_q.size() > 0):
+            curr_item = self.election_q.get()
+            if (curr_item > curr_max):
+                curr_max = curr_item
+        return curr_max
 
     def print_q(self, q):
         q_contents = []
@@ -90,12 +92,10 @@ class Bulb(Process):
         while True:
             if time.time() > timeout:
                 break
-            if len(self.uuid_list) == 13:
-                #print "Before timeout. My uuid queue: " + str(self.uuid_list.size()) + "\n"
+            if self.election_q.size() == 13:
                 #print "Do I ever get here? \n"
                 break
         self.leader = self.uuid_dict[self.get_max_uuid()]
-        #print "After timeout. My uuid queue: " + str(self.uuid_list.size()) + "\n"
         #print "Or here? " + str(self.leader.id) + "\n" 
         """if (self == self.leader):
             sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
@@ -131,10 +131,10 @@ class Bulb(Process):
 
         neighbors_to_signal_to = []
         if self.turned_on_list[neighbor_above_id] != 1: 
-            neighbor_above_addr = self.uuid_dict[self.uuid_list[neighbor_above_id]]
+            neighbor_above_addr = self.bulb_objects_list[neighbor_above_id]
             neighbors_to_signal_to.append(neighbor_above_addr)
         if self.turned_on_list[neighbor_below_id] != 1: 
-            neighbor_below_addr = self.uuid_dict[self.uuid_list[neighbor_below_id]]
+            neighbor_below_addr = self.bulb_objects_list[neighbor_below_id]
             neighbors_to_signal_to.append(neighbor_below_addr)
         if len(neighbors_to_signal_to) > 0: 
             self.signal_to_neighbors(neighbors_to_signal_to)
@@ -145,7 +145,6 @@ class Bulb(Process):
             print bulb_objects_list[i].election_q == bulb_objects_list[i + 1].election_q
         #print "Send leader msg to " + str(self.leader.id) + "\n"""
         self.leader.election_q.put(msg)
-        #print "Leader queue: " + str(self.election_q.size()) + " Uuid queue: " + str(len(self.uuid_list)) + "\n"
 
     def ping_leader(self):
         timeout = time.time() + self.ping_time
@@ -186,7 +185,6 @@ class Bulb(Process):
         self.respond_to_ping()
 
     def run(self):
-        #print "Hi I'm bulb_" + str(self.id) + " And my queue size is: " + str(self.uuid_list.size()) + "\n"
         self.leader_election()
 
 
