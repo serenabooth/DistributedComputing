@@ -129,4 +129,16 @@ TO DO:
         - (Serena) give each bulb its own ssh connection to a powerstrip in a process, and allow it to time itself and turn itself on
         - (Saturday, together) gossip! 
             - have bulbs communicate with their neighbors every time they send a signal
-            - have bulbs order the events (their signal vs. their neighbors), and make minor adjustments in direction of leader 
+            - have bulbs order the events (their signal vs. their neighbors), and make minor adjustments indirection of leader 
+
+04/07: 
+    Somewhat overambitious with finals.
+
+    Today:
+        X Convert powerstrips to background commands 
+        _ Convert powerstips to use processes in place of threads
+        _ Give each bulb its own SSH connection
+        _ Change bulb communication with neighbors
+        _ Finish leader election
+
+        (Goal) Gossip 

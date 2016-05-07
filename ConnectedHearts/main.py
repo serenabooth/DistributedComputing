@@ -34,17 +34,16 @@ args = parser.parse_args()
 
 # Outer while loop to catch errors
 while True: 
-    face_visible = Value('i', 1)
     #time.sleep(10)
 
     # Perform this _once_ initially
     pulse_val = 0; # App.main_loop()
-    App = getPulseApp(args, camera_obj)
+    #App = getPulseApp(args, camera_obj)
 
     # Generate a pulse
-    while pulse_val == 0 or pulse_val == -1: 
-        pulse_val = App.main_loop()
-        time.sleep(1.0/16.0)
+    #while pulse_val == 0 or pulse_val == -1: 
+    #    pulse_val = App.main_loop()
+    #    time.sleep(1.0/16.0)
         #if pulse_val == 0: 
         #    print "Found a face in main"
         #    time.sleep(10)
@@ -54,6 +53,7 @@ while True:
         pulse_val = 160
     if pulse_val < 50:
         pulse_val = 50
+    
     print "FINISHED with pulse " + str(pulse_val)
     #App.bpm = 70
 
@@ -79,8 +79,14 @@ while True:
     print "on to the bulbs"
     bulb_objects_list = []
     for i in range(0, 13):
-        p = Bulb(id = i, turned_on_list = power_strip_on_list, face_visible = face_visible)
-        #print p.uuid
+        if i % 2: 
+            host_powerstrip = hosts[0]
+        else:
+            host_powerstrip = hosts[1]
+        p = Bulb(id = i, 
+                    turned_on_list = power_strip_on_list, 
+                    bpm = pulse_val, 
+                    host = host_powerstrip)
         bulb_objects_list.append(p)
 
     for bulb in bulb_objects_list:
@@ -88,20 +94,23 @@ while True:
         bulb.send_uuid()
 
     try:
-        pi = Pi(bpm = App.bpm, 
-                              turned_on_list = power_strip_on_list, 
-                              hosts = hosts, 
-                              face_visible = face_visible)
-        pi.start()
+        # pi_20 = Pi(bpm = App.bpm, 
+        #                       turned_on_list = power_strip_on_list, 
+        #                       hosts = hosts[0])
+        # pi_20.start()
+
+        # pi_21 = Pi(bpm = App.bpm, 
+        #                       turned_on_list = power_strip_on_list, 
+        #                       hosts = hosts[1])
+        # pi_21.start()
 
         for bulb in bulb_objects_list:
            bulb.start()
         
 	while True:    
         #while (face_check_process.check_if_face_is_visible()):
-            print "face dere?" +  str(face_visible.value)
 
-            time.sleep(30)
+        time.sleep(30)
 
         print "About to shut this down"
         pulse_val = 0
