@@ -1,6 +1,6 @@
 from datetime import datetime
 import threading
-import sys, time, socket, random, Queue
+import sys, time, socket, random
 import uuid
 from multiprocessing import Array, Process
 from multiprocessing.queues import Queue
@@ -120,6 +120,8 @@ class Bulb(Process):
             self.respond_to_ping()
         else:
             print "Hi, I'm a follower: " + str(self.id) + "\n"
+            p = Process(target=self.check_turn_on, args=())
+            p.start()
             self.ping_leader()
 
             #self.connect_to_leader_socket(connection_timeout, time.time())
@@ -127,9 +129,16 @@ class Bulb(Process):
         #self.ping_leader_socket()
         #print "I got here and I'm bulb " + str(self.id) + "\n"
 
-    @threaded
+    def check_turn_on(self):
+        while (self.state_q.empty()):
+            #print "I'm bulb " + str(self.id) + " and I'm checking if turned on"
+            time.sleep(1)
+        self.state_q.get()
+        self.turn_on()
+
     def turn_on(self):
         self.turned_on_list[self.id] = 1
+        #print "Yay, I'm bulb " + str(self.id) + " and I turned on"
 
         my_ssh_connection = BulbControl(my_id = self.id,
                     bpm = self.bpm, 
@@ -156,6 +165,7 @@ class Bulb(Process):
         self.leader.election_q.put(msg)
 
     def ping_leader(self):
+        #print "I'm bulb " + str(self.id) + " and I'm pinging the leader"
         timeout = time.time() + self.ping_time
         while True:
             if time.time() > timeout:
@@ -168,7 +178,6 @@ class Bulb(Process):
         # also check for a leader election initiation here
         self.ping_leader()
 
-    @threaded
     def signal_to_neighbors(self, list_of_neighbors):
         """ 
         Wait for some amount of time and then 
@@ -180,12 +189,14 @@ class Bulb(Process):
             if time.time() > timeout:
                 break
         for neighbor in list_of_neighbors: 
-            neighbor.turn_on()
+            print "Bulb " + str(neighbor.id) + " size before: " + str(neighbor.state_q.size()) + "\n"
+            neighbor.state_q.put(1)
+            print "Bulb " + str(neighbor.id) + " size after: " + str(neighbor.state_q.size()) + "\n"
 
     def respond_to_ping(self):
         while not self.election_q.empty():
+            #print "There's something on my queue"
             pinger_uuid = self.election_q.get()
-            self.state_q.put(pinger_uuid)
             self.uuid_dict[pinger_uuid].election_q.put("I'm the leader")
         timeout = time.time() + self.ping_time
         while True:
