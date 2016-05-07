@@ -32,9 +32,9 @@ class Pi(Process):
 
         turn_all_off = "echo turning_all_off "
         for i in range (1,8):
-            turn_all_off += "&& echo 0 > /proc/power/relay" + str(i) + " "
+            turn_all_off += "& echo 0 > /proc/power/relay" + str(i) + " "
         for i in range(8,9):
-            turn_all_off += "&& echo 1 > /proc/power/relay" + str(i) + " "
+            turn_all_off += "& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
 
         while self.face_visible: 
@@ -49,8 +49,8 @@ class Pi(Process):
                 else: 
                     chk_on = i * 2
                 if self.turned_on_list[chk_on] == 1:
-                    on_cmd_builder += "&& echo 1 > /proc/power/relay" + str(i+1) + " "
-                    off_cmd_builder += "&& echo 0 > /proc/power/relay" + str(i+1) + " "
+                    on_cmd_builder += "& echo 1 > /proc/power/relay" + str(i+1) + " "
+                    off_cmd_builder += "& echo 0 > /proc/power/relay" + str(i+1) + " "
 
             #print on_cmd_builder
             #print off_cmd_builder
@@ -66,18 +66,19 @@ class Pi(Process):
 
 
     def run(self):
-        outlock = threading.Lock() 
-        # connect via ssh to both power strips
-        threads = []
-        for h in self.hosts:
-            t = threading.Thread(target = self.connect, args=(h,))
-            t.start()
-            threads.append(t)
-        for t in threads:
-            t.join()
+        # outlock = threading.Lock() 
+        # # connect via ssh to both power strips
+        # threads = []
+        # for h in self.hosts:
+        #     t = threading.Thread(target = self.connect, args=(h,))
+        #     t.start()
+        #     threads.append(t)
+        # for t in threads:
+        #     t.join()
+
+        self.connect(self.hosts)
 
         while True: 
-
             print "I am running"
             time.sleep(5)
 

@@ -89,11 +89,17 @@ while True:
         bulb.send_uuid()
 
     try:
-        pi = Pi(bpm = App.bpm, 
+        pi_20 = Pi(bpm = App.bpm, 
                               turned_on_list = power_strip_on_list, 
-                              hosts = hosts, 
+                              hosts = hosts[0], 
                               face_visible = face_visible)
-        pi.start()
+        pi_20.start()
+
+        pi_21 = Pi(bpm = App.bpm, 
+                              turned_on_list = power_strip_on_list, 
+                              hosts = hosts[1], 
+                              face_visible = face_visible)
+        pi_21.start()
 
         for bulb in bulb_objects_dict.values():
            bulb.start()
