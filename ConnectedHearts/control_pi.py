@@ -19,7 +19,7 @@ class Pi(Process):
         self.hosts = hosts
 
     def connect(self, host):
-        print "connecting to " + host
+        print "connecting to " + str(host)
         c = paramiko.SSHClient()
         c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         c.connect(host, username='ubnt', password='ubnt') 
