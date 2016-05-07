@@ -34,6 +34,8 @@ args = parser.parse_args()
 
 # Outer while loop to catch errors
 while True: 
+    pi = Pi(hosts = hosts)
+    pi.start()
     #time.sleep(10)
 
     # Perform this _once_ initially
@@ -72,6 +74,7 @@ while True:
     power_strip_on_list = Array('i', 13)
 
     face_check_process = CheckFace(camera_obj = camera_obj)
+
     #print "face check!"
     #face_check_process.start()
     #face_check_process.join()
@@ -94,8 +97,6 @@ while True:
         bulb.send_uuid()
 
     try:
-        pi = Pi(hosts = hosts)
-        pi.start()
         # pi_20.start()
 
         # pi_21 = Pi(bpm = App.bpm, 
