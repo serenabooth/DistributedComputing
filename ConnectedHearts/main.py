@@ -8,7 +8,7 @@ from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 from webcam_pulse.lib.device import Camera
 
-is_on_pi = 1
+is_on_pi = 0
 
 camera_obj = Camera(is_on_pi)
 
@@ -97,15 +97,16 @@ while True:
 
         for bulb in bulb_objects_dict.values():
            bulb.start()
-           
-        while (face_check_process.check_if_face_is_visible()):
+        
+	while True:    
+        #while (face_check_process.check_if_face_is_visible()):
             print "face dere?" +  str(face_visible.value)
             #for bulb in bulb_objects_dict.values():
             #    print "joining!"
             #    bulb.join()
 
             #pi.join()
-            time.sleep(15)
+            time.sleep(30)
 
         print "About to shut this down"
         pulse_val = 0
