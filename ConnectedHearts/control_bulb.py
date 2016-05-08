@@ -72,7 +72,7 @@ class BulbControl(Process):
                 # convert timedelta to seconds
                 microseconds = time_diff.microseconds
 
-                self.adjustment.value = (microseconds / 1000000) * 1/3
+                self.adjustment.value = (microseconds / 1000000) * 1/2
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
             #else: 
                 #print "I am the leader, so I will not adjust my timing"
