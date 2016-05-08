@@ -53,7 +53,6 @@ class Bulb(Process):
         self.bulb_objects_list = None
         self.leader = None
         self.leader_id = Value('i', -1)
-        self.new_election = False
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
         self.ping_time = random.randint(1,12)
@@ -90,6 +89,9 @@ class Bulb(Process):
             q_contents.append(str(q.get()))
         return q_contents
 
+    #def empty_election_q_and_check_for_leader(self):
+
+
     def leader_election(self):
         #print "is this working? \n"
         self.leader = None
@@ -109,7 +111,6 @@ class Bulb(Process):
             return"""
         #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
-        self.new_election = False
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
             self.turn_on()
@@ -172,20 +173,21 @@ class Bulb(Process):
             if time.time() > timeout:
                 break
         if not self.election_q.empty():
+            msg = self.election_q.get()
             #sys.stderr.write("I'm bulb " + str(self.id) + " and the leader responded: " + str(self.election_q.get()) + "\n Also my timeout is " + str(self.ping_time) + "\n")
             self.leader.election_q.put(self.uuid)
+            self.ping_leader()
         else:
             while True:
                 if time.time() > start_time + self.max_timeout:
                     break
             if self.election_q.empty():
                 sys.stderr.write("Oh no the leader didn't respond \n")
-        # wait for response from leader here before pinging
-        # again, by checking if queue has an element in it
-        # if no response, can assume that it's died 
-        # and start leader election
-        # also check for a leader election initiation here
-        self.ping_leader()
+                #for bulb in bulb_objects_list:
+                #    bulb.election_q.put("New election")
+                #    self.leader_election()
+            else:
+                self.ping_leader()
 
     def signal_to_neighbors(self, list_of_neighbors):
         """ 
