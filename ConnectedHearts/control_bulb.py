@@ -47,8 +47,20 @@ class BulbControl(Process):
 
                 self.time_of_last_blink = bulbBlinkerObj.time_of_last_blink
 
-                if (abs(self.leader_id.value - self.above_bulb_id) < 
-                    abs(self.leader_id.value - self.below_bulb_id)): 
+                steps_to_above = 13
+                steps_to_below = 13
+                for i in range(0,12):
+                    if (self.above_bulb_id + i) % 12 == leader_id:
+                        steps_to_above = min(steps_to_above, i)
+                    if (self.above_bulb_id - i) % 12 == leader_id:
+                        steps_to_above = min(steps_to_above, i)
+
+                    if (self.below_bulb_id + i) % 12 == leader_id:
+                        steps_to_below = min(steps_to_below, i)
+                    if (self.below_bulb_id - i) % 12 == leader_id:
+                        steps_to_below = min(steps_to_below, i)
+
+                if (steps_to_above < steps_to_below): 
                     closer_time = self.time_of_neighbor_above
                 else:
                     closer_time = self.time_of_neighbor_below
