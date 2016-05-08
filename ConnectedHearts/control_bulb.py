@@ -32,6 +32,7 @@ class BulbControl(Process):
     def check_ordering(self, bulbBlinkerObj):
         while True: 
             if self.id != self.leader_id.value: 
+                print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
                 while not self.state_q.empty():
                     print "Something on my queue!"
                     message = self.election_q.get()
@@ -102,12 +103,12 @@ class BulbBlinker(Process):
         self.below_neighbor = below_neighbor
 
     def send_message_to_neighbors(self):
-        print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
-        print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
+        #print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
+        #print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
         self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
         self.bulb_objects_list[self.below_neighbor].state_q.put("" + str(self.id))
-        print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
-        print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
+        #print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
+        #print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
 
     def ssh_connection(self):
         print "connecting to " + self.host
