@@ -14,11 +14,14 @@ import paramiko
 """
 
 class BulbControl(Process):
-    def __init__(self, bpm, my_id, host):
+    def __init__(self, bpm, my_id, host, leader_id, state_q, bulb_objects_list):
         super(BulbControl, self).__init__()
         self.id = my_id
         self.bpm = bpm
         self.host = host
+        self.leader_id = leader_id
+        self.state_q = state_q
+        self.bulb_objects_list = bulb_objects_list
 
     def connect(self):
         print "connecting to " + self.host
