@@ -37,24 +37,25 @@ class BulbControl(Process):
 
     def check_ordering(self):
         while True: 
-            print "Here, " + str(self.id) + " and the leader is " + str(self.leader_id.value)
+            #print "Here, " + str(self.id) + " and the leader is " + str(self.leader_id.value)
             if self.id != self.leader_id.value: 
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
   
-                print "I'm " + str(self.id) + " and my queue size is: " + str(self.bulb_objects_list[self.id].state_q.size())
+                print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
 
-                while not self.state_q.empty():
-                    print "Something on my queue!"
-                    message = self.state_q.get()
-                    print "Message " + str(message)
-                    time_received_message = datetime.datetime.now()
+                for i in range(0, 3):
+                    if not self.state_q.empty():
+                        print "Something on my queue!"
+                        message = self.state_q.get()
+                        print "Message " + str(message)
+                        time_received_message = datetime.datetime.now()
 
-                    if message == self.above_bulb_id: 
-                        self.time_of_neighbor_above = time_received_message
-                    elif message == self.below_bulb_id: 
-                        self.time_of_neighbor_below = time_received_message
-                    else: 
-                        self.time_of_last_blink = time_received_message
+                        if message == self.above_bulb_id: 
+                            self.time_of_neighbor_above = time_received_message
+                        elif message == self.below_bulb_id: 
+                            self.time_of_neighbor_below = time_received_message
+                        else: 
+                            self.time_of_last_blink = time_received_message
 
                 if self.time_of_last_blink == self.comp_time:
                     #print self.time_of_last_blink.value
@@ -82,7 +83,7 @@ class BulbControl(Process):
                 else:
                     closer_time = self.time_of_neighbor_below
 
-                print closer_time
+                print "Closer? " + str(closer_time)
 
                 # if (closer_time == self.comp_above_time or 
                 #         closer_time == self.comp_below_time):
