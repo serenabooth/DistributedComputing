@@ -68,10 +68,11 @@ class BulbControl(Process):
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
-                seconds = time_diff.total_seconds()
-                self.adjustment.value = seconds / 3
-            else: 
-                print "I am the leader, so I will not adjust my timing"
+                milliseconds = time_diff.microseconds / 1000
+
+                self.adjustment.value = milliseconds / 1000
+            #else: 
+                #print "I am the leader, so I will not adjust my timing"
 
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,
