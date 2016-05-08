@@ -145,12 +145,12 @@ class BulbBlinker(Process):
             # put my message on my neighbors queues
             self.send_message_to_neighbors()
 
-            time.sleep(60.0/self.bpm) 
+            time.sleep(60.0 * 2/self.bpm) 
 
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
-            time.sleep(60.0/self.bpm + self.adjustment.value) 
+            time.sleep(60.0 * 2/self.bpm + self.adjustment.value) 
 
 
     def run(self):
