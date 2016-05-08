@@ -119,14 +119,14 @@ TO DO:
         - (by author) cleanse code
         - (by author) comment code
         X (Serena) draft outline of paper
-        - (Michelle) change bulb communication with neighbors
-            - use state_q
-            - instead of (neighbor).turnOn(), use queue to give msg to neighbor to turn on self. 
-            - constantly check queue for message to turn on. 
+        X (Michelle) change bulb communication with neighbors
+            X use state_q
+            X instead of (neighbor).turnOn(), use queue to give msg to neighbor to turn on self. 
+            X constantly check queue for message to turn on. 
         - (Michelle) finish leader election 
             - allow processes to reinitiate election
-        - (Serena) convert control of powerstrips to processes and use backgrounds  
-        - (Serena) give each bulb its own ssh connection to a powerstrip in a process, and allow it to time itself and turn itself on
+        X (Serena) convert control of powerstrips to processes and use backgrounds  
+        X (Serena) give each bulb its own ssh connection to a powerstrip in a process, and allow it to time itself and turn itself on
         - (Saturday, together) gossip! 
             - have bulbs communicate with their neighbors every time they send a signal
             - have bulbs order the events (their signal vs. their neighbors), and make minor adjustments indirection of leader 
@@ -138,7 +138,7 @@ TO DO:
         X Convert powerstrips to background commands 
         X Convert powerstips to use processes in place of threads
         X Give each bulb its own SSH connection
-        _ Change bulb communication with neighbors
+        X Change bulb communication with neighbors
         _ Gossip 
         _ Finish leader election
 
