@@ -58,26 +58,34 @@ class BulbControl(Process):
             seconds = time_diff.total_seconds()
             self.adjustment.value = seconds / 10
 
-
-
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,
                     bpm = self.bpm, 
                     host = self.host,
-                    adjustment = self.adjustment)
+                    adjustment = self.adjustment,
+                    bulb_objects_list = self.bulb_objects_list, 
+                    above_neighbor = self.above_bulb_id, 
+                    below_neighbor = self.below_bulb_id)
         my_bulb.start()
         self.check_ordering_and_ping_neighbors(my_bulb)
 
 
 
 class BulbBlinker(Process):
-    def __init__(self, my_id, bpm, host, adjustment):
+    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
         super(BulbBlinker, self).__init__()
         self.bpm = bpm
         self.id = my_id
         self.host = host
         self.adjustment = adjustment
         self.time_of_last_blink = -1
+        self.bulb_objects_list = bulb_objects_list
+        self.above_neighbor = above_neighbor
+        self.below_neighbor = below_neighbor
+
+    def send_message_to_neighbors(self):
+        self.bulb_objects_list[self.above_neighbor].state_q.put("" + self.id)
+        self.bulb_objects_list[self.above_neighbor].state_q.put("" + self.id)
 
     def ssh_connection(self):
         print "connecting to " + self.host
@@ -98,6 +106,7 @@ class BulbBlinker(Process):
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
+            self.send_message_to_neighbors()
 
             self.time_of_last_blink = datetime.datetime.now()
 
