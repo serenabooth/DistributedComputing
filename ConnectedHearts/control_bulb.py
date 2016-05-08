@@ -32,9 +32,9 @@ class BulbControl(Process):
     def check_ordering(self, bulbBlinkerObj):
         while True: 
             if self.id != self.leader_id.value: 
-                print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
+                #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
                 while not self.state_q.empty():
-                    print "Something on my queue!"
+                    #print "Something on my queue!"
                     message = self.election_q.get()
                     time_received_message = datetime.datetime.now()
 
@@ -44,7 +44,7 @@ class BulbControl(Process):
                         self.time_of_neighbor_below = time_received_message
 
                 if self.time_of_last_blink == bulbBlinkerObj.time_of_last_blink:
-                    print "I cannot see an update"
+                    #print "I cannot see an update"
                     self.adjustment.value = 0
                     continue
 
