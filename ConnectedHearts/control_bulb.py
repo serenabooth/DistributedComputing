@@ -7,6 +7,8 @@ from multiprocessing import Array, Process, Value
 from multiprocessing.queues import Queue
 import ctypes 
 import paramiko
+from ctypes import c_char_p
+
 
 """
     Code outline based on: StackOverflow Question 3485428
@@ -32,22 +34,23 @@ class BulbControl(Process):
     def check_ordering(self, bulbBlinkerObj):
         while True: 
             if self.id != self.leader_id.value: 
-                print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
+                #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
                 while not self.state_q.empty():
-                    print "Something on my queue!"
+                    #print "Something on my queue!"
                     message = self.election_q.get()
                     time_received_message = datetime.datetime.now()
 
                     if message == self.above_bulb_id: 
                         self.time_of_neighbor_above = time_received_message
-                    else: 
+                    elif message == self.below_bulb_id: 
                         self.time_of_neighbor_below = time_received_message
+                    else: 
+                        self.time_of_last_blink = time_received_message
 
-                if self.time_of_last_blink == bulbBlinkerObj.time_of_last_blink:
-                    self.adjustment.value = 0
-                    continue
-
-                self.time_of_last_blink = bulbBlinkerObj.time_of_last_blink
+                # if self.time_of_last_blink.value == bulbBlinkerObj.time_of_last_blink.value:
+                #     #print self.time_of_last_blink.value
+                #     self.adjustment.value = 0
+                #     continue
 
                 steps_to_above = 13
                 steps_to_below = 13
@@ -90,14 +93,12 @@ class BulbControl(Process):
 
 
 
-class BulbBlinker(Process):
     def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
         super(BulbBlinker, self).__init__()
         self.bpm = bpm
         self.id = my_id
         self.host = host
         self.adjustment = adjustment
-        self.time_of_last_blink = -1
         self.bulb_objects_list = bulb_objects_list
         self.above_neighbor = above_neighbor
         self.below_neighbor = below_neighbor
@@ -129,9 +130,10 @@ class BulbBlinker(Process):
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
+            # put my message on my own queue
+            self.state_q.put(str(self.id))
+            # put my message on my neighbors queues
             self.send_message_to_neighbors()
-
-            self.time_of_last_blink = datetime.datetime.now()
 
             time.sleep(60.0/self.bpm) 
 
