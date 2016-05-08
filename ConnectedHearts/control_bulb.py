@@ -35,8 +35,9 @@ class BulbControl(Process):
         self.comp_above_time = datetime.datetime.now()
         self.comp_below_time = datetime.datetime.now()
 
-    def check_ordering(self, bulbBlinkerObj):
+    def check_ordering(self):
         while True: 
+            print "Here"
             if self.id != self.leader_id.value: 
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
   
@@ -113,7 +114,7 @@ class BulbControl(Process):
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
         my_bulb.start()
-        self.check_ordering(my_bulb)
+        self.check_ordering()
 
 
 class BulbBlinker(Process):
