@@ -3,7 +3,7 @@ import threading
 import sys, os
 import string, time, datetime, random
 import uuid
-from multiprocessing import Array, Process
+from multiprocessing import Array, Process, Value
 from multiprocessing.queues import Queue
 import ctypes 
 import paramiko
@@ -34,6 +34,7 @@ class BulbControl(Process):
                     bpm = self.bpm, 
                     host = self.host,
                     adjustment = self.adjustment)
+        my_bulb.start()
         self.checkOrdering(my_bulb)
 
 
@@ -46,7 +47,7 @@ class BulbBlinker(Process):
         self.id = my_id
         self.host = host
         self.adjustment = adjustment
-        self.time_of_last_blink = time_of_last_blink
+        self.time_of_last_blink = datetime.datetime.now()
 
     def sshConnection(self):
         print "connecting to " + self.host
@@ -66,7 +67,7 @@ class BulbBlinker(Process):
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
-            self.sendSignalToNeighbors()
+            #self.sendSignalToNeighbors()
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             #for i in range(0,10):
             time.sleep(60.0/self.bpm) #TO DO: set me to be the pulse
@@ -78,4 +79,4 @@ class BulbBlinker(Process):
 
 
     def run(self):
-        print "hai"
+        self.sshConnection()
