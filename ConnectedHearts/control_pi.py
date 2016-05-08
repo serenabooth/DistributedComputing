@@ -1,7 +1,7 @@
 from datetime import datetime
 import threading
 import sys, os
-import string, time, datetime, random, Queue
+import string, time, datetime, random
 import uuid
 from multiprocessing import Array, Process
 from multiprocessing.queues import Queue
@@ -30,34 +30,6 @@ class Pi(Process):
         #for i in range(8,9):
         #    turn_all_off += "& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
-
-        # while True: 
-        #     on_cmd_builder = "echo turning_on "
-        #     off_cmd_builder = "echo turning_off "
-        #     for i in range(0,7):
-        #         chk_on = i
-        #         if (host == "192.168.1.21"):
-        #             chk_on = i * 2 + 1
-        #             if chk_on == 13: 
-        #                 continue 
-        #         else: 
-        #             chk_on = i * 2
-        #         if self.turned_on_list[chk_on] == 1:
-        #             on_cmd_builder += "& echo 1 > /proc/power/relay" + str(i+1) + " "
-        #             off_cmd_builder += "& echo 0 > /proc/power/relay" + str(i+1) + " "
-
-        #     #print on_cmd_builder
-        #     #print off_cmd_builder
-        #     print str(datetime.datetime.now()) + str(host) + " on"
-        #     c.exec_command(on_cmd_builder)
-        #     #for i in range(0,10):
-        #     time.sleep(self.sleep_time) #TO DO: set me to be the pulse
-        #     #time.sleep(5)
-        #     print str(datetime.datetime.now()) + str(host) + " off"
-        #     c.exec_command(off_cmd_builder) 
-        #     #for i in range(0,10):
-        #     time.sleep(self.sleep_time) #TO DO: set me to be the pulse
-
 
     def run(self):
         for host in self.hosts: 

@@ -2,7 +2,7 @@ from datetime import datetime
 import threading
 import sys, time, socket, random
 import uuid
-from multiprocessing import Array, Process
+from multiprocessing import Array, Process, Value
 from multiprocessing.queues import Queue
 import ctypes 
 from control_bulb import *
@@ -52,6 +52,7 @@ class Bulb(Process):
         self.uuid_dict = {}
         self.bulb_objects_list = None
         self.leader = None
+        self.leader_id = Value('i', -1)
         self.new_election = False
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
@@ -100,6 +101,8 @@ class Bulb(Process):
                 #print "Do I ever get here? \n"
                 break
         self.leader = self.uuid_dict[self.get_max_uuid()]
+        self.leader_id.value = self.leader.id
+        print "Leader id: " + str(self.leader_id.value) + "\n"
         #print "Or here? " + str(self.leader.id) + "\n" 
         """if (self == self.leader):
             sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
@@ -142,7 +145,10 @@ class Bulb(Process):
 
         my_ssh_connection = BulbControl(my_id = self.id,
                     bpm = self.bpm, 
-                    host = self.host)
+                    host = self.host,
+                    leader_id = self.leader_id,
+                    state_q = self.state_q,
+                    bulb_objects_list = self.bulb_objects_list)
         my_ssh_connection.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
@@ -189,9 +195,10 @@ class Bulb(Process):
             if time.time() > timeout:
                 break
         for neighbor in list_of_neighbors: 
-            print "Bulb " + str(neighbor.id) + " size before: " + str(neighbor.state_q.size()) + "\n"
+            #print "Bulb " + str(neighbor.id) + " size before: " + str(neighbor.state_q.size()) + "\n"
+            #print "Bulb " + str(self.id) + " signaled to bulb " + str(neighbor.id) + "\n"
             neighbor.state_q.put(1)
-            print "Bulb " + str(neighbor.id) + " size after: " + str(neighbor.state_q.size()) + "\n"
+            #print "Bulb " + str(neighbor.id) + " size after: " + str(neighbor.state_q.size()) + "\n"
 
     def respond_to_ping(self):
         while not self.election_q.empty():
