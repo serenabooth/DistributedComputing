@@ -25,7 +25,7 @@ class BulbControl(Process):
         self.state_q = state_q
         self.bulb_objects_list = bulb_objects_list
         self.adjustment = Value('f', 0.0)
-        self.time_of_last_blink = Value(c_char_p, str(datetime.datetime.now()))
+        self.time_of_last_blink = -1
         self.time_of_neighbor_below = -1
         self.time_of_neighbor_above = -1
         self.above_bulb_id = (self.id + 1) % 13
@@ -42,15 +42,15 @@ class BulbControl(Process):
 
                     if message == self.above_bulb_id: 
                         self.time_of_neighbor_above = time_received_message
-                    else: 
+                    elif message == self.below_bulb_id: 
                         self.time_of_neighbor_below = time_received_message
+                    else: 
+                        self.time_of_last_blink = time_received_message
 
-                if self.time_of_last_blink.value == bulbBlinkerObj.time_of_last_blink.value:
-                    print self.time_of_last_blink.value
-                    self.adjustment.value = 0
-                    continue
-
-                self.time_of_last_blink.value = bulbBlinkerObj.time_of_last_blink.value
+                # if self.time_of_last_blink.value == bulbBlinkerObj.time_of_last_blink.value:
+                #     #print self.time_of_last_blink.value
+                #     self.adjustment.value = 0
+                #     continue
 
                 steps_to_above = 13
                 steps_to_below = 13
@@ -85,7 +85,6 @@ class BulbControl(Process):
                     bpm = self.bpm, 
                     host = self.host,
                     adjustment = self.adjustment,
-                    time_of_last_blink = self.time_of_last_blink, 
                     bulb_objects_list = self.bulb_objects_list, 
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
@@ -94,14 +93,12 @@ class BulbControl(Process):
 
 
 
-class BulbBlinker(Process):
-    def __init__(self, my_id, bpm, host, adjustment, time_of_last_blink, bulb_objects_list, above_neighbor, below_neighbor):
+    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
         super(BulbBlinker, self).__init__()
         self.bpm = bpm
         self.id = my_id
         self.host = host
         self.adjustment = adjustment
-        self.time_of_last_blink = time_of_last_blink
         self.bulb_objects_list = bulb_objects_list
         self.above_neighbor = above_neighbor
         self.below_neighbor = below_neighbor
@@ -133,9 +130,10 @@ class BulbBlinker(Process):
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
+            # put my message on my own queue
+            self.state_q.put(str(self.id))
+            # put my message on my neighbors queues
             self.send_message_to_neighbors()
-
-            self.time_of_last_blink.value = str(datetime.datetime.now())
 
             time.sleep(60.0/self.bpm) 
 
