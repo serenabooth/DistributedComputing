@@ -55,12 +55,11 @@ while True:
     hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     max_bright = 0
-
+    tmp = 0
     # look at 13 pixels corresponding to bulb brightnesses; take max
     for j in range(0,len(rois)):
-        tmp =  hsv_image[rois[j][1]][rois[j][0]][2]/255.0
-        max_bright = max(max_bright, tmp)
-    print max_bright
+        tmp +=  hsv_image[rois[j][1]][rois[j][0]][2]/255.0
+    max_bright = tmp / len(rois)
 
     # expected values alternate between all off and all on (1 second in each state)
     if state_ct < 120: 

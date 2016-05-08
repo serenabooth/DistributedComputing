@@ -139,6 +139,15 @@ We present a physical distributed system for viewing the human heartbeat. We mod
 
 \subsection{Architecture}
 \subsection{Bully: Leader Election}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/bully}
+  \caption{In the above graphic, we demonstrate the bully algorithm for determining a leader. In subimage A, node 3 attempts to confirm that the known leader, node 5, is still alive. In sumbimage B, node 5 does not respond to node 3 for a set period of time---a time set by node 3. Hence node 3 initiates an election by contacting all nodes with a higher id than itself. In subimage C, node 4 responds to node 3's request to initiate an election by confirming it remains alive. Finally, in subimage D, node 4 broadcasts a message to all nodes to inform them of its leader status. 
+ \label{fig:bully}}
+\end{figure}
+
+
 \subsection{Inter-bulb Communication}
 \subsection{Realtime Synchronization via Gossip}
 
@@ -155,6 +164,13 @@ As the layout of our system is predetermined, we are able to adjust the gossip a
 
 \section{Synchronization Testing \& Analysis}
 
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/results}
+  \caption{We demonstrate the synchronization of our system as a function of time, as compared with an ideal synchronization system. The green timeseries corresponds to the physical system while the blue timeseries corresponds to an idealized system. 
+ \label{fig:res}}
+\end{figure}
 
 \section{Conclusion}
 
