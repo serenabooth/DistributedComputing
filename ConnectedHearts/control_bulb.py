@@ -7,6 +7,8 @@ from multiprocessing import Array, Process, Value
 from multiprocessing.queues import Queue
 import ctypes 
 import paramiko
+from ctypes import c_char_p
+
 
 """
     Code outline based on: StackOverflow Question 3485428
@@ -23,7 +25,7 @@ class BulbControl(Process):
         self.state_q = state_q
         self.bulb_objects_list = bulb_objects_list
         self.adjustment = Value('f', 0.0)
-        self.time_of_last_blink = -1
+        self.time_of_last_blink = Value('c_char_p', str(datetime.datetime.now()))
         self.time_of_neighbor_below = -1
         self.time_of_neighbor_above = -1
         self.above_bulb_id = (self.id + 1) % 13
@@ -43,12 +45,12 @@ class BulbControl(Process):
                     else: 
                         self.time_of_neighbor_below = time_received_message
 
-                if self.time_of_last_blink == bulbBlinkerObj.time_of_last_blink:
-                    print self.time_of_last_blink
+                if self.time_of_last_blink.value == bulbBlinkerObj.time_of_last_blink.value:
+                    print self.time_of_last_blink.value
                     self.adjustment.value = 0
                     continue
 
-                self.time_of_last_blink = bulbBlinkerObj.time_of_last_blink
+                self.time_of_last_blink.value = bulbBlinkerObj.time_of_last_blink.value
 
                 steps_to_above = 13
                 steps_to_below = 13
@@ -132,7 +134,7 @@ class BulbBlinker(Process):
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             self.send_message_to_neighbors()
 
-            self.time_of_last_blink = datetime.datetime.now()
+            self.time_of_last_blink.value = str(datetime.datetime.now())
 
             time.sleep(60.0/self.bpm) 
 
