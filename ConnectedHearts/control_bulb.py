@@ -42,7 +42,7 @@ class BulbControl(Process):
 
                 while not self.state_q.empty():
                     print "Something on my queue!"
-                    message = self.election_q.get()
+                    message = self.state_q.get()
                     print "Message " + str(message)
                     time_received_message = datetime.datetime.now()
 
