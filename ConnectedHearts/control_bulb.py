@@ -44,6 +44,7 @@ class BulbControl(Process):
                         self.time_of_neighbor_below = time_received_message
 
                 if self.time_of_last_blink == bulbBlinkerObj.time_of_last_blink:
+                    print "I cannot see an update"
                     self.adjustment.value = 0
                     continue
 
