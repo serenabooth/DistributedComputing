@@ -27,8 +27,8 @@ class Pi(Process):
         turn_all_off = "echo turning_all_off "
         for i in range(1,8):
             turn_all_off += "& echo 0 > /proc/power/relay" + str(i) + " "
-        for i in range(8,9):
-            turn_all_off += "& echo 1 > /proc/power/relay" + str(i) + " "
+        #for i in range(8,9):
+        #    turn_all_off += "& echo 1 > /proc/power/relay" + str(i) + " "
         c.exec_command(turn_all_off)
 
         # while True: 
