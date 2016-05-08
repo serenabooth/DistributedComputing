@@ -63,24 +63,26 @@ class BulbControl(Process):
                     print "I am continuing"
                     continue
 
-                # # TODO: Fix this bad logic
-                # steps_to_above = 13
-                # steps_to_below = 13
-                # for i in range(1,12):
-                #     if (self.above_bulb_id + i) % 12 == leader_id:
-                #         steps_to_above = min(steps_to_above, i)
-                #     if (self.above_bulb_id - i) % 12 == leader_id:
-                #         steps_to_above = min(steps_to_above, i)
+                # TODO: Fix this bad logic
+                steps_to_above = 13
+                steps_to_below = 13
+                for i in range(1,12):
+                    if (self.above_bulb_id + i) % 12 == self.leader_id.value:
+                        steps_to_above = min(steps_to_above, i)
+                    if (self.above_bulb_id - i) % 12 == self.leader_id.value:
+                        steps_to_above = min(steps_to_above, i)
 
-                #     if (self.below_bulb_id + i) % 12 == leader_id:
-                #         steps_to_below = min(steps_to_below, i)
-                #     if (self.below_bulb_id - i) % 12 == leader_id:
-                #         steps_to_below = min(steps_to_below, i)
+                    if (self.below_bulb_id + i) % 12 == self.leader_id.value:
+                        steps_to_below = min(steps_to_below, i)
+                    if (self.below_bulb_id - i) % 12 == self.leader_id.value:
+                        steps_to_below = min(steps_to_below, i)
 
-                # if (steps_to_above < steps_to_below): 
-                #     closer_time = self.time_of_neighbor_above
-                # else:
-                #     closer_time = self.time_of_neighbor_below
+                if (steps_to_above < steps_to_below): 
+                    closer_time = self.time_of_neighbor_above
+                else:
+                    closer_time = self.time_of_neighbor_below
+
+                print closer_time
 
                 # if (closer_time == self.comp_above_time or 
                 #         closer_time == self.comp_below_time):
