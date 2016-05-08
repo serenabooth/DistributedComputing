@@ -64,7 +64,7 @@ class BulbControl(Process):
 
                 steps_to_above = 13
                 steps_to_below = 13
-                for i in range(0,12):
+                for i in range(1,12):
                     if (self.above_bulb_id + i) % 12 == leader_id:
                         steps_to_above = min(steps_to_above, i)
                     if (self.above_bulb_id - i) % 12 == leader_id:
@@ -96,8 +96,8 @@ class BulbControl(Process):
                 self.comp_above_time = self.time_of_neighbor_above
                 self.comp_below_time = self.time_of_neighbor_below
 
-            #else: 
-                #print "I am the leader, so I will not adjust my timing"
+            else: 
+                time.sleep(5)
 
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,
