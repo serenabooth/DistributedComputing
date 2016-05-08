@@ -2,7 +2,7 @@ from datetime import datetime
 import threading
 import sys, time, socket, random
 import uuid
-from multiprocessing import Array, Process, Value
+from multiprocessing import Array, Process, Value, Lock
 from multiprocessing.queues import Queue
 import ctypes 
 from control_bulb import *
@@ -26,23 +26,31 @@ class BulbQueue(Queue):
         #print "Here's the queue type: " + str(type(Queue()))
         super(BulbQueue, self).__init__()
         self.queuesize = 0
+        self.lock = Lock()
 
     def empty(self):
         return super(BulbQueue, self).empty()
 
     def size(self):
-        return self.queuesize
+        self.lock.acquire()
+        queuesize = self.queuesize
+        self.lock.release()
+        return queuesize
 
     def get(self):
         if not self.empty():
+            self.lock.acquire()
             self.queuesize -= 1
+            self.lock.release()
             return super(BulbQueue, self).get() 
         else:
             return None
 
     def put(self, item):
         super(BulbQueue, self).put(item)
+        self.lock.acquire()
         self.queuesize += 1
+        self.lock.release()
 
 class Bulb(Process):
     def __init__(self, id, turned_on_list, bpm, host):
@@ -102,6 +110,9 @@ class Bulb(Process):
 
     def leader_election(self):
         #print "is this working? \n"
+        #if self.new_leader_found():
+        #    if leader.id == self.id:
+
         timeout = time.time() + 1
         while True:
             if time.time() > timeout:
@@ -181,7 +192,7 @@ class Bulb(Process):
                 break
         if not self.election_q.empty():
             msg = self.election_q.get()
-            if msg == "New election":
+            if msg == "New election" or "New leader" in str(msg):
                 return
             #sys.stderr.write("I'm bulb " + str(self.id) + " and the leader responded: " + str(self.election_q.get()) + "\n Also my timeout is " + str(self.ping_time) + "\n")
             self.leader.election_q.put(self.uuid)
@@ -191,9 +202,21 @@ class Bulb(Process):
                 if time.time() > start_time + self.max_timeout:
                     break
             if self.election_q.empty():
-                print "Do I get here?"
+                print "I'm bulb " + str(self.id) + " and I'm starting a new election \n"
+                #print "My uuid: " + str(self.uuid) + "\n"
                 sys.stderr.write("Oh no the leader didn't respond \n")
+                """sorted_uuids = sorted([(bulb.id, bulb.uuid) for bulb in self.bulb_objects_list], key=lambda x: x[1])
+                print "Sorted uuids, yes: " + str(sorted_uuids)
+                higher_uuid = []
                 for bulb in self.bulb_objects_list:
+                    if bulb.uuid >= self.uuid:
+                        higher_uuid.append(bulb)
+                print "Actual higher uuid?: " + str(higher_uuid)"""
+                higher_uuid_bulbs = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= self.uuid]
+                #print [bulb.id for bulb in higher_uuid_bulbs]
+                #print "Higher uuids?: " + str(higher_uuid_bulbs)
+                for bulb in higher_uuid_bulbs:
+                    #print "The higher uuid: " + str(bulb.uuid) + "\n"
                     bulb.election_q.put("New election")
         self.ping_leader()
 
@@ -217,7 +240,7 @@ class Bulb(Process):
         while not self.election_q.empty():
             #print "There's something on my queue"
             pinger_uuid = self.election_q.get()
-            if pinger_uuid == "New election":
+            if pinger_uuid == "New election" or "New leader" in str(pinger_uuid):
                 print "Do I get here? \n"
                 return
             #sys.stderr.write("I responded to bulb " + str(self.uuid_dict[pinger_uuid].id) + "\n")
@@ -232,6 +255,7 @@ class Bulb(Process):
         self.respond_to_ping()
 
     def run(self):
+        #while True:
         self.leader_election()
         print "I'm bulb " + str(self.id) + " and there's a new election. Woo hoo! \n"
 
