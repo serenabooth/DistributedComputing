@@ -40,7 +40,7 @@ class BulbControl(Process):
             if self.id != self.leader_id.value: 
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
   
-                print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
+                print "I'm " + str(self.id) + " and my queue size is: " + str(self.bulb_objects_list[self.id].state_q.size())
 
                 while not self.state_q.empty():
                     print "Something on my queue!"
@@ -89,7 +89,10 @@ class BulbControl(Process):
                 # convert timedelta to seconds
                 microseconds = time_diff.microseconds
 
-                self.adjustment.value = (microseconds / 1000000) * 1/2
+                if microseconds < 0:
+                    self.adjustment.value = -0.05
+                else:
+                    self.adjustment.value = 0.05
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
                 self.comp_time = self.time_of_last_blink
@@ -143,7 +146,7 @@ class BulbBlinker(Process):
         turn_myself_off = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
         (stdin, stdout, stderr) = c.exec_command(turn_myself_off)
         print "Stdout: " + str(stdout.readlines())
-        print turn_myself_off
+        #print turn_myself_off
 
         while True: 
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
