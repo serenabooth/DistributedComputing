@@ -36,9 +36,9 @@ class BulbControl(Process):
     def check_ordering(self, bulbBlinkerObj):
         while True: 
             if self.id != self.leader_id.value: 
-                #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
+                print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
                 while not self.state_q.empty():
-                    #print "Something on my queue!"
+                    print "Something on my queue!"
                     message = self.election_q.get()
                     print "Message " + str(message)
                     time_received_message = datetime.datetime.now()
@@ -92,7 +92,6 @@ class BulbControl(Process):
                     host = self.host,
                     adjustment = self.adjustment,
                     bulb_objects_list = self.bulb_objects_list, 
-                    state_q = self.state_q,
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
         my_bulb.start()
@@ -101,14 +100,13 @@ class BulbControl(Process):
 
 class BulbBlinker(Process):
 
-    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, state_q, above_neighbor, below_neighbor):
+    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
         super(BulbBlinker, self).__init__()
         self.bpm = bpm
         self.id = my_id
         self.host = host
         self.adjustment = adjustment
         self.bulb_objects_list = bulb_objects_list
-        self.state_q = state_q
         self.above_neighbor = above_neighbor
         self.below_neighbor = below_neighbor
 
@@ -140,7 +138,7 @@ class BulbBlinker(Process):
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             # put my message on my own queue
-            self.state_q.put(str(self.id))
+            self.bulb_objects_list[self.id].state_q.put("" + str(self.id))
             # put my message on my neighbors queues
             self.send_message_to_neighbors()
 
