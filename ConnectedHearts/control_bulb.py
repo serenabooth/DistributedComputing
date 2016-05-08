@@ -29,34 +29,37 @@ class BulbControl(Process):
         self.above_bulb_id = (self.id + 1) % 13
         self.below_bulb_id = (self.id - 1) % 13
 
-    def check_ordering_and_ping_neighbors(self, bulbBlinkerObj):
+    def check_ordering(self, bulbBlinkerObj):
         while True: 
-            while not self.state_q.empty():
-                message = self.election_q.get()
-                time_received_message = datetime.datetime.now()
+            if self.id != self.leader_id.value: 
+                while not self.state_q.empty():
+                    message = self.election_q.get()
+                    time_received_message = datetime.datetime.now()
 
-                if message == self.above_bulb_id: 
-                    self.time_of_neighbor_above = time_received_message
-                else: 
-                    self.time_of_neighbor_below = time_received_message
+                    if message == self.above_bulb_id: 
+                        self.time_of_neighbor_above = time_received_message
+                    else: 
+                        self.time_of_neighbor_below = time_received_message
 
-            if self.time_of_last_blink == bulbBlinkerObj.time_of_last_blink:
-                self.adjustment.value = 0
-                continue
+                if self.time_of_last_blink == bulbBlinkerObj.time_of_last_blink:
+                    self.adjustment.value = 0
+                    continue
 
-            self.time_of_last_blink = bulbBlinkerObj.time_of_last_blink
+                self.time_of_last_blink = bulbBlinkerObj.time_of_last_blink
 
-            if (abs(self.leader_id.value - self.above_bulb_id) < 
-                abs(self.leader_id.value - self.below_bulb_id)): 
-                closer_time = self.time_of_neighbor_above
-            else:
-                closer_time = self.time_of_neighbor_below
+                if (abs(self.leader_id.value - self.above_bulb_id) < 
+                    abs(self.leader_id.value - self.below_bulb_id)): 
+                    closer_time = self.time_of_neighbor_above
+                else:
+                    closer_time = self.time_of_neighbor_below
 
-            # timedelta
-            time_diff = self.time_of_last_blink - closer_time
-            # convert timedelta to seconds
-            seconds = time_diff.total_seconds()
-            self.adjustment.value = seconds / 10
+                # timedelta
+                time_diff = self.time_of_last_blink - closer_time
+                # convert timedelta to seconds
+                seconds = time_diff.total_seconds()
+                self.adjustment.value = seconds / 10
+            else: 
+                print "I am the leader, so I will not adjust my timing"
 
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,
@@ -67,7 +70,7 @@ class BulbControl(Process):
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
         my_bulb.start()
-        self.check_ordering_and_ping_neighbors(my_bulb)
+        self.check_ordering(my_bulb)
 
 
 
