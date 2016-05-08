@@ -99,6 +99,13 @@ while True:
         bulb.send_uuid()
 
     try:
+        # pi_20.start()
+
+        # pi_21 = Pi(bpm = App.bpm, 
+        #                       turned_on_list = power_strip_on_list, 
+        #                       hosts = hosts[1])
+        # pi_21.start()
+
         for bulb in bulb_objects_list:
            bulb.start()
         
@@ -106,11 +113,11 @@ while True:
         #while (face_check_process.check_if_face_is_visible()):
             time.sleep(30)
 
-            print "About to shut this down"
-            pulse_val = 0
-            kill_all_processes(pi, bulb_objects_list)
-            time.sleep(5)
-            #continue
+        print "About to shut this down"
+        pulse_val = 0
+        kill_all_processes(pi, bulb_objects_list)
+        time.sleep(5)
+        #continue
         
 
     except KeyboardInterrupt:
