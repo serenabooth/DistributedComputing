@@ -57,7 +57,7 @@ class BulbControl(Process):
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
                 seconds = time_diff.total_seconds()
-                self.adjustment.value = seconds / 10
+                self.adjustment.value = seconds / 3
             else: 
                 print "I am the leader, so I will not adjust my timing"
 
