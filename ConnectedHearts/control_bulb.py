@@ -86,6 +86,7 @@ class BulbControl(Process):
                     host = self.host,
                     adjustment = self.adjustment,
                     bulb_objects_list = self.bulb_objects_list, 
+                    state_q = self.state_q,
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
         my_bulb.start()
@@ -94,13 +95,14 @@ class BulbControl(Process):
 
 class BulbBlinker(Process):
 
-    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
+    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, state_q, above_neighbor, below_neighbor):
         super(BulbBlinker, self).__init__()
         self.bpm = bpm
         self.id = my_id
         self.host = host
         self.adjustment = adjustment
         self.bulb_objects_list = bulb_objects_list
+        self.state_q = state_q
         self.above_neighbor = above_neighbor
         self.below_neighbor = below_neighbor
 
