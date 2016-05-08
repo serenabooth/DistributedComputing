@@ -37,6 +37,7 @@ class BulbControl(Process):
         while True: 
             if self.id != self.leader_id.value: 
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
+                print "I'm here!" 
                 while not self.state_q.empty():
                     #print "Something on my queue!"
                     message = self.election_q.get()
