@@ -40,6 +40,7 @@ class BulbControl(Process):
                 while not self.state_q.empty():
                     #print "Something on my queue!"
                     message = self.election_q.get()
+                    print "Message " + str(message)
                     time_received_message = datetime.datetime.now()
 
                     if message == self.above_bulb_id: 
@@ -52,6 +53,7 @@ class BulbControl(Process):
                 if self.time_of_last_blink == self.comp_time:
                     #print self.time_of_last_blink.value
                     #self.adjustment.value = 0
+                    print "I am continuing"
                     continue
 
                 steps_to_above = 13
