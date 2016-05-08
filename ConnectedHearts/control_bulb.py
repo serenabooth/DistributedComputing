@@ -105,7 +105,7 @@ class BulbBlinker(Process):
         print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
         print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
         self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
-        self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
+        self.bulb_objects_list[self.below_neighbor].state_q.put("" + str(self.id))
         print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
         print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
 
