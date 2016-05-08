@@ -161,7 +161,7 @@ class BulbBlinker(Process):
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
             time.sleep(60.0 * 2/self.bpm + self.adjustment.value) 
-
+            self.adjustment.value = 0
 
     def run(self):
         self.ssh_connection()
