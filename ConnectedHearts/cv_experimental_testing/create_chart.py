@@ -12,6 +12,8 @@ print results.head()
 
 colors = sns.cubehelix_palette(8, start=0, rot=-.75)
 
+
 results.set_index('time').plot()
+plt.ylim([-1,2])
 plt.show()
 
