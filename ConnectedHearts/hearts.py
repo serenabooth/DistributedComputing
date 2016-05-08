@@ -89,12 +89,19 @@ class Bulb(Process):
             q_contents.append(str(q.get()))
         return q_contents
 
-    #def empty_election_q_and_check_for_leader(self):
-
+    def new_leader_found(self):
+        possible_leaders = []
+        while not self.election_q.empty():
+            curr_item = self.election_q.get()
+            if "New leader" in curr_item:
+                possible_leaders.append(curr_item.split(": ")[1])
+        if possible_leaders:
+            self.leader = self.uuid_dict[max(possible_leaders)]
+            return True
+        return False
 
     def leader_election(self):
         #print "is this working? \n"
-        self.leader = None
         timeout = time.time() + 1
         while True:
             if time.time() > timeout:
@@ -145,13 +152,13 @@ class Bulb(Process):
         self.turned_on_list[self.id] = 1
         #print "Yay, I'm bulb " + str(self.id) + " and I turned on"
 
-        my_ssh_connection = BulbControl(my_id = self.id,
+        """my_ssh_connection = BulbControl(my_id = self.id,
                     bpm = self.bpm, 
                     host = self.host,
                     leader_id = self.leader_id,
                     state_q = self.state_q,
                     bulb_objects_list = self.bulb_objects_list)
-        my_ssh_connection.start()
+        my_ssh_connection.start()"""
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
 
@@ -174,20 +181,21 @@ class Bulb(Process):
                 break
         if not self.election_q.empty():
             msg = self.election_q.get()
+            if msg == "New election":
+                return
             #sys.stderr.write("I'm bulb " + str(self.id) + " and the leader responded: " + str(self.election_q.get()) + "\n Also my timeout is " + str(self.ping_time) + "\n")
             self.leader.election_q.put(self.uuid)
-            self.ping_leader()
         else:
+            print "My queue is empty"
             while True:
                 if time.time() > start_time + self.max_timeout:
                     break
             if self.election_q.empty():
+                print "Do I get here?"
                 sys.stderr.write("Oh no the leader didn't respond \n")
-                #for bulb in bulb_objects_list:
-                #    bulb.election_q.put("New election")
-                #    self.leader_election()
-            else:
-                self.ping_leader()
+                for bulb in self.bulb_objects_list:
+                    bulb.election_q.put("New election")
+        self.ping_leader()
 
     def signal_to_neighbors(self, list_of_neighbors):
         """ 
@@ -209,8 +217,14 @@ class Bulb(Process):
         while not self.election_q.empty():
             #print "There's something on my queue"
             pinger_uuid = self.election_q.get()
+            if pinger_uuid == "New election":
+                print "Do I get here? \n"
+                return
             #sys.stderr.write("I responded to bulb " + str(self.uuid_dict[pinger_uuid].id) + "\n")
             self.uuid_dict[pinger_uuid].election_q.put(self.uuid)
+            print "Sleeping now \n" 
+            time.sleep(30)
+            print "Done sleeping \n"
         timeout = time.time() + self.ping_time
         while True:
             if time.time() > timeout:
@@ -219,6 +233,8 @@ class Bulb(Process):
 
     def run(self):
         self.leader_election()
+        print "I'm bulb " + str(self.id) + " and there's a new election. Woo hoo! \n"
+
 
 
 
