@@ -68,9 +68,9 @@ class BulbControl(Process):
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
-                milliseconds = time_diff.microseconds / 1000
+                microseconds = time_diff.microseconds
 
-                self.adjustment.value = milliseconds / 1000
+                self.adjustment.value = (microseconds / 1000000) * 1/3
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
             #else: 
                 #print "I am the leader, so I will not adjust my timing"
@@ -101,8 +101,12 @@ class BulbBlinker(Process):
         self.below_neighbor = below_neighbor
 
     def send_message_to_neighbors(self):
+        print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
+        print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
         self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
         self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
+        print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
+        print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
 
     def ssh_connection(self):
         print "connecting to " + self.host
@@ -121,7 +125,7 @@ class BulbBlinker(Process):
         while True: 
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
-            print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
+            #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             self.send_message_to_neighbors()
 
@@ -129,7 +133,7 @@ class BulbBlinker(Process):
 
             time.sleep(60.0/self.bpm) 
 
-            print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
+            #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
             time.sleep(60.0/self.bpm + self.adjustment.value) 
