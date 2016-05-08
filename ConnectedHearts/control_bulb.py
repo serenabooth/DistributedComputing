@@ -119,10 +119,17 @@ class BulbControl(Process):
 
 class BulbBlinker(Process):
 
-    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
+    def __init__(self, 
+                        my_id, 
+                        bpm, 
+                        host, 
+                        adjustment, 
+                        bulb_objects_list, 
+                        above_neighbor, 
+                        below_neighbor):
         super(BulbBlinker, self).__init__()
-        self.bpm = bpm
         self.id = my_id
+        self.bpm = bpm
         self.host = host
         self.adjustment = adjustment
         self.bulb_objects_list = bulb_objects_list
@@ -130,12 +137,8 @@ class BulbBlinker(Process):
         self.below_neighbor = below_neighbor
 
     def send_message_to_neighbors(self):
-        #print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
-        #print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
         self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
         self.bulb_objects_list[self.below_neighbor].state_q.put("" + str(self.id))
-        #print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
-        #print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
 
     def ssh_connection(self):
         print "connecting to " + self.host
@@ -152,6 +155,7 @@ class BulbBlinker(Process):
         #print turn_myself_off
 
         while True: 
+            print str(self.host) + "Turning on/off " + str(my_relay_id)
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
