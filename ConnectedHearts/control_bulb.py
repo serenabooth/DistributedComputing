@@ -62,6 +62,7 @@ class BulbControl(Process):
                     print "I am continuing"
                     continue
 
+                # TODO: Fix this bad logic
                 steps_to_above = 13
                 steps_to_below = 13
                 for i in range(1,12):
@@ -83,6 +84,7 @@ class BulbControl(Process):
                 if (closer_time == self.comp_above_time or 
                         closer_time == self.comp_below_time):
                     time.sleep(0.5)
+                    print "I am continuing"
                     continue
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
@@ -96,8 +98,8 @@ class BulbControl(Process):
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
                 self.comp_time = self.time_of_last_blink
-                self.comp_above_time = self.time_of_neighbor_above
-                self.comp_below_time = self.time_of_neighbor_below
+                # self.comp_above_time = self.time_of_neighbor_above
+                # self.comp_below_time = self.time_of_neighbor_below
 
             else: 
                 time.sleep(5)
