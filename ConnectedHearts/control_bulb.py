@@ -92,6 +92,7 @@ class BulbControl(Process):
         self.check_ordering(my_bulb)
 
 
+class BulbBlinker(Process):
 
     def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
         super(BulbBlinker, self).__init__()
