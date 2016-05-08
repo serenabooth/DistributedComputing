@@ -33,6 +33,7 @@ class BulbControl(Process):
         while True: 
             if self.id != self.leader_id.value: 
                 while not self.state_q.empty():
+                    print "Something on my queue!"
                     message = self.election_q.get()
                     time_received_message = datetime.datetime.now()
 
