@@ -37,7 +37,7 @@ class BulbControl(Process):
 
     def check_ordering(self):
         while True: 
-            print "Here"
+            print "Here, " + str(self.id) + " and the leader is " + str(self.leader_id.value)
             if self.id != self.leader_id.value: 
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
   
