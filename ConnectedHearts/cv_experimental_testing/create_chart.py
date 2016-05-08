@@ -8,6 +8,7 @@ results = pd.read_csv("experiment_synch_data.csv")
 print results.head()
 
 results.set_index('time').plot()
+
 plt.ylim([-1,2])
 plt.show()
 
