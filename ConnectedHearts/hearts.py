@@ -2,7 +2,7 @@ from datetime import datetime
 import threading
 import sys, time, socket, random
 import uuid
-from multiprocessing import Array, Process, Value
+from multiprocessing import Array, Process, Value, Lock
 from multiprocessing.queues import Queue
 import ctypes 
 from control_bulb import *
@@ -26,23 +26,31 @@ class BulbQueue(Queue):
         #print "Here's the queue type: " + str(type(Queue()))
         super(BulbQueue, self).__init__()
         self.queuesize = 0
+        self.lock = Lock()
 
     def empty(self):
         return super(BulbQueue, self).empty()
 
     def size(self):
-        return self.queuesize
+        self.lock.acquire()
+        queuesize = self.queuesize
+        self.lock.release()
+        return queuesize
 
     def get(self):
         if not self.empty():
+            self.lock.acquire()
             self.queuesize -= 1
+            self.lock.release()
             return super(BulbQueue, self).get() 
         else:
             return None
 
     def put(self, item):
         super(BulbQueue, self).put(item)
+        self.lock.acquire()
         self.queuesize += 1
+        self.lock.release()
 
 class Bulb(Process):
     def __init__(self, id, turned_on_list, bpm, host):
