@@ -99,6 +99,7 @@ class BulbControl(Process):
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
                 self.comp_time = self.time_of_last_blink
+                time.sleep(1)
                 # self.comp_above_time = self.time_of_neighbor_above
                 # self.comp_below_time = self.time_of_neighbor_below
 
