@@ -53,10 +53,10 @@ class Bulb(Process):
         self.bulb_objects_list = None
         self.leader = None
         self.leader_id = Value('i', -1)
-        self.new_election = False
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
         self.ping_time = random.randint(1,12)
+        self.max_timeout = 15
         self.turned_on_list = turned_on_list
         self.bpm = bpm
         self.host = host
@@ -89,7 +89,9 @@ class Bulb(Process):
             q_contents.append(str(q.get()))
         return q_contents
 
-    #@threaded
+    #def empty_election_q_and_check_for_leader(self):
+
+
     def leader_election(self):
         #print "is this working? \n"
         self.leader = None
@@ -109,7 +111,6 @@ class Bulb(Process):
             return"""
         #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
-        self.new_election = False
         if self.leader.id == self.id:
             print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
             self.turn_on()
@@ -125,6 +126,7 @@ class Bulb(Process):
             print "Hi, I'm a follower: " + str(self.id) + "\n"
             p = Process(target=self.check_turn_on, args=())
             p.start()
+            self.election_q.put("first ping")
             self.ping_leader()
 
             #self.connect_to_leader_socket(connection_timeout, time.time())
@@ -163,26 +165,29 @@ class Bulb(Process):
         if len(neighbors_to_signal_to) > 0: 
             self.signal_to_neighbors(neighbors_to_signal_to)
 
-    def send_msg_to_leader(self, msg):
-        #bulb_objects_list = self.uuid_dict.values()
-        """for i in range(0, len(bulb_objects_list) - 1):
-            print bulb_objects_list[i].election_q == bulb_objects_list[i + 1].election_q
-        #print "Send leader msg to " + str(self.leader.id) + "\n"""
-        self.leader.election_q.put(msg)
-
     def ping_leader(self):
         #print "I'm bulb " + str(self.id) + " and I'm pinging the leader"
-        timeout = time.time() + self.ping_time
+        start_time = time.time()
+        timeout = start_time + self.ping_time
         while True:
             if time.time() > timeout:
                 break
-        self.leader.election_q.put(self.uuid)
-        # wait for response from leader here before pinging
-        # again, by checking if queue has an element in it
-        # if no response, can assume that it's died 
-        # and start leader election
-        # also check for a leader election initiation here
-        self.ping_leader()
+        if not self.election_q.empty():
+            msg = self.election_q.get()
+            #sys.stderr.write("I'm bulb " + str(self.id) + " and the leader responded: " + str(self.election_q.get()) + "\n Also my timeout is " + str(self.ping_time) + "\n")
+            self.leader.election_q.put(self.uuid)
+            self.ping_leader()
+        else:
+            while True:
+                if time.time() > start_time + self.max_timeout:
+                    break
+            if self.election_q.empty():
+                sys.stderr.write("Oh no the leader didn't respond \n")
+                #for bulb in bulb_objects_list:
+                #    bulb.election_q.put("New election")
+                #    self.leader_election()
+            else:
+                self.ping_leader()
 
     def signal_to_neighbors(self, list_of_neighbors):
         """ 
@@ -204,7 +209,8 @@ class Bulb(Process):
         while not self.election_q.empty():
             #print "There's something on my queue"
             pinger_uuid = self.election_q.get()
-            self.uuid_dict[pinger_uuid].election_q.put("I'm the leader")
+            #sys.stderr.write("I responded to bulb " + str(self.uuid_dict[pinger_uuid].id) + "\n")
+            self.uuid_dict[pinger_uuid].election_q.put(self.uuid)
         timeout = time.time() + self.ping_time
         while True:
             if time.time() > timeout:
