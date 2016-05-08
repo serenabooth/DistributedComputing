@@ -71,6 +71,7 @@ class BulbControl(Process):
                 milliseconds = time_diff.microseconds / 1000
 
                 self.adjustment.value = milliseconds / 1000
+                print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
             #else: 
                 #print "I am the leader, so I will not adjust my timing"
 
