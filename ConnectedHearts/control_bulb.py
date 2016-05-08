@@ -46,10 +46,10 @@ class BulbControl(Process):
 
             self.time_of_last_blink = bulbBlinkerObj.time_of_last_blink
 
-            if abs(self.leader_id.value - self.above_bulb_id) < 
-                abs(self.leader_id.value - self.below_bulb_id): 
+            if (abs(self.leader_id.value - self.above_bulb_id) < 
+                abs(self.leader_id.value - self.below_bulb_id)): 
                 closer_time = self.time_of_neighbor_above
-            else
+            else:
                 closer_time = self.time_of_neighbor_below
 
             # timedelta
@@ -84,8 +84,8 @@ class BulbBlinker(Process):
         self.below_neighbor = below_neighbor
 
     def send_message_to_neighbors(self):
-        self.bulb_objects_list[self.above_neighbor].state_q.put("" + self.id)
-        self.bulb_objects_list[self.above_neighbor].state_q.put("" + self.id)
+        self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
+        self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
 
     def ssh_connection(self):
         print "connecting to " + self.host
