@@ -32,6 +32,8 @@ class BulbControl(Process):
         self.below_bulb_id = (self.id - 1) % 13
 
         self.comp_time = datetime.datetime.now()
+        self.comp_above_time = datetime.datetime.now()
+        self.comp_below_time = datetime.datetime.now()
 
     def check_ordering(self, bulbBlinkerObj):
         while True: 
@@ -56,6 +58,7 @@ class BulbControl(Process):
                 if self.time_of_last_blink == self.comp_time:
                     #print self.time_of_last_blink.value
                     #self.adjustment.value = 0
+                    time.sleep(0.5)
                     print "I am continuing"
                     continue
 
@@ -77,6 +80,10 @@ class BulbControl(Process):
                 else:
                     closer_time = self.time_of_neighbor_below
 
+                if (closer_time == self.comp_above_time or 
+                        closer_time == self.comp_below_time):
+                    time.sleep(0.5)
+                    continue
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
@@ -86,6 +93,9 @@ class BulbControl(Process):
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
                 self.comp_time = self.time_of_last_blink
+                self.comp_above_time = self.time_of_neighbor_above
+                self.comp_below_time = self.time_of_neighbor_below
+
             #else: 
                 #print "I am the leader, so I will not adjust my timing"
 
