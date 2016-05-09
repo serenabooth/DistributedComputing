@@ -63,7 +63,7 @@ class BulbControl(Process):
                 else: 
                     neighbor = -1
 
-                print " I am bulb " + str(self.id) + " and my neighbor is " + str((self.id + neighbor) %13 )
+                #print " I am bulb " + str(self.id) + " and my neighbor is " + str((self.id + neighbor) %13 )
                 
                 while True: 
 
@@ -95,6 +95,7 @@ class BulbControl(Process):
 
                 # pass the adjustment to the child process
                 self.adjustment.put(-1 * seconds)
+                print str(self.id) + "MADE IT!" 
                 if self.id == 1: 
                     print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds) + " at " + str(datetime.datetime.now())
                         
