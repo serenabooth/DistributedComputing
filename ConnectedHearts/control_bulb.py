@@ -112,7 +112,7 @@ class BulbControl(Process):
                     seconds = time_diff.total_seconds()
 
                     self.adjustment.put(seconds/2.0)
-                    print "I, " + str(self.id) + " NEED an adjustment of " + str(self.adjustment.value)
+                    print "I, " + str(self.id) + " NEED an adjustment of " + str(seconds/2.0)
                         
             else: 
                 time.sleep(5)
@@ -170,6 +170,7 @@ class BulbBlinker(Process):
             time.sleep(60 * 2/self.bpm - 1.2)        
 
         while True: 
+            adjustment_value = 0
             if not self.adjustment.empty():
                 adjustment_value = self.adjustment.get()
             print "I, " + str(self.id) + " am making an adjustment of " + str(adjustment_value)
@@ -181,9 +182,10 @@ class BulbBlinker(Process):
             #print str(self.host) + "Turning on/off " + str(my_relay_id)
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
-
-            if adjustment_value < 0:
-                time.sleep(abs(self.adjustment.value))
+            
+            # I'M AHEAD OF MY NEIGHBOR
+            if adjustment_value > 0:
+                time.sleep(abs(adjustment_value))
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             # put my message on my neighbors queues
@@ -196,11 +198,11 @@ class BulbBlinker(Process):
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
-            if adjustment_value > 0: 
+            if adjustment_value < 0: 
                 tmp = 60.0 * 2/self.bpm - abs(adjustment_value)
                 if tmp > 0:
                     time.sleep(tmp)
-
+            #time.sleep(60.0 * 2/self.bpm)
             self.send_message_to_neighbors() 
 
     def run(self):
