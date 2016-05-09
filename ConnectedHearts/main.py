@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from hearts import *
+from hearts_old import *
 from control_pi import *
 from multiprocessing.queues import Queue
 from multiprocessing import Array, Value
