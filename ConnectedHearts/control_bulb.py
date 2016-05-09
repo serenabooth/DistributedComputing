@@ -63,6 +63,8 @@ class BulbControl(Process):
                 else: 
                     neighbor = -1
 
+                print "HERE A"
+
                 # loop until I have a message from my leading neighbor and a message from myself
                 while True: 
                     if not self.state_q.empty():
@@ -76,12 +78,16 @@ class BulbControl(Process):
                         elif message == str((self.id + neighbor) % 13):
                             array_of_queues[1 + neighbor].put(time_received_message)
 
+                print "HERE B"
+
                 # get the last messages I added to my queues
                 while not array_of_queues[1 + neighbor].empty(): 
                     relevant_neighbor_time = array_of_queues[1 + neighbor].get()
                 while not array_of_queues[1].empty(): 
                     self.time_of_last_blink  = array_of_queues[1].get()
                 
+                print "HERE C"
+
                 # compare last received message from neighbor to neighbor's expected future tick
                 # set my time difference based on which one I'm closer to
                 future_time_diff = datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)
@@ -91,16 +97,21 @@ class BulbControl(Process):
                 else: 
                     time_diff = self.time_of_last_blink - (relevant_neighbor_time + future_time_diff)
                
+                print "HERE D"
+
                 # if time_of_last_blink comes after, this is >0; otherwise < 0
                 if time_diff > 2 * 60 * 2.0/self.bpm > 0: 
                     seconds = time_diff.total_seconds() % (2 * 60 * 2.0/self.bpm)
                 else:
                     seconds = time_diff.total_seconds()
 
+                print "HERE E"
+
                 # pass the adjustment to the child process
                 self.adjustment.put(-1 * seconds/5.0)
                 print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/5.0) + " at " + str(datetime.datetime.now())
                         
+                
             else:
                 time.sleep(5)       
 
