@@ -91,7 +91,12 @@ class BulbControl(Process):
                         closer_time = self.time_of_neighbor_below
                     
                     # if time_of_last_blink comes after, this is >0; otherwise < 0
-                    time_diff = self.time_of_last_blink - closer_time
+
+                    if (abs(self.time_of_last_blink - closer_time) >
+                            abs(self.time_of_last_blink - (closer_time + 2 * 60 * 2/self.bpm))
+                        time_diff = self.time_of_last_blink - closer_time
+                    else: 
+                        time_diff = self.time_of_last_blink - (closer_time + 2 * 60 * 2/self.bpm)
                     seconds = time_diff.total_seconds()
 
                     # pass the adjustment to the child process
