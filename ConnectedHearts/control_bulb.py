@@ -38,7 +38,7 @@ class BulbControl(Process):
 
     def check_ordering(self):
 
-        array_of_queues = [BulbQueue(), BulbQueue(), BulbQueue()]
+        array_of_queues = [0, 0, 0]
 
         while True: 
             #print "Here, " + str(self.id) + " and the leader is " + str(self.leader_id.value)
@@ -46,38 +46,41 @@ class BulbControl(Process):
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
   
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
-
+                three_updated = 1
                 while not self.state_q.empty():
                     #print "Something on my queue!"
                     message = self.state_q.get()
                     time_received_message = datetime.datetime.now()
 
                     if message == str(self.above_bulb_id): 
-                        array_of_queues[2].put(time_received_message)
+                        array_of_queues[2] = time_received_message
                         #self.time_of_neighbor_above = time_received_message
                         #print "ABOVE NEIGHBOR"
+                        if three_updated / 2 < 1:
+                            three_updated *= 2
                     elif message == str(self.below_bulb_id): 
-                        array_of_queues[0].put(time_received_message)
+                        array_of_queues[0] = time_received_message
 
                         #self.time_of_neighbor_below = time_received_message
                         #print "BELOW NEIGHBOR"
+                        if three_updated / 3 < 1:
+                            three_updated *= 3
+
                     else: 
-                        array_of_queues[1].put(time_received_message)
+                        array_of_queues[1] = time_received_message
 
                         #self.time_of_last_blink = time_received_message
                         #print "MY OWN"
+                        if three_updated / 5 < 1:
+                            three_updated *= 5
 
-                    if (not array_of_queues[0].empty() and 
-                            not array_of_queues[1].empty() and 
-                            not array_of_queues[2].empty()):
+                    if (three_updated / 2 == 1 and three_updated / 5 == 1 and three_updated / 3 > 1):
                         break
 
-                if (not array_of_queues[0].empty() and 
-                            not array_of_queues[1].empty() and 
-                            not array_of_queues[2].empty()):
-                    self.time_of_neighbor_below = array_of_queues[0].get()
-                    self.time_of_last_blink  = array_of_queues[1].get()
-                    self.time_of_neighbor_above = array_of_queues[2].get()
+                if (three_updated / 2 == 1 and three_updated / 5 == 1 and three_updated / 3 > 1):
+                    self.time_of_neighbor_below = array_of_queues[0]
+                    self.time_of_last_blink  = array_of_queues[1]
+                    self.time_of_neighbor_above = array_of_queues[2]
 
                     # TODO: Fix this bad logic
                     steps_to_above = 13
@@ -126,7 +129,6 @@ class BulbControl(Process):
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
         my_bulb.start()
-        time.sleep(144)
         self.check_ordering()
 
 
