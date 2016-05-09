@@ -63,7 +63,8 @@ class BulbControl(Process):
                 else: 
                     neighbor = -1
 
-                print " I am bulb " + str(self.id) + " and my neighbor is " + str(self.id + neighbor)
+                print " I am bulb " + str(self.id) + " and my neighbor is " + str((self.id + neighbor) %13 )
+                
                 while True: 
 
                     if not self.state_q.empty():
@@ -77,26 +78,24 @@ class BulbControl(Process):
                         elif message == str((self.id + neighbor) % 13):
                             array_of_queues[1 + neighbor].put(time_received_message)
 
-                if (not array_of_queues[1].empty() and not array_of_queues[1 + neighbor].empty()):
+                while not array_of_queues[1 + neighbor].empty(): 
+                    relevant_neighbor_time = array_of_queues[1 + neighbor].get()
+                while not array_of_queues[1].empty(): 
+                    self.time_of_last_blink  = array_of_queues[1].get()
+                
+                # if time_of_last_blink comes after, this is >0; otherwise < 0
 
-                    while not array_of_queues[1 + neighbor].empty(): 
-                        relevant_neighbor_time = array_of_queues[1 + neighbor].get()
-                    while not array_of_queues[1].empty(): 
-                        self.time_of_last_blink  = array_of_queues[1].get()
-                    
-                    # if time_of_last_blink comes after, this is >0; otherwise < 0
+                if (abs(self.time_of_last_blink - relevant_neighbor_time) >
+                       abs(self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
+                   time_diff = self.time_of_last_blink - relevant_neighbor_time
+                else: 
+                   time_diff = self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
+                
+                seconds = time_diff.total_seconds()
 
-                    if (abs(self.time_of_last_blink - relevant_neighbor_time) >
-                           abs(self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
-                       time_diff = self.time_of_last_blink - relevant_neighbor_time
-                    else: 
-                       time_diff = self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
-                    
-                    seconds = time_diff.total_seconds()
-
-                    # pass the adjustment to the child process
-                    self.adjustment.put(-1 * seconds/2)
-                    print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/2)
+                # pass the adjustment to the child process
+                self.adjustment.put(-1 * seconds/2)
+                print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/2)
                         
             else: 
                 time.sleep(5)
