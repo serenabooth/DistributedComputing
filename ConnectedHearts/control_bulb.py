@@ -76,7 +76,7 @@ class BulbControl(Process):
                             not array_of_queues[1].empty() and 
                             not array_of_queues[2].empty()):
                     self.time_of_neighbor_below = array_of_queues[0].get()
-                    self.time_received_message  = array_of_queues[1].get()
+                    self.time_of_last_blink  = array_of_queues[1].get()
                     self.time_of_neighbor_above = array_of_queues[2].get()
 
                     # TODO: Fix this bad logic
