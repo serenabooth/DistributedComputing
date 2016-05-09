@@ -100,7 +100,7 @@ class BulbControl(Process):
                 print "HERE D"
 
                 # if time_of_last_blink comes after, this is >0; otherwise < 0
-                if time_diff > 2 * 60 * 2.0/self.bpm > 0: 
+                if time_diff > 2 * 60 * 2.0/self.bpm: 
                     seconds = time_diff.total_seconds() % (2 * 60 * 2.0/self.bpm)
                 else:
                     seconds = time_diff.total_seconds()
@@ -111,7 +111,7 @@ class BulbControl(Process):
                 self.adjustment.put(-1 * seconds/5.0)
                 print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/5.0) + " at " + str(datetime.datetime.now())
                         
-                
+
             else:
                 time.sleep(5)       
 
