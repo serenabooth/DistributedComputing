@@ -126,6 +126,7 @@ class BulbControl(Process):
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
         my_bulb.start()
+        time.sleep(144)
         self.check_ordering()
 
 
