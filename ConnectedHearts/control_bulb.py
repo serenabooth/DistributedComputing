@@ -50,7 +50,6 @@ class BulbControl(Process):
                 while not self.state_q.empty():
                     #print "Something on my queue!"
                     message = self.state_q.get()
-                    #print "Message " + str(message)
                     time_received_message = datetime.datetime.now()
 
                     if message == str(self.above_bulb_id): 
@@ -68,14 +67,14 @@ class BulbControl(Process):
                         #self.time_of_last_blink = time_received_message
                         #print "MY OWN")
 
-                    if (array_of_queues[0].size() >= 1 and 
-                                array_of_queues[1].size() >= 1 and 
-                                array_of_queues[2].size() >= 1):
+                    if (not array_of_queues[0].empty() and 
+                            not array_of_queues[1].empty() and 
+                            not array_of_queues[2].empty()):
                         break
 
-                if (array_of_queues[0].size() >= 1 and 
-                            array_of_queues[1].size() >= 1 and 
-                            array_of_queues[2].size() >= 1):
+                if (not array_of_queues[0].empty() and 
+                            not array_of_queues[1].empty() and 
+                            not array_of_queues[2].empty()):
                     self.time_of_neighbor_below = array_of_queues[0].get()
                     self.time_received_message  = array_of_queues[1].get()
                     self.time_of_neighbor_above = array_of_queues[2].get()
