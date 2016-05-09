@@ -75,12 +75,12 @@ class BulbControl(Process):
                 for i in range(1,12):
                     if (self.above_bulb_id + i) % 12 == self.leader_id.value:
                         steps_to_above = min(steps_to_above, i)
-                    if (self.above_bulb_id - i) % 12 == self.leader_id.value:
+                    elif (self.above_bulb_id - i) % 12 == self.leader_id.value:
                         steps_to_above = min(steps_to_above, i)
 
                     if (self.below_bulb_id + i) % 12 == self.leader_id.value:
                         steps_to_below = min(steps_to_below, i)
-                    if (self.below_bulb_id - i) % 12 == self.leader_id.value:
+                    elif (self.below_bulb_id - i) % 12 == self.leader_id.value:
                         steps_to_below = min(steps_to_below, i)
 
                 if (steps_to_above < steps_to_below): 
@@ -90,26 +90,26 @@ class BulbControl(Process):
 
                 print "Closer? " + str(closer_time)
 
-                # if (closer_time == self.comp_above_time or 
-                #         closer_time == self.comp_below_time):
-                #     time.sleep(0.5)
-                #     print "I am continuing"
-                #     continue
-                # # timedelta
-                # time_diff = self.time_of_last_blink - closer_time
-                # # convert timedelta to seconds
-                # microseconds = time_diff.microseconds
+                if (closer_time == self.comp_above_time or 
+                        closer_time == self.comp_below_time):
+                    time.sleep(0.5)
+                    print "I am continuing"
+                    continue
+                # timedelta
+                time_diff = self.time_of_last_blink - closer_time
+                # convert timedelta to seconds
+                microseconds = time_diff.microseconds
 
-                # if microseconds < 0:
-                #     self.adjustment.value = -0.05
-                # else:
-                #     self.adjustment.value = 0.05
-                # print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
+                if microseconds < 0:
+                    self.adjustment.value = -0.05
+                else:
+                    self.adjustment.value = 0.05
+                print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
-                # self.comp_time = self.time_of_last_blink
                 time.sleep(1)
-                # self.comp_above_time = self.time_of_neighbor_above
-                # self.comp_below_time = self.time_of_neighbor_below
+                self.comp_time = self.time_of_last_blink
+                self.comp_above_time = self.time_of_neighbor_above
+                self.comp_below_time = self.time_of_neighbor_below
 
             else: 
                 time.sleep(5)
