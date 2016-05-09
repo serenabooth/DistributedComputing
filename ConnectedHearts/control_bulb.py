@@ -177,11 +177,13 @@ class BulbBlinker(Process):
             #print str(self.host) + "Turning on/off " + str(my_relay_id)
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
+            if self.adjustment < 0:
+                time.sleep(abs(self.adjustment.value))
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             # put my message on my neighbors queues
-            if self.adjustment.value > 0: 
-                time.sleep(abs(tmp))
+            #if self.adjustment.value > 0: 
+            #    time.sleep(abs(self.adjustment.value))
             self.send_message_to_neighbors()
 
             time.sleep(60.0 * 2/self.bpm) 
