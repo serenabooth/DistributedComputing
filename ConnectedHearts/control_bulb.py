@@ -112,7 +112,7 @@ class BulbControl(Process):
                     seconds = time_diff.total_seconds()
 
                     self.adjustment.value = seconds/2.0
-                    #print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
+                    print "I, " + str(self.id) + " NEED an adjustment of " + str(self.adjustment.value)
                         
             else: 
                 time.sleep(5)
