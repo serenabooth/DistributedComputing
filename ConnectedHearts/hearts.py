@@ -325,12 +325,12 @@ class Bulb(Process):
 
     def run(self):
         self.first_leader_election()
-        #while True:
-        self.send_uuid(self.bulbs_to_send_uuid)
-        print "I'm bulb " + str(self.id) + " and I got to the while true again"
-        self.leader_election()
-        print "I'm bulb " + str(self.id) + " and there's a new election. Woo hoo! \n"
-        #print "bulbs to send " + str(self.bulbs_to_send_uuid)
+        while True:
+            self.send_uuid(self.bulbs_to_send_uuid)
+            print "I'm bulb " + str(self.id) + " and I got to the while true again"
+            self.leader_election()
+            print "I'm bulb " + str(self.id) + " and there's a new election. Woo hoo! \n"
+            #print "bulbs to send " + str(self.bulbs_to_send_uuid)
 
 
 
