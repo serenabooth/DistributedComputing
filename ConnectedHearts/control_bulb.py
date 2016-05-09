@@ -95,8 +95,8 @@ class BulbControl(Process):
                     seconds = time_diff.total_seconds()
 
                     # pass the adjustment to the child process
-                    self.adjustment.put(-1 * seconds/2.0)
-                    print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/2.0)
+                    self.adjustment.put(-1 * seconds/5.0)
+                    print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/5.0)
                         
             else: 
                 time.sleep(5)
