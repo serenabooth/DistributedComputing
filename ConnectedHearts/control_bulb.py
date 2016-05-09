@@ -29,9 +29,9 @@ class BulbControl(Process):
 
         self.adjustment = Queue()
 
-        self.time_of_last_blink = datetime.datetime.now()
-        self.time_of_neighbor_below = datetime.datetime.now()
-        self.time_of_neighbor_above = datetime.datetime.now()
+        self.time_of_last_blink = None
+        self.time_of_neighbor_below = None
+        self.time_of_neighbor_above = None
 
         self.above_bulb_id = (self.id + 1) % 13
         self.below_bulb_id = (self.id - 1) % 13
@@ -135,23 +135,23 @@ class BulbBlinker(Process):
         self.above_neighbor = above_neighbor
         self.below_neighbor = below_neighbor
         self.turned_on_list = turned_on_list
-        self.on = 1
+        self.on = 0
 
     def send_message_to_neighbors(self):
 
-        if self.on == 1: 
-            tmp = 0
+        if self.on == 0: 
+            tmp = 1
             for i in range(0,13):
                 if self.turned_on_list[i] != 1:
-                    tmp = 1
-            if tmp == 0: 
-                self.on = 0
+                    tmp = 0
+            if tmp == 1: 
+                self.on = 1
                 print "Everyone turned on!"
 
-        if self.on == 0: 
-            self.bulb_objects_list[self.id].state_q.put("" + str(self.id))
-            self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
-            self.bulb_objects_list[self.below_neighbor].state_q.put("" + str(self.id))
+        if self.on == 1: 
+            self.bulb_objects_list[self.id].state_q.put(str(self.id))
+            self.bulb_objects_list[self.above_neighbor].state_q.put(str(self.id))
+            self.bulb_objects_list[self.below_neighbor].state_q.put(str(self.id))
 
     def ssh_connection(self):
         print "connecting to " + self.host
@@ -162,10 +162,6 @@ class BulbBlinker(Process):
 
         my_relay_id = int(self.id * 1.0 / 2) + 1
 
-        turn_myself_off = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
-        (stdin, stdout, stderr) = c.exec_command(turn_myself_off)
-        print "Stdout: " + str(stdout.readlines())
-        #print turn_myself_off
         if 60 * 2/self.bpm - 1.2 > 0: 
             time.sleep(60 * 2/self.bpm - 1.2)        
 
