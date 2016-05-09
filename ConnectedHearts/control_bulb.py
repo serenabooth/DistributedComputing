@@ -109,7 +109,7 @@ class BulbControl(Process):
                     # convert timedelta to seconds
                     seconds = time_diff.total_seconds()
 
-                    self.adjustment.value = round(seconds/2.0, 4)
+                    self.adjustment.value = round(seconds, 4)
                     print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                         
             else: 
@@ -164,14 +164,21 @@ class BulbBlinker(Process):
         (stdin, stdout, stderr) = c.exec_command(turn_myself_off)
         print "Stdout: " + str(stdout.readlines())
         #print turn_myself_off
+        time.sleep(60 * 2/self.bpm - 1.2)        
 
         while True: 
+            tmp = 0
+            if self.adjustment.value < 0: 
+                time.sleep(abs(self.adjustment.value))
+            else: 
+                tmp = self.adjustment.value
             #print str(self.host) + "Turning on/off " + str(my_relay_id)
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             # put my message on my neighbors queues
+            time.sleep(abs(tmp))
             self.send_message_to_neighbors()
 
             time.sleep(60.0 * 2/self.bpm) 
@@ -179,9 +186,10 @@ class BulbBlinker(Process):
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
-            tmp = 60.0 * 2/self.bpm + self.adjustment.value
-            if tmp > 0:
-                time.sleep(tmp) 
+            #tmp = 60.0 * 2/self.bpm - self.adjustment.value
+            #if tmp > 0:
+            #    time.sleep(tmp) 
+            time.sleep(60.0 * 2/self.bpm) 
             self.adjustment.value = 0
 
     def run(self):
