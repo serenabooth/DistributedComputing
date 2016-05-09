@@ -8,6 +8,7 @@ from multiprocessing.queues import Queue
 import ctypes 
 import paramiko
 from ctypes import c_char_p
+from hearts import BulbQueue
 
 
 """
@@ -36,6 +37,9 @@ class BulbControl(Process):
         self.comp_below_time = datetime.datetime.now()
 
     def check_ordering(self):
+
+        array_of_queues = [BulbQueue(), BulbQueue(), BulbQueue()]
+
         while True: 
             #print "Here, " + str(self.id) + " and the leader is " + str(self.leader_id.value)
             if self.id != self.leader_id.value: 
@@ -43,70 +47,64 @@ class BulbControl(Process):
   
                 print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
 
-                while (self.time_of_neighbor_above == self.comp_above_time or 
-                        self.time_of_neighbor_below == self.comp_below_time or
-                        self.time_of_last_blink == self.comp_time):
-                    if not self.state_q.empty():
-                        #print "Something on my queue!"
-                        message = self.state_q.get()
-                        #print "Message " + str(message)
-                        time_received_message = datetime.datetime.now()
+                while not self.state_q.empty():
+                    #print "Something on my queue!"
+                    message = self.state_q.get()
+                    #print "Message " + str(message)
+                    time_received_message = datetime.datetime.now()
 
-                        if message == str(self.above_bulb_id): 
-                            self.time_of_neighbor_above = time_received_message
-                            #print "ABOVE NEIGHBOR"
-                        elif message == str(self.below_bulb_id): 
-                            self.time_of_neighbor_below = time_received_message
-                            #print "BELOW NEIGHBOR"
-                        else: 
-                            self.time_of_last_blink = time_received_message
-                            #print "MY OWN"
+                    if message == str(self.above_bulb_id): 
+                        array_of_queues[2].put(time_received_message)
+                        #self.time_of_neighbor_above = time_received_message
+                        #print "ABOVE NEIGHBOR"
+                    elif message == str(self.below_bulb_id): 
+                        array_of_queues[0].put(time_received_message)
 
-                #if self.time_of_last_blink == self.comp_time:
-                    #print self.time_of_last_blink.value
-                    #self.adjustment.value = 0
-                    #time.sleep(0.5)
-                    #print "I am continuing"
-                    #continue
+                        #self.time_of_neighbor_below = time_received_message
+                        #print "BELOW NEIGHBOR"
+                    else: 
+                        array_of_queues[1].put(time_received_message)
 
-                # TODO: Fix this bad logic
-                steps_to_above = 13
-                steps_to_below = 13
-                for i in range(0,12):
-                    if (self.above_bulb_id + i) % 12 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
-                    elif (self.above_bulb_id - i) % 12 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
+                        #self.time_of_last_blink = time_received_message
+                        #print "MY OWN")
 
-                    if (self.below_bulb_id + i) % 12 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
-                    elif (self.below_bulb_id - i) % 12 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
+                    if (array_of_queues[0].size() >= 1 and 
+                                array_of_queues[1].size() >= 1 and 
+                                array_of_queues[2].size() >= 1):
 
-                if (steps_to_above < steps_to_below): 
-                    closer_time = self.time_of_neighbor_above
-                else:
-                    closer_time = self.time_of_neighbor_below
+                        self.time_of_neighbor_below = array_of_queues[0].get()
+                        self.time_received_message  = array_of_queues[1].get()
+                        self.time_of_neighbor_above = array_of_queues[2].get()
 
-                #print "Closer? " + str(closer_time)
+                        # TODO: Fix this bad logic
+                        steps_to_above = 13
+                        steps_to_below = 13
+                        for i in range(0,12):
+                            if (self.above_bulb_id + i) % 12 == self.leader_id.value:
+                                steps_to_above = min(steps_to_above, i)
+                            elif (self.above_bulb_id - i) % 12 == self.leader_id.value:
+                                steps_to_above = min(steps_to_above, i)
 
-                # timedelta
-                time_diff = self.time_of_last_blink - closer_time
-                # convert timedelta to seconds
-                milliseconds = time_diff.total_seconds() * 1000
+                            if (self.below_bulb_id + i) % 12 == self.leader_id.value:
+                                steps_to_below = min(steps_to_below, i)
+                            elif (self.below_bulb_id - i) % 12 == self.leader_id.value:
+                                steps_to_below = min(steps_to_below, i)
 
-                #print "milliseconds " + str(milliseconds)
-                # if milliseconds < 0:
-                #     self.adjustment.value = -0.05
-                # else:
-                #     self.adjustment.value = 0.05
-                self.adjustment.value = round(milliseconds/2.0, 4)
-                print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
-                
-                self.comp_time = self.time_of_last_blink
-                self.comp_above_time = self.time_of_neighbor_above
-                self.comp_below_time = self.time_of_neighbor_below
+                        if (steps_to_above < steps_to_below): 
+                            closer_time = self.time_of_neighbor_above
+                        else:
+                            closer_time = self.time_of_neighbor_below
 
+                        #print "Closer? " + str(closer_time)
+
+                        # timedelta
+                        time_diff = self.time_of_last_blink - closer_time
+                        # convert timedelta to seconds
+                        milliseconds = time_diff.total_seconds() * 1000
+
+                        self.adjustment.value = round(milliseconds/2.0, 4)
+                        print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
+                        
             else: 
                 time.sleep(5)
 
