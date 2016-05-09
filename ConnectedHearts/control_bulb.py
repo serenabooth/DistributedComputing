@@ -111,7 +111,7 @@ class BulbControl(Process):
                     # convert timedelta to seconds
                     seconds = time_diff.total_seconds()
 
-                    self.adjustment.value = round(seconds/2.0, 4)
+                    self.adjustment.value = seconds/2.0
                     #print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                         
             else: 
@@ -193,10 +193,11 @@ class BulbBlinker(Process):
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
-            if self.adjustment.value < 0: 
-                time.sleep(abs(self.adjustment.value))
+            if self.adjustment.value > 0: 
+                tmp = 60.0 * 2/self.bpm - abs(self.adjustment.value)
+                if tmp > 0:
+                    time.sleep(tmp)
 
-            time.sleep(60.0 * 2/self.bpm)
             self.send_message_to_neighbors() 
             self.adjustment.value = 0
 
