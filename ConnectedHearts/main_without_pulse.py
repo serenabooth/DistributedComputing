@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from hearts import *
-from control_pi import *
+#from control_pi import *
 from multiprocessing.queues import Queue
 from multiprocessing import Array, Value
 import ctypes
@@ -8,19 +8,21 @@ import ctypes
 #from webcam_pulse.lib.check_face_visible import *
 #from webcam_pulse.lib.device import Camera
 
-is_on_pi = 1
+"""is_on_pi = 0
 
-#camera_obj = Camera(is_on_pi)
+camera_obj = Camera(is_on_pi)
 
 def kill_all_processes(pi, bulbs, app = None):
     pi.terminate()
     if app:
         app.terminate()
     for bulb in bulbs:
-        bulb.terminate()
+        bulb.terminate()"""
+
 """ 
-#Get pulse! 
-parser = argparse.ArgumentParser(description='Webcam pulse detector.')
+Get pulse! 
+"""
+"""parser = argparse.ArgumentParser(description='Webcam pulse detector.')
 parser.add_argument('--serial', default=None,
                     help='serial port destination for bpm data')
 parser.add_argument('--baud', default=None,
@@ -28,46 +30,52 @@ parser.add_argument('--baud', default=None,
 parser.add_argument('--udp', default=None,
                     help='udp address:port destination for bpm data')
 
-args = parser.parse_args()
+args = parser.parse_args()"""
 
-# Outer while loop to catch errors"""
+# Outer while loop to catch errors
 while True: 
-    face_visible = Value('i', 1)
-    """#time.sleep(10)
+
+    hosts = ['192.168.1.20', '192.168.1.21']
+
+    """ 
+        One power strip has ip 192.168.1.20; the other, .21
+        x.x.x.20 will control bulbs 0-5
+        x.x.x.21 will control bulbs 6-11
+    """
+    power_strip_on_list = Array('i', 13)
+
+    """face_check_process = CheckFace(camera_obj = camera_obj)
+
+    pi = Pi(hosts = hosts)
+    pi.start()
+    pi.join()"""
+    #time.sleep(10)
 
     # Perform this _once_ initially
-    pulse_val = 0; # App.main_loop()
-    App = getPulseApp(args, camera_obj)
+    pulse_val = 70; # App.main_loop()
+    #App = getPulseApp(args, camera_obj)
 
     # Generate a pulse
-    while pulse_val == 0 or pulse_val == -1: 
-        pulse_val = App.main_loop()
-        time.sleep(1.0/16.0)
+    #while pulse_val == 0 or pulse_val == -1: 
+    #    pulse_val = App.main_loop()
+    #    time.sleep(1.0/16.0)
         #if pulse_val == 0: 
         #    print "Found a face in main"
         #    time.sleep(10)
         #pulse_val = App.bpm
 
-    if pulse_val > 160: 
+    """if pulse_val > 160: 
         pulse_val = 160
     if pulse_val < 50:
-        pulse_val = 50
+        pulse_val = 50 
     print "FINISHED with pulse " + str(pulse_val)"""
-    pulse_val = 70
+    #App.bpm = 70
 
     #print type_of_array.bytes()
 
     #test_if_queue_works = Queue()
     #print test_if_queue_works
 
-    hosts = ['192.168.1.20', '192.168.1.21']
-    
-        #One power strip has ip 192.168.1.20; the other, .21
-        #.20 will control bulbs 0-5
-        #.21 will control bulbs 6-11
-    power_strip_on_list = Array('i', 13)
-
-    #face_check_process = CheckFace(camera_obj = camera_obj)
     #print "face check!"
     #face_check_process.start()
     #face_check_process.join()
@@ -75,7 +83,7 @@ while True:
     print "on to the bulbs"
     bulb_objects_list = []
     for i in range(0, 13):
-        if i % 2: 
+        if i % 2 == 0: 
             host_powerstrip = hosts[0]
         else:
             host_powerstrip = hosts[1]
@@ -87,22 +95,22 @@ while True:
 
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
-        bulb.send_uuid(bulb_objects_list)
+        bulb.send_uuid()
 
     try:
-        """pi = Pi(bpm = App.bpm, 
-                              turned_on_list = power_strip_on_list, 
-                              hosts = hosts, 
-                              face_visible = face_visible)
-        #pi.start()"""
+        # pi_20.start()
+
+        # pi_21 = Pi(bpm = App.bpm, 
+        #                       turned_on_list = power_strip_on_list, 
+        #                       hosts = hosts[1])
+        # pi_21.start()
 
         for bulb in bulb_objects_list:
            bulb.start()
-           
-        while (face_visible):
-            print "face dere?" +  str(face_visible.value)
-
-            time.sleep(15)
+        
+        while True:    
+        #while (face_check_process.check_if_face_is_visible()):
+            time.sleep(30)
 
         print "About to shut this down"
         pulse_val = 0
