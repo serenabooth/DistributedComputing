@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from hearts import *
+from hearts_old import *
 from control_pi import *
 from multiprocessing.queues import Queue
 from multiprocessing import Array, Value
@@ -68,7 +68,7 @@ while True:
         pulse_val = 160
     if pulse_val < 50:
         pulse_val = 50
-    
+    pulse_val = 25 
     print "FINISHED with pulse " + str(pulse_val)
     #App.bpm = 70
 
