@@ -96,7 +96,7 @@ while True:
 
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
-        bulb.send_uuid(bulb_objects_list)
+        bulb.send_uuid()
 
     try:
         # pi_20.start()
