@@ -63,6 +63,7 @@ class BulbControl(Process):
                 else: 
                     neighbor = -1
 
+                print " I am bulb " + str(self.id) + " and my neighbor is " + str(self.id + neighbor)
                 while True: 
 
                     if not self.state_q.empty():
