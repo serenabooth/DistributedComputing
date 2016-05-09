@@ -43,7 +43,9 @@ class BulbControl(Process):
   
                 print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
 
-                for i in range(0, 3):
+                while (self.time_of_neighbor_above == self.comp_above_time or 
+                        self.time_of_neighbor_below == self.comp_below_time or
+                        self.time_of_last_blink == self.comp_time):
                     if not self.state_q.empty():
                         print "Something on my queue!"
                         message = self.state_q.get()
@@ -60,6 +62,8 @@ class BulbControl(Process):
                         else: 
                             self.time_of_last_blink = time_received_message
                             print "MY OWN"
+                    else
+                        time.sleep(0.5)
 
 
                 if self.time_of_last_blink == self.comp_time:
@@ -89,12 +93,6 @@ class BulbControl(Process):
                     closer_time = self.time_of_neighbor_below
 
                 print "Closer? " + str(closer_time)
-
-                if (closer_time == self.comp_above_time or 
-                        closer_time == self.comp_below_time):
-                    time.sleep(0.5)
-                    print "I am continuing"
-                    continue
 
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
