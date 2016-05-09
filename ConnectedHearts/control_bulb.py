@@ -62,8 +62,8 @@ class BulbControl(Process):
                         else: 
                             self.time_of_last_blink = time_received_message
                             #print "MY OWN"
-                    else:
-                        time.sleep(0.025)
+                    #else:
+                    #    time.sleep(0.025)
 
 
                 #if self.time_of_last_blink == self.comp_time:
@@ -100,14 +100,14 @@ class BulbControl(Process):
                 milliseconds = time_diff.total_seconds() * 1000
 
                 #print "milliseconds " + str(milliseconds)
-                if milliseconds < 0:
-                    self.adjustment.value = -0.05
-                else:
-                    self.adjustment.value = 0.05
-                #self.adjustment.value = milliseconds/4.0
+                #if milliseconds < 0:
+                #    self.adjustment.value = -0.05
+                #else:
+                #    self.adjustment.value = 0.05
+                self.adjustment.value = round(milliseconds/2.0,4)
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
-                time.sleep(1)
+                #time.sleep(1)
                 self.comp_time = self.time_of_last_blink
                 self.comp_above_time = self.time_of_neighbor_above
                 self.comp_below_time = self.time_of_neighbor_below
