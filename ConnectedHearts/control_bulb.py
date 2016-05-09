@@ -174,35 +174,26 @@ class BulbBlinker(Process):
             if not self.adjustment.empty():
                 adjustment_value = self.adjustment.get()
             print "I, " + str(self.id) + " am making an adjustment of " + str(adjustment_value)
-            # tmp = 0
-            # if self.adjustment.value < 0: 
-            #     time.sleep(abs(self.adjustment.value))
-            # else: 
-            #     tmp = self.adjustment.value
-            #print str(self.host) + "Turning on/off " + str(my_relay_id)
+
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             
-            # I'M AHEAD OF MY NEIGHBOR
+            # I'M AHEAD OF MY NEIGHBOR -- I'LL WAIT BEFORE TURNING ON 
             if adjustment_value > 0:
-                time.sleep(abs(adjustment_value))
-            #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
-            (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
-            # put my message on my neighbors queues
-            #if self.adjustment.value > 0: 
-            #    time.sleep(abs(self.adjustment.value))
-            #self.send_message_to_neighbors()
+                time.sleep(min(abs(adjustment_value), 0.5))
 
+            # TURN ON & WAIT
+            (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             time.sleep(60.0 * 2/self.bpm) 
 
-            #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
+            # TURN OFF
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
-
             if adjustment_value < 0: 
                 tmp = 60.0 * 2/self.bpm - abs(adjustment_value)
                 if tmp > 0:
                     time.sleep(tmp)
-            #time.sleep(60.0 * 2/self.bpm)
+
+            # SIGNAL TO NEIGHBORS THAT I FINISHED MY CYCLE
             self.send_message_to_neighbors() 
 
     def run(self):
