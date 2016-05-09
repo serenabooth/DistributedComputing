@@ -25,9 +25,9 @@ class BulbControl(Process):
         self.state_q = state_q
         self.bulb_objects_list = bulb_objects_list
         self.adjustment = Value('f', 0.0)
-        self.time_of_last_blink = -1
-        self.time_of_neighbor_below = -1
-        self.time_of_neighbor_above = -1
+        self.time_of_last_blink = datetime.datetime.now()
+        self.time_of_neighbor_below = datetime.datetime.now()
+        self.time_of_neighbor_above = datetime.datetime.now()
         self.above_bulb_id = (self.id + 1) % 13
         self.below_bulb_id = (self.id - 1) % 13
 
@@ -99,9 +99,9 @@ class BulbControl(Process):
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
-                microseconds = time_diff.microseconds
+                milliseconds = time_diff.total_seconds() * 1000
 
-                print "microseconds " + str(microseconds)
+                print "milliseconds " + str(milliseconds)
                 if microseconds < 0:
                     self.adjustment.value = -0.05
                 else:
