@@ -63,22 +63,26 @@ class BulbControl(Process):
                 if (not array_of_queues[0].empty() and 
                             not array_of_queues[1].empty() and 
                             not array_of_queues[2].empty()):
-                    self.time_of_neighbor_below = array_of_queues[0].get()
-                    self.time_of_last_blink  = array_of_queues[1].get()
-                    self.time_of_neighbor_above = array_of_queues[2].get()
+
+                    while not array_of_queues[0].empty(): 
+                        self.time_of_neighbor_below = array_of_queues[0].get()
+                    while not array_of_queues[1].empty(): 
+                        self.time_of_last_blink  = array_of_queues[1].get()
+                    while not array_of_queues[2].empty(): 
+                        self.time_of_neighbor_above = array_of_queues[2].get()
 
                     # TODO: Fix this bad logic
                     steps_to_above = 13
                     steps_to_below = 13
-                    for i in range(0,12):
-                        if (self.above_bulb_id + i) % 12 == self.leader_id.value:
+                    for i in range(0,13):
+                        if (self.above_bulb_id + i) % 13 == self.leader_id.value:
                             steps_to_above = min(steps_to_above, i)
-                        elif (self.above_bulb_id - i) % 12 == self.leader_id.value:
+                        elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
                             steps_to_above = min(steps_to_above, i)
 
-                        if (self.below_bulb_id + i) % 12 == self.leader_id.value:
+                        if (self.below_bulb_id + i) % 13 == self.leader_id.value:
                             steps_to_below = min(steps_to_below, i)
-                        elif (self.below_bulb_id - i) % 12 == self.leader_id.value:
+                        elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
                             steps_to_below = min(steps_to_below, i)
 
                     if (steps_to_above < steps_to_below): 
@@ -87,12 +91,18 @@ class BulbControl(Process):
                         closer_time = self.time_of_neighbor_below
                     
                     # if time_of_last_blink comes after, this is >0; otherwise < 0
+
+                    #if (abs(self.time_of_last_blink - closer_time) >
+                    #        abs(self.time_of_last_blink - (closer_time + datetime.timedelta(seconds=2 * 60 * 2/self.bpm)))):
+                    #    time_diff = self.time_of_last_blink - closer_time
+                    #else: 
+                    #    time_diff = self.time_of_last_blink - (closer_time + datetime.timedelta(seconds=2 * 60 * 2/self.bpm))
                     time_diff = self.time_of_last_blink - closer_time
                     seconds = time_diff.total_seconds()
 
                     # pass the adjustment to the child process
-                    self.adjustment.put(seconds/2.0)
-                    print "I, " + str(self.id) + " NEED an adjustment of " + str(seconds/2.0)
+                    self.adjustment.put(-1 * seconds)
+                    print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds)
                         
             else: 
                 time.sleep(5)
@@ -171,7 +181,7 @@ class BulbBlinker(Process):
             
             # I'M AHEAD OF MY NEIGHBOR -- I'LL WAIT BEFORE TURNING ON 
             if adjustment_value > 0:
-                time.sleep(min(abs(adjustment_value), 0.5))
+                time.sleep(min(adjustment_value, 1))
 
             # TURN ON & WAITr
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
