@@ -63,9 +63,13 @@ class BulbControl(Process):
                 if (not array_of_queues[0].empty() and 
                             not array_of_queues[1].empty() and 
                             not array_of_queues[2].empty()):
-                    self.time_of_neighbor_below = array_of_queues[0].get()
-                    self.time_of_last_blink  = array_of_queues[1].get()
-                    self.time_of_neighbor_above = array_of_queues[2].get()
+
+                    while not array_of_queues[0].empty(): 
+                        self.time_of_neighbor_below = array_of_queues[0].get()
+                    while not array_of_queues[1].empty(): 
+                        self.time_of_last_blink  = array_of_queues[1].get()
+                    while not array_of_queues[2].empty(): 
+                        self.time_of_neighbor_above = array_of_queues[2].get()
 
                     # TODO: Fix this bad logic
                     steps_to_above = 13
