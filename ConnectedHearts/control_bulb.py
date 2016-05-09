@@ -94,7 +94,7 @@ class BulbControl(Process):
                 # if time_of_last_blink comes after, this is >0; otherwise < 0
                 if seconds > 2 * 60 * 2.0/self.bpm: 
                     seconds = time_diff.total_seconds() / (2 * 60 * 2.0/self.bpm)
-                else
+                else:
                     seconds = time_diff.total_seconds()
 
                 # pass the adjustment to the child process
