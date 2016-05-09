@@ -102,7 +102,7 @@ class BulbControl(Process):
                 milliseconds = time_diff.total_seconds() * 1000
 
                 print "milliseconds " + str(milliseconds)
-                if microseconds < 0:
+                if milliseconds < 0:
                     self.adjustment.value = -0.05
                 else:
                     self.adjustment.value = 0.05
