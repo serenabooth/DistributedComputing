@@ -188,7 +188,7 @@ class BulbBlinker(Process):
 
             # TURN OFF
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
-            if adjustment_value < 0: 
+            if adjustment_value <= 0: 
                 tmp = 60.0 * 2/self.bpm - abs(adjustment_value)
                 if tmp > 0:
                     time.sleep(tmp)
