@@ -58,12 +58,11 @@ class BulbControl(Process):
                         elif message == str(self.below_bulb_id): 
                             self.time_of_neighbor_below = time_received_message
                             #print "BELOW NEIGHBOR"
-
                         else: 
                             self.time_of_last_blink = time_received_message
                             #print "MY OWN"
-                    else:
-                        time.sleep(0.025)
+                    # else:
+                    #     time.sleep(0.025)
 
 
                 #if self.time_of_last_blink == self.comp_time:
@@ -76,7 +75,7 @@ class BulbControl(Process):
                 # TODO: Fix this bad logic
                 steps_to_above = 13
                 steps_to_below = 13
-                for i in range(1,12):
+                for i in range(0,12):
                     if (self.above_bulb_id + i) % 12 == self.leader_id.value:
                         steps_to_above = min(steps_to_above, i)
                     elif (self.above_bulb_id - i) % 12 == self.leader_id.value:
@@ -100,14 +99,14 @@ class BulbControl(Process):
                 milliseconds = time_diff.total_seconds() * 1000
 
                 #print "milliseconds " + str(milliseconds)
-                if milliseconds < 0:
-                    self.adjustment.value = -0.05
-                else:
-                    self.adjustment.value = 0.05
-                #self.adjustment.value = milliseconds/4.0
+                # if milliseconds < 0:
+                #     self.adjustment.value = -0.05
+                # else:
+                #     self.adjustment.value = 0.05
+                self.adjustment.value = round(milliseconds, 4)
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
-                time.sleep(1)
+
                 self.comp_time = self.time_of_last_blink
                 self.comp_above_time = self.time_of_neighbor_above
                 self.comp_below_time = self.time_of_neighbor_below
@@ -179,7 +178,9 @@ class BulbBlinker(Process):
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
-            time.sleep(60.0 * 2/self.bpm + self.adjustment.value) 
+            tmp = 60.0 * 2/self.bpm + self.adjustment.value
+            if tmp > 0:
+                time.sleep(tmp) 
             self.adjustment.value = 0
 
     def run(self):
