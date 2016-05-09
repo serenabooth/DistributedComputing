@@ -39,8 +39,8 @@ while True:
 
     """ 
         One power strip has ip 192.168.1.20; the other, .21
-        .20 will control bulbs 0-5
-        .21 will control bulbs 6-11
+        x.x.x.20 will control bulbs 0-5
+        x.x.x.21 will control bulbs 6-11
     """
     power_strip_on_list = Array('i', 13)
 

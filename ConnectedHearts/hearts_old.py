@@ -158,7 +158,8 @@ class Bulb(Process):
                     host = self.host,
                     leader_id = self.leader_id,
                     state_q = self.state_q,
-                    bulb_objects_list = self.bulb_objects_list)
+                    bulb_objects_list = self.bulb_objects_list, 
+                    turned_on_list = self.turned_on_list)
         my_ssh_connection.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
