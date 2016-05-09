@@ -100,7 +100,7 @@ class BulbControl(Process):
                     else:
                         closer_time = self.time_of_neighbor_below
                     
-                    print "My time: " + str(self.time_received_message)
+                    print "My time: " + str(self.time_of_last_blink)
                     print "My neighbors time: " + str(closer_time)
                     #print "Closer? " + str(closer_time)
 
