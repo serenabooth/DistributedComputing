@@ -48,9 +48,9 @@ class BulbQueue(Queue):
 
     def put(self, item):
         super(BulbQueue, self).put(item)
-        self.lock.acquire()
+        #self.lock.acquire()
         self.queuesize += 1
-        self.lock.release()
+        #self.lock.release()
 
 class Bulb(Process):
     def __init__(self, id, turned_on_list, bpm, host):
@@ -68,6 +68,9 @@ class Bulb(Process):
         self.turned_on_list = turned_on_list
         self.bpm = bpm
         self.host = host
+
+        if self.id == 0:
+            self.uuid = 2**64-2
 
     def register_bulbs(self, bulb_objects_list):
         self.bulb_objects_list = bulb_objects_list
@@ -153,14 +156,14 @@ class Bulb(Process):
         self.turned_on_list[self.id] = 1
         #print "Yay, I'm bulb " + str(self.id) + " and I turned on"
 
-        my_ssh_connection = BulbControl(my_id = self.id,
+        """my_ssh_connection = BulbControl(my_id = self.id,
                     bpm = self.bpm, 
                     host = self.host,
                     leader_id = self.leader_id,
                     state_q = self.state_q,
                     bulb_objects_list = self.bulb_objects_list, 
                     turned_on_list = self.turned_on_list)
-        my_ssh_connection.start()
+        my_ssh_connection.start()"""
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
 
@@ -183,7 +186,7 @@ class Bulb(Process):
                 break
         if not self.election_q.empty():
             msg = self.election_q.get()
-            #sys.stderr.write("I'm bulb " + str(self.id) + " and the leader responded: " + str(self.election_q.get()) + "\n Also my timeout is " + str(self.ping_time) + "\n")
+            #sys.stderr.write("I'm bulb " + str(self.id) + " and the leader responded: " + str(msg) + "\n Also my timeout is " + str(self.ping_time) + "\n")
             self.leader.election_q.put(self.uuid)
             self.ping_leader()
         else:
@@ -192,6 +195,7 @@ class Bulb(Process):
                     break
             if self.election_q.empty():
                 sys.stderr.write("Oh no the leader didn't respond \n")
+                return
                 #for bulb in bulb_objects_list:
                 #    bulb.election_q.put("New election")
                 #    self.leader_election()
@@ -220,6 +224,9 @@ class Bulb(Process):
             pinger_uuid = self.election_q.get()
             #sys.stderr.write("I responded to bulb " + str(self.uuid_dict[pinger_uuid].id) + "\n")
             self.uuid_dict[pinger_uuid].election_q.put(self.uuid)
+            print "Sleeping now \n"
+            if (self.id == 0):
+                time.sleep(3000)
         timeout = time.time() + self.ping_time
         while True:
             if time.time() > timeout:
@@ -228,6 +235,7 @@ class Bulb(Process):
 
     def run(self):
         self.leader_election()
+        print "I'm bulb " + str(self.id) + " and I terminated."
 
 
 
