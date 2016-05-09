@@ -94,15 +94,17 @@ class BulbControl(Process):
                             closer_time = self.time_of_neighbor_above
                         else:
                             closer_time = self.time_of_neighbor_below
-
+                        
+                        print "My time: " + str(self.time_received_message)
+                        print "My neighbors time: " + str(closer_time)
                         #print "Closer? " + str(closer_time)
 
                         # timedelta
                         time_diff = self.time_of_last_blink - closer_time
                         # convert timedelta to seconds
-                        milliseconds = time_diff.total_seconds() * 1000
+                        seconds = time_diff.total_seconds()
 
-                        self.adjustment.value = round(milliseconds/2.0, 4)
+                        self.adjustment.value = round(seconds/2.0, 4)
                         print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                         
             else: 
