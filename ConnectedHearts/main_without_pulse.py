@@ -87,7 +87,11 @@ while True:
 
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
-        bulb.send_uuid()
+        if bulb.id == 0:
+            print 'hi this is working'
+            bulb.uuid = 2**64-1
+            print "is my uuid right? " + str(2**64-1) + " same " + str(bulb.uuid)
+        bulb.send_uuid(bulb_objects_list)
 
     try:
         """pi = Pi(bpm = App.bpm, 

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "main_without_pulse.py", line 93, in <module>
+    print "is my uuid right? " + str(2**64-1) + " same " + str(self.uuid)
+NameError: name 'self' is not defined
