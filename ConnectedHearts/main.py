@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from hearts import *
+from hearts_old import *
 from control_pi import *
 from multiprocessing.queues import Queue
 from multiprocessing import Array, Value
@@ -96,7 +96,7 @@ while True:
 
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
-        bulb.send_uuid()
+        bulb.send_uuid(bulb_objects_list)
 
     try:
         # pi_20.start()

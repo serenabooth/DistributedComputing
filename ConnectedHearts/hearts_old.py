@@ -59,55 +59,34 @@ class Bulb(Process):
         self.uuid = random.randint(1,2**64-1)
         self.uuid_dict = {}
         self.bulb_objects_list = None
-        self.bulbs_to_send_uuid = None
         self.leader = None
         self.leader_id = Value('i', -1)
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
         self.ping_time = random.randint(1,12)
-        self.max_timeout = 30
+        self.max_timeout = 15
         self.turned_on_list = turned_on_list
         self.bpm = bpm
         self.host = host
-
-        if self.id == 0:
-            print 'hi this is working'
-            self.uuid = 2**64-2
 
     def register_bulbs(self, bulb_objects_list):
         self.bulb_objects_list = bulb_objects_list
         self.create_uuid_dict()
 
-    def send_uuid(self, bulb_list):
-        for bulb in bulb_list:
+    def send_uuid(self):
+        for bulb in self.bulb_objects_list:
             bulb.election_q.put(self.uuid)
 
     def create_uuid_dict(self):
         for bulb in self.bulb_objects_list:
             self.uuid_dict[bulb.uuid] = bulb
 
-    """def get_max_uuid(self):
-        curr_max = 0
-        while not self.election_q.empty():
+    def get_max_uuid(self):
+        curr_max = self.election_q.get()
+        while (self.election_q.size() > 0):
             curr_item = self.election_q.get()
             if (curr_item > curr_max):
-                print "Is this working? " + str(type(curr_item) == type(long(1)))
                 curr_max = curr_item
-        return curr_max"""
-
-    def check_new_leader_and_get_max_uuid(self):
-        possible_leaders = []
-        curr_max = 0
-        while not self.election_q.empty():
-            curr_item = self.election_q.get()
-            if (type(curr_item) == type(long(1)) and curr_item > curr_max):
-                curr_max = curr_item
-            if "New leader" in str(curr_item):
-                possible_leaders.append(long(curr_item.split(": ")[1]))
-        if possible_leaders:
-            curr_max = max(possible_leaders)
-        if curr_max == 0:
-            curr_max = self.uuid
         return curr_max
 
     def print_q(self, q):
@@ -118,16 +97,20 @@ class Bulb(Process):
             q_contents.append(str(q.get()))
         return q_contents
 
-    def first_leader_election(self):
+    #def empty_election_q_and_check_for_leader(self):
+
+
+    def leader_election(self):
         #print "is this working? \n"
-        timeout = time.time() + 3
+        self.leader = None
+        timeout = time.time() + 1
         while True:
             if time.time() > timeout:
                 break
             if self.election_q.size() == 13:
                 #print "Do I ever get here? \n"
                 break
-        self.leader = self.uuid_dict[self.check_new_leader_and_get_max_uuid()]
+        self.leader = self.uuid_dict[self.get_max_uuid()]
         self.leader_id.value = self.leader.id
         print "Leader id: " + str(self.leader_id.value) + "\n"
         #print "Or here? " + str(self.leader.id) + "\n" 
@@ -154,41 +137,6 @@ class Bulb(Process):
             self.election_q.put("first ping")
             self.ping_leader()
 
-    def leader_election(self):
-        #print "is this working? \n"
-        timeout = time.time() + 1
-        while True:
-            if time.time() > timeout:
-                break
-            if self.election_q.size() == 13:
-                #print "Do I ever get here? \n"
-                break
-        self.leader = self.uuid_dict[self.check_new_leader_and_get_max_uuid()]
-        self.leader_id.value = self.leader.id
-        print "Leader id: " + str(self.leader_id.value) + "\n"
-        #print "Or here? " + str(self.leader.id) + "\n" 
-        """if (self == self.leader):
-            sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
-            return"""
-        #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
-        sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
-        if self.leader.id == self.id:
-            print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
-            """timeout = time.time() + 10
-            while True:
-                #print "Leader. Here's my queue size: " + str(self.election_q.size())
-                if time.time() > timeout:
-                    break
-            print self.print_q(self.election_q)
-            #self.set_up_leader_socket()"""
-            for bulb in self.bulb_objects_list:
-                bulb.election_q.put("New leader: " + str(self.uuid))
-            self.respond_to_ping()
-        else:
-            print "Hi, I'm a follower: " + str(self.id) + "\n"
-            self.election_q.put("first ping")
-            self.ping_leader()
-
             #self.connect_to_leader_socket(connection_timeout, time.time())
         #sys.stderr.write("Number of bulbs in dict: " + str(len(self.uuid_dict)) + " I'm thread " + str(self.id) + "\n")
         #self.ping_leader_socket()
@@ -205,13 +153,13 @@ class Bulb(Process):
         self.turned_on_list[self.id] = 1
         #print "Yay, I'm bulb " + str(self.id) + " and I turned on"
 
-        """my_ssh_connection = BulbControl(my_id = self.id,
+        my_ssh_connection = BulbControl(my_id = self.id,
                     bpm = self.bpm, 
                     host = self.host,
                     leader_id = self.leader_id,
                     state_q = self.state_q,
                     bulb_objects_list = self.bulb_objects_list)
-        my_ssh_connection.start()"""
+        my_ssh_connection.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
 
@@ -234,48 +182,20 @@ class Bulb(Process):
                 break
         if not self.election_q.empty():
             msg = self.election_q.get()
-            if "New election" in str(msg):
-                initiator_uuid = long(msg.split(": ")[1])
-                print "Is this right? " + str(initiator_uuid)
-                self.bulbs_to_send_uuid = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= initiator_uuid]
-                return
-            if "New leader" in str(msg):
-                new_leader_uuid = long(msg.split(": ")[1])
-                if new_leader_uuid > self.leader.uuid:
-                    self.leader = self.uuid_dict[new_leader_uuid]
-                    sys.stderr.write("I'm bulb " + str(self.id) + " and I've decided that the leader is " + str(self.leader.id) + "\n")
-                else:
-                    self.bulbs_to_send_uuid = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= self.uuid]
-                    for bulb in self.bulbs_to_send_uuid:
-                        bulb.election_q.put("New election from bulb: " + str(self.uuid))
-                    return
             #sys.stderr.write("I'm bulb " + str(self.id) + " and the leader responded: " + str(self.election_q.get()) + "\n Also my timeout is " + str(self.ping_time) + "\n")
             self.leader.election_q.put(self.uuid)
+            self.ping_leader()
         else:
-            print "My queue is empty"
             while True:
                 if time.time() > start_time + self.max_timeout:
                     break
             if self.election_q.empty():
-                print "I'm bulb " + str(self.id) + " and I'm starting a new election \n"
-                #print "My uuid: " + str(self.uuid) + "\n"
-                print "Oh no the leader didn't respond \n"
-                """sorted_uuids = sorted([(bulb.id, bulb.uuid) for bulb in self.bulb_objects_list], key=lambda x: x[1])
-                print "Sorted uuids, yes: " + str(sorted_uuids)
-                higher_uuid = []
-                for bulb in self.bulb_objects_list:
-                    if bulb.uuid >= self.uuid:
-                        higher_uuid.append(bulb)
-                print "Actual higher uuid?: " + str(higher_uuid)"""
-                self.bulbs_to_send_uuid = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= self.uuid]
-                #print [bulb.id for bulb in bulbs_to_send_uuid]
-                #print "Higher uuids?: " + str(bulbs_to_send_uuid)
-                #print "Does it work here? " + str(self.bulbs_to_send_uuid)
-                for bulb in self.bulbs_to_send_uuid:
-                    #print "The higher uuid: " + str(bulb.uuid) + "\n"
-                    print "Bulb " + str(self.uuid) + " starting new election"
-                    bulb.election_q.put("New election from bulb: " + str(self.uuid))
-        self.ping_leader()
+                sys.stderr.write("Oh no the leader didn't respond \n")
+                #for bulb in bulb_objects_list:
+                #    bulb.election_q.put("New election")
+                #    self.leader_election()
+            else:
+                self.ping_leader()
 
     def signal_to_neighbors(self, list_of_neighbors):
         """ 
@@ -297,26 +217,8 @@ class Bulb(Process):
         while not self.election_q.empty():
             #print "There's something on my queue"
             pinger_uuid = self.election_q.get()
-            if "New election" in str(pinger_uuid):
-                initiator_uuid = int(pinger_uuid.split(": ")[1])
-                self.bulbs_to_send_uuid = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= initiator_uuid]
-                return
-            if "New leader" in str(pinger_uuid):
-                new_leader_uuid = int(pinger_uuid.split(": ")[1])
-                if new_leader_uuid > self.leader.uuid:
-                    self.leader = self.uuid_dict[new_leader_uuid]
-                    sys.stderr.write("I'm bulb " + str(self.id) + " and I've decided that the leader is " + str(self.leader.id) + "\n")
-                else:
-                    self.bulbs_to_send_uuid = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= self.uuid]
-                    for bulb in self.bulbs_to_send_uuid:
-                        bulb.election_q.put("New election from bulb: " + str(self.uuid))
-                    return
             #sys.stderr.write("I responded to bulb " + str(self.uuid_dict[pinger_uuid].id) + "\n")
             self.uuid_dict[pinger_uuid].election_q.put(self.uuid)
-            if self.id == 0:
-                print "Sleeping now \n" 
-                time.sleep(30000)
-                print "Done sleeping \n"
         timeout = time.time() + self.ping_time
         while True:
             if time.time() > timeout:
@@ -324,14 +226,7 @@ class Bulb(Process):
         self.respond_to_ping()
 
     def run(self):
-        self.first_leader_election()
-        #while True:
-        self.send_uuid(self.bulbs_to_send_uuid)
-        print "I'm bulb " + str(self.id) + " and I got to the while true again"
         self.leader_election()
-        print "I'm bulb " + str(self.id) + " and there's a new election. Woo hoo! \n"
-        #print "bulbs to send " + str(self.bulbs_to_send_uuid)
-
 
 
 

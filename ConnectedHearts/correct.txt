@@ -1,0 +1,85 @@
+id: 0, leader: 0
+id: 1, leader: 0
+id: 2, leader: 0
+id: 4, leader: 0
+id: 5, leader: 0
+id: 3, leader: 0
+id: 6, leader: 0
+id: 7, leader: 0
+id: 8, leader: 0
+id: 9, leader: 0
+id: 10, leader: 0
+id: 11, leader: 0
+id: 12, leader: 0
+id: 7, leader: 8
+id: 8, leader: 8
+id: 2, leader: 8
+id: 5, leader: 8
+id: 11, leader: 8
+id: 10, leader: 8
+id: 12, leader: 12
+id: 6, leader: 8
+id: 9, leader: 8
+id: 3, leader: 8
+id: 1, leader: 12
+id: 4, leader: 8
+Traceback (most recent call last):
+  File "main_without_pulse.py", line 115, in <module>
+    kill_all_processes(pi, bulb_objects_list, App)
+NameError: name 'pi' is not defined
+Process Bulb-1:
+Traceback (most recent call last):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 327, in run
+    self.first_leader_election()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 149, in first_leader_election
+    self.respond_to_ping()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 318, in respond_to_ping
+    time.sleep(30000)
+KeyboardInterrupt
+Process Bulb-4:
+Process Bulb-5:
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+Process Bulb-2:
+Traceback (most recent call last):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+    self.run()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 331, in run
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 331, in run
+    self.run()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 331, in run
+    self.leader_election()
+    self.leader_election()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 190, in leader_election
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 190, in leader_election
+    self.ping_leader()
+    self.ping_leader()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 278, in ping_leader
+    self.leader_election()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 278, in ping_leader
+    self.ping_leader()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 190, in leader_election
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 278, in ping_leader
+    self.ping_leader()
+    self.ping_leader()
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 278, in ping_leader
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 233, in ping_leader
+    self.ping_leader()
+    self.ping_leader()
+    if time.time() > timeout:
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 278, in ping_leader
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 233, in ping_leader
+    self.ping_leader()
+    if time.time() > timeout:
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 278, in ping_leader
+    self.ping_leader()
+KeyboardInterrupt
+  File "/Users/Michelle/Documents/DistributedComputing/ConnectedHearts/hearts.py", line 232, in ping_leader
+KeyboardInterrupt
+    while True:
+KeyboardInterrupt
