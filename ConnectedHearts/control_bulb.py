@@ -25,7 +25,7 @@ class BulbControl(Process):
         self.leader_id = leader_id
         self.state_q = state_q
         self.bulb_objects_list = bulb_objects_list
-        self.adjustment = Value('f', 0.0)
+        self.adjustment = Queue()
         self.time_of_last_blink = datetime.datetime.now()
         self.time_of_neighbor_below = datetime.datetime.now()
         self.time_of_neighbor_above = datetime.datetime.now()
@@ -111,7 +111,7 @@ class BulbControl(Process):
                     # convert timedelta to seconds
                     seconds = time_diff.total_seconds()
 
-                    self.adjustment = Value('f', seconds/2.0)
+                    self.adjustment.put(seconds/2.0)
                     print "I, " + str(self.id) + " NEED an adjustment of " + str(self.adjustment.value)
                         
             else: 
@@ -170,7 +170,9 @@ class BulbBlinker(Process):
             time.sleep(60 * 2/self.bpm - 1.2)        
 
         while True: 
-            print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
+            if not self.adjustment.empty():
+                adjustment_value = self.adjustment.get()
+            print "I, " + str(self.id) + " am making an adjustment of " + str(adjustment_value)
             # tmp = 0
             # if self.adjustment.value < 0: 
             #     time.sleep(abs(self.adjustment.value))
@@ -179,7 +181,8 @@ class BulbBlinker(Process):
             #print str(self.host) + "Turning on/off " + str(my_relay_id)
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
-            if self.adjustment < 0:
+
+            if adjustment_value < 0:
                 time.sleep(abs(self.adjustment.value))
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
@@ -193,13 +196,12 @@ class BulbBlinker(Process):
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
-            if self.adjustment.value > 0: 
-                tmp = 60.0 * 2/self.bpm - abs(self.adjustment.value)
+            if adjustment_value > 0: 
+                tmp = 60.0 * 2/self.bpm - abs(adjustment_value)
                 if tmp > 0:
                     time.sleep(tmp)
 
             self.send_message_to_neighbors() 
-            self.adjustment.value = 0
 
     def run(self):
         self.ssh_connection()
