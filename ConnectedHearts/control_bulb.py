@@ -40,11 +40,9 @@ class BulbControl(Process):
         array_of_queues = [Queue(), Queue(), Queue()]
 
         while True: 
-            if (self.id == 1):
-                print "I am 1: " + str(datetime.datetime.now())
             if self.id != self.leader_id.value: 
 
-                # TODO: Fix this bad logic
+                # Find which neighbor is closer to me
                 steps_to_above = 13
                 steps_to_below = 13
                 for i in range(0,13):
@@ -58,15 +56,14 @@ class BulbControl(Process):
                     elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
                         steps_to_below = min(steps_to_below, i)
 
+                # if my +1 neighbor is closer, set neighbor = 1; otherwise, -1
                 if steps_to_above < steps_to_below:
                     neighbor = 1
                 else: 
                     neighbor = -1
 
-                #print " I am bulb " + str(self.id) + " and my neighbor is " + str((self.id + neighbor) %13 )
-                
+                # loop until I have a message from my leading neighbor and a message from myself
                 while True: 
-
                     if not self.state_q.empty():
                         message = self.state_q.get()
                         time_received_message = datetime.datetime.now()
@@ -78,74 +75,30 @@ class BulbControl(Process):
                         elif message == str((self.id + neighbor) % 13):
                             array_of_queues[1 + neighbor].put(time_received_message)
 
+                # get the last messages I added to my queues
                 while not array_of_queues[1 + neighbor].empty(): 
                     relevant_neighbor_time = array_of_queues[1 + neighbor].get()
                 while not array_of_queues[1].empty(): 
                     self.time_of_last_blink  = array_of_queues[1].get()
                 
-                # if time_of_last_blink comes after, this is >0; otherwise < 0
-
-                if (abs(self.time_of_last_blink - relevant_neighbor_time) >
-                      abs(self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
+                # compare last received message from neighbor to neighbor's expected future tick
+                # set my time difference based on which one I'm closer to
+                future_time_diff = datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)
+                if (abs(self.time_of_last_blink - relevant_neighbor_time) <
+                        abs(self.time_of_last_blink - (relevant_neighbor_time + future_time_diff))):
                     time_diff = self.time_of_last_blink - relevant_neighbor_time
                 else: 
-                    time_diff = self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
+                    time_diff = self.time_of_last_blink - (relevant_neighbor_time + future_time_diff)
                
+                # if time_of_last_blink comes after, this is >0; otherwise < 0
                 seconds = time_diff.total_seconds()
 
                 # pass the adjustment to the child process
-                self.adjustment.put(-1 * seconds)
-                print str(self.id) + "MADE IT!" 
-                if self.id == 1: 
-                    print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds) + " at " + str(datetime.datetime.now())
+                self.adjustment.put(-1 * seconds/5.0)
+                print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/5.0) + " at " + str(datetime.datetime.now())
                         
             else:
-                # TODO: Fix this bad logic
-                steps_to_above = 13
-                steps_to_below = 13
-                for i in range(0,13):
-                    if (self.above_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
-                    elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
-
-                    if (self.below_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
-                    elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
-
-                if steps_to_above < steps_to_below:
-                    neighbor = 1
-                else:
-                    neighbor = -1
-
-                my_last_value = None 
-                while True:
-                 
-                    if not self.state_q.empty():
-                        message = self.state_q.get()
-                        time_received_message = datetime.datetime.now()
-
-                    if message == str(self.id):
-                        my_last_value = time_received_message
-                        break
-                 
-                if (self.time_of_last_blink != None): 
-                    if (abs(self.time_of_last_blink - my_last_value) >
-                            abs(self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
-                        time_diff = self.time_of_last_blink - my_last_value
-                    else:
-                        time_diff = self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
-
-                    seconds = time_diff.total_seconds()
- 
-                    # pass the adjustment to the child process
-                    self.adjustment.put(-1 * seconds)
-                    if self.id == 1: 
-                        print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds) + " at " + str(datetime.datetime.now())
-                    self.time_of_last_blink = my_last_value
-                else:
-                    self.time_of_last_blink = my_last_value        
+                time.sleep(5)       
 
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,

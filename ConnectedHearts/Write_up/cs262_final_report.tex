@@ -150,11 +150,11 @@ The end product looks to be a medicine cabinet with 13 light bulbs around its mi
 
 \section{System Design}
 
-Our code is written in Python and makes extensive use of the multiprocessing library. 
-
-\SERENA{TO DO: Explain process layout + relationships} 
+Our code is written in Python and makes extensive use of the multiprocessing library. Our process infrastructure is shown in Figure \ref{fig:procStruc}. In short, the program runs a \texttt{main.py}, the parent process. This process creates one process for running pulse detection; two more processes for turning all the relays off at the start; and 13 more processes, each corresponding to a bulb. Of these 13 ``bulb'' processes, each spawns its own process to handle inter-bulb synchronization. Of these inter-bulb synchronization processes, each spawns an additional process which is tasked with maintaining the state of a continually-blinking bulb. 
 
 \subsection{Inter-bulb Communication}
+
+We of course, do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues. This architecture is further shown in Figure \ref{fig:procStruc}. 
 
 \section{Architecture \& Algorithms}
 
