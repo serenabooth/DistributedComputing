@@ -41,108 +41,109 @@ class BulbControl(Process):
 
         while True: 
             # I am not the leader
+            if not self.state_q.empty() and self.id == 1:
+                print "Now: " + str(datetime.datetime.now()) + ", then: " + str(self.state_q.get()) 
+            #if self.id != self.leader_id.value: 
 
-            if self.id != self.leader_id.value: 
+             #   # TODO: Fix this bad logic
+             #   steps_to_above = 13
+             #   steps_to_below = 13
+             #   for i in range(0,13):
+             #       if (self.above_bulb_id + i) % 13 == self.leader_id.value:
+             #           steps_to_above = min(steps_to_above, i)
+             #       elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
+             #           steps_to_above = min(steps_to_above, i)
 
-                # TODO: Fix this bad logic
-                steps_to_above = 13
-                steps_to_below = 13
-                for i in range(0,13):
-                    if (self.above_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
-                    elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
+             #       if (self.below_bulb_id + i) % 13 == self.leader_id.value:
+             #           steps_to_below = min(steps_to_below, i)
+             #       elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
+             #           steps_to_below = min(steps_to_below, i)
 
-                    if (self.below_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
-                    elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
+             #   if steps_to_above < steps_to_below:
+             #       neighbor = 1
+             #   else: 
+             #       neighbor = -1
 
-                if steps_to_above < steps_to_below:
-                    neighbor = 1
-                else: 
-                    neighbor = -1
-
-                print " I am bulb " + str(self.id) + " and my neighbor is " + str((self.id + neighbor) %13 )
+             #   print " I am bulb " + str(self.id) + " and my neighbor is " + str((self.id + neighbor) %13 )
                 
-                while True: 
+             #   while True: 
 
-                    if not self.state_q.empty():
-                        message = self.state_q.get()
-                        time_received_message = datetime.datetime.now()
+             #       if not self.state_q.empty():
+             #           message = self.state_q.get()
+             #           time_received_message = datetime.datetime.now()
 
-                        if message == str(self.id):
-                            array_of_queues[1].put(time_received_message)
-                            if not array_of_queues[1 + neighbor].empty(): 
-                                break
-                        elif message == str((self.id + neighbor) % 13):
-                            array_of_queues[1 + neighbor].put(time_received_message)
+             #           if message == str(self.id):
+             #               array_of_queues[1].put(time_received_message)
+             #               if not array_of_queues[1 + neighbor].empty(): 
+             #                   break
+             #           elif message == str((self.id + neighbor) % 13):
+             #               array_of_queues[1 + neighbor].put(time_received_message)
 
-                while not array_of_queues[1 + neighbor].empty(): 
-                    relevant_neighbor_time = array_of_queues[1 + neighbor].get()
-                while not array_of_queues[1].empty(): 
-                    self.time_of_last_blink  = array_of_queues[1].get()
+             #   while not array_of_queues[1 + neighbor].empty(): 
+             #       relevant_neighbor_time = array_of_queues[1 + neighbor].get()
+             #   while not array_of_queues[1].empty(): 
+             #       self.time_of_last_blink  = array_of_queues[1].get()
                 
-                # if time_of_last_blink comes after, this is >0; otherwise < 0
+             #   # if time_of_last_blink comes after, this is >0; otherwise < 0
 
-                if (abs(self.time_of_last_blink - relevant_neighbor_time) >
-                       abs(self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
-                   time_diff = self.time_of_last_blink - relevant_neighbor_time
-                else: 
-                   time_diff = self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
-                
-                seconds = time_diff.total_seconds()
+             #   if (abs(self.time_of_last_blink - relevant_neighbor_time) >
+             #          abs(self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
+             #      time_diff = self.time_of_last_blink - relevant_neighbor_time
+             #   else: 
+             #      time_diff = self.time_of_last_blink - (relevant_neighbor_time + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
+             #   
+             #   seconds = time_diff.total_seconds()
 
-                # pass the adjustment to the child process
-                self.adjustment.put(-1 * seconds)
-                print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds)
+             #   # pass the adjustment to the child process
+             #   self.adjustment.put(-1 * seconds)
+             #   print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds)
                         
-            else:
-                # TODO: Fix this bad logic
-                steps_to_above = 13
-                steps_to_below = 13
-                for i in range(0,13):
-                    if (self.above_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
-                    elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
+            #else:
+            #    # TODO: Fix this bad logic
+            #    steps_to_above = 13
+            #    steps_to_below = 13
+            #    for i in range(0,13):
+            #        if (self.above_bulb_id + i) % 13 == self.leader_id.value:
+            #            steps_to_above = min(steps_to_above, i)
+            #        elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
+            #            steps_to_above = min(steps_to_above, i)
 
-                    if (self.below_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
-                    elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
+            #        if (self.below_bulb_id + i) % 13 == self.leader_id.value:
+            #            steps_to_below = min(steps_to_below, i)
+            #        elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
+            #            steps_to_below = min(steps_to_below, i)
 
-                if steps_to_above < steps_to_below:
-                    neighbor = 1
-                else:
-                    neighbor = -1
+            #    if steps_to_above < steps_to_below:
+            #        neighbor = 1
+            #    else:
+            #        neighbor = -1
 
-                my_last_value = None 
-                while True:
+            #    my_last_value = None 
+            #    while True:
                  
-                   if not self.state_q.empty():
-                      message = self.state_q.get()
-                      time_received_message = datetime.datetime.now()
+            #       if not self.state_q.empty():
+            #          message = self.state_q.get()
+            #          time_received_message = datetime.datetime.now()
 
-                      if message == str(self.id):
-                         my_last_value = time_received_message
-                         break
+            #          if message == str(self.id):
+            #             my_last_value = time_received_message
+            #             break
                  
-                if (self.time_of_last_blink != None): 
-                   if (abs(self.time_of_last_blink - my_last_value) >
-                             abs(self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
-                      time_diff = self.time_of_last_blink - my_last_value
-                   else:
-                      time_diff = self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
+            #    if (self.time_of_last_blink != None): 
+            #       if (abs(self.time_of_last_blink - my_last_value) >
+            #                 abs(self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
+            #          time_diff = self.time_of_last_blink - my_last_value
+            #       else:
+            #          time_diff = self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
 
-                   seconds = time_diff.total_seconds()
+            #       seconds = time_diff.total_seconds()
 
-                   # pass the adjustment to the child process
-                   self.adjustment.put(-1 * seconds)
-                   print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds)
-                   self.time_of_last_blink = my_last_value
-                else:
-                   self.time_of_last_blink = my_last_value        
+            #       # pass the adjustment to the child process
+            #       self.adjustment.put(-1 * seconds)
+            #       print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds)
+            #       self.time_of_last_blink = my_last_value
+            #    else:
+            #       self.time_of_last_blink = my_last_value        
 
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,
@@ -191,9 +192,9 @@ class BulbBlinker(Process):
                 print "Everyone turned on!"
 
         if self.on == 1: 
-            self.bulb_objects_list[self.id].state_q.put(str(self.id))
-            self.bulb_objects_list[self.above_neighbor].state_q.put(str(self.id))
-            self.bulb_objects_list[self.below_neighbor].state_q.put(str(self.id))
+            self.bulb_objects_list[self.id].state_q.put(datetime.datetime.now())
+            #self.bulb_objects_list[self.above_neighbor].state_q.put(str(self.id))
+            #self.bulb_objects_list[self.below_neighbor].state_q.put(str(self.id))
 
     def ssh_connection(self):
         print "connecting to " + self.host
@@ -211,7 +212,7 @@ class BulbBlinker(Process):
             adjustment_value = 0
             if not self.adjustment.empty():
                 adjustment_value = self.adjustment.get()
-            print "I, " + str(self.id) + " am making an adjustment of " + str(adjustment_value)
+            #print "I, " + str(self.id) + " am making an adjustment of " + str(adjustment_value)
 
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
