@@ -95,11 +95,13 @@ class BulbControl(Process):
                     time.sleep(0.5)
                     print "I am continuing"
                     continue
+
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
                 microseconds = time_diff.microseconds
 
+                print "microseconds " + str(microseconds)
                 if microseconds < 0:
                     self.adjustment.value = -0.05
                 else:
@@ -165,7 +167,7 @@ class BulbBlinker(Process):
         #print turn_myself_off
 
         while True: 
-            print str(self.host) + "Turning on/off " + str(my_relay_id)
+            #print str(self.host) + "Turning on/off " + str(my_relay_id)
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
