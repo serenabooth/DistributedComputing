@@ -55,17 +55,17 @@ class BulbControl(Process):
                     if message == str(self.above_bulb_id): 
                         array_of_queues[2].put(time_received_message)
                         #self.time_of_neighbor_above = time_received_message
-                        #print "ABOVE NEIGHBOR"
+                        print "ABOVE NEIGHBOR"
                     elif message == str(self.below_bulb_id): 
                         array_of_queues[0].put(time_received_message)
 
                         #self.time_of_neighbor_below = time_received_message
-                        #print "BELOW NEIGHBOR"
+                        print "BELOW NEIGHBOR"
                     else: 
                         array_of_queues[1].put(time_received_message)
 
                         #self.time_of_last_blink = time_received_message
-                        #print "MY OWN")
+                        print "MY OWN"
 
                     if (not array_of_queues[0].empty() and 
                             not array_of_queues[1].empty() and 
