@@ -95,8 +95,8 @@ class BulbControl(Process):
                     seconds = time_diff.total_seconds()
 
                     # pass the adjustment to the child process
-                    self.adjustment.put(seconds/2.0)
-                    print "I, " + str(self.id) + " NEED an adjustment of " + str(seconds/2.0)
+                    self.adjustment.put(-1 * seconds/2.0)
+                    print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/2.0)
                         
             else: 
                 time.sleep(5)
@@ -179,7 +179,7 @@ class BulbBlinker(Process):
             
             # I'M AHEAD OF MY NEIGHBOR -- I'LL WAIT BEFORE TURNING ON 
             if adjustment_value > 0:
-                time.sleep(min(abs(adjustment_value), 0.5))
+                time.sleep(min(adjustment_value, 1))
 
             # TURN ON & WAITr
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
