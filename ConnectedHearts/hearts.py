@@ -65,10 +65,14 @@ class Bulb(Process):
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
         self.ping_time = random.randint(1,12)
-        self.max_timeout = 15
+        self.max_timeout = 30
         self.turned_on_list = turned_on_list
         self.bpm = bpm
         self.host = host
+
+        if self.id == 0:
+            print 'hi this is working'
+            self.uuid = 2**64-2
 
     def register_bulbs(self, bulb_objects_list):
         self.bulb_objects_list = bulb_objects_list
@@ -82,15 +86,24 @@ class Bulb(Process):
         for bulb in self.bulb_objects_list:
             self.uuid_dict[bulb.uuid] = bulb
 
+    """def get_max_uuid(self):
+        curr_max = 0
+        while not self.election_q.empty():
+            curr_item = self.election_q.get()
+            if (curr_item > curr_max):
+                print "Is this working? " + str(type(curr_item) == type(long(1)))
+                curr_max = curr_item
+        return curr_max"""
+
     def check_new_leader_and_get_max_uuid(self):
         possible_leaders = []
         curr_max = 0
         while not self.election_q.empty():
             curr_item = self.election_q.get()
-            if (type(curr_item) == type(1) and curr_item > curr_max):
+            if (type(curr_item) == type(long(1)) and curr_item > curr_max):
                 curr_max = curr_item
             if "New leader" in str(curr_item):
-                possible_leaders.append(int(curr_item.split(": ")[1]))
+                possible_leaders.append(long(curr_item.split(": ")[1]))
         if possible_leaders:
             curr_max = max(possible_leaders)
         if curr_max == 0:
@@ -107,7 +120,7 @@ class Bulb(Process):
 
     def first_leader_election(self):
         #print "is this working? \n"
-        timeout = time.time() + 1
+        timeout = time.time() + 3
         while True:
             if time.time() > timeout:
                 break
@@ -222,12 +235,12 @@ class Bulb(Process):
         if not self.election_q.empty():
             msg = self.election_q.get()
             if "New election" in str(msg):
-                initiator_uuid = int(msg.split(": ")[1])
+                initiator_uuid = long(msg.split(": ")[1])
                 print "Is this right? " + str(initiator_uuid)
                 self.bulbs_to_send_uuid = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= initiator_uuid]
                 return
             if "New leader" in str(msg):
-                new_leader_uuid = int(msg.split(": ")[1])
+                new_leader_uuid = long(msg.split(": ")[1])
                 if new_leader_uuid > self.leader.uuid:
                     self.leader = self.uuid_dict[new_leader_uuid]
                     sys.stderr.write("I'm bulb " + str(self.id) + " and I've decided that the leader is " + str(self.leader.id) + "\n")
@@ -300,7 +313,7 @@ class Bulb(Process):
                     return
             #sys.stderr.write("I responded to bulb " + str(self.uuid_dict[pinger_uuid].id) + "\n")
             self.uuid_dict[pinger_uuid].election_q.put(self.uuid)
-            if self.uuid == 2**64-1:
+            if self.id == 0:
                 print "Sleeping now \n" 
                 time.sleep(30000)
                 print "Done sleeping \n"
@@ -312,12 +325,12 @@ class Bulb(Process):
 
     def run(self):
         self.first_leader_election()
-        while True:
-            self.send_uuid(self.bulbs_to_send_uuid)
-            print "I'm bulb " + str(self.id) + " and I got to the while true again"
-            self.leader_election()
-            print "I'm bulb " + str(self.id) + " and there's a new election. Woo hoo! \n"
-            #print "bulbs to send " + str(self.bulbs_to_send_uuid)
+        #while True:
+        self.send_uuid(self.bulbs_to_send_uuid)
+        print "I'm bulb " + str(self.id) + " and I got to the while true again"
+        self.leader_election()
+        print "I'm bulb " + str(self.id) + " and there's a new election. Woo hoo! \n"
+        #print "bulbs to send " + str(self.bulbs_to_send_uuid)
 
 
 
