@@ -40,6 +40,7 @@ class BulbControl(Process):
         array_of_queues = [Queue(), Queue(), Queue()]
 
         while True: 
+            print self.id
             if self.id != self.leader_id.value: 
 
                 # Find which neighbor is closer to me
@@ -91,7 +92,10 @@ class BulbControl(Process):
                     time_diff = self.time_of_last_blink - (relevant_neighbor_time + future_time_diff)
                
                 # if time_of_last_blink comes after, this is >0; otherwise < 0
-                seconds = time_diff.total_seconds()
+                if seconds > 2 * 60 * 2.0/self.bpm: 
+                    seconds = time_diff.total_seconds() / (2 * 60 * 2.0/self.bpm)
+                else
+                    seconds = time_diff.total_seconds()
 
                 # pass the adjustment to the child process
                 self.adjustment.put(-1 * seconds/5.0)
