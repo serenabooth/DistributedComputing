@@ -103,7 +103,7 @@
 \fntext[label0]{We, Serena Booth and Michelle Cone, affirm our awareness of the standards of the Harvard College Honor Code.}
 
 \begin{abstract}
-We present a physical distributed system for viewing the human heartbeat. We modified a medicine cabinet by embedding 13 light bulbs around the frame, as well as by replacing the cabinet's glass with one-way mirror. When a person stands in front of the mirror, a webcam hidden behind the mirror measures their pulse. The 13 bulbs, each a virtual machine, run leader election via Bully. The leader starts pulsating with the captured pulse, and then instructs neighboring virtual machines to pulsate as well. Finally, we ensure the synchronization of the bulbs through a distributed gossip algorithm.
+We present a physical distributed system for viewing the human heartbeat. We modified a medicine cabinet by embedding 13 light bulbs around the frame, as well as by replacing the cabinet's glass with one-way mirror. When a person stands in front of the mirror, a webcam hidden behind the mirror measures their pulse. The 13 bulbs, each a virtual machine, run Bully leader election. First the leader starts pulsating with the captured pulse, and then instructs neighboring virtual machines to pulsate as well. Finally, we ensure the synchronization of the bulbs through a distributed gossip algorithm.
 \end{abstract}
 
 % \begin{keyword}
@@ -125,21 +125,21 @@ We present a physical distributed system for viewing the human heartbeat. We mod
 \section{Introduction}
 \label{sec1}
 
-\SERENA{TO DO}
+\texttt{ConnectedHearts} straddles the boundary between art and computer science. The piece is inspired by an exhibit shown around the world in modern art museums, but our re-implementation emphasizes distributed computing, as \texttt{ConnectedHearts} is a physical representation of a distributed system. We modify a retro medicine cabinet to hold 13 light bulbs around its frame. While in an ideal world each light bulb would be powered by its own microprocessor, we simulate this interaction instead by each light bulb representing a virtual machine as a process in effort to reduce expenditure. These light bulbs attempt to self-synchronize while displaying the human heartbeat. 
+
+In this paper, we discuss the components and construction of  \texttt{Connected Hearts}, the architecture and algorithms powering the software, as well as analysis of our system. 
 
 \subsection{Artistic Inspiration}
 
-\subsection{As a Distributed System}
+This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room,''\cite{pulse} an artistic piece in which an entire room was outfitted with light bulbs. A physical heartbeat monitor is present in the room. A user approaches this monitor and grabs onto it. As soon as the conductance of the skin is felt, all lightbulbs in the room turn off. Within a few seconds, the heartbeat monitor detects a pulse. With this, a single bulb directly above the user begins to pulsate with their heartbeat. This message is then spread to neighboring bulbs, as well as bouncing off of the walls; with this message-passing, the room becomes full of chaos. After a further few minutes, the bulbs synchronize, leaving the entire room pulsating with the heartbeat. We note that this system uses a single address-space to achieve this effect. 
 
 
-\section{Physical Creation}
-
+\section{Components \& Construction}
 
 \section{System Design}
 
-\subsection{Architecture}
+\section{Architecture \& Algorithms}
 \subsection{Bully: Leader Election}
-
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{figures/bully}
@@ -153,7 +153,7 @@ We present a physical distributed system for viewing the human heartbeat. We mod
 
 \subsubsection{Layout}
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\textwidth]{figures/system_layout}
   \caption{The system layout. While each bulb is assigned a 64-bit UUID during the program, each bulb also has an id, shown above, ranging from $0-12$, which allows the system to consistently converge toward the leader bulb's rate of pulsation during the synchronization routine. 
@@ -165,12 +165,14 @@ As the layout of our system is predetermined, we are able to adjust the gossip a
 \section{Synchronization Testing \& Analysis}
 
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{figures/results}
   \caption{We demonstrate the synchronization of our system as a function of time, as compared with an ideal synchronization system. The green timeseries corresponds to the physical system while the blue timeseries corresponds to an idealized system. 
  \label{fig:res}}
 \end{figure}
+
+\section{Personal Learning} 
 
 \section{Conclusion}
 
