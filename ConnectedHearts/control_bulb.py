@@ -55,17 +55,17 @@ class BulbControl(Process):
                     if message == str(self.above_bulb_id): 
                         array_of_queues[2].put(time_received_message)
                         #self.time_of_neighbor_above = time_received_message
-                        print "ABOVE NEIGHBOR"
+                        #print "ABOVE NEIGHBOR"
                     elif message == str(self.below_bulb_id): 
                         array_of_queues[0].put(time_received_message)
 
                         #self.time_of_neighbor_below = time_received_message
-                        print "BELOW NEIGHBOR"
+                        #print "BELOW NEIGHBOR"
                     else: 
                         array_of_queues[1].put(time_received_message)
 
                         #self.time_of_last_blink = time_received_message
-                        print "MY OWN"
+                        #print "MY OWN"
 
                     if (not array_of_queues[0].empty() and 
                             not array_of_queues[1].empty() and 
@@ -93,15 +93,15 @@ class BulbControl(Process):
                         elif (self.below_bulb_id - i) % 12 == self.leader_id.value:
                             steps_to_below = min(steps_to_below, i)
 
-                    print "I am " + str(self.id) + " and my above is  " + str(steps_to_above) + " steps from the leader"
+                    #print "I am " + str(self.id) + " and my above is  " + str(steps_to_above) + " steps from the leader"
 
                     if (steps_to_above < steps_to_below): 
                         closer_time = self.time_of_neighbor_above
                     else:
                         closer_time = self.time_of_neighbor_below
                     
-                    print "My time: " + str(self.time_of_last_blink)
-                    print "My neighbors time: " + str(closer_time)
+                    #print "My time: " + str(self.time_of_last_blink)
+                    #print "My neighbors time: " + str(closer_time)
                     #print "Closer? " + str(closer_time)
 
                     # timedelta
@@ -112,7 +112,7 @@ class BulbControl(Process):
                     seconds = time_diff.total_seconds()
 
                     self.adjustment.value = round(seconds/2.0, 4)
-                    print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
+                    #print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                         
             else: 
                 time.sleep(5)
@@ -166,9 +166,11 @@ class BulbBlinker(Process):
         (stdin, stdout, stderr) = c.exec_command(turn_myself_off)
         print "Stdout: " + str(stdout.readlines())
         #print turn_myself_off
-        time.sleep(60 * 2/self.bpm - 1.2)        
+        if 60 * 2/self.bpm - 1.2 > 0: 
+            time.sleep(60 * 2/self.bpm - 1.2)        
 
         while True: 
+            print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
             # tmp = 0
             # if self.adjustment.value < 0: 
             #     time.sleep(abs(self.adjustment.value))
@@ -184,7 +186,7 @@ class BulbBlinker(Process):
             # put my message on my neighbors queues
             #if self.adjustment.value > 0: 
             #    time.sleep(abs(self.adjustment.value))
-            self.send_message_to_neighbors()
+            #self.send_message_to_neighbors()
 
             time.sleep(60.0 * 2/self.bpm) 
 
@@ -192,9 +194,10 @@ class BulbBlinker(Process):
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
             if self.adjustment.value < 0: 
-                time.sleep(abs(tmp))
+                time.sleep(abs(self.adjustment.value))
 
-            time.sleep(60.0 * 2/self.bpm) 
+            time.sleep(60.0 * 2/self.bpm)
+            self.send_message_to_neighbors() 
             self.adjustment.value = 0
 
     def run(self):
