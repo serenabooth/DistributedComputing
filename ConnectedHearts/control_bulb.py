@@ -25,44 +25,66 @@ class BulbControl(Process):
         self.state_q = state_q
         self.bulb_objects_list = bulb_objects_list
         self.adjustment = Value('f', 0.0)
-        self.time_of_last_blink = -1
-        self.time_of_neighbor_below = -1
-        self.time_of_neighbor_above = -1
+        self.time_of_last_blink = datetime.datetime.now()
+        self.time_of_neighbor_below = datetime.datetime.now()
+        self.time_of_neighbor_above = datetime.datetime.now()
         self.above_bulb_id = (self.id + 1) % 13
         self.below_bulb_id = (self.id - 1) % 13
 
-    def check_ordering(self, bulbBlinkerObj):
+        self.comp_time = datetime.datetime.now()
+        self.comp_above_time = datetime.datetime.now()
+        self.comp_below_time = datetime.datetime.now()
+
+    def check_ordering(self):
         while True: 
+            #print "Here, " + str(self.id) + " and the leader is " + str(self.leader_id.value)
             if self.id != self.leader_id.value: 
                 #print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
-                while not self.state_q.empty():
-                    #print "Something on my queue!"
-                    message = self.election_q.get()
-                    time_received_message = datetime.datetime.now()
+  
+                print "I'm " + str(self.id) + " and my queue size is: " + str(self.state_q.size())
 
-                    if message == self.above_bulb_id: 
-                        self.time_of_neighbor_above = time_received_message
-                    elif message == self.below_bulb_id: 
-                        self.time_of_neighbor_below = time_received_message
-                    else: 
-                        self.time_of_last_blink = time_received_message
+                while (self.time_of_neighbor_above == self.comp_above_time or 
+                        self.time_of_neighbor_below == self.comp_below_time or
+                        self.time_of_last_blink == self.comp_time):
+                    if not self.state_q.empty():
+                        #print "Something on my queue!"
+                        message = self.state_q.get()
+                        #print "Message " + str(message)
+                        time_received_message = datetime.datetime.now()
 
-                # if self.time_of_last_blink.value == bulbBlinkerObj.time_of_last_blink.value:
-                #     #print self.time_of_last_blink.value
-                #     self.adjustment.value = 0
-                #     continue
+                        if message == str(self.above_bulb_id): 
+                            self.time_of_neighbor_above = time_received_message
+                            #print "ABOVE NEIGHBOR"
+                        elif message == str(self.below_bulb_id): 
+                            self.time_of_neighbor_below = time_received_message
+                            #print "BELOW NEIGHBOR"
 
+                        else: 
+                            self.time_of_last_blink = time_received_message
+                            #print "MY OWN"
+                    else:
+                        time.sleep(0.025)
+
+
+                #if self.time_of_last_blink == self.comp_time:
+                    #print self.time_of_last_blink.value
+                    #self.adjustment.value = 0
+                    #time.sleep(0.5)
+                    #print "I am continuing"
+                    #continue
+
+                # TODO: Fix this bad logic
                 steps_to_above = 13
                 steps_to_below = 13
-                for i in range(0,12):
-                    if (self.above_bulb_id + i) % 12 == leader_id:
+                for i in range(1,12):
+                    if (self.above_bulb_id + i) % 12 == self.leader_id.value:
                         steps_to_above = min(steps_to_above, i)
-                    if (self.above_bulb_id - i) % 12 == leader_id:
+                    elif (self.above_bulb_id - i) % 12 == self.leader_id.value:
                         steps_to_above = min(steps_to_above, i)
 
-                    if (self.below_bulb_id + i) % 12 == leader_id:
+                    if (self.below_bulb_id + i) % 12 == self.leader_id.value:
                         steps_to_below = min(steps_to_below, i)
-                    if (self.below_bulb_id - i) % 12 == leader_id:
+                    elif (self.below_bulb_id - i) % 12 == self.leader_id.value:
                         steps_to_below = min(steps_to_below, i)
 
                 if (steps_to_above < steps_to_below): 
@@ -70,15 +92,28 @@ class BulbControl(Process):
                 else:
                     closer_time = self.time_of_neighbor_below
 
+                #print "Closer? " + str(closer_time)
+
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
-                microseconds = time_diff.microseconds
+                milliseconds = time_diff.total_seconds() * 1000
 
-                self.adjustment.value = (microseconds / 1000000) * 1/2
+                #print "milliseconds " + str(milliseconds)
+                if milliseconds < 0:
+                    self.adjustment.value = -0.05
+                else:
+                    self.adjustment.value = 0.05
+                #self.adjustment.value = milliseconds/4.0
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
-            #else: 
-                #print "I am the leader, so I will not adjust my timing"
+                
+                time.sleep(1)
+                self.comp_time = self.time_of_last_blink
+                self.comp_above_time = self.time_of_neighbor_above
+                self.comp_below_time = self.time_of_neighbor_below
+
+            else: 
+                time.sleep(5)
 
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,
@@ -89,14 +124,22 @@ class BulbControl(Process):
                     above_neighbor = self.above_bulb_id, 
                     below_neighbor = self.below_bulb_id)
         my_bulb.start()
-        self.check_ordering(my_bulb)
+        self.check_ordering()
 
 
+class BulbBlinker(Process):
 
-    def __init__(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor):
+    def __init__(self, 
+                        my_id, 
+                        bpm, 
+                        host, 
+                        adjustment, 
+                        bulb_objects_list, 
+                        above_neighbor, 
+                        below_neighbor):
         super(BulbBlinker, self).__init__()
-        self.bpm = bpm
         self.id = my_id
+        self.bpm = bpm
         self.host = host
         self.adjustment = adjustment
         self.bulb_objects_list = bulb_objects_list
@@ -104,12 +147,9 @@ class BulbControl(Process):
         self.below_neighbor = below_neighbor
 
     def send_message_to_neighbors(self):
-        #print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
-        #print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
+        self.bulb_objects_list[self.id].state_q.put("" + str(self.id))
         self.bulb_objects_list[self.above_neighbor].state_q.put("" + str(self.id))
         self.bulb_objects_list[self.below_neighbor].state_q.put("" + str(self.id))
-        #print str(self.id) + ", Above length: " + str(self.bulb_objects_list[self.above_neighbor].state_q.size())
-        #print str(self.id) + ", Below length: " + str(self.bulb_objects_list[self.below_neighbor].state_q.size())
 
     def ssh_connection(self):
         print "connecting to " + self.host
@@ -123,25 +163,24 @@ class BulbControl(Process):
         turn_myself_off = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
         (stdin, stdout, stderr) = c.exec_command(turn_myself_off)
         print "Stdout: " + str(stdout.readlines())
-        print turn_myself_off
+        #print turn_myself_off
 
         while True: 
+            #print str(self.host) + "Turning on/off " + str(my_relay_id)
             on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
             off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " on"
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
-            # put my message on my own queue
-            self.state_q.put(str(self.id))
             # put my message on my neighbors queues
             self.send_message_to_neighbors()
 
-            time.sleep(60.0/self.bpm) 
+            time.sleep(60.0 * 2/self.bpm) 
 
             #print str(datetime.datetime.now()) + str(self.host) + " id: " + str(my_relay_id) + " off"
             (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
 
-            time.sleep(60.0/self.bpm + self.adjustment.value) 
-
+            time.sleep(60.0 * 2/self.bpm + self.adjustment.value) 
+            self.adjustment.value = 0
 
     def run(self):
         self.ssh_connection()
