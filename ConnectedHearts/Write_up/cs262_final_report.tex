@@ -131,15 +131,45 @@ In this paper, we discuss the components and construction of  \texttt{Connected 
 
 \subsection{Artistic Inspiration}
 
-This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room,''\cite{pulse} an artistic piece in which an entire room was outfitted with light bulbs. A physical heartbeat monitor is present in the room. A user approaches this monitor and grabs onto it. As soon as the conductance of the skin is felt, all lightbulbs in the room turn off. Within a few seconds, the heartbeat monitor detects a pulse. With this, a single bulb directly above the user begins to pulsate with their heartbeat. This message is then spread to neighboring bulbs, as well as bouncing off of the walls; with this message-passing, the room becomes full of chaos. After a further few minutes, the bulbs synchronize, leaving the entire room pulsating with the heartbeat. We note that this system uses a single address-space to achieve this effect. 
+This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room,''\cite{pulse} an artistic piece in which an entire room is outfitted with light bulbs. A physical heartbeat monitor is present in the room. A user approaches this monitor and grabs onto it. As soon as the conductance of the skin is felt, all light bulbs in the room turn off. Within a few seconds, the heartbeat monitor detects a pulse. With this, a single bulb directly above the user begins to pulsate with their heartbeat. This message is then spread to neighboring bulbs, as well as bouncing off of the walls; with this message-passing, the room becomes full of chaos. After a further few minutes, the bulbs synchronize, leaving the entire room pulsating with the heartbeat. We note that this system uses a single address-space to achieve this effect. 
 
 
 \section{Components \& Construction}
 
+\noindent We construct the piece from the following materials:
+\begin{itemize} 
+\item 2 $\times$ Ubiquiti mPower Strips: 8-outlet power strips running Linux
+\item Network switch and ethernet cables
+\item 13 $\times$ filament bulbs and bulb holders
+\item Vintage Medicine Cabinet, one-way glass
+\item Raspberry Pi
+\item Raspberry PiCamera
+\end{itemize} 
+
+The end product appears to be a medicine cabinet with 13 light bulbs around its mirror. The majority of the components---the cables, the Raspberry Pi, etc.---are hidden from view, inside the cabinet. 
+
+
+
 \section{System Design}
 
+Our code is written in Python. 
+
+\SERENA{TO DO: Explain process layout + relationships} 
+
+\subsection{Inter-bulb Communication}
+\SERENA{TO DO: Write about bulbs}
+
 \section{Architecture \& Algorithms}
+
+\subsection{Pulse Detection} 
+
+When a face is visible to a camera hidden behind the one-way glass of the medicine cabinet, we detect the pulse of the viewer. 
+
 \subsection{Bully: Leader Election}
+
+\SERENA{TO DO: Write about Bully}
+
+We demonstrate this leader election mechanism in Figure \ref{fig:bully}. 
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{figures/bully}
@@ -147,11 +177,9 @@ This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room,''\cite{pulse} an
  \label{fig:bully}}
 \end{figure}
 
-
-\subsection{Inter-bulb Communication}
 \subsection{Realtime Synchronization via Gossip}
-
-\subsubsection{Layout}
+\SERENA{TO DO: Write about synchronization}
+\subsubsection{Physical Layout}
 
 \begin{figure}[h]
   \centering
@@ -160,10 +188,25 @@ This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room,''\cite{pulse} an
  \label{fig:layout}}
 \end{figure}
 
-As the layout of our system is predetermined, we are able to adjust the gossip algorithm for synchronization in order to ascribe neighboring processes with scores of trustworthiness. As the leader bulb initiates the heartbeat pulsation, the leader is the single most trustworthy bulb. This has implications for all other bulbs, however: as bulbs increase in distance from the leader, a known measure based on the system's fixed layout, their trustworthiness decreases. Thus when a bulb is receiving contradictory gossip from its two neighboring bulbs, it prioritizes the message which was sent by the bulb closer to the leader.  
+The physical layout of our system is predetermined, as shown in Figure \ref{fig:layout}. Each bulb is assigned a fixed, position-based id as well as a generated UUID. Because of this fixed layout, we are able to personalize gossip for synchronization in order to ascribe neighboring processes with scores of \emph{trustworthiness}. As the leader bulb initiates the heartbeat pulsation, the leader is the single most trustworthy bulb. This has implications for all other bulbs, however: as bulbs increase in distance from the leader, a known measure based on the system's fixed layout, their trustworthiness decreases. Thus when a bulb is receiving contradictory gossip from its two neighboring bulbs, it prioritizes the message which was sent by the bulb closer to the leader.  
 
 \section{Synchronization Testing \& Analysis}
 
+In order to analyze the success of our synchronization via gossip, we implement a simple computer vision system. The steps of analysis are as follows: 
+
+\begin{enumerate} 
+\item We capture footage at a high-frame rate. 
+
+- 120 fps; however, we note that this frame rate is slower than the processing rate of the human eye. 
+
+\item With GUI, present user with first frame of the captured footage. 
+
+- User selects 13 pixels corresponding to bulb filaments. 
+
+\item Brightness timeseries computed. 
+
+- The brightness of these pixels are averaged for every frame in the video, and ultimately we produce a timeseries, which we graph in comparison to idealized data. A demonstration of this result is shown in Figure \ref{fig:res}. 
+\end{enumerate}
 
 \begin{figure}[h]
   \centering
@@ -173,6 +216,11 @@ As the layout of our system is predetermined, we are able to adjust the gossip a
 \end{figure}
 
 \section{Personal Learning} 
+
+
+\begin{enumerate}
+\item Debugging a distributed system is hard. 
+\end{enumerate}
 
 \section{Conclusion}
 
