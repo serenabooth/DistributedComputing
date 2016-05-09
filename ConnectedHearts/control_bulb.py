@@ -58,7 +58,7 @@ class BulbControl(Process):
                     elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
                         steps_to_below = min(steps_to_below, i)
 
-                if steps_to_above > steps_to_below:
+                if steps_to_above < steps_to_below:
                     neighbor = 1
                 else: 
                     neighbor = -1
