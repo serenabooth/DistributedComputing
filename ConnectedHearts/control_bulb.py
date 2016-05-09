@@ -137,10 +137,11 @@ class BulbBlinker(Process):
         if self.on == 1: 
             tmp = 0
             for i in range(0,13):
-                if self.turned_on_list[0] != 1:
+                if self.turned_on_list[i] != 1:
                     tmp = 1
             if tmp == 0: 
                 self.on = 0
+                print "Everyone turned on!"
 
         if self.on == 0: 
             self.bulb_objects_list[self.id].state_q.put("" + str(self.id))
@@ -176,7 +177,7 @@ class BulbBlinker(Process):
             if adjustment_value > 0:
                 time.sleep(min(abs(adjustment_value), 0.5))
 
-            # TURN ON & WAIT
+            # TURN ON & WAITr
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
             time.sleep(60.0 * 2/self.bpm) 
 
