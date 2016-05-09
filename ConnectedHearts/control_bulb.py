@@ -92,15 +92,16 @@ class BulbControl(Process):
                     
                     # if time_of_last_blink comes after, this is >0; otherwise < 0
 
-                    if (abs(self.time_of_last_blink - closer_time) >
-                            abs(self.time_of_last_blink - (closer_time + datetime.timedelta(seconds=2 * 60 * 2/self.bpm)))):
-                        time_diff = self.time_of_last_blink - closer_time
-                    else: 
-                        time_diff = self.time_of_last_blink - (closer_time + datetime.timedelta(seconds=2 * 60 * 2/self.bpm))
+                    #if (abs(self.time_of_last_blink - closer_time) >
+                    #        abs(self.time_of_last_blink - (closer_time + datetime.timedelta(seconds=2 * 60 * 2/self.bpm)))):
+                    #    time_diff = self.time_of_last_blink - closer_time
+                    #else: 
+                    #    time_diff = self.time_of_last_blink - (closer_time + datetime.timedelta(seconds=2 * 60 * 2/self.bpm))
+                    time_diff = self.time_of_last_blink - closer_time
                     seconds = time_diff.total_seconds()
 
                     # pass the adjustment to the child process
-                    self.adjustment.put(-1 * seconds/5.0)
+                    self.adjustment.put(-1 * seconds/2.0)
                     print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/5.0)
                         
             else: 
