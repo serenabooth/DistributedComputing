@@ -47,31 +47,31 @@ class BulbControl(Process):
                         self.time_of_neighbor_below == self.comp_below_time or
                         self.time_of_last_blink == self.comp_time):
                     if not self.state_q.empty():
-                        print "Something on my queue!"
+                        #print "Something on my queue!"
                         message = self.state_q.get()
-                        print "Message " + str(message)
+                        #print "Message " + str(message)
                         time_received_message = datetime.datetime.now()
 
                         if message == str(self.above_bulb_id): 
                             self.time_of_neighbor_above = time_received_message
-                            print "ABOVE NEIGHBOR"
+                            #print "ABOVE NEIGHBOR"
                         elif message == str(self.below_bulb_id): 
                             self.time_of_neighbor_below = time_received_message
-                            print "BELOW NEIGHBOR"
+                            #print "BELOW NEIGHBOR"
 
                         else: 
                             self.time_of_last_blink = time_received_message
-                            print "MY OWN"
-                    else
-                        time.sleep(0.5)
+                            #print "MY OWN"
+                    else:
+                        time.sleep(0.025)
 
 
-                if self.time_of_last_blink == self.comp_time:
+                #if self.time_of_last_blink == self.comp_time:
                     #print self.time_of_last_blink.value
                     #self.adjustment.value = 0
-                    time.sleep(0.5)
-                    print "I am continuing"
-                    continue
+                    #time.sleep(0.5)
+                    #print "I am continuing"
+                    #continue
 
                 # TODO: Fix this bad logic
                 steps_to_above = 13
@@ -92,18 +92,19 @@ class BulbControl(Process):
                 else:
                     closer_time = self.time_of_neighbor_below
 
-                print "Closer? " + str(closer_time)
+                #print "Closer? " + str(closer_time)
 
                 # timedelta
                 time_diff = self.time_of_last_blink - closer_time
                 # convert timedelta to seconds
                 milliseconds = time_diff.total_seconds() * 1000
 
-                print "milliseconds " + str(milliseconds)
+                #print "milliseconds " + str(milliseconds)
                 if milliseconds < 0:
                     self.adjustment.value = -0.05
                 else:
                     self.adjustment.value = 0.05
+                #self.adjustment.value = milliseconds/4.0
                 print "I, " + str(self.id) + " am making an adjustment of " + str(self.adjustment.value)
                 
                 time.sleep(1)
