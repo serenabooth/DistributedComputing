@@ -111,7 +111,7 @@ class BulbControl(Process):
                     # convert timedelta to seconds
                     seconds = time_diff.total_seconds()
 
-                    self.adjustment.value = seconds/2.0
+                    self.adjustment = Value('f', seconds/2.0)
                     print "I, " + str(self.id) + " NEED an adjustment of " + str(self.adjustment.value)
                         
             else: 
