@@ -8,8 +8,6 @@ from multiprocessing.queues import Queue
 import ctypes 
 import paramiko
 from ctypes import c_char_p
-from hearts import BulbQueue
-
 
 """
     Code outline based on: StackOverflow Question 3485428
@@ -39,7 +37,7 @@ class BulbControl(Process):
 
     def check_ordering(self):
 
-        array_of_queues = [BulbQueue(), BulbQueue(), BulbQueue()]
+        array_of_queues = [Queue(), Queue(), Queue()]
 
         while True: 
             # I am not the leader
