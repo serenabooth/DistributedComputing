@@ -94,11 +94,55 @@ class BulbControl(Process):
                 seconds = time_diff.total_seconds()
 
                 # pass the adjustment to the child process
-                self.adjustment.put(-1 * seconds/2)
-                print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/2)
+                self.adjustment.put(-1 * seconds)
+                print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds)
                         
-            else: 
-                time.sleep(5)
+            else:
+                # TODO: Fix this bad logic
+                steps_to_above = 13
+                steps_to_below = 13
+                for i in range(0,13):
+                    if (self.above_bulb_id + i) % 13 == self.leader_id.value:
+                        steps_to_above = min(steps_to_above, i)
+                    elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
+                        steps_to_above = min(steps_to_above, i)
+
+                    if (self.below_bulb_id + i) % 13 == self.leader_id.value:
+                        steps_to_below = min(steps_to_below, i)
+                    elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
+                        steps_to_below = min(steps_to_below, i)
+
+                if steps_to_above < steps_to_below:
+                    neighbor = 1
+                else:
+                    neighbor = -1
+
+                my_last_value = None 
+                while True:
+                 
+                   if not self.state_q.empty():
+                      message = self.state_q.get()
+                      time_received_message = datetime.datetime.now()
+
+                      if message == str(self.id):
+                         my_last_value = time_received_message
+                         break
+                 
+                if (self.time_of_last_blink != None): 
+                   if (abs(self.time_of_last_blink - my_last_value) >
+                             abs(self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)))):
+                      time_diff = self.time_of_last_blink - my_last_value
+                   else:
+                      time_diff = self.time_of_last_blink - (my_last_value + datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm))
+
+                   seconds = time_diff.total_seconds()
+
+                   # pass the adjustment to the child process
+                   self.adjustment.put(-1 * seconds)
+                   print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds)
+                   self.time_of_last_blink = my_last_value
+                else:
+                   self.time_of_last_blink = my_last_value        
 
     def run(self):
         my_bulb = BulbBlinker(my_id = self.id,

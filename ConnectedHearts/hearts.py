@@ -26,22 +26,22 @@ class BulbQueue(Queue):
         #print "Here's the queue type: " + str(type(Queue()))
         super(BulbQueue, self).__init__()
         self.queuesize = 0
-        self.lock = Lock()
+        #self.lock = Lock()
 
     def empty(self):
         return super(BulbQueue, self).empty()
 
     def size(self):
-        self.lock.acquire()
+        #self.lock.acquire()
         queuesize = self.queuesize
-        self.lock.release()
+        #self.lock.release()
         return queuesize
 
     def get(self):
         if not self.empty():
-            self.lock.acquire()
+            #self.lock.acquire()
             self.queuesize -= 1
-            self.lock.release()
+            #self.lock.release()
             return super(BulbQueue, self).get() 
         else:
             return None
