@@ -18,6 +18,10 @@ def kill_all_processes(pi, bulbs, app = None):
     if app:
         app.terminate()
     for bulb in bulbs:
+        for bulb_child in bulb.active_children(): 
+			for bulb_child_child in bulb_child.active_children():
+                bulb_child_child.terminate()
+            bulb_child.terminate()
         bulb.terminate()
 
 
@@ -59,16 +63,13 @@ while True:
 	# Use camera to get a pulse from a face
     # Perform this _once_ initially
     pulse_val = 0; # App.main_loop()
-    #App = getPulseApp(args, camera_obj)
+    App = getPulseApp(args, camera_obj)
 
     # Generate a pulse
-    #while pulse_val == 0 or pulse_val == -1: 
-    #    pulse_val = App.main_loop()
-    #    time.sleep(1.0/16.0)
-        #if pulse_val == 0: 
-        #    print "Found a face in main"
-        #    time.sleep(10)
-        #pulse_val = App.bpm
+    while pulse_val == 0 or pulse_val == -1: 
+        pulse_val = App.main_loop()
+        time.sleep(1.0/16.0)
+        pulse_val = App.bpm
 
 	# Clamp the pulse
     if pulse_val > 160: 
@@ -113,21 +114,13 @@ while True:
 
 
     try:
-        # pi_20.start()
-
-        # pi_21 = Pi(bpm = App.bpm, 
-        #                       turned_on_list = power_strip_on_list, 
-        #                       hosts = hosts[1])
-        # pi_21.start()
-
-
 		# Perform leader election
         for bulb in bulb_objects_list:
            bulb.start()
         
         
-        while True:    
-        #while (face_check_process.check_if_face_is_visible()):
+        #while True:    
+        while (face_check_process.check_if_face_is_visible()):
             time.sleep(30)
 
         print "About to shut this down"
@@ -138,7 +131,7 @@ while True:
         
 
     except KeyboardInterrupt:
-        kill_all_processes(pi, bulb_objects_list, App)
+        kill_all_processes(pi, bulb_objects_list)
         camera_obj.release()
 
 

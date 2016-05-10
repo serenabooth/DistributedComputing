@@ -120,9 +120,9 @@ class BulbControl(Process):
                     waitTime = diff.total_seconds()
                 
                 if diff.total_seconds() > halfTimePhase and diff.total_seconds() < (2*halfTimePhase - 0.125):
-                    waitTime = 0.25
+                    waitTime = 0.25 # 2*halfTimePhase - diff.total_seconds() # 0.25
                 elif diff.total_seconds() > 0.125 and diff.total_seconds() < halfTimePhase:
-                    waitTime = -0.25
+                    waitTime = -0.25 # -diff.total_seconds # -0.25
                 else:
                     waitTime = 0
                 
