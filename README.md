@@ -2,6 +2,9 @@
 - Serena Booth
 - Michelle Cone
 
+# Video
+Coming soon!!!
+
 # Note
 Despite Serena's 100,000+ lines of code, equal contributions were made by both contributors. Many of the 100k+ lines come from code written by NASA, linked below.
 
