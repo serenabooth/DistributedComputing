@@ -150,17 +150,18 @@ The end product looks to be a medicine cabinet with 13 light bulbs around its mi
 
 \section{System Design}
 
-Our code is written in Python and makes extensive use of the multiprocessing library. Our process infrastructure is shown in Figure \ref{fig:procStruc}. In short, the program runs a \texttt{main.py}, the parent process. This process creates one process for running pulse detection; two more processes for turning all the relays off at the start; and 13 more processes, each corresponding to a bulb. Of these 13 ``bulb'' processes, each spawns its own process to handle inter-bulb synchronization. Of these inter-bulb synchronization processes, each spawns an additional process which is tasked with maintaining the state of a continually-blinking bulb. 
+
+Our code is written in Python and makes extensive use of the multiprocessing library. In short, the program runs a \texttt{main.py}, the parent process. This process creates one process for running pulse detection; two more processes for turning all the relays off at the start; and 13 more processes, each corresponding to a bulb. Of these 13 ``bulb'' processes, each spawns its own process to handle inter-bulb synchronization. Of these inter-bulb synchronization processes, each spawns an additional process which is tasked with maintaining the state of a continually-blinking bulb. 
 
 \subsection{Inter-bulb Communication}
 
-We of course, do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues. This architecture is further shown in Figure \ref{fig:procStruc}. 
+We of course, do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues.  
 
 \section{Architecture \& Algorithms}
 
 \subsection{Pulse Detection} 
 
-When a face is visible to a camera hidden behind the one-way glass of the medicine cabinet, we detect the pulse of the viewer. 
+When a face is visible to a camera hidden behind the one-way glass of the medicine cabinet, we detect the pulse of the viewer. We use a Haar Classifier and OpenCV to detect the presence of a face, and we then apply code developed by NASA's Glenn Research Center\cite{NASA} to detect the pulse of the visible face. This pulse detection works by monitoring the \emph{optical intensity} of the green channel of pixels centered around the visible area of the forehead in frame. 
 
 \subsection{Bully: Leader Election}
 
@@ -216,7 +217,13 @@ In order to analyze the success of our synchronization via gossip, we implement 
 
 
 \begin{enumerate}
-\item Debugging a distributed system is hard. 
+\item Debugging a (fake!) distributed system is hard. 
+
+\item The separation between unreliable hardware and buggy code can be indecipherable. 
+
+\item Referring to the same memory address between different processes without use of locks is erroneous. 
+
+\item Sharing information between sister/brother-processes and parent-processes requires different architectures. 
 \end{enumerate}
 
 \section{Conclusion}

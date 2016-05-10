@@ -1,4 +1,3 @@
-#!/usr/bin/python
 from hearts_old import *
 from control_pi import *
 from multiprocessing.queues import Queue
