@@ -24,7 +24,7 @@ def threaded(fn):
 
 class BulbQueue(Queue):
     """ 
-    Bulbqueueinherits from multiprocessing.Queue, but has the added 
+    BulbQueue inherits from multiprocessing.Queue, but has the added 
     functionality that it keeps track of its size while putting and getting 
     elements from the queue. Multiprocessing.Queue makes no guarantees when
     calling its size method.
@@ -58,7 +58,7 @@ class Bulb(Process):
     """
     Initializes a Bulb process
 
-    :param id: The unique id of the bulb which acts as its name, ranges from 0 - 12
+    :param id: The unique id of the bulb which acts as its name, ranges from 0 to 12
     :type id: long
     :param turned_on_list: Used to keep track of which bulbs are currently turned 
     on. The list is of length 13 with information about the status of a particular
@@ -212,6 +212,13 @@ class Bulb(Process):
                                     and bulb.uuid != self.uuid]
 
     def first_leader_election(self):
+    """
+
+
+    Has the invariant that all bulbs know the uuid of all other bulbs that are
+    running. 
+
+    """
         timeout = time.time() + 1
         while time.time() < timeout:
             if self.election_q.size() == 13:
@@ -263,6 +270,18 @@ class Bulb(Process):
             self.signal_to_neighbors(neighbors_to_signal_to)
 
     def ping_leader(self):
+    """
+    Repeatedly ping the leader after waiting ping_time, if you have received a 
+    message from the leader.
+
+    If you receive a new election or new leader message, prepare for a new leader
+    election and return.
+
+    If the leader does not respond after max_timeout, start a new election and
+    return.
+
+    :return: None
+    """
         time.sleep(self.ping_time)
         if not self.election_q.empty():
             msg = self.election_q.get()
@@ -287,14 +306,34 @@ class Bulb(Process):
 
     def signal_to_neighbors(self, list_of_neighbors):
         """ 
-        Wait for some amount of time and then 
-        tell neighbors to turn on
+        Wait for ping_time and then tell neighbors to turn on
+
+        :param list_of_neighbors: The bulb neighbors of self
+        :type param: list of Bulb()s
+        :return None:
         """
         time.sleep(self.ping_time)
         for neighbor in list_of_neighbors: 
             neighbor.state_q.put(1)
 
     def respond_to_ping(self):
+    """
+    Respond to the pings of all the followers. Continuously get messages from
+    your election_q and respond to pinger_uuid if the queue isn't empty.
+
+    If the queue is empty, sleep for ping_time. 
+
+    Then send a new leader message to all bulbs with a higher uuid than yourself 
+    (this can be an empty list and thus no messages will be sent). This allows 
+    any bulbs who restart to recover their status as leader.
+
+    Then continue responding to pings.
+
+    If you receive a new election or new leader message, prepare for a new leader
+    election and return.
+
+    :return: None
+    """
         while not self.election_q.empty():
             pinger_uuid = self.election_q.get()
             if "New election" in str(pinger_uuid) or "New leader" in str(pinger_uuid):
@@ -365,6 +404,18 @@ class Bulb(Process):
 
 
     def run(self):
+    """
+    Runs the first leader election.
+
+    After that returns, which means the first leader has crashed, uuids are sent
+    to all the bulbs in the new election and a new leader election is started.
+
+    The while True ensures that anytime a leader crashes or there is disagreement
+    over the leader, a new leader election is run (since new_leader_election 
+    only returns when the leader has crashed)
+
+    :return: None
+    """
         self.first_leader_election()
         #print ("I'm bulb " + str(self.id) + " and here are the bulbs in my new election " 
         # + str([bulb.id for bulb in self.bulbs_in_election]) + "\n")
