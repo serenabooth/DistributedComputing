@@ -96,7 +96,7 @@ class Bulb(Process):
         #print "Am I getting here? Queue size: " + str(q.size()) + "\n"
         while not q.empty():
             #print "What about here? \n"
-            q_contents.append(str(q.get()))
+            q_contents.append(q.get())
         return q_contents
 
     #def empty_election_q_and_check_for_leader(self):
@@ -237,14 +237,31 @@ class Bulb(Process):
                 break
         self.respond_to_ping()
 
-    #def new_leader_election(self):
+    def new_leader_election(self):
+        timeout = time.time() + self.max_timeout
+        responses = []
+        while True:
+            if time.time() > timeout:
+                break
+            if not self.election_q.empty(): 
+                msg = self.election_q.get()
+                if "New election" in str(msg):
+                    initiator_uuid = long(msg.split(": ")[1])
+                    bulbs_in_election = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= initiator_uuid and bulb.uuid != self.uuid]
+                    self.send_uuid(bulbs_in_election)
+                else:
+                    if msg not in responses:
+                        responses.append(msg)
+        responses.sort()
+        print "I'm bulb " + str(self.id) + " Did the correct bulbs respond to me?" + str(responses)
 
 
 
     def run(self):
         self.first_leader_election()
         print "I'm bulb " + str(self.id) + " and here are the bulbs in my new election " + str([bulb.id for bulb in self.bulbs_in_election]) + "\n"
-        #self.send_uuid()
+        self.send_uuid(self.bulbs_in_election)
+        self.new_leader_election()
         #print "I'm bulb " + str(self.id) + " and the leader died. \n"
         #self.leader_election()
 
