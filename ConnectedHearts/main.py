@@ -48,15 +48,15 @@ while True:
 
     face_check_process = CheckFace(camera_obj = camera_obj)
 
-	# Start a process to request all bulbs to turn off.
+    # Start a process to request all bulbs to turn off.
     pi = Pi(hosts = hosts)
     pi.start()
     pi.join()
     #time.sleep(10)
 
-	# Processes are dead; continue.
+    # Processes are dead; continue.
 
-	# Use camera to get a pulse from a face
+    # Use camera to get a pulse from a face
     # Perform this _once_ initially
     pulse_val = 0; # App.main_loop()
     #App = getPulseApp(args, camera_obj)
@@ -67,7 +67,7 @@ while True:
     #    time.sleep(1.0/16.0)
     #    pulse_val = App.bpm
 
-	# Clamp the pulse
+    # Clamp the pulse
     if pulse_val > 160: 
         pulse_val = 160
     if pulse_val < 50:
@@ -99,7 +99,7 @@ while True:
         bulb_objects_list.append(p)
 
 
-	# Provide a pointer to the whole list of bulbs to all Bulbs
+    # Provide a pointer to the whole list of bulbs to all Bulbs
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
         bulb.send_uuid(bulb_objects_list)
@@ -110,7 +110,7 @@ while True:
 
 
     try:
-		# Perform leader election
+        # Perform leader election
         for bulb in bulb_objects_list:
             bulb.start()
         
