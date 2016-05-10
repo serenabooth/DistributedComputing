@@ -1,6 +1,6 @@
 from datetime import datetime
 import threading
-import sys, time, socket, random
+import sys, time, socket, random, os
 import uuid
 from multiprocessing import Array, Process, Value, Lock
 from multiprocessing.queues import Queue
@@ -219,10 +219,6 @@ class Bulb(Process):
     running. 
 
     """
-        timeout = time.time() + 1
-        while time.time() < timeout:
-            if self.election_q.size() == 13:
-                break
         self.leader = self.uuid_dict[self.get_max_uuid()]
         self.leader_id.value = self.leader.id
         print "Leader id: " + str(self.leader_id.value) + "\n"
@@ -248,14 +244,14 @@ class Bulb(Process):
     def turn_on(self):
         self.turned_on_list[self.id] = 1
 
-        """my_ssh_connection = BulbControl(my_id = self.id,
-                    bpm = self.bpm, 
-                    host = self.host,
-                    leader_id = self.leader_id,
-                    state_q = self.state_q,
-                    bulb_objects_list = self.bulb_objects_list, 
-                    turned_on_list = self.turned_on_list)
-        my_ssh_connection.start()"""
+        bulbControl = BulbControl(  my_id = self.id,
+                                    bpm = self.bpm, 
+                                    host = self.host,
+                                    leader_id = self.leader_id,
+                                    state_q = self.state_q,
+                                    bulb_objects_list = self.bulb_objects_list, 
+                                    turned_on_list = self.turned_on_list)
+        bulbControl.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
 
