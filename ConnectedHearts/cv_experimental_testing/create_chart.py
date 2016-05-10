@@ -9,6 +9,6 @@ print results.head()
 
 results.set_index('time').plot()
 
-plt.ylim([-1,2])
+plt.ylim([-0.5,1.5])
 plt.show()
 

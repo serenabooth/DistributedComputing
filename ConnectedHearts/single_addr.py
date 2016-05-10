@@ -8,6 +8,10 @@ from multiprocessing.queues import Queue
 import ctypes 
 import paramiko
 
+""" 
+For a sanity check, see how well the system is synchronized in a single address space
+"""
+
 hosts = ['192.168.1.20', '192.168.1.21']
 
 c_20 = paramiko.SSHClient()

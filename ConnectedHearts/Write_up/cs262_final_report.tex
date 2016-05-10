@@ -84,6 +84,9 @@
 \newcommand{\SERENA}[1]{\note{SERENA}{red}{#1}}
 \newcommand{\MICHELLE}[1]{\note{MICHELLE}{blue}{#1}}
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
 
 \journal{CS262: Distributed Systems}
 
@@ -155,7 +158,7 @@ Our code is written in Python and makes extensive use of the multiprocessing lib
 
 \subsection{Inter-bulb Communication}
 
-We of course, do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues.  
+We of course do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues.  For example, in  \texttt{main.py}, we start up 13 ``bulb'' processes, as described above. These processes each have two process-safe queues: one of which, designated the \texttt{election\_q} stores information pertaining to leader election, and the other of which, \texttt{state\_q} stores information regarding whether the bulb should be on or off, as well as any adjustments to this. 
 
 \section{Architecture \& Algorithms}
 
@@ -165,7 +168,7 @@ When a face is visible to a camera hidden behind the one-way glass of the medici
 
 \subsection{Bully: Leader Election}
 
-Our leader election is modeled after the Bully algorithm.\MICHELLE{Add citation here and in references} We made modifications to the Bully algorithm: in our first leader election, in the way we deal with a previous leader's recovery, and how we deal with multiple ``new election" messages.
+Our leader election is modeled after the Bully algorithm, as originally described by Garcia-Molina in 1982 \cite{garcia1982elections}. We made modifications to the Bully algorithm: in our first leader election, in the way we deal with a previous leader's recovery, and how we deal with multiple ``new election" messages.
 
 In our first leader election, we know that all the processes will be participating and that they know all the uuids because they have them on their own \texttt{election\_q}. We simplify the Bully algorithm by having each process find the max uuid in its queue and choose the process with the corresponding uuid as the leader. All the processes agree because the main thread guarantees that the same uuids are put on every \texttt{election\_q}.
 
@@ -173,7 +176,7 @@ After the leader is chosen, the other processes must make sure that it remains r
 
 If a follower does not receive a response from the leader after \texttt{max\_timeout}, a time greater than the largest possible \texttt{ping\_time}, it starts a new election that follows the procedure of the Bully algorithm. It sends a ``new election" message to all processes with uuids higher than its uuid, which causes these processes to stop pinging the leader and participate in the election, and then it waits for a response from these processes for a time of \texttt{max\_timeout}. If any processes with higher uuids respond, it waits to receive a message from a new leader. If it doesn't receive a message from a new leader within the timeout, it starts leader election again. 
 
-If a process never receives responses from higher uuid process, or it has a higher uuid than all the responses, it assumes it's the leader and broadcasts this. If there isn't agreement on the new leader, this procedure repeats. See Figure \ref{fig:bully} for a diagram of how this works in our system. After the broadcast from the new leader, all the followers begin pinging it and it responds to their pings. If a follower does not receive a response, then leader election starts again.\\ \textbf{Differences from Bully}
+If a process never receives responses from a higher uuid process, or it has a higher uuid than all the responses, it assumes it's the leader and broadcasts this message to all other processes in the system. If there is not agreement on the new leader, this procedure repeats. See Figure \ref{fig:bully} for a diagram of how this works in our system. After the broadcast from the new leader, all the followers begin pinging it and it responds to their pings. If a follower does not receive a response, then leader election starts again.\\ \textbf{Our Implementation Differences}
 
 In our leader election, while a process waits for a response from all higher uuid processes, it also checks for ``new election" messages. If it receives a ``new election" message, it sends its uuid to the appropriate processes and continues waiting to hear back from the higher uuid processes.
 
@@ -184,25 +187,56 @@ To allow a process that was previously a leader to recover, the current leader p
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.7\textwidth]{figures/bully}
-  \caption{In the above graphic, we demonstrate the bully algorithm for determining a leader. In subimage A, node 3 attempts to confirm that the known leader, node 5, is still alive. In sumbimage B, node 5 does not respond to node 3 for a set period of time---a time set by node 3. Hence node 3 initiates an election by contacting all nodes with a higher id than itself. In subimage C, node 4 responds to node 3's request to initiate an election by confirming it remains alive. Finally, in subimage D, node 4 broadcasts a message to all nodes to inform them of its leader status. 
+  \caption{In the above graphic, we demonstrate the bully algorithm for determining a leader. In sub-image A, node 3 attempts to confirm that the known leader, node 5, is still alive. In sum-image B, node 5 does not respond to node 3 for a set period of time---a time set by node 3. Hence node 3 initiates an election by contacting all nodes with a higher id than itself. In sub-image C, node 4 responds to node 3's request to initiate an election by confirming it remains alive. Finally, in sub-image D, node 4 broadcasts a message to all nodes to inform them of its leader status. 
  \label{fig:bully}}
 \end{figure} 
 
 
 \subsection{Realtime Synchronization via Gossip}
-\SERENA{TO DO: Write about synchronization}
+
+In our system, each ``bulb'' process has its own SSH connection to the Linux Ubiquiti box by which it is powered. This process repeatedly sends message to the box of the form \texttt{echo X > /proc/power/relayY}, where \texttt{X} $\in \{0,1\}$, and \texttt{Y} represents the id of the relay controlling the power supply to the box. Commands to turn the box on are followed by some amount of wait, determined by the user's pulse, followed by a command to turn the box off and wait the same. However, as our system is ``distributed,'' and we have no concept of a global time, the bulb relay switches are poorly aligned lacking any inter-process synchronization. We thus implement a simple gossip algorithm, as inspired by Babaoglu et al, \cite{babaoglu2007firefly}. 
+
+As the physical layout of our system is fixed, we can select the more \emph{trustworthy} of our neighbors, an algorithm which we describe below. With this neighbor, we attempt to iteratively align our synchronization over time. This algorithm is further described in Algorithm \ref{CHalgorithm}. 
+
+\begin{algorithm}
+\caption{Synchronization via Gossip}
+\label{CHalgorithm}
+\begin{algorithmic}[1]
+\Procedure{Gossip}{}
+\While {True} 
+\State Receive messages from \{trustworthy neighbor, self\}
+\If{diff(self\_time, neighbor) $<$ diff(self\_time, neighbor + bpm)}
+\State Increase wait (while bulb off)
+\Else
+\State Decrease wait (while bulb on)
+\EndIf
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 \subsubsection{Physical Layout}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.3\textwidth]{figures/system_layout}
-  \caption{The system layout. While each bulb is assigned a 64-bit UUID during the program, each bulb also has an id, shown above, ranging from $0-12$, which allows the system to consistently converge toward the leader bulb's rate of pulsation during the synchronization routine. 
+  \caption{The system layout. While each bulb is assigned a 64-bit uuid during the program, each bulb also has an id, shown above, ranging from $0-12$, which allows the system to consistently converge toward the leader bulb's rate of pulsation during the synchronization routine. 
  \label{fig:layout}}
 \end{figure}
 
-The physical layout of our system is predetermined, as shown in Figure \ref{fig:layout}. Each bulb is assigned a fixed, position-based id as well as a generated UUID. Because of this fixed layout, we are able to personalize gossip for synchronization in order to ascribe neighboring processes with scores of \emph{trustworthiness}. As the leader bulb initiates the heartbeat pulsation, the leader is the single most trustworthy bulb. This has implications for all other bulbs, however: as bulbs increase in distance from the leader, a known measure based on the system's fixed layout, their trustworthiness decreases. Thus when a bulb is receiving contradictory gossip from its two neighboring bulbs, it prioritizes the message which was sent by the bulb closer to the leader.  
+The physical layout of our system is predetermined, as shown in Figure \ref{fig:layout}. Each bulb is assigned a fixed, position-based id as well as the formerly discussed, generated 64-bit uuid. Because of this fixed layout, we are able to personalize gossip for synchronization in order to ascribe neighboring processes with scores of \emph{trustworthiness}. As the leader bulb initiates the heartbeat pulsation, the leader is the single most trustworthy bulb. This has implications for all other bulbs, however: as bulbs increase in distance from the leader, a known measure based on the system's fixed layout, their trustworthiness decreases. Thus when a bulb is receiving contradictory gossip from its two neighboring bulbs, it prioritizes the message which was sent by the bulb closer to the leader.  
 
 \section{Synchronization Testing \& Analysis}
+
+\begin{figure}
+\thispagestyle{empty}
+\vspace{-10 mm}
+  \centering
+    \includegraphics[width=0.9\textwidth]{figures/bad_synch.png}
+  \includegraphics[width=0.9\textwidth]{figures/graph_well_synched.png}
+  \caption{With heartbeat 50bpm, we demonstrate the synchronization of our system as a function of time. Above: the system in the absence of any gossip. The average brightness in the scene is consistently extremely high. Below: we run synchronization via gossip. The system starts out somewhat desynchronized, so the average brightness values of the system range from 0.4 to 1. Once the system is synchronized, the values range neatly from 0 to 1, the full possible range. 
+ \label{fig:res}}
+\end{figure}
 
 In order to analyze the success of our synchronization via gossip, we implement a simple computer vision system. The steps of analysis are as follows: 
 
@@ -220,30 +254,26 @@ In order to analyze the success of our synchronization via gossip, we implement 
 - The brightness of these pixels are averaged for every frame in the video, and ultimately we produce a timeseries, which we graph in comparison to idealized data. A demonstration of this result is shown in Figure \ref{fig:res}. 
 \end{enumerate}
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\textwidth]{figures/results}
-  \caption{We demonstrate the synchronization of our system as a function of time, as compared with an ideal synchronization system. The green timeseries corresponds to the physical system while the blue timeseries corresponds to an idealized system. 
- \label{fig:res}}
-\end{figure}
-
-\section{Personal Learning} 
-
-
-\begin{enumerate}
-\item Debugging a (fake!) distributed system is hard. 
-
-\item The separation between unreliable hardware and buggy code can be indecipherable. 
-
-\item Referring to the same memory address between different processes without use of locks is erroneous. 
-
-\item Sharing information between sister/brother-processes and parent-processes requires different architectures. 
-
-\item Using process safe objects is extremely important when sharing memory between processes.
-We encountered a bug that took several hours to figure out where all the processes shared a queue that we were sure had the same memory address. Despite this, when something was successfully added to the queue by one process, only that process was able to see the change in the queue. The queue was a non process safe \texttt{Queue.Queue}. After switching to a \texttt{multiprocessing.queues.Queue}, the problem disappeared and the processes were able to correctly share the queue.
-\end{enumerate}
 
 \section{Conclusion}
+
+The final product of \texttt{ConnectedHearts} exceeded our expectations: while we were originally unsure that gossip could be achieved given the unreliability of some of our components, we found that, to a rate of 120 frames-per-second, the visual appearance of the mirror is indeed synchronized. Over the course of this project, we learned a substantial amount about distributed systems, some of which we relay here: 
+
+\begin{enumerate}
+\item Debugging a (fake!) distributed system is hard, and the separation between unreliable hardware and buggy code can be indecipherable. 
+
+One intriguing aspect of our system is our dependence on unreliable Linux boxes. Due to the presence of these unreliable machines, debugging our implementation of gossip was extremely challenging. 
+
+\item Referring to the same memory address between different processes without use of locks is erroneous; using process-safe objects is extremely important when sharing memory between processes.
+
+We encountered a bug that took several hours to unravel where all the processes shared a queue that we were sure had the same memory address. Despite this, when something was successfully added to the queue by one process, only that process was able to see the change in the queue. The queue was a non process safe \texttt{Queue.Queue}. After switching to a \texttt{multiprocessing.queues.Queue}, the problem disappeared and the processes were able to correctly share the queue.
+\end{enumerate}
+
+
+
+\subsection{Sap}
+
+Serena is graduating in two weeks, and this project was her last piece of coursework at Harvard; an incredibly high note to end her time here! 
 
 
 

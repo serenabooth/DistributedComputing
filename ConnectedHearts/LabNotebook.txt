@@ -19,13 +19,13 @@ TO DO:
         X slides
         X demo working
     X [DUE: 05/02] Presentation
-    _ [DUE: 05/07] Gossip algorithm! 
-    _ [DUE: 05/09] Whole project, including documentation
+    X [DUE: 05/07] Gossip algorithm! 
+    X [DUE: 05/09] Whole project, including documentation
         _ clean up code
         _ comment code
         _ create README
-        _ write paper
-            _ idea introduction, implementation details, results, conclusion
+        X write paper
+            X idea introduction, implementation details, results, conclusion
         _ capture video demo 
 
 04/25
@@ -131,15 +131,19 @@ TO DO:
             - have bulbs communicate with their neighbors every time they send a signal
             - have bulbs order the events (their signal vs. their neighbors), and make minor adjustments indirection of leader 
 
-04/07: 
+05/07-05/09: 
     Somewhat overambitious with finals.
-
     Today:
         X Convert powerstrips to background commands 
         X Convert powerstips to use processes in place of threads
         X Give each bulb its own SSH connection
         X Change bulb communication with neighbors
-        _ Gossip 
-        _ Finish leader election
+        X Gossip 
+        X Finish leader election
 
         (Goal) Gossip 
+
+    - Ran into a lot of issues trying to get bulbs to update their timings exactly based on their "trustworthy" neighbor
+        - Ultimately used the difference between self time and neighbor time to indicate direction of change, but used a standard, small incremental value instead
+    - Leader election via Bully working!    
+        - Faced incorrect assumptions with regard to how potential leaders respond to others

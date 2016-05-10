@@ -11,12 +11,19 @@ import sys
 
 is_on_pi = 0
 
+# Open the camera once
 camera_obj = Camera(is_on_pi)
 
-def kill_all_processes(pi, bulbs, app = None):
+def kill_all_processes(pi, bulbs):
+    """ 
+    For each process passed in, terminate those processes
+
+    :param pi: A process corresponding to an SSH connection
+    :type pi: a Pi object
+    :param bulbs: A list of processes corresponding to # bulbs
+    :type bulbs: A list of processes
+    """
     pi.terminate()
-    if app:
-        app.terminate()
     for bulb in bulbs:
         bulb.terminate()
 
@@ -46,44 +53,34 @@ while True:
     """
     power_strip_on_list = Array('i', 13)
 
+    # Create a "CheckFace" object, in webcam_pulse/lib/check_face_visible.py
     face_check_process = CheckFace(camera_obj = camera_obj)
 
     # Start a process to request all bulbs to turn off.
+    # Pi process defined in control_pi.py
     pi = Pi(hosts = hosts)
     pi.start()
     pi.join()
-    #time.sleep(10)
-
     # Processes are dead; continue.
 
     # Use camera to get a pulse from a face
     # Perform this _once_ initially
-    pulse_val = 0; # App.main_loop()
-    #App = getPulseApp(args, camera_obj)
+    pulse_val = 0; 
+    App = getPulseApp(args, camera_obj)
 
     # Generate a pulse
-    #while pulse_val == 0 or pulse_val == -1: 
-    #    pulse_val = App.main_loop()
-    #    time.sleep(1.0/16.0)
-    #    pulse_val = App.bpm
+    while pulse_val == 0 or pulse_val == -1: 
+       pulse_val = App.main_loop()
+       time.sleep(1.0/16.0)
+       pulse_val = App.bpm
 
     # Clamp the pulse
     if pulse_val > 160: 
         pulse_val = 160
     if pulse_val < 50:
         pulse_val = 50 
-    #pulse_val = 24
+
     print "FINISHED with pulse " + str(pulse_val)
-    #App.bpm = 70
-
-    #print type_of_array.bytes()
-
-    #test_if_queue_works = Queue()
-    #print test_if_queue_works
-
-    #print "face check!"
-    #face_check_process.start()
-    #face_check_process.join()
 
     print "On to the bulbs:"
     bulb_objects_list = []
@@ -97,7 +94,6 @@ while True:
         
         # Store reference in list            
         bulb_objects_list.append(p)
-
 
     # Provide a pointer to the whole list of bulbs to all Bulbs
     for bulb in bulb_objects_list:
@@ -114,23 +110,17 @@ while True:
         for bulb in bulb_objects_list:
             bulb.start()
         
-        
-        while True:    
-        #while (face_check_process.check_if_face_is_visible()):
+        # Only break if face isn't visible 
+        while (face_check_process.check_if_face_is_visible()):
             time.sleep(30)
 
+        # Shut down and restart!
         print "About to shut this down"
         pulse_val = 0
         kill_all_processes(pi, bulb_objects_list)
-        time.sleep(5)
-        #continue
-        
+        time.sleep(5)        
 
     except KeyboardInterrupt:
+        # User quit
         kill_all_processes(pi, bulb_objects_list)
         camera_obj.release()
-
-
-
-#for bulb in bulb_objects_list:
-    #bulb.leader_election()

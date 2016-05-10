@@ -5,8 +5,19 @@ import urllib2, base64
 import numpy as np
 from threading import Thread 
 
+""" Credit: http://www.pyimagesearch.com/2016/01/04/unifying-picamera-and-cv2-videocapture-into-a-single-class-with-opencv/
+"""
+
 class PiVideoStream:
     def __init__(self, resolution=(320, 240), framerate=20):
+        """ 
+        Create a videostream from a PiCamera
+
+        :param resolution: camera resolution, default to (320x240)
+        :type resolution: tuple of ints
+        :param framerate: camera framerate, default to 20 (really 16)
+        :type framerate: int
+        """
         # initialize the camera and stream
         self.camera = PiCamera()
         print " Got camera " + str(self.camera)
@@ -22,11 +33,17 @@ class PiVideoStream:
         self.stopped = False
 
     def start(self):
-	# start the thread to read frames from the video stream
+        """
+        Start the thread corresponding to a camera object
+        """
+        #start the thread to read frames from the video stream
         Thread(target=self.update, args=()).start()
         return self
  
     def update(self):
+        """ 
+        Continually look for frames from the camera; when stopped, shut down
+        """
         # keep looping infinitely until the thread is stopped
         for f in self.stream:
             # grab the frame from the stream and clear the stream in
@@ -41,9 +58,15 @@ class PiVideoStream:
                 return 
  
     def read(self):
+        """ 
+        Return the most recent frame
+        """
         # return the frame most recently read
         return self.frame
 
     def stop(self):
+        """ 
+        Set an environment variable to shutdown camera
+        """
         # indicate that the thead should be stopped
         self.stopped = True
