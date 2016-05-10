@@ -1,17 +1,20 @@
 import csv, cv2
 
+""" 
+USE THIS TO ANALYZE VIDEOS
+"""
+
 # open files (data in and data out)
 cap = cv2.VideoCapture('example.mp4')
 csvfile = open('experiment_synch_data.csv', 'w')
 
-# gloabl variables
-state_ct = 0
+# global variables
 i = 0
 rois = []
 
 def click_bright_pixels(event, x, y, flags, param):
     """
-    Callback function for mouseover of a cv2 window
+    Callback function for mouseover of a cv2 window. User should click on 13 points in the video corresponding to bulbs. 
 
     :param event: cv2 event (e.g. mouseclick, EVENT_LBUTTONDOWN).
     :type event: cv2 event identifier
@@ -55,24 +58,15 @@ while True:
     hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     max_bright = 0
-    tmp = 0
     # look at 13 pixels corresponding to bulb brightnesses; take max
     for j in range(0,len(rois)):
-        tmp +=  hsv_image[rois[j][1]][rois[j][0]][2]/255.0
-    max_bright = tmp / len(rois)
+        max_bright +=  hsv_image[rois[j][1]][rois[j][0]][2]/255.0
+    max_bright = max_bright / len(rois)
 
     # expected values alternate between all off and all on (1 second in each state)
-    if state_ct < 120: 
-        writer.writerow({'time': str(i), 
-                            'expected_brightness': '0', 
-                            'real_brightness': str(max_bright)})
-    else:
-        writer.writerow({'time': str(i), 
-                            'expected_brightness': '1', 
-                            'real_brightness': str(max_bright)})
+    writer.writerow({'time': str(i), 
+                     'real_brightness': str(max_bright)})
 
-
-    state_ct = (state_ct + 1) % 240
     i += 1
 
     ret, frame = cap.read()
