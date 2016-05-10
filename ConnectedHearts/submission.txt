@@ -1,0 +1,7 @@
+Code: 
+https://github.com/serenabooth/DistributedComputing/tree/master/ConnectedHearts
+
+Majority in main.py, hearts.py, /webcam_pulse (mostly written by NASA engineers), control_pi.py, and control_bulbs.py,
+
+Paper:
+https://github.com/serenabooth/DistributedComputing/blob/master/ConnectedHearts/Write_up/cs262_final_report.pdf
