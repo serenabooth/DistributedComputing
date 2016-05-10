@@ -19,7 +19,7 @@ fn: function
 returns: None 
 """
     def wrapper(*args, **kwargs):
-       threading.Thread(target=fn, args=args, kwargs=kwargs).start()
+        threading.Thread(target=fn, args=args, kwargs=kwargs).start()
     return wrapper
 
 class BulbQueue(Queue):

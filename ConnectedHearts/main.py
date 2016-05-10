@@ -1,4 +1,4 @@
-from hearts_old import *
+from hearts import *
 from control_pi import *
 from multiprocessing.queues import Queue
 from multiprocessing import Array, Value
@@ -59,13 +59,13 @@ while True:
 	# Use camera to get a pulse from a face
     # Perform this _once_ initially
     pulse_val = 0; # App.main_loop()
-    App = getPulseApp(args, camera_obj)
+    #App = getPulseApp(args, camera_obj)
 
     # Generate a pulse
-    while pulse_val == 0 or pulse_val == -1: 
-        pulse_val = App.main_loop()
-        time.sleep(1.0/16.0)
-        pulse_val = App.bpm
+    #while pulse_val == 0 or pulse_val == -1: 
+    #    pulse_val = App.main_loop()
+    #    time.sleep(1.0/16.0)
+    #    pulse_val = App.bpm
 
 	# Clamp the pulse
     if pulse_val > 160: 
@@ -102,7 +102,7 @@ while True:
 	# Provide a pointer to the whole list of bulbs to all Bulbs
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
-        bulb.send_uuid()
+        bulb.send_uuid(bulb_objects_list)
     # At this point, each Bulb has 
     # - a uuid
     # - a mapping between uuid and bulb reference in bulb_object_list
@@ -115,8 +115,8 @@ while True:
             bulb.start()
         
         
-        #while True:    
-        while (face_check_process.check_if_face_is_visible()):
+        while True:    
+        #while (face_check_process.check_if_face_is_visible()):
             time.sleep(30)
 
         print "About to shut this down"
