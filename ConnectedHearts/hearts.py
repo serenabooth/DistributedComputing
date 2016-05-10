@@ -420,14 +420,22 @@ class Bulb(Process):
 
         # sort responses from lowest to highest uuid
         responses.sort()
+
+        # this means you are the leader
         if not responses or self.uuid > responses[len(responses) - 1]:
-            print "Responses: " + str(responses) + " I'm the LEADER and I'm bulb " + str(self.id) + "\n"
+            print ("Responses: " + str(responses) + " I'm the LEADER and I'm bulb " 
+                + str(self.id) + "\n")
+            print datetime.datetime.now()
             self.leader = self
+            # send a new leader message to all of the bulbs
             for bulb in [bulb for bulb in self.bulb_objects_list if bulb is not self]:
-                #print "Sending to bulb " + str(bulb.id) + "\n"
+                print "Sending to bulb " + str(bulb.id) + "\n"
                 bulb.election_q.put("New leader: " + str(self.uuid))
+
+            # empty your election_q before responding to pings
             self.empty_q(self.election_q)
             self.respond_to_ping()
+            
         else:
             print "I'm not the leader and I'm bulb " + str(self.id) + "\n"
             timeout = time.time() + 2 * self.max_timeout
