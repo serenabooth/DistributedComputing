@@ -18,10 +18,6 @@ def kill_all_processes(pi, bulbs, app = None):
     if app:
         app.terminate()
     for bulb in bulbs:
-        for bulb_child in bulb.active_children(): 
-            for bulb_child_child in bulb_child.active_children():
-                bulb_child_child.terminate()
-            bulb_child.terminate()
         bulb.terminate()
 
 
@@ -116,7 +112,7 @@ while True:
     try:
 		# Perform leader election
         for bulb in bulb_objects_list:
-           bulb.start()
+            bulb.start()
         
         
         #while True:    

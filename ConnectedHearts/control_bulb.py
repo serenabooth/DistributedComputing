@@ -149,7 +149,8 @@ class BulbControl(Process):
                                 above_neighbor = self.above_bulb_id, 
                                 below_neighbor = self.below_bulb_id, 
                                 turned_on_list = self.turned_on_list)
-        
+        my_bulb.daemon=True
+
         my_bulb.start()
         
         self.check_ordering()
