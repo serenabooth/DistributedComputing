@@ -1,0 +1,2218 @@
+on to the bulbs
+Leader id: 12
+
+id: 0, leader: 12
+
+Hi, I'm a follower: 0
+
+Leader id: 12
+
+id: 2, leader: 12
+
+Hi, I'm a follower: 2
+
+Leader id: 12
+
+id: 1, leader: 12
+
+Hi, I'm a follower: 1
+
+Leader id: 12
+
+id: 3, leader: 12
+
+Hi, I'm a follower: 3
+
+Leader id: 12
+
+id: 4, leader: 12
+
+Hi, I'm a follower: 4
+
+Leader id: 12
+
+id: 5, leader: 12
+
+Hi, I'm a follower: 5
+
+Leader id: 12
+
+id: 6, leader: 12
+
+Hi, I'm a follower: 6
+
+Leader id: 12
+
+id: 7, leader: 12
+
+Hi, I'm a follower: 7
+
+Leader id: 12
+
+id: 8, leader: 12
+
+Hi, I'm a follower: 8
+
+Leader id: 12
+
+id: 9, leader: 12
+
+Hi, I'm a follower: 9
+
+Leader id: 12
+
+id: 10, leader: 12
+
+Hi, I'm a follower: 10
+
+Leader id: 12
+
+id: 11, leader: 12
+
+Hi, I'm a follower: 11
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and Oh no the leader didn't respond 
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: 3
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 2
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and tI'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: 8
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 8
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 8
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 5
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 5
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 4
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 4
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 6
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 6
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 10
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: 4
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: 3
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 3
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 3
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 6
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 6
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 6
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 6
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 6
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeI'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and Oh no the leader didn't respond 
+
+I'm not the leader and I'm bulb 5
+
+I'm bulb 5 and I think the leader is 11
+
+I'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm bulb 5 and I think the leader is 11
+
+I'm bulb 5 and the leader responded: 3
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 2
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm bulb 5 and I think the leader is 11
+
+I'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 10
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 5
+
+I'm bulb 5 and I think the leader is 11
+
+I'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 8
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 8
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 8
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm bulb 5 and I think the leader is 11
+
+I'm bulb 5 and the leader responded: 4
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm bulb 5 and I think the leader is 11
+
+I'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm bulLeader id: 12
+
+id: 12, leader: 12
+
+Hi, I'm the leader: 12 Right? True
+
+Sleeping now 
+
+I'm bulb 1 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm bulb 1 and I think the leader is 11
+
+I'm bulb 1 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 11
+ Also my timeout is 10
+
+I'm bulb 1 and Oh no the leader didn't respond 
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm bulb 1 and I think the leader is 11
+
+I'm bulb 1 and the leader responded: 10
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 10
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 1
+
+I'm bulb 1 and I think the leader is 11
+
+I'm bulb 1 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 11
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 11
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 1
+
+I'm bulb 1 and I think the leader is 11
+
+I'm bulb 1 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 11
+ Also my timeout is 10
+
+I'm bulb 1 and Oh no the leader didn't respond 
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+Responses: [] I'm the LEADER and I'm bulb 1
+
+2016-05-09 23:51:09.204349
+Responses: [0] I'm the LEADER and I'm bulb 1
+
+2016-05-09 23:52:14.208120
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm not the leader and I'm bulb 1
+
+I'm bulb 1 and I think the leader is 11
+
+I'm bulb 1 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 1 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 1
+
+I'm bulb 1 and I think the leader is 11
+
+I'm bulb 1 and the leader responded: 6
+ Also my timeout is 10
+
+I'm bulb 4 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm bulb 4 and I think the leader is 11
+
+I'm bulb 4 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm bulb 4 and I think the leader is 11
+
+I'm bulb 4 and the leader responded: 3
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 2
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 4
+
+I'm bulb 4 and I think the leader is 11
+
+I'm bulb 4 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm bulb 4 and I think the leader is 11
+
+I'm bulb 4 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm bulb 4 and I think the leader is 11
+
+I'm bulb 4 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 10
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm not the leader and I'm bulb 4
+
+I'm bulb 4 and I think the leader is 11
+
+I'm bulb 4 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 7
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 4
+
+I'm bulb 4 and I think the leader is 11
+
+I'm bulb 4 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 4 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm bulb 8 and I think the leader is 11
+
+I'm bulb 8 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm bulb 8 and I think the leader is 11
+
+I'm bulb 8 and the leader responded: 3
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 2
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm bulb 8 and I think the leader is 11
+
+I'm bulb 8 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 10
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 10
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 10
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 8
+
+I'm bulb 8 and I think the leader is 11
+
+I'm bulb 8 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm bulb 8 and I think the leader is 11
+
+I'm bulb 8 and the leader responded: 3
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 2
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm bulb 8 and I think the leader is 11
+
+I'm bulb 8 and the leader responded: 2
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm not the leader and I'm bulb 8
+
+I'm bulb 8 and I think the leader is 11
+
+I'm bulb 8 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 8 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: 8
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 8
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 8
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 5
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 5
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 4
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 4
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 8
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 8
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 8
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: 4
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm not the leader and I'm bulb 10
+
+I'm not the leader and I'm bulb 10
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm not the leader and I'm bulb 10
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 7
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 10
+
+I'm bulb 10 and I think the leader is 11
+
+I'm bulb 10 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 10 and the leader responded: 6
+ Also my timeout is 8
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm not the leader and I'm bulb 2
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 11
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: 8
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 5
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 4
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 6
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 11
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 7
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 11
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 6
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 8
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 11
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: 4
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 11
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: 8
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 11
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm not the leader and I'm bulb 2
+
+I'm not the leader and I'm bulb 2
+
+I'm not the leader and I'm bulb 2
+
+I'm not the leader and I'm bulb 2
+
+I'm bulb 2 and I think the leader is 11
+
+I'm bulb 2 and the leader responded: 1
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: first ping
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 4
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 4
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 11
+ Also my timeout is 11
+
+I'm bulb 2 and the leader responded: 10
+ Also my timeout is 11
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm not the leader and I'm bulb 6
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: 3
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 2
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm not the leader and I'm bulb 6
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 10
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 10
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm not the leader and I'm bulb 6
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: 8
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 8
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 8
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 8
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 8
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: 2
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 6 and I think the leader is 11
+
+I'm bulb 6 and the leader responded: first ping
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 7
+ Also my timeout is 10
+
+I'm bulb 6 and the leader responded: 11
+ Also my timeout is 10
+
+I'm not the leader and I'm bulb 6
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and Oh no the leader didn't respond 
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 1
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 1
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 1
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and Oh no the leader didn't respond 
+
+I'm not the leader and I'm bulb 0
+
+I'm not the leader and I'm bulb 0
+
+I'm not the leader and I'm bulb 0
+
+I'm bulb 0 and I think the leader is 11
+
+I'm bulb 0 and the leader responded: 1
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: first ping
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 11
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 4
+ Also my timeout is 8
+
+I'm bulb 0 and the leader responded: 10
+ Also my timeout is 8
+
+I'm not the leader and I'm bulb 0
+
+he leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: 3
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 2
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: 2
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: 3
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 3
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 3
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 9 and I think the leader is 11
+
+I'm bulb 9 and the leader responded: 1
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 4
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 4
+ Also my timeout is 1
+
+I'm bulb 9 and the leader responded: 4
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 9
+
+I'm bulb 3 and the leader responded: first ping
+ Also my timeout is 3
+
+I'm bulb 3 and Oh no the leader didn't respond 
+
+I'm not the leader and I'm bulb 3
+
+I'm bulb 3 and I think the leader is 11
+
+I'm bulb 3 and the leader responded: first ping
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm bulb 3 and I think the leader is 11
+
+I'm bulb 3 and the leader responded: first ping
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm bulb 3 and I think the leader is 11
+
+I'm bulb 3 and the leader responded: first ping
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 7
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 7
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm bulb 3 and I think the leader is 11
+
+I'm bulb 3 and the leader responded: first ping
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 6
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 6
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 8
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 8
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm not the leader and I'm bulb 3
+
+I'm bulb 3 and I think the leader is 11
+
+I'm bulb 3 and the leader responded: 4
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: first ping
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm bulb 3 and I think the leader is 11
+
+I'm bulb 3 and the leader responded: 2
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: first ping
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 11
+ Also my timeout is 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm not the leader and I'm bulb 3
+
+I'm bulb 3 and I think the leader is 11
+
+I'm bulb 3 and the leader responded: 6
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 6
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 6
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 6
+ Also my timeout is 3
+
+I'm bulb 3 and the leader responded: 7
+ Also my timeout is 3
+
+I'm bulb 11 and the leader responded: first ping
+ Also my timeout is 6
+
+Responses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:39:01.097845
+Responses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:39:52.110467
+Responses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:40:43.121515
+Responses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:41:34.133250
+Responses: [1, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:42:25.139651
+Responses: [0, 1, 2, 3, 5, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:43:16.145158
+Responses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:44:07.151010
+Responses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:44:58.157489
+Responses: [2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:45:49.163191
+Responses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:46:58.182439
+Responses: [2, 3, 4, 5, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:47:49.189402
+Responses: [0, 1, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:48:40.195164
+Responses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:49:31.204835
+Responses: [0, 1, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:50:22.213110
+I'm not the leader and I'm bulb 11
+
+Responses: [3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:51:58.217418
+Responses: [2, 4, 5, 7, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:52:31.222134
+Responses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:53:28.229147
+Responses: [0, 1, 2, 3, 4, 5, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:54:19.240387
+Responses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:55:10.247131
+Responses: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10] I'm the LEADER and I'm bulb 11
+
+2016-05-09 23:56:01.253938
+out is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+I'm bulb 7 and I think the leader is 11
+
+I'm bulb 7 and the leader responded: 1
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: first ping
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 4
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 4
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 4
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm bulb 7 and the leader responded: 11
+ Also my timeout is 5
+
+I'm not the leader and I'm bulb 7
+
+b 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm not the leader and I'm bulb 5
+
+I'm not the leader and I'm bulb 5
+
+I'm bulb 5 and I think the leader is 11
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 6
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 7
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: first ping
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
+I'm bulb 5 and the leader responded: 11
+ Also my timeout is 1
+
