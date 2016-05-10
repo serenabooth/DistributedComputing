@@ -6,6 +6,8 @@ import ctypes
 from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 from webcam_pulse.lib.device import Camera
+import os
+import sys
 
 is_on_pi = 0
 
@@ -17,6 +19,7 @@ def kill_all_processes(pi, bulbs, app = None):
         app.terminate()
     for bulb in bulbs:
         bulb.terminate()
+
 
 """ 
 Get pulse! 
@@ -45,11 +48,15 @@ while True:
 
     face_check_process = CheckFace(camera_obj = camera_obj)
 
+	# Start a process to request all bulbs to turn off.
     pi = Pi(hosts = hosts)
     pi.start()
     pi.join()
     #time.sleep(10)
 
+	# Processes are dead; continue.
+
+	# Use camera to get a pulse from a face
     # Perform this _once_ initially
     pulse_val = 0; # App.main_loop()
     #App = getPulseApp(args, camera_obj)
@@ -63,6 +70,7 @@ while True:
         #    time.sleep(10)
         #pulse_val = App.bpm
 
+	# Clamp the pulse
     if pulse_val > 160: 
         pulse_val = 160
     if pulse_val < 50:
@@ -80,22 +88,29 @@ while True:
     #face_check_process.start()
     #face_check_process.join()
 
-    print "on to the bulbs"
+    print "On to the bulbs:"
     bulb_objects_list = []
     for i in range(0, 13):
-        if i % 2 == 0: 
-            host_powerstrip = hosts[0]
-        else:
-            host_powerstrip = hosts[1]
+        
+        # Make a process for each bulb
         p = Bulb(id = i, 
-                    turned_on_list = power_strip_on_list, 
-                    bpm = pulse_val, 
-                    host = host_powerstrip)
+                    turned_on_list = power_strip_on_list,
+                    bpm = pulse_val,
+                    host = hosts[1] if i % 2 else hosts[0])
+        
+        # Store reference in list            
         bulb_objects_list.append(p)
 
+
+	# Provide a pointer to the whole list of bulbs to all Bulbs
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
         bulb.send_uuid()
+    # At this point, each Bulb has 
+    # - a uuid
+    # - a mapping between uuid and bulb reference in bulb_object_list
+    # - an election queue, upon which each bulb has put its uuid
+
 
     try:
         # pi_20.start()
@@ -105,8 +120,11 @@ while True:
         #                       hosts = hosts[1])
         # pi_21.start()
 
+
+		# Perform leader election
         for bulb in bulb_objects_list:
            bulb.start()
+        
         
         while True:    
         #while (face_check_process.check_if_face_is_visible()):

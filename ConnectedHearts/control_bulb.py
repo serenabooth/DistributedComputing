@@ -14,6 +14,10 @@ from ctypes import c_char_p
     "Creating multiple SSH connections at a time using Paramiko"
 """
 
+def bulb_id_distance( bulb1, bulb2 ):
+    bulbDiff = abs( int(bulb1) - int(bulb2) ) % 13
+    return ((13 - bulbDiff) if (bulbDiff > 6) else bulbDiff)
+
 class BulbControl(Process):
     def __init__(self, my_id, bpm, host, leader_id, state_q, bulb_objects_list, turned_on_list):
         super(BulbControl, self).__init__()
@@ -34,100 +38,120 @@ class BulbControl(Process):
         self.above_bulb_id = (self.id + 1) % 13
         self.below_bulb_id = (self.id - 1) % 13
 
-
     def check_ordering(self):
 
-        array_of_queues = [Queue(), Queue(), Queue()]
-
-        while True: 
-            print self.id
-            if self.id != self.leader_id.value: 
-
-                # Find which neighbor is closer to me
-                steps_to_above = 13
-                steps_to_below = 13
-                for i in range(0,13):
-                    if (self.above_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
-                    elif (self.above_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_above = min(steps_to_above, i)
-
-                    if (self.below_bulb_id + i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
-                    elif (self.below_bulb_id - i) % 13 == self.leader_id.value:
-                        steps_to_below = min(steps_to_below, i)
+        while True:
+            if self.id == 1:
+                print self.id
+            
+            if self.id == self.leader_id.value:
+                # I am the leader.
+                # Go to sleep for a bit.
+                time.sleep(5)
+            else:
+                # I am not the leader.
+                # I want to find the time difference between myself 
+                # and the leader, through my neighbors.
+                #
+                # Find which neighbor of mine is closer to the leader.
+                steps_to_above = bulb_id_distance( self.leader_id.value, self.above_bulb_id )
+                steps_to_below = bulb_id_distance( self.leader_id.value, self.below_bulb_id )
 
                 # if my +1 neighbor is closer, set neighbor = 1; otherwise, -1
-                if steps_to_above < steps_to_below:
-                    neighbor = 1
-                else: 
-                    neighbor = -1
-
-                print "HERE A"
-
-                # loop until I have a message from my leading neighbor and a message from myself
-                while True: 
+                neighbor = 1 if steps_to_above < steps_to_below else -1
+                
+                # Loop until I have a message from my leading neighbor and a message from myself
+                tPrev = datetime.datetime.now()
+                relevant_neighbor_time = tPrev
+                
+                while True:
+                    
+                    # This is the point at which this process first pauses
+                    # It waits for all bulbs to have started blinking at least once
+                    # Then, self.state_q begins to be filled...
+                    
                     if not self.state_q.empty():
+                        # Get bulb uuid of either my self or my neighbors
                         message = self.state_q.get()
                         time_received_message = datetime.datetime.now()
 
+                        # If I 'sent' the message
                         if message == str(self.id):
-                            array_of_queues[1].put(time_received_message)
-                            if not array_of_queues[1 + neighbor].empty(): 
+                            self.time_of_last_blink = time_received_message
+                            if self.id == 1:
+                                print "Received self message " + str(time_received_message)
+                            if relevant_neighbor_time != tPrev:
                                 break
+                                
+                        # If my trusted neighbor sent the message
                         elif message == str((self.id + neighbor) % 13):
-                            array_of_queues[1 + neighbor].put(time_received_message)
+                            relevant_neighbor_time = time_received_message
+                            if self.id == 1:
+                                print "Received trusted neighbor message " + str(time_received_message)
+                            
+                tBreak = datetime.datetime.now()
 
-                print "HERE B"
-
-                # get the last messages I added to my queues
-                while not array_of_queues[1 + neighbor].empty(): 
-                    relevant_neighbor_time = array_of_queues[1 + neighbor].get()
-                while not array_of_queues[1].empty(): 
-                    self.time_of_last_blink  = array_of_queues[1].get()
+                if self.id == 1:
+                    print "I, " + str(self.id) + " broke out after " + str((tBreak-tPrev).total_seconds())
                 
-                print "HERE C"
+                # I now have:
+                # - The last time that I received a message from my trusted neighbor that it pulsed.
+                # - The last time that I pulsed
+                
 
-                # compare last received message from neighbor to neighbor's expected future tick
-                # set my time difference based on which one I'm closer to
-                future_time_diff = datetime.timedelta(seconds=2 * 60 * 2.0/self.bpm)
-                if (abs(self.time_of_last_blink - relevant_neighbor_time) <
-                        abs(self.time_of_last_blink - (relevant_neighbor_time + future_time_diff))):
-                    time_diff = self.time_of_last_blink - relevant_neighbor_time
-                else: 
-                    time_diff = self.time_of_last_blink - (relevant_neighbor_time + future_time_diff)
-               
-                print "HERE D"
-
-                # if time_of_last_blink comes after, this is >0; otherwise < 0
-
-                seconds = time_diff.total_seconds()
-
-                if seconds > (2 * 60 * 2.0/self.bpm): 
-                    while seconds > 2 * 60 * 2.0/self.bpm: 
-                        seconds -= 2 * 60 * 2.0/self.bpm
-
-
-                print "HERE E"
-
-                # pass the adjustment to the child process
-                self.adjustment.put(-1 * seconds/5.0)
-                print "I, " + str(self.id) + " NEED an adjustment of " + str(-1 * seconds/5.0) + " at " + str(datetime.datetime.now())
-                        
-
-            else:
-                time.sleep(5)       
+                # Compare last received message from neighbor to neighbor's expected future tick
+                # Set my time difference based on which one I'm closer to
+                halfTimePhase = (60.0 / float(self.bpm)) * 2
+                diff = self.time_of_last_blink - relevant_neighbor_time
+                
+                if self.id == 1:
+                    print "diff.total_seconds " + str( diff.total_seconds() )
+                assert( diff.total_seconds() >= 0 )
+                waitTime = 0;
+                
+                if diff.total_seconds() < halfTimePhase:
+                    # Previous pulse start is closer
+                    # Wait the extra part to bring me into phase
+                    waitTime = (2 * halfTimePhase) - diff.total_seconds()
+                    
+                else:
+                    # Future pulse start is closer
+                    # Wait the difference to bring me into phase
+                    waitTime = diff.total_seconds()
+                
+                if diff.total_seconds() > halfTimePhase and diff.total_seconds() < (2*halfTimePhase - 0.125):
+                    waitTime = 0.25
+                elif diff.total_seconds() > 0.125 and diff.total_seconds() < halfTimePhase:
+                    waitTime = -0.25
+                else:
+                    waitTime = 0
+                
+                # Slow down the adjustment to 'ease' the system into a stable state.
+                adjustmentFactor = 1.0
+                self.adjustment.put( waitTime * adjustmentFactor )
+                
+                if self.id == 1:
+                    print "I, " + str(self.id) + " had times: self: " + str(self.time_of_last_blink) + " / " + str(relevant_neighbor_time) + "  Adjustment: " + str(waitTime * adjustmentFactor) + " at " + str(datetime.datetime.now()) 
+                
+                time.sleep(0.00001)
+                
+                sys.stdout.flush();
+      
 
     def run(self):
-        my_bulb = BulbBlinker(my_id = self.id,
-                    bpm = self.bpm, 
-                    host = self.host,
-                    adjustment = self.adjustment,
-                    bulb_objects_list = self.bulb_objects_list, 
-                    above_neighbor = self.above_bulb_id, 
-                    below_neighbor = self.below_bulb_id, 
-                    turned_on_list = self.turned_on_list)
+        #sys.stdout = open(str(os.getpid()) + ".out", "w")
+        
+        my_bulb = BulbBlinker(  my_id = self.id,
+                                bpm = self.bpm, 
+                                host = self.host,
+                                adjustment = self.adjustment,
+                                bulb_objects_list = self.bulb_objects_list, 
+                                above_neighbor = self.above_bulb_id, 
+                                below_neighbor = self.below_bulb_id, 
+                                turned_on_list = self.turned_on_list)
+        
         my_bulb.start()
+        
         self.check_ordering()
 
 
@@ -152,61 +176,77 @@ class BulbBlinker(Process):
         self.below_neighbor = below_neighbor
         self.turned_on_list = turned_on_list
         self.on = 0
+        
+        self.my_relay_id = int(self.id * 1.0 / 2) + 1
+        
 
     def send_message_to_neighbors(self):
 
-        if self.on == 0: 
+        # Check that all bulbs are on (and pulsing)
+        # If so, set self.on to true.
+        if self.on == 0:
             tmp = 1
             for i in range(0,13):
                 if self.turned_on_list[i] != 1:
                     tmp = 0
+            
             if tmp == 1: 
                 self.on = 1
                 print "Everyone turned on!"
 
+        #
         if self.on == 1: 
             self.bulb_objects_list[self.id].state_q.put(str(self.id))
             self.bulb_objects_list[self.above_neighbor].state_q.put(str(self.id))
             self.bulb_objects_list[self.below_neighbor].state_q.put(str(self.id))
+            
+            if self.id == 1:
+                print "============================================================================\nAdded messages to self and neighbor state_qs " + str(datetime.datetime.now())
 
-    def ssh_connection(self):
-        print "connecting to " + self.host
+    def back_and_forth_forever(self):
+        
+        #print "connecting to " + self.host
+        #paramiko.util.log_to_file( "bulb" + str(self.id) + ".log" )
         c = paramiko.SSHClient()
         c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         c.connect(self.host, username='ubnt', password='ubnt') 
-        print c
-
-        my_relay_id = int(self.id * 1.0 / 2) + 1
-
-        if 60 * 2/self.bpm - 1.2 > 0: 
-            time.sleep(60 * 2/self.bpm - 1.2)        
-
+        #print c
+        
         while True: 
-            adjustment_value = 0
-            if not self.adjustment.empty():
-                adjustment_value = self.adjustment.get()
-            #print "I, " + str(self.id) + " am making an adjustment of " + str(adjustment_value)
-
-            on_cmd_builder = "echo 1 > /proc/power/relay" + str(my_relay_id) + " "
-            off_cmd_builder = "echo 0 > /proc/power/relay" + str(my_relay_id) + " "
             
-            # I'M AHEAD OF MY NEIGHBOR -- I'LL WAIT BEFORE TURNING ON 
-            if adjustment_value > 0:
-                time.sleep(min(adjustment_value, 1))
+            #tStart = datetime.datetime.now()
+            
+            adjustment_value = 0
+            while not self.adjustment.empty():
+                adjustment_value = self.adjustment.get()
+        
+            on_cmd_builder = "echo 1 > /proc/power/relay" + str(self.my_relay_id) + " "
+            off_cmd_builder = "echo 0 > /proc/power/relay" + str(self.my_relay_id) + " "
+            
+            # Sleep for the adjustment time
+            if self.id == 1:
+                print "Adj value " + str(adjustment_value)
+            #time.sleep( adjustment_value )
 
-            # TURN ON & WAITr
+            # TURN ON
             (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
-            time.sleep(60.0 * 2/self.bpm) 
+            
+            # WAIT (fixed amount of time)
+            timeWait = (60.0 / float(self.bpm)) * 2
+            time.sleep( timeWait )
 
             # TURN OFF
-            (stdin, stdout, stderr)  = c.exec_command(off_cmd_builder) 
-            if adjustment_value <= 0: 
-                tmp = 60.0 * 2/self.bpm - abs(adjustment_value)
-                if tmp > 0:
-                    time.sleep(tmp)
-            #time.sleep(60.0 * 2.0/self.bpm)
+            (stdin, stdout, stderr) = c.exec_command(off_cmd_builder) 
+            time.sleep( timeWait + adjustment_value )
+            
             # SIGNAL TO NEIGHBORS THAT I FINISHED MY CYCLE
-            self.send_message_to_neighbors() 
+            self.send_message_to_neighbors()
+            
+            #tEnd = datetime.datetime.now()
+            #print "Time between messages: " + str((tEnd-tStart).total_seconds())
+            
+            #sys.stdout.flush();
 
     def run(self):
-        self.ssh_connection()
+        #sys.stdout = open(str(os.getpid()) + ".out", "w")
+        self.back_and_forth_forever()
