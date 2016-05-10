@@ -394,9 +394,12 @@ class Bulb(Process):
             # if the election_q isn't empty, decide what to do with the msg
             if not self.election_q.empty():  
                 msg = self.election_q.get()
+                # if the msg is a new election, send your uuid to the appropriate bulbs
                 if "New election" in str(msg):
                     initiator_uuid = long(msg.split(": ")[1])
-                    bulbs_in_election = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= initiator_uuid and bulb.uuid != self.uuid]
+                    bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
+                                            if bulb.uuid >= initiator_uuid and 
+                                            bulb.uuid != self.uuid]
                     self.send_uuid(bulbs_in_election)
                 else:
                     if msg not in responses:
