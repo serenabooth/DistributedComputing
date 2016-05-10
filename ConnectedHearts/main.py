@@ -1,4 +1,4 @@
-from hearts_old import *
+from hearts import *
 from control_pi import *
 from multiprocessing.queues import Queue
 from multiprocessing import Array, Value
@@ -65,10 +65,7 @@ while True:
     #while pulse_val == 0 or pulse_val == -1: 
     #    pulse_val = App.main_loop()
     #    time.sleep(1.0/16.0)
-        #if pulse_val == 0: 
-        #    print "Found a face in main"
-        #    time.sleep(10)
-        #pulse_val = App.bpm
+    #    pulse_val = App.bpm
 
 	# Clamp the pulse
     if pulse_val > 160: 
@@ -105,7 +102,7 @@ while True:
 	# Provide a pointer to the whole list of bulbs to all Bulbs
     for bulb in bulb_objects_list:
         bulb.register_bulbs(bulb_objects_list)
-        bulb.send_uuid()
+        bulb.send_uuid(bulb_objects_list)
     # At this point, each Bulb has 
     # - a uuid
     # - a mapping between uuid and bulb reference in bulb_object_list
@@ -113,17 +110,9 @@ while True:
 
 
     try:
-        # pi_20.start()
-
-        # pi_21 = Pi(bpm = App.bpm, 
-        #                       turned_on_list = power_strip_on_list, 
-        #                       hosts = hosts[1])
-        # pi_21.start()
-
-
 		# Perform leader election
         for bulb in bulb_objects_list:
-           bulb.start()
+            bulb.start()
         
         
         while True:    
@@ -138,7 +127,7 @@ while True:
         
 
     except KeyboardInterrupt:
-        kill_all_processes(pi, bulb_objects_list, App)
+        kill_all_processes(pi, bulb_objects_list)
         camera_obj.release()
 
 
