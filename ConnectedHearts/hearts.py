@@ -103,13 +103,15 @@ class Bulb(Process):
 
     def send_new_election_msg(self):
         self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
-                                    if bulb.uuid > self.uuid and bulb.uuid != self.uuid]
+                                    if bulb.uuid > self.uuid 
+                                    and bulb.uuid != self.uuid]
         for bulb in self.bulbs_in_election:
             bulb.election_q.put("New election from: " + str(self.uuid))
 
     def set_bulbs_in_new_election(self, uuid):
         self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
-                                    if bulb.uuid >= uuid and bulb.uuid != self.uuid]
+                                    if bulb.uuid >= uuid 
+                                    and bulb.uuid != self.uuid]
 
     def first_leader_election(self):
         timeout = time.time() + 1
@@ -121,7 +123,8 @@ class Bulb(Process):
         print "Leader id: " + str(self.leader_id.value) + "\n"
         print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         if self.leader.id == self.id:
-            print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
+            print ("Hi, I'm the leader: " + str(self.id) + " Right? " + 
+                    str(self.leader == self) + "\n")
             self.turn_on()
             self.respond_to_ping()
         else:
@@ -167,15 +170,19 @@ class Bulb(Process):
             msg = self.election_q.get()
             if "New election" in str(msg) or "New leader" in str(msg):
                 initiator_uuid = long(msg.split(": ")[1])
-                #print "I'm bulb " + str(self.id) + " and bulb " + str(self.uuid_dict[initiator_uuid].id) + " told me there was a new election \n"
+                #print "I'm bulb " + str(self.id) + " and bulb " + 
+                    #str(self.uuid_dict[initiator_uuid].id) + 
+                    #" told me there was a new election \n"
                 self.set_bulbs_in_new_election(initiator_uuid)
                 return
-            #print "I'm bulb " + str(self.id) + " and the leader responded: " + str(msg) + "\n Also my timeout is " + str(self.ping_time) + "\n"
+            #print ("I'm bulb " + str(self.id) + " and the leader responded: " + 
+                #str(msg) + "\n Also my timeout is " + str(self.ping_time) + "\n")
             self.leader.election_q.put(self.uuid)
         else:
             time.sleep(self.max_timeout - self.ping_time)
             if self.election_q.empty():
-                print "I'm bulb " + str(self.id) + " and Oh no the leader didn't respond \n"
+                print ("I'm bulb " + str(self.id) + 
+                    " and Oh no the leader didn't respond \n")
                 self.send_new_election_msg()
                 return
         self.ping_leader()
@@ -194,13 +201,16 @@ class Bulb(Process):
             pinger_uuid = self.election_q.get()
             if "New election" in str(pinger_uuid) or "New leader" in str(pinger_uuid):
                 initiator_uuid = long(pinger_uuid.split(": ")[1])
-                #print "I'm bulb " + str(self.id) + " and bulb " + str(self.uuid_dict[initiator_uuid].id) + " told me there was a new election \n"
+                #print ("I'm bulb " + str(self.id) + " and bulb " + 
+                    #str(self.uuid_dict[initiator_uuid].id) + 
+                    #" told me there was a new election \n")
                 self.set_bulbs_in_new_election(initiator_uuid)
                 return           
             #print "I responded to bulb " + str(self.uuid_dict[pinger_uuid].id) + "\n")
             self.uuid_dict[pinger_uuid].election_q.put(self.uuid)
         time.sleep(self.ping_time)
-        higher_uuid_bulbs = [bulb for bulb in self.bulb_objects_list if bulb.uuid > self.uuid]
+        higher_uuid_bulbs = [bulb for bulb in self.bulb_objects_list 
+                                if bulb.uuid > self.uuid]
         for bulb in higher_uuid_bulbs:
             bulb.election_q.put("New leader: " + str(self.uuid))
         self.respond_to_ping()
@@ -213,14 +223,17 @@ class Bulb(Process):
                 msg = self.election_q.get()
                 if "New election" in str(msg):
                     initiator_uuid = long(msg.split(": ")[1])
-                    bulbs_in_election = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= initiator_uuid and bulb.uuid != self.uuid]
+                    bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
+                                            if bulb.uuid >= initiator_uuid and 
+                                            bulb.uuid != self.uuid]
                     self.send_uuid(bulbs_in_election)
                 else:
                     if msg not in responses:
                         responses.append(msg)
         responses.sort()
         if not responses or self.uuid > responses[len(responses) - 1]:
-            print "Responses: " + str(responses) + " I'm the LEADER and I'm bulb " + str(self.id) + "\n"
+            print ("Responses: " + str(responses) + " I'm the LEADER and I'm bulb " 
+                + str(self.id) + "\n")
             print datetime.datetime.now()
             self.leader = self
             for bulb in [bulb for bulb in self.bulb_objects_list if bulb is not self]:
@@ -243,7 +256,8 @@ class Bulb(Process):
             self.empty_q(self.election_q)
             if new_leader:
                 time.sleep(self.max_timeout)
-                print "I'm bulb " + str(self.id) + " and I think the leader is " + str(self.leader.id) + "\n" 
+                print ("I'm bulb " + str(self.id) + " and I think the leader is " 
+                    + str(self.leader.id) + "\n")
                 self.election_q.put("first ping")
                 self.ping_leader()
             else:
@@ -254,7 +268,8 @@ class Bulb(Process):
 
     def run(self):
         self.first_leader_election()
-        #print "I'm bulb " + str(self.id) + " and here are the bulbs in my new election " + str([bulb.id for bulb in self.bulbs_in_election]) + "\n"
+        #print ("I'm bulb " + str(self.id) + " and here are the bulbs in my new election " 
+        # + str([bulb.id for bulb in self.bulbs_in_election]) + "\n")
         while True:
             self.send_uuid(self.bulbs_in_election)
             self.new_leader_election()
