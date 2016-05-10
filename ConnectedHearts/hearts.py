@@ -11,24 +11,24 @@ from control_bulb import *
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 # yay decorators
 def threaded(fn):
-    """ 
-    Creates a new thread to run the function fn. Use by writing "@threaded" 
-    above function to thread.
+""" 
+Creates a new thread to run the function fn. Use by writing "@threaded" 
+above function to thread.
 
-    fn: function 
-    returns: None 
-    """
+fn: function 
+returns: None 
+"""
     def wrapper(*args, **kwargs):
        threading.Thread(target=fn, args=args, kwargs=kwargs).start()
     return wrapper
 
 class BulbQueue(Queue):
-    """ 
-    BulbQueue inherits from multiprocessing.Queue, but has the added 
-    functionality that it keeps track of its size while putting and getting 
-    elements from the queue. Multiprocessing.Queue makes no guarantees when
-    calling its size method.
-    """
+""" 
+BulbQueue inherits from multiprocessing.Queue, but has the added 
+functionality that it keeps track of its size while putting and getting 
+elements from the queue. Multiprocessing.Queue makes no guarantees when
+calling its size method.
+"""
     def __init__(self):
         super(BulbQueue, self).__init__()
         self.queuesize = 0
@@ -52,7 +52,7 @@ class BulbQueue(Queue):
         self.queuesize += 1
 
 class Bulb(Process):
-    """ Creates a Bulb process which runs leader election """
+""" Creates a Bulb process which runs leader election """
 
     def __init__(self, id, turned_on_list, bpm, host):
     """
@@ -305,13 +305,13 @@ class Bulb(Process):
         self.ping_leader()
 
     def signal_to_neighbors(self, list_of_neighbors):
-        """ 
-        Wait for ping_time and then tell neighbors to turn on
+    """ 
+    Wait for ping_time and then tell neighbors to turn on
 
-        :param list_of_neighbors: The bulb neighbors of self
-        :type param: list of Bulb()s
-        :return None:
-        """
+    :param list_of_neighbors: The bulb neighbors of self
+    :type param: list of Bulb()s
+    :return None:
+    """
         time.sleep(self.ping_time)
         for neighbor in list_of_neighbors: 
             neighbor.state_q.put(1)
