@@ -253,7 +253,11 @@ class Bulb(Process):
                     if msg not in responses:
                         responses.append(msg)
         responses.sort()
-        print "I'm bulb " + str(self.id) + " Did the correct bulbs respond to me?" + str(responses)
+        if not self.uuid > responses[len(responses) - 1]:
+            print "Responses: " + str(responses) + " I'm not the leader and I'm bulb " + str(self.id) + "\n"
+        else:
+            print "Responses: " + str(responses) + " I'm the LEADER and I'm bulb " + str(self.id) + "\n"
+        #print "I'm bulb " + str(self.id) + " Did the correct bulbs respond to me?" + str(responses)
 
 
 
