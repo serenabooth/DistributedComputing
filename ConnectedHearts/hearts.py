@@ -387,6 +387,7 @@ class Bulb(Process):
 
         :return: None
         """
+        new_leader = False
         timeout = time.time() + self.max_timeout
         responses = []
         # wait for responses from higher uuids for max_timeout 
@@ -394,6 +395,7 @@ class Bulb(Process):
             # if the election_q isn't empty, decide what to do with the msg
             if not self.election_q.empty():  
                 msg = self.election_q.get()
+
                 # if the msg is a new election, send your uuid to the appropriate bulbs
                 if "New election" in str(msg):
                     initiator_uuid = long(msg.split(": ")[1])
@@ -401,9 +403,22 @@ class Bulb(Process):
                                             if bulb.uuid >= initiator_uuid and 
                                             bulb.uuid != self.uuid]
                     self.send_uuid(bulbs_in_election)
+
+                # if you receive a new leader message
+                elif "New leader" in str(msg):
+                    leader_uuid = long(msg.split(": ")[1])
+                    if self.uuid < leader_uuid:
+                        # and your uuid is lower than the new leaders uuid
+                        # then set leader to the new leader
+                        self.leader = self.uuid_dict[leader_uuid]
+                        new_leader = True
+                        break
                 else:
+                    # add msg to responses if it is not already in responses
                     if msg not in responses:
                         responses.append(msg)
+
+        # sort responses from lowest to highest uuid
         responses.sort()
         if not responses or self.uuid > responses[len(responses) - 1]:
             print "Responses: " + str(responses) + " I'm the LEADER and I'm bulb " + str(self.id) + "\n"
@@ -415,22 +430,22 @@ class Bulb(Process):
             self.respond_to_ping()
         else:
             print "I'm not the leader and I'm bulb " + str(self.id) + "\n"
-            new_leader = False
             timeout = time.time() + 2 * self.max_timeout
             while True:
                 if time.time() > timeout:
                     break
                 if not self.election_q.empty():
-                    msg = self.election_q.get()
+                    # if you receive a new leader message
                     if "New leader" in str(msg):
-                        #print "I got a new leader message!"
-                        leader_uuid = int(msg.split(": ")[1])
-                        #print leader_uuid
+                        leader_uuid = long(msg.split(": ")[1])
                         if self.uuid < leader_uuid:
+                            # and your uuid is lower than the new leaders uuid
+                            # then set leader to the new leader
                             self.leader = self.uuid_dict[leader_uuid]
                             new_leader = True
                             break
             self.empty_q(self.election_q)
+
             if new_leader:
                 #print "Theres a new leader"
                 timeout = time.time() + self.max_timeout
