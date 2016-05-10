@@ -146,18 +146,15 @@ This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room,''\cite{pulse} an
 \item Raspberry PiCamera
 \end{itemize} 
 
-The end product appears to be a medicine cabinet with 13 light bulbs around its mirror. The majority of the components---the cables, the Raspberry Pi, etc.---are hidden from view, inside the cabinet. 
-
-
+The end product looks to be a medicine cabinet with 13 light bulbs around its mirror; the majority of the components---the cables, the Raspberry Pi, etc.---are hidden from view, inside the cabinet. 
 
 \section{System Design}
 
-Our code is written in Python. 
-
-\SERENA{TO DO: Explain process layout + relationships} 
+Our code is written in Python and makes extensive use of the multiprocessing library. Our process infrastructure is shown in Figure \ref{fig:procStruc}. In short, the program runs a \texttt{main.py}, the parent process. This process creates one process for running pulse detection; two more processes for turning all the relays off at the start; and 13 more processes, each corresponding to a bulb. Of these 13 ``bulb'' processes, each spawns its own process to handle inter-bulb synchronization. Of these inter-bulb synchronization processes, each spawns an additional process which is tasked with maintaining the state of a continually-blinking bulb. 
 
 \subsection{Inter-bulb Communication}
-\SERENA{TO DO: Write about bulbs}
+
+We of course, do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues. This architecture is further shown in Figure \ref{fig:procStruc}. 
 
 \section{Architecture \& Algorithms}
 
