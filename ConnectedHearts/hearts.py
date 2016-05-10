@@ -116,9 +116,6 @@ class Bulb(Process):
         self.bpm = bpm
         self.host = host
 
-        if self.id == 0:
-            self.uuid = 2**64-2
-
     def register_bulbs(self, bulb_objects_list):
         """
         Sets self.bulb_object_list equal to a list of all the bulb process 
@@ -271,14 +268,14 @@ class Bulb(Process):
         """
         self.turned_on_list[self.id] = 1
 
-        """bulb_control = BulbControl(  my_id = self.id,
+        bulb_control = BulbControl(  my_id = self.id,
                                     bpm = self.bpm, 
                                     host = self.host,
                                     leader_id = self.leader_id,
                                     state_q = self.state_q,
                                     bulb_objects_list = self.bulb_objects_list, 
                                     turned_on_list = self.turned_on_list)
-        bulb_control.start()"""
+        bulb_control.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
 
