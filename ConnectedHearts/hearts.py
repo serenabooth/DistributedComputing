@@ -435,13 +435,12 @@ class Bulb(Process):
             # empty your election_q before responding to pings
             self.empty_q(self.election_q)
             self.respond_to_ping()
-            
+
+        # this means you are not the leader
         else:
             print "I'm not the leader and I'm bulb " + str(self.id) + "\n"
             timeout = time.time() + 2 * self.max_timeout
-            while True:
-                if time.time() > timeout:
-                    break
+            while time.time() < timeout:
                 if not self.election_q.empty():
                     # if you receive a new leader message
                     if "New leader" in str(msg):
@@ -452,19 +451,21 @@ class Bulb(Process):
                             self.leader = self.uuid_dict[leader_uuid]
                             new_leader = True
                             break
+
+            # empty your election_q
             self.empty_q(self.election_q)
 
             if new_leader:
-                #print "Theres a new leader"
-                timeout = time.time() + self.max_timeout
-                while True:
-                    #print "Bulb " + str(self.id) + " is waiting"
-                    if time.time() > timeout:
-                        break
-                print "I'm bulb " + str(self.id) + " and I think the leader is " + str(self.leader.id) + "\n" 
+                # if there is a new leader, wait max_timeout for it to start
+                # responding to pings
+                time.sleep(self.max_timeout)
+                print ("I'm bulb " + str(self.id) + " and I think the leader is " 
+                    + str(self.leader.id) + "\n")
+                # then start pinging the new leader
                 self.election_q.put("first ping")
                 self.ping_leader()
             else:
+                # if you never received a new leader message, start another election
                 self.send_new_election_msg()
                 return
 
