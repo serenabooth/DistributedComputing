@@ -12,7 +12,8 @@ from control_bulb import *
 # yay decorators
 def threaded(fn):
     """ 
-    Creates a new thread to run the function fn. Use by writing "@threaded" above function to thread.
+    Creates a new thread to run the function fn. Use by writing "@threaded" 
+    above function to thread.
 
     fn: function 
     returns: None 
@@ -22,6 +23,12 @@ def threaded(fn):
     return wrapper
 
 class BulbQueue(Queue):
+    """ 
+    Bulbqueueinherits from multiprocessing.Queue, but has the added 
+    functionality that it keeps track of its size while putting and getting 
+    elements from the queue. Multiprocessing.Queue makes no guarantees when
+    calling its size method.
+    """
     def __init__(self):
         super(BulbQueue, self).__init__()
         self.queuesize = 0
@@ -45,6 +52,7 @@ class BulbQueue(Queue):
         self.queuesize += 1
 
 class Bulb(Process):
+    """ Creates a Bulb process which will runs leader election """
     def __init__(self, id, turned_on_list, bpm, host):
         super(Bulb, self).__init__()
         self.id = id
@@ -94,12 +102,14 @@ class Bulb(Process):
             q.get()
 
     def send_new_election_msg(self):
-        self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list if bulb.uuid > self.uuid and bulb.uuid != self.uuid]
+        self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
+                                    if bulb.uuid > self.uuid and bulb.uuid != self.uuid]
         for bulb in self.bulbs_in_election:
             bulb.election_q.put("New election from: " + str(self.uuid))
 
     def set_bulbs_in_new_election(self, uuid):
-        self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list if bulb.uuid >= uuid and bulb.uuid != self.uuid]
+        self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
+                                    if bulb.uuid >= uuid and bulb.uuid != self.uuid]
 
     def first_leader_election(self):
         timeout = time.time() + 1
