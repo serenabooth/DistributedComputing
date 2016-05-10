@@ -1,6 +1,6 @@
 from datetime import datetime
 import threading
-import sys, time, socket, random
+import sys, time, socket, random, os
 import uuid
 from multiprocessing import Array, Process, Value, Lock
 from multiprocessing.queues import Queue
@@ -52,6 +52,7 @@ class BulbQueue(Queue):
         self.queuesize += 1
         #self.lock.release()
 
+
 class Bulb(Process):
     def __init__(self, id, turned_on_list, bpm, host):
         super(Bulb, self).__init__()
@@ -63,7 +64,7 @@ class Bulb(Process):
         self.leader_id = Value('i', -1)
         self.election_q = BulbQueue()
         self.state_q = BulbQueue()
-        self.ping_time = random.randint(1,12)
+        self.ping_time = random.randint(1,3)
         self.max_timeout = 15
         self.turned_on_list = turned_on_list
         self.bpm = bpm
@@ -101,26 +102,21 @@ class Bulb(Process):
 
 
     def leader_election(self):
-        #print "is this working? \n"
-        self.leader = None
-        timeout = time.time() + 1
-        while True:
-            if time.time() > timeout:
-                break
-            if self.election_q.size() == 13:
-                #print "Do I ever get here? \n"
-                break
+
+		# self.leader is reference to Bulb leader object
         self.leader = self.uuid_dict[self.get_max_uuid()]
+        #self.leader = self.bulb_objects_list[0]
+        # Get leader Bulb's id
         self.leader_id.value = self.leader.id
-        print "Leader id: " + str(self.leader_id.value) + "\n"
-        #print "Or here? " + str(self.leader.id) + "\n" 
+
+        sys.stdout.write( "Leader id: " + str(self.leader_id.value) + "\n" )
         """if (self == self.leader):
             sys.stderr.write("I actually exited. I'm the leader. " + "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
             return"""
-        #print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         sys.stderr.write("id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n")
+        
         if self.leader.id == self.id:
-            print "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n"
+            sys.stdout.write( "Hi, I'm the leader: " + str(self.id) + " Right? " + str(self.leader == self) + "\n" )
             self.turn_on()
             """timeout = time.time() + 10
             while True:
@@ -130,8 +126,9 @@ class Bulb(Process):
             print self.print_q(self.election_q)
             #self.set_up_leader_socket()"""
             self.respond_to_ping()
+        
         else:
-            print "Hi, I'm a follower: " + str(self.id) + "\n"
+            sys.stdout.write( "Hi, I'm a follower: " + str(self.id) + "\n" )
             p = Process(target=self.check_turn_on, args=())
             p.start()
             self.election_q.put("first ping")
@@ -146,21 +143,24 @@ class Bulb(Process):
         while (self.state_q.empty()):
             #print "I'm bulb " + str(self.id) + " and I'm checking if turned on"
             time.sleep(1)
+            
         self.state_q.get()
         self.turn_on()
 
     def turn_on(self):
         self.turned_on_list[self.id] = 1
-        #print "Yay, I'm bulb " + str(self.id) + " and I turned on"
+        if self.id == 1:
+		    print "Yay, I'm bulb " + str(self.id) + " and I turned on"
 
-        my_ssh_connection = BulbControl(my_id = self.id,
-                    bpm = self.bpm, 
-                    host = self.host,
-                    leader_id = self.leader_id,
-                    state_q = self.state_q,
-                    bulb_objects_list = self.bulb_objects_list, 
-                    turned_on_list = self.turned_on_list)
-        my_ssh_connection.start()
+        bulbControl = BulbControl(	my_id = self.id,
+									bpm = self.bpm, 
+									host = self.host,
+									leader_id = self.leader_id,
+									state_q = self.state_q,
+									bulb_objects_list = self.bulb_objects_list, 
+									turned_on_list = self.turned_on_list)
+        bulbControl.start()
+        
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
 
@@ -227,6 +227,7 @@ class Bulb(Process):
         self.respond_to_ping()
 
     def run(self):
+        #sys.stdout = open(str(os.getpid()) + ".out", "w")
         self.leader_election()
 
 
