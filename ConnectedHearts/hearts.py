@@ -11,24 +11,24 @@ from control_bulb import *
 # cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
 # yay decorators
 def threaded(fn):
-""" 
-Creates a new thread to run the function fn. Use by writing "@threaded" 
-above function to thread.
+    """ 
+    Creates a new thread to run the function fn. Use by writing "@threaded" 
+    above function to thread.
 
-fn: function 
-returns: None 
-"""
+    fn: function 
+    returns: None 
+    """
     def wrapper(*args, **kwargs):
        threading.Thread(target=fn, args=args, kwargs=kwargs).start()
     return wrapper
 
 class BulbQueue(Queue):
-""" 
-BulbQueue inherits from multiprocessing.Queue, but has the added 
-functionality that it keeps track of its size while putting and getting 
-elements from the queue. Multiprocessing.Queue makes no guarantees when
-calling its size method.
-"""
+    """ 
+    BulbQueue inherits from multiprocessing.Queue, but has the added 
+    functionality that it keeps track of its size while putting and getting 
+    elements from the queue. Multiprocessing.Queue makes no guarantees when
+    calling its size method.
+    """
     def __init__(self):
         super(BulbQueue, self).__init__()
         self.queuesize = 0
@@ -52,27 +52,27 @@ calling its size method.
         self.queuesize += 1
 
 class Bulb(Process):
-""" Creates a Bulb process which runs leader election """
+    """ Creates a Bulb process which runs leader election """
 
     def __init__(self, id, turned_on_list, bpm, host):
-    """
-    Initializes a Bulb process
+        """
+        Initializes a Bulb process
 
-    :param id: The unique id of the bulb which acts as its name, ranges from 0 to 12
-    :type id: long
-    :param turned_on_list: Used to keep track of which bulbs are currently turned 
-    on. The list is of length 13 with information about the status of a particular
-    bulb located at the index equal to its id.
-    :type turned_on_list: multiprocessing.Array
-    :type bpm: The pulse that the bulb should use when determining when to turn
-    on and off. This is calculated using the webcame_pulse library. 
-    :type bpm: int
-    :param host: The ip address of the power strip that the bulb is physically
-    plugged into.
-    :type host: string
-    :return: A Bulb Process
-    :type return: Bulb()
-    """
+        :param id: The unique id of the bulb which acts as its name, ranges from 0 to 12
+        :type id: long
+        :param turned_on_list: Used to keep track of which bulbs are currently turned 
+        on. The list is of length 13 with information about the status of a particular
+        bulb located at the index equal to its id.
+        :type turned_on_list: multiprocessing.Array
+        :type bpm: The pulse that the bulb should use when determining when to turn
+        on and off. This is calculated using the webcame_pulse library. 
+        :type bpm: int
+        :param host: The ip address of the power strip that the bulb is physically
+        plugged into.
+        :type host: string
+        :return: A Bulb Process
+        :type return: Bulb()
+        """
         super(Bulb, self).__init__()
         self.id = id
 
@@ -116,45 +116,45 @@ class Bulb(Process):
         self.host = host
 
     def register_bulbs(self, bulb_objects_list):
-    """
-    Sets self.bulb_object_list equal to a list of all the bulb process objects in
-    the system.
+        """
+        Sets self.bulb_object_list equal to a list of all the bulb process objects in
+        the system.
 
-    :param bulb_objects_list: A list of all the bulb process objects in the system,
-    which is passed in by the main thread.
-    :type bulb_objects_list: list of Bulb()s
-    :return: None
-    """
+        :param bulb_objects_list: A list of all the bulb process objects in the system,
+        which is passed in by the main thread.
+        :type bulb_objects_list: list of Bulb()s
+        :return: None
+        """
         self.bulb_objects_list = bulb_objects_list
         self.create_uuid_dict()
 
     def send_uuid(self, bulbs):
-    """
-    The process self puts its uuid on the election_q of every bulb in bulbs.
+        """
+        The process self puts its uuid on the election_q of every bulb in bulbs.
 
-    :param bulbs: The bulbs that self will send its uuid to.
-    :type bulbs: list of Bulb()s
-    :return: None
-    """
+        :param bulbs: The bulbs that self will send its uuid to.
+        :type bulbs: list of Bulb()s
+        :return: None
+        """
         for bulb in bulbs:
             bulb.election_q.put(self.uuid)
 
     def create_uuid_dict(self):
-    """
-    Creates a dictionary of bulb uuid keys to the corresponding Bulb() object
+        """
+        Creates a dictionary of bulb uuid keys to the corresponding Bulb() object
 
-    :return: None
-    """
+        :return: None
+        """
         for bulb in self.bulb_objects_list:
             self.uuid_dict[bulb.uuid] = bulb
 
     def get_max_uuid(self):
-    """
-    Finds the max uuid in the election_q
+        """
+        Finds the max uuid in the election_q
 
-    :returns: The max uuid
-    :type return: long
-    """
+        :returns: The max uuid
+        :type return: long
+        """
         curr_max = self.election_q.get()
         while (self.election_q.size() > 0):
             curr_item = self.election_q.get()
@@ -163,37 +163,37 @@ class Bulb(Process):
         return curr_max
 
     def print_q(self, q):
-    """
-    Gets all of the items in q and returns them as a list
+        """
+        Gets all of the items in q and returns them as a list
 
-    :param q: Any BulbQueue()
-    :type q: BulbQueue()
-    :return: A list of the contents of q
-    :type return: list
-    """
+        :param q: Any BulbQueue()
+        :type q: BulbQueue()
+        :return: A list of the contents of q
+        :type return: list
+        """
         q_contents = []
         while not q.empty():
             q_contents.append(q.get())
         return q_contents
 
     def empty_q(self, q):
-    """
-    Empties a BulbQueue()
+        """
+        Empties a BulbQueue()
 
-    :param q: Any BulbQueue()
-    :type q: BulbQueue()
-    :return: None
-    """
+        :param q: Any BulbQueue()
+        :type q: BulbQueue()
+        :return: None
+        """
         while not q.empty():
             q.get()
 
     def send_new_election_msg(self):
-    """
-    Sets bulbs_in_election to a list of bulb objects with uuids higher than self.uuid. 
-    Then self puts a new election message on the election_q of all of these bulbs.
+        """
+        Sets bulbs_in_election to a list of bulb objects with uuids higher than self.uuid. 
+        Then self puts a new election message on the election_q of all of these bulbs.
 
-    :return: None
-    """
+        :return: None
+        """
         self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
                                     if bulb.uuid > self.uuid 
                                     and bulb.uuid != self.uuid]
@@ -201,24 +201,24 @@ class Bulb(Process):
             bulb.election_q.put("New election from: " + str(self.uuid))
 
     def set_bulbs_in_new_election(self, uuid):
-    """
-    This sets bulbs_in_election to a list of all bulb objects with uuids greater
-    or equal to uuid, excluding self. 
+        """
+        This sets bulbs_in_election to a list of all bulb objects with uuids greater
+        or equal to uuid, excluding self. 
 
-    :return: None
-    """
+        :return: None
+        """
         self.bulbs_in_election = [bulb for bulb in self.bulb_objects_list 
                                     if bulb.uuid >= uuid 
                                     and bulb.uuid != self.uuid]
 
     def first_leader_election(self):
-    """
+        """
 
 
-    Has the invariant that all bulbs know the uuid of all other bulbs that are
-    running. 
+        Has the invariant that all bulbs know the uuid of all other bulbs that are
+        running. 
 
-    """
+        """
         self.leader = self.uuid_dict[self.get_max_uuid()]
         self.leader_id.value = self.leader.id
         print "Leader id: " + str(self.leader_id.value) + "\n"
@@ -266,18 +266,18 @@ class Bulb(Process):
             self.signal_to_neighbors(neighbors_to_signal_to)
 
     def ping_leader(self):
-    """
-    Repeatedly ping the leader after waiting ping_time, if you have received a 
-    message from the leader.
+        """
+        Repeatedly ping the leader after waiting ping_time, if you have received a 
+        message from the leader.
 
-    If you receive a new election or new leader message, prepare for a new leader
-    election and return.
+        If you receive a new election or new leader message, prepare for a new leader
+        election and return.
 
-    If the leader does not respond after max_timeout, start a new election and
-    return.
+        If the leader does not respond after max_timeout, start a new election and
+        return.
 
-    :return: None
-    """
+        :return: None
+        """
         time.sleep(self.ping_time)
         if not self.election_q.empty():
             msg = self.election_q.get()
@@ -301,35 +301,35 @@ class Bulb(Process):
         self.ping_leader()
 
     def signal_to_neighbors(self, list_of_neighbors):
-    """ 
-    Wait for ping_time and then tell neighbors to turn on
+        """ 
+        Wait for ping_time and then tell neighbors to turn on
 
-    :param list_of_neighbors: The bulb neighbors of self
-    :type param: list of Bulb()s
-    :return None:
-    """
+        :param list_of_neighbors: The bulb neighbors of self
+        :type param: list of Bulb()s
+        :return None:
+        """
         time.sleep(self.ping_time)
         for neighbor in list_of_neighbors: 
             neighbor.state_q.put(1)
 
     def respond_to_ping(self):
-    """
-    Respond to the pings of all the followers. Continuously get messages from
-    your election_q and respond to pinger_uuid if the queue isn't empty.
+        """
+        Respond to the pings of all the followers. Continuously get messages from
+        your election_q and respond to pinger_uuid if the queue isn't empty.
 
-    If the queue is empty, sleep for ping_time. 
+        If the queue is empty, sleep for ping_time. 
 
-    Then send a new leader message to all bulbs with a higher uuid than yourself 
-    (this can be an empty list and thus no messages will be sent). This allows 
-    any bulbs who restart to recover their status as leader.
+        Then send a new leader message to all bulbs with a higher uuid than yourself 
+        (this can be an empty list and thus no messages will be sent). This allows 
+        any bulbs who restart to recover their status as leader.
 
-    Then continue responding to pings.
+        Then continue responding to pings.
 
-    If you receive a new election or new leader message, prepare for a new leader
-    election and return.
+        If you receive a new election or new leader message, prepare for a new leader
+        election and return.
 
-    :return: None
-    """
+        :return: None
+        """
         while not self.election_q.empty():
             pinger_uuid = self.election_q.get()
             if "New election" in str(pinger_uuid) or "New leader" in str(pinger_uuid):
@@ -400,18 +400,18 @@ class Bulb(Process):
 
 
     def run(self):
-    """
-    Runs the first leader election.
+        """
+        Runs the first leader election.
 
-    After that returns, which means the first leader has crashed, uuids are sent
-    to all the bulbs in the new election and a new leader election is started.
+        After that returns, which means the first leader has crashed, uuids are sent
+        to all the bulbs in the new election and a new leader election is started.
 
-    The while True ensures that anytime a leader crashes or there is disagreement
-    over the leader, a new leader election is run (since new_leader_election 
-    only returns when the leader has crashed)
+        The while True ensures that anytime a leader crashes or there is disagreement
+        over the leader, a new leader election is run (since new_leader_election 
+        only returns when the leader has crashed)
 
-    :return: None
-    """
+        :return: None
+        """
         self.first_leader_election()
         #print ("I'm bulb " + str(self.id) + " and here are the bulbs in my new election " 
         # + str([bulb.id for bulb in self.bulbs_in_election]) + "\n")
