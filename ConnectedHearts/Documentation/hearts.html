@@ -1,0 +1,313 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module hearts</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>hearts</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/serena/DistributedComputing/ConnectedHearts/hearts.py">/home/serena/DistributedComputing/ConnectedHearts/hearts.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ctypes.html">ctypes</a><br>
+<a href="datetime.html">datetime</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="paramiko.html">paramiko</a><br>
+<a href="random.html">random</a><br>
+<a href="socket.html">socket</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+<a href="threading.html">threading</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+<a href="uuid.html">uuid</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>(<a href="__builtin__.html#object">__builtin__.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="hearts.html#Bulb">Bulb</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="multiprocessing.queues.html#Queue">multiprocessing.queues.Queue</a>(<a href="__builtin__.html#object">__builtin__.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="hearts.html#BulbQueue">BulbQueue</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Bulb">class <strong>Bulb</strong></a>(<a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Creates&nbsp;a&nbsp;<a href="#Bulb">Bulb</a>&nbsp;process&nbsp;which&nbsp;runs&nbsp;leader&nbsp;election<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="hearts.html#Bulb">Bulb</a></dd>
+<dd><a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Bulb-__init__"><strong>__init__</strong></a>(self, id, turned_on_list, bpm, host)</dt><dd><tt>Initializes&nbsp;a&nbsp;<a href="#Bulb">Bulb</a>&nbsp;process<br>
+&nbsp;<br>
+:param&nbsp;id:&nbsp;The&nbsp;unique&nbsp;id&nbsp;of&nbsp;the&nbsp;bulb&nbsp;which&nbsp;acts&nbsp;as&nbsp;its&nbsp;name,&nbsp;ranges&nbsp;from&nbsp;<br>
+0&nbsp;to&nbsp;12<br>
+:type&nbsp;id:&nbsp;long<br>
+:param&nbsp;turned_on_list:&nbsp;Used&nbsp;to&nbsp;keep&nbsp;track&nbsp;of&nbsp;which&nbsp;bulbs&nbsp;are&nbsp;currently&nbsp;<br>
+turned&nbsp;on.&nbsp;The&nbsp;list&nbsp;is&nbsp;of&nbsp;length&nbsp;13&nbsp;with&nbsp;information&nbsp;about&nbsp;the&nbsp;status&nbsp;of&nbsp;<br>
+a&nbsp;particular&nbsp;bulb&nbsp;located&nbsp;at&nbsp;the&nbsp;index&nbsp;equal&nbsp;to&nbsp;its&nbsp;id.<br>
+:type&nbsp;turned_on_list:&nbsp;multiprocessing.Array<br>
+:type&nbsp;bpm:&nbsp;The&nbsp;pulse&nbsp;that&nbsp;the&nbsp;bulb&nbsp;should&nbsp;use&nbsp;when&nbsp;determining&nbsp;when&nbsp;to&nbsp;turn<br>
+on&nbsp;and&nbsp;off.&nbsp;This&nbsp;is&nbsp;calculated&nbsp;using&nbsp;the&nbsp;webcame_pulse&nbsp;library.&nbsp;<br>
+:type&nbsp;bpm:&nbsp;int<br>
+:param&nbsp;host:&nbsp;The&nbsp;ip&nbsp;address&nbsp;of&nbsp;the&nbsp;power&nbsp;strip&nbsp;that&nbsp;the&nbsp;bulb&nbsp;is&nbsp;physically<br>
+plugged&nbsp;into.<br>
+:type&nbsp;host:&nbsp;string<br>
+:return:&nbsp;A&nbsp;<a href="#Bulb">Bulb</a>&nbsp;<a href="multiprocessing.process.html#Process">Process</a><br>
+:type&nbsp;return:&nbsp;<a href="#Bulb">Bulb</a>()</tt></dd></dl>
+
+<dl><dt><a name="Bulb-check_turn_on"><strong>check_turn_on</strong></a>(self)</dt><dd><tt>Continuously&nbsp;checks&nbsp;to&nbsp;see&nbsp;if&nbsp;there&nbsp;is&nbsp;something&nbsp;on&nbsp;the&nbsp;state_q.<br>
+If&nbsp;there&nbsp;is&nbsp;something&nbsp;on&nbsp;the&nbsp;state_q,&nbsp;that&nbsp;means&nbsp;that&nbsp;a&nbsp;neighbor&nbsp;has<br>
+told&nbsp;it&nbsp;to&nbsp;turn&nbsp;on&nbsp;so&nbsp;it&nbsp;turns&nbsp;itself&nbsp;on.<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-create_uuid_dict"><strong>create_uuid_dict</strong></a>(self)</dt><dd><tt>Creates&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;bulb&nbsp;uuid&nbsp;keys&nbsp;to&nbsp;the&nbsp;corresponding&nbsp;<a href="#Bulb">Bulb</a>()&nbsp;object<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-empty_q"><strong>empty_q</strong></a>(self, q)</dt><dd><tt>Empties&nbsp;a&nbsp;<a href="#BulbQueue">BulbQueue</a>()<br>
+&nbsp;<br>
+:param&nbsp;q:&nbsp;Any&nbsp;<a href="#BulbQueue">BulbQueue</a>()<br>
+:type&nbsp;q:&nbsp;<a href="#BulbQueue">BulbQueue</a>()<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-first_leader_election"><strong>first_leader_election</strong></a>(self)</dt><dd><tt>A&nbsp;bulb&nbsp;process&nbsp;finds&nbsp;the&nbsp;max&nbsp;uuid&nbsp;in&nbsp;its&nbsp;election_q&nbsp;and&nbsp;then&nbsp;chooses<br>
+the&nbsp;leader&nbsp;accordingly.<br>
+&nbsp;<br>
+Has&nbsp;the&nbsp;invariant&nbsp;that&nbsp;all&nbsp;bulbs&nbsp;know&nbsp;the&nbsp;uuid&nbsp;of&nbsp;all&nbsp;other&nbsp;bulbs&nbsp;that&nbsp;are<br>
+running.&nbsp;<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-get_max_uuid"><strong>get_max_uuid</strong></a>(self)</dt><dd><tt>Finds&nbsp;the&nbsp;max&nbsp;uuid&nbsp;in&nbsp;the&nbsp;election_q<br>
+&nbsp;<br>
+:returns:&nbsp;The&nbsp;max&nbsp;uuid<br>
+:type&nbsp;return:&nbsp;long</tt></dd></dl>
+
+<dl><dt><a name="Bulb-new_leader_election"><strong>new_leader_election</strong></a>(self)</dt><dd><tt>A&nbsp;slight&nbsp;modification&nbsp;to&nbsp;the&nbsp;Bully&nbsp;algorithm.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;run&nbsp;if&nbsp;a&nbsp;leader&nbsp;ever&nbsp;becomes&nbsp;non-responsive&nbsp;and&nbsp;a&nbsp;process&nbsp;receives<br>
+a&nbsp;"new&nbsp;election"&nbsp;message&nbsp;on&nbsp;its&nbsp;election_q<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-ping_leader"><strong>ping_leader</strong></a>(self)</dt><dd><tt>Repeatedly&nbsp;ping&nbsp;the&nbsp;leader&nbsp;after&nbsp;waiting&nbsp;ping_time,&nbsp;if&nbsp;you&nbsp;have&nbsp;received&nbsp;<br>
+a&nbsp;message&nbsp;from&nbsp;the&nbsp;leader.<br>
+&nbsp;<br>
+If&nbsp;you&nbsp;receive&nbsp;a&nbsp;new&nbsp;election&nbsp;or&nbsp;new&nbsp;leader&nbsp;message,&nbsp;prepare&nbsp;for&nbsp;a&nbsp;new&nbsp;<br>
+leader&nbsp;election&nbsp;and&nbsp;return.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;leader&nbsp;does&nbsp;not&nbsp;respond&nbsp;after&nbsp;max_timeout,&nbsp;start&nbsp;a&nbsp;new&nbsp;election&nbsp;and<br>
+return.<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-print_q"><strong>print_q</strong></a>(self, q)</dt><dd><tt>Gets&nbsp;all&nbsp;of&nbsp;the&nbsp;items&nbsp;in&nbsp;q&nbsp;and&nbsp;returns&nbsp;them&nbsp;as&nbsp;a&nbsp;list<br>
+&nbsp;<br>
+:param&nbsp;q:&nbsp;Any&nbsp;<a href="#BulbQueue">BulbQueue</a>()<br>
+:type&nbsp;q:&nbsp;<a href="#BulbQueue">BulbQueue</a>()<br>
+:return:&nbsp;A&nbsp;list&nbsp;of&nbsp;the&nbsp;contents&nbsp;of&nbsp;q<br>
+:type&nbsp;return:&nbsp;list</tt></dd></dl>
+
+<dl><dt><a name="Bulb-register_bulbs"><strong>register_bulbs</strong></a>(self, bulb_objects_list)</dt><dd><tt>Sets&nbsp;self.<strong>bulb_object_list</strong>&nbsp;equal&nbsp;to&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;the&nbsp;bulb&nbsp;process&nbsp;<br>
+objects&nbsp;in&nbsp;the&nbsp;system.<br>
+&nbsp;<br>
+:param&nbsp;bulb_objects_list:&nbsp;A&nbsp;list&nbsp;of&nbsp;all&nbsp;the&nbsp;bulb&nbsp;process&nbsp;objects&nbsp;in&nbsp;the&nbsp;<br>
+system,&nbsp;which&nbsp;is&nbsp;passed&nbsp;in&nbsp;by&nbsp;the&nbsp;main&nbsp;thread.<br>
+:type&nbsp;bulb_objects_list:&nbsp;list&nbsp;of&nbsp;<a href="#Bulb">Bulb</a>()s<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-respond_to_ping"><strong>respond_to_ping</strong></a>(self)</dt><dd><tt>Respond&nbsp;to&nbsp;the&nbsp;pings&nbsp;of&nbsp;all&nbsp;the&nbsp;followers.&nbsp;Continuously&nbsp;get&nbsp;messages&nbsp;from<br>
+your&nbsp;election_q&nbsp;and&nbsp;respond&nbsp;to&nbsp;pinger_uuid&nbsp;if&nbsp;the&nbsp;queue&nbsp;isn't&nbsp;empty.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;queue&nbsp;is&nbsp;empty,&nbsp;sleep&nbsp;for&nbsp;ping_time.&nbsp;<br>
+&nbsp;<br>
+Then&nbsp;send&nbsp;a&nbsp;new&nbsp;leader&nbsp;message&nbsp;to&nbsp;all&nbsp;bulbs&nbsp;with&nbsp;a&nbsp;higher&nbsp;uuid&nbsp;than&nbsp;yourself&nbsp;<br>
+(this&nbsp;can&nbsp;be&nbsp;an&nbsp;empty&nbsp;list&nbsp;and&nbsp;thus&nbsp;no&nbsp;messages&nbsp;will&nbsp;be&nbsp;sent).&nbsp;This&nbsp;allows&nbsp;<br>
+any&nbsp;bulbs&nbsp;who&nbsp;restart&nbsp;to&nbsp;recover&nbsp;their&nbsp;status&nbsp;as&nbsp;leader.<br>
+&nbsp;<br>
+Then&nbsp;continue&nbsp;responding&nbsp;to&nbsp;pings.<br>
+&nbsp;<br>
+If&nbsp;you&nbsp;receive&nbsp;a&nbsp;new&nbsp;election&nbsp;or&nbsp;new&nbsp;leader&nbsp;message,&nbsp;prepare&nbsp;for&nbsp;a&nbsp;new&nbsp;<br>
+leader&nbsp;election&nbsp;and&nbsp;return.<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-run"><strong>run</strong></a>(self)</dt><dd><tt>Runs&nbsp;the&nbsp;first&nbsp;leader&nbsp;election.<br>
+&nbsp;<br>
+After&nbsp;that&nbsp;returns,&nbsp;which&nbsp;means&nbsp;the&nbsp;first&nbsp;leader&nbsp;has&nbsp;crashed,&nbsp;uuids&nbsp;are&nbsp;sent<br>
+to&nbsp;all&nbsp;the&nbsp;bulbs&nbsp;in&nbsp;the&nbsp;new&nbsp;election&nbsp;and&nbsp;a&nbsp;new&nbsp;leader&nbsp;election&nbsp;is&nbsp;started.<br>
+&nbsp;<br>
+The&nbsp;while&nbsp;True&nbsp;ensures&nbsp;that&nbsp;anytime&nbsp;a&nbsp;leader&nbsp;crashes&nbsp;or&nbsp;there&nbsp;is&nbsp;disagreement<br>
+over&nbsp;the&nbsp;leader,&nbsp;a&nbsp;new&nbsp;leader&nbsp;election&nbsp;is&nbsp;run&nbsp;(since&nbsp;new_leader_election&nbsp;<br>
+only&nbsp;returns&nbsp;when&nbsp;the&nbsp;leader&nbsp;has&nbsp;crashed)<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-send_new_election_msg"><strong>send_new_election_msg</strong></a>(self)</dt><dd><tt>Sets&nbsp;bulbs_in_election&nbsp;to&nbsp;a&nbsp;list&nbsp;of&nbsp;bulb&nbsp;objects&nbsp;with&nbsp;uuids&nbsp;higher&nbsp;than&nbsp;<br>
+self.<strong>uuid</strong>.&nbsp;Then&nbsp;self&nbsp;puts&nbsp;a&nbsp;new&nbsp;election&nbsp;message&nbsp;on&nbsp;the&nbsp;election_q&nbsp;of&nbsp;<br>
+all&nbsp;of&nbsp;these&nbsp;bulbs.<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-send_uuid"><strong>send_uuid</strong></a>(self, bulbs)</dt><dd><tt>The&nbsp;process&nbsp;self&nbsp;puts&nbsp;its&nbsp;uuid&nbsp;on&nbsp;the&nbsp;election_q&nbsp;of&nbsp;every&nbsp;bulb&nbsp;in&nbsp;bulbs.<br>
+&nbsp;<br>
+:param&nbsp;bulbs:&nbsp;The&nbsp;bulbs&nbsp;that&nbsp;self&nbsp;will&nbsp;send&nbsp;its&nbsp;uuid&nbsp;to.<br>
+:type&nbsp;bulbs:&nbsp;list&nbsp;of&nbsp;<a href="#Bulb">Bulb</a>()s<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-set_bulbs_in_new_election"><strong>set_bulbs_in_new_election</strong></a>(self, uuid)</dt><dd><tt>This&nbsp;sets&nbsp;bulbs_in_election&nbsp;to&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;bulb&nbsp;objects&nbsp;with&nbsp;uuids&nbsp;greater<br>
+or&nbsp;equal&nbsp;to&nbsp;uuid,&nbsp;excluding&nbsp;self.&nbsp;<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="Bulb-signal_to_neighbors"><strong>signal_to_neighbors</strong></a>(self, list_of_neighbors)</dt><dd><tt>Wait&nbsp;for&nbsp;ping_time&nbsp;and&nbsp;then&nbsp;tell&nbsp;neighbors&nbsp;to&nbsp;turn&nbsp;on<br>
+&nbsp;<br>
+:param&nbsp;list_of_neighbors:&nbsp;The&nbsp;bulb&nbsp;neighbors&nbsp;of&nbsp;self<br>
+:type&nbsp;param:&nbsp;list&nbsp;of&nbsp;<a href="#Bulb">Bulb</a>()s<br>
+:return&nbsp;None:</tt></dd></dl>
+
+<dl><dt><a name="Bulb-turn_on"><strong>turn_on</strong></a>(self)</dt><dd><tt>Starts&nbsp;a&nbsp;new&nbsp;process&nbsp;called&nbsp;bulb_control&nbsp;and&nbsp;then&nbsp;signals&nbsp;to&nbsp;its&nbsp;neighbors<br>
+that&nbsp;they&nbsp;should&nbsp;turn&nbsp;on.<br>
+&nbsp;<br>
+bulb_control&nbsp;handles&nbsp;anything&nbsp;related&nbsp;to&nbsp;physically&nbsp;turning&nbsp;the&nbsp;bulb&nbsp;on<br>
+and&nbsp;off.<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>:<br>
+<dl><dt><a name="Bulb-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Bulb-is_alive"><strong>is_alive</strong></a>(self)</dt><dd><tt>Return&nbsp;whether&nbsp;process&nbsp;is&nbsp;alive</tt></dd></dl>
+
+<dl><dt><a name="Bulb-join"><strong>join</strong></a>(self, timeout<font color="#909090">=None</font>)</dt><dd><tt>Wait&nbsp;until&nbsp;child&nbsp;process&nbsp;terminates</tt></dd></dl>
+
+<dl><dt><a name="Bulb-start"><strong>start</strong></a>(self)</dt><dd><tt>Start&nbsp;child&nbsp;process</tt></dd></dl>
+
+<dl><dt><a name="Bulb-terminate"><strong>terminate</strong></a>(self)</dt><dd><tt>Terminate&nbsp;process;&nbsp;sends&nbsp;SIGTERM&nbsp;signal&nbsp;or&nbsp;uses&nbsp;TerminateProcess()</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>authkey</strong></dt>
+</dl>
+<dl><dt><strong>daemon</strong></dt>
+<dd><tt>Return&nbsp;whether&nbsp;process&nbsp;is&nbsp;a&nbsp;daemon</tt></dd>
+</dl>
+<dl><dt><strong>exitcode</strong></dt>
+<dd><tt>Return&nbsp;exit&nbsp;code&nbsp;of&nbsp;process&nbsp;or&nbsp;`None`&nbsp;if&nbsp;it&nbsp;has&nbsp;yet&nbsp;to&nbsp;stop</tt></dd>
+</dl>
+<dl><dt><strong>ident</strong></dt>
+<dd><tt>Return&nbsp;identifier&nbsp;(PID)&nbsp;of&nbsp;process&nbsp;or&nbsp;`None`&nbsp;if&nbsp;it&nbsp;has&nbsp;yet&nbsp;to&nbsp;start</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<dl><dt><strong>pid</strong></dt>
+<dd><tt>Return&nbsp;identifier&nbsp;(PID)&nbsp;of&nbsp;process&nbsp;or&nbsp;`None`&nbsp;if&nbsp;it&nbsp;has&nbsp;yet&nbsp;to&nbsp;start</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BulbQueue">class <strong>BulbQueue</strong></a>(<a href="multiprocessing.queues.html#Queue">multiprocessing.queues.Queue</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#BulbQueue">BulbQueue</a>&nbsp;inherits&nbsp;from&nbsp;multiprocessing.<a href="multiprocessing.queues.html#Queue">Queue</a>,&nbsp;but&nbsp;has&nbsp;the&nbsp;added&nbsp;<br>
+functionality&nbsp;that&nbsp;it&nbsp;keeps&nbsp;track&nbsp;of&nbsp;its&nbsp;size&nbsp;while&nbsp;putting&nbsp;and&nbsp;getting&nbsp;<br>
+elements&nbsp;from&nbsp;the&nbsp;queue.&nbsp;Multiprocessing.<a href="multiprocessing.queues.html#Queue">Queue</a>&nbsp;makes&nbsp;no&nbsp;guarantees&nbsp;when<br>
+calling&nbsp;its&nbsp;size&nbsp;method.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="hearts.html#BulbQueue">BulbQueue</a></dd>
+<dd><a href="multiprocessing.queues.html#Queue">multiprocessing.queues.Queue</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BulbQueue-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-empty"><strong>empty</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-get"><strong>get</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-put"><strong>put</strong></a>(self, item)</dt></dl>
+
+<dl><dt><a name="BulbQueue-size"><strong>size</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="multiprocessing.queues.html#Queue">multiprocessing.queues.Queue</a>:<br>
+<dl><dt><a name="BulbQueue-__getstate__"><strong>__getstate__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt><a name="BulbQueue-cancel_join_thread"><strong>cancel_join_thread</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-close"><strong>close</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-full"><strong>full</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-get_nowait"><strong>get_nowait</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-join_thread"><strong>join_thread</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbQueue-put_nowait"><strong>put_nowait</strong></a>(self, obj)</dt></dl>
+
+<dl><dt><a name="BulbQueue-qsize"><strong>qsize</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="multiprocessing.queues.html#Queue">multiprocessing.queues.Queue</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-threaded"><strong>threaded</strong></a>(fn)</dt><dd><tt>Creates&nbsp;a&nbsp;new&nbsp;thread&nbsp;to&nbsp;run&nbsp;the&nbsp;function&nbsp;fn.&nbsp;Use&nbsp;by&nbsp;writing&nbsp;"@threaded"&nbsp;<br>
+above&nbsp;function&nbsp;to&nbsp;thread.<br>
+&nbsp;<br>
+fn:&nbsp;function&nbsp;<br>
+returns:&nbsp;None</tt></dd></dl>
+</td></tr></table>
+</body></html>
