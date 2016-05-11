@@ -34,8 +34,7 @@ class BulbBlinker(Process):
         self.turned_on_list = turned_on_list
         
         self.on = 0
-        self.ppid = os.getppid()
-        
+                
         self.my_relay_id = int(self.id * 1.0 / 2) + 1
         
     def send_message_to_neighbors(self):
@@ -77,10 +76,9 @@ class BulbBlinker(Process):
         c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         c.connect(self.host, username='ubnt', password='ubnt') 
         
-        while True:          
+        while True:
             if os.getppid() == 1: 
-                print " I SHOULD BE TERMINATINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
-                sys.exit()
+                os.kill(os.getpid(), 9)
             adjustment_value = 0
             while not self.adjustment.empty():
                 adjustment_value = self.adjustment.get()

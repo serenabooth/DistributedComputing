@@ -19,7 +19,7 @@ def bulb_id_distance( bulb1, bulb2 ):
     return ((13 - bulbDiff) if (bulbDiff > 6) else bulbDiff)
 
 class BulbControl(Process):
-    def __init__(self, my_id, bpm, host, adjustment, leader_id, state_q, bulb_objects_list, turned_on_list):
+    def __init__(self, my_id, bpm, host, leader_id, state_q, bulb_objects_list, turned_on_list):
         """
         Initialize BulbControl process, set environment variables.
         
@@ -45,7 +45,7 @@ class BulbControl(Process):
         self.bulb_objects_list = bulb_objects_list
         self.turned_on_list = turned_on_list
 
-        self.adjustment = adjustment
+        self.adjustment = Queue()
 
         self.time_of_last_blink = None
         self.time_of_neighbor_below = None
@@ -63,10 +63,10 @@ class BulbControl(Process):
         :return: None
         """
         while True:
-            if self.id == 1:
-                print self.id
-            
-            if self.id == self.leader_id.value:
+            if os.getppid() == 1: 
+                print " bulb control I SHOULD BE TERMINATINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+                os.kill(os.getpid(), 9)
+            if self.id == self.leader_id[0]:
                 # I am the leader.
                 # Go to sleep for a bit; don't adjust synchronization.
                 time.sleep(5)
@@ -76,8 +76,8 @@ class BulbControl(Process):
                 # and the leader, through my neighbors.
                 #
                 # Find which neighbor of mine is closer to the leader.
-                steps_to_above = bulb_id_distance( self.leader_id.value, self.above_bulb_id )
-                steps_to_below = bulb_id_distance( self.leader_id.value, self.below_bulb_id )
+                steps_to_above = bulb_id_distance( self.leader_id[0], self.above_bulb_id )
+                steps_to_below = bulb_id_distance( self.leader_id[0], self.below_bulb_id )
 
                 # if my +1 neighbor is closer, set neighbor = 1; otherwise, -1
                 neighbor = 1 if steps_to_above < steps_to_below else -1
@@ -164,6 +164,16 @@ class BulbControl(Process):
       
 
     def run(self):  
+        my_bulb = BulbBlinker(  my_id = self.id,
+                                bpm = self.bpm, 
+                                host = self.host,
+                                adjustment = self.adjustment,
+                                bulb_objects_list = self.bulb_objects_list, 
+                                above_neighbor = (self.id + 1) % 13, 
+                                below_neighbor = (self.id - 1) % 13, 
+                                turned_on_list = self.turned_on_list)
+        my_bulb.daemon = True 
+        my_bulb.start()
         """
         Create a child process to turn bulb on and off
         Start self continually checking ordering of bulbs 

@@ -6,8 +6,9 @@ from webcam_pulse.lib.check_face_visible import *
 from webcam_pulse.lib.device import Camera
 
 # external libraries
+import signal
 from multiprocessing.queues import Queue
-from multiprocessing import Array, Value, active_children
+from multiprocessing import Array, Value
 
 import ctypes
 
@@ -27,10 +28,13 @@ def kill_all_processes(pi, bulbs):
     :param bulbs: A list of processes corresponding to # bulbs
     :type bulbs: A list of processes
     """
-    pi.terminate()
-    for bulb in bulbs:
-        bulb.terminate()
-
+    try: 
+        os.killpg(0, signal.SIGINT)
+    except KeyboardInterrupt:
+        print "Living!" 
+    #pi.terminate()
+    #for bulb in bulbs:
+    #    bulb.terminate()
 
 """ 
 Get pulse! 
@@ -47,6 +51,8 @@ args = parser.parse_args()
 
 # Outer while loop to catch errors
 while True: 
+    
+    os.setpgrp()
 
     hosts = ['192.168.1.20', '192.168.1.21']
 

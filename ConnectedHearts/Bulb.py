@@ -52,7 +52,7 @@ class Bulb(Process):
         self.leader = None
 
         # A multiprocessing.Value containing the id of the leader.
-        self.leader_id = Value('i', -1)
+        self.leader_id = Array('i', 1)
 
         # A BulbQueue() used to communicate information related to leader election.
         self.election_q = BulbQueue()
@@ -71,7 +71,7 @@ class Bulb(Process):
         self.turned_on_list = turned_on_list
         self.bpm = bpm
         self.host = host
-        
+                
     def register_bulbs(self, bulb_objects_list):
         """
         Sets self.bulb_object_list equal to a list of all the bulb process 
@@ -180,8 +180,8 @@ class Bulb(Process):
         :return: None
         """
         self.leader = self.uuid_dict[self.get_max_uuid()]
-        self.leader_id.value = self.leader.id
-        print "Leader id: " + str(self.leader_id.value) + "\n"
+        self.leader_id[0] = self.leader.id
+        print "Leader id: " + str(self.leader_id[0]) + "\n"
         print "id: " + str(self.id) + ", leader: " + str(self.leader.id) + "\n"
         if self.leader.id == self.id:
             print ("Hi, I'm the leader: " + str(self.id) + " Right? " + 
@@ -224,26 +224,13 @@ class Bulb(Process):
         """
         self.turned_on_list[self.id] = 1
         
-        adjustment = Queue()
-        my_bulb = BulbBlinker(  my_id = self.id,
-                                bpm = self.bpm, 
-                                host = self.host,
-                                adjustment = adjustment,
-                                bulb_objects_list = self.bulb_objects_list, 
-                                above_neighbor = (self.id + 1) % 13, 
-                                below_neighbor = (self.id - 1) % 13, 
-                                turned_on_list = self.turned_on_list)
-        my_bulb.daemon = True 
-        my_bulb.start()
         bulb_control = BulbControl(  my_id = self.id,
                                     bpm = self.bpm, 
                                     host = self.host,
-                                    adjustment = adjustment,
                                     leader_id = self.leader_id,
                                     state_q = self.state_q,
                                     bulb_objects_list = self.bulb_objects_list, 
                                     turned_on_list = self.turned_on_list)
-        bulb_control.daemon = True
         bulb_control.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 
@@ -377,6 +364,7 @@ class Bulb(Process):
                         # and your uuid is lower than the new leaders uuid
                         # then set leader to the new leader
                         self.leader = self.uuid_dict[leader_uuid]
+                        self.leader_id[0] = self.leader.id
                         new_leader = True
                         break
                 else:
@@ -391,8 +379,9 @@ class Bulb(Process):
         if not responses or self.uuid > responses[len(responses) - 1]:
             print ("Responses: " + str(responses) + " I'm the LEADER and I'm bulb " 
                 + str(self.id) + "\n")
-            print datetime.datetime.now()
+            print datetime.now()
             self.leader = self
+            self.leader_id[0] = self.id
             # send a new leader message to all of the bulbs
             for bulb in [bulb for bulb in self.bulb_objects_list if bulb is not self]:
                 print "Sending to bulb " + str(bulb.id) + "\n"
@@ -415,6 +404,7 @@ class Bulb(Process):
                             # and your uuid is lower than the new leaders uuid
                             # then set leader to the new leader
                             self.leader = self.uuid_dict[leader_uuid]
+                            self.leader_id = self.leader.id
                             new_leader = True
                             break
 
