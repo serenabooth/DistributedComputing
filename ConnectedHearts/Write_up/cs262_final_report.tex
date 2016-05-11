@@ -28,7 +28,7 @@
 
 %% Use the option review to obtain double line spacing
 \documentclass[preprint,review,12pt]{cs262}
-
+\usepackage{amsmath}
 %% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
 %% for a journal layout:
 %% \documentclass[final,1p,times]{elsarticle}
@@ -106,7 +106,7 @@
 \fntext[label0]{We, Serena Booth and Michelle Cone, affirm our awareness of the standards of the Harvard College Honor Code.}
 
 \begin{abstract}
-We present a physical distributed system for viewing the human heartbeat. We modified a medicine cabinet by embedding 13 light bulbs around the frame, as well as by replacing the cabinet's glass with one-way mirror. When a person stands in front of the mirror, a webcam hidden behind the mirror measures their pulse. The 13 bulbs, each a virtual machine, run Bully leader election. First the leader starts pulsating with the captured pulse, and then instructs neighboring virtual machines to pulsate as well. Finally, we ensure the synchronization of the bulbs through a distributed gossip algorithm.
+We present a physical distributed system for viewing the human heartbeat. We modified a medicine cabinet by embedding 13 light bulbs around the frame, as well as by replacing the cabinet's glass with one-way mirror. When a person stands in front of the cabinet, a webcam hidden behind the mirror measures their pulse. The 13 bulbs, each a virtual machine, run Bully leader election. First the leader starts pulsating with the captured pulse, and then instructs neighboring virtual machines to pulsate as well. Finally, we ensure the synchronization of the bulbs through a distributed gossip algorithm.
 \end{abstract}
 
 % \begin{keyword}
@@ -134,17 +134,17 @@ In this paper, we discuss the components and construction of  \texttt{Connected 
 
 \subsection{Artistic Inspiration}
 
-This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room,''\cite{pulse} an artistic piece in which an entire room is outfitted with light bulbs. A physical heartbeat monitor is present in the room. A user approaches this monitor and grabs onto it. As soon as the conductance of the skin is felt, all light bulbs in the room turn off. Within a few seconds, the heartbeat monitor detects a pulse. With this, a single bulb directly above the user begins to pulsate with their heartbeat. This message is then spread to neighboring bulbs, as well as bouncing off of the walls; with this message-passing, the room becomes full of chaos. After a further few minutes, the bulbs synchronize, leaving the entire room pulsating with the heartbeat. We note that this system uses a single address-space to achieve this effect. 
+This piece is inspired by Rafael Lorzeno-Hemmer's ``Pulse Room''\cite{pulse} in which an entire room is outfitted with light bulbs. A physical heartbeat monitor is present in the room. A user approaches this monitor and grabs onto it. As soon as the conductance of the skin is felt, all light bulbs in the room turn off. Within a few seconds, the heartbeat monitor detects a pulse. With this, a single bulb directly above the user begins to pulsate with their heartbeat. This message is then spread to neighboring bulbs, and it bounces off of the walls; with this message-passing, the room becomes full of chaos. After a further few minutes, the bulbs synchronize, leaving the entire room pulsating with the heartbeat. We note that this system uses a single address-space to achieve this effect. 
 
 
 \section{Components \& Construction}
 
-\noindent We construct the piece from the following materials:
+\noindent We construct \texttt{ConnectedHearts} from the following materials:
 \begin{itemize} 
 \item 2 $\times$ Ubiquiti mPower Strips: 8-outlet power strips running Linux
 \item Network switch and ethernet cables
 \item 13 $\times$ filament bulbs and bulb holders
-\item Vintage Medicine Cabinet, one-way glass
+\item Vintage medicine cabinet, standard mirror replaced with one-way glass
 \item Raspberry Pi
 \item Raspberry PiCamera
 \end{itemize} 
@@ -154,37 +154,39 @@ The end product looks to be a medicine cabinet with 13 light bulbs around its mi
 \section{System Design}
 
 
-Our code is written in Python and makes extensive use of the multiprocessing library. In short, the program runs a \texttt{main.py}, the parent process. This process creates one process for running pulse detection; two more processes for turning all the relays off at the start; and 13 more processes, each corresponding to a bulb. Of these 13 ``bulb'' processes, each spawns its own process to handle inter-bulb synchronization. Of these inter-bulb synchronization processes, each spawns an additional process which is tasked with maintaining the state of a continually-blinking bulb. 
+Our code is written in Python and makes extensive use of the multiprocessing library. In short, the program runs a \texttt{main.py}, the parent process. This process creates one process for running pulse detection; two more processes for turning all the relays off at the start; and 13 more processes, each corresponding to a physical light bulb. Of these 13 ``bulb'' processes, each spawns its own process to handle inter-bulb synchronization via gossip. Of these inter-bulb synchronization processes, each spawns an additional process which is tasked with maintaining the state of a continually-blinking bulb. 
 
 \subsection{Inter-bulb Communication}
 
-We of course do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues.  For example, in  \texttt{main.py}, we start up 13 ``bulb'' processes, as described above. These processes each have two process-safe queues: one of which, designated the \texttt{election\_q} stores information pertaining to leader election, and the other of which, \texttt{state\_q} stores information regarding whether the bulb should be on or off, as well as any adjustments to this. 
+We of course do not assume the existence of a global clock. However, we do allow processes to communicate via shared memory. In particular, many processes share queues.  For example, in  \texttt{main.py}, we start up 13 ``bulb'' processes, as described above. These processes each have two process-safe queues: one of which, designated the \texttt{election\_q} stores information pertaining to leader election, and the other of which, \texttt{state\_q} stores information regarding whether the bulb should be on or off, as well as any adjustments to this, as via synchronization from gossip. 
 
 \section{Architecture \& Algorithms}
 
 \subsection{Pulse Detection} 
 
-When a face is visible to a camera hidden behind the one-way glass of the medicine cabinet, we detect the pulse of the viewer. We use a Haar Classifier and OpenCV to detect the presence of a face, and we then apply code developed by NASA's Glenn Research Center\cite{NASA} to detect the pulse of the visible face. This pulse detection works by monitoring the \emph{optical intensity} of the green channel of pixels centered around the visible area of the forehead in frame. 
+When a face is visible to a camera hidden behind the one-way glass of the medicine cabinet, we detect the pulse of the viewer. We use a Haar Classifier and OpenCV to detect the presence of a face, and we then apply code developed by NASA's Glenn Research Center\cite{NASA} to detect the pulse of the visible face. This pulse detection works by monitoring the \emph{optical intensity} of the green channel of pixels centered around the visible area of the forehead in frame. We periodically---every 30 seconds---check that a face is still visible in the scene so as to allow the user operator to change. 
 
 \subsection{Bully: Leader Election}
 
-Our leader election is modeled after the Bully algorithm, as originally described by Garcia-Molina in 1982 \cite{garcia1982elections}. We made modifications to the Bully algorithm: in our first leader election, in the way we deal with a previous leader's recovery, and how we deal with multiple ``new election" messages.
+Our leader election is modeled after the Bully algorithm, as originally described by Garcia-Molina in 1982 \cite{garcia1982elections}. However, we made minor modifications to this algorithm to suit our system: in our first leader election, in the way we deal with a previous leader's recovery, and in how we deal with multiple ``new election" messages.
 
-In our first leader election, we know that all the processes will be participating and that they know all the uuids because they have them on their own \texttt{election\_q}. We simplify the Bully algorithm by having each process find the max uuid in its queue and choose the process with the corresponding uuid as the leader. All the processes agree because the main thread guarantees that the same uuids are put on every \texttt{election\_q}.
+We assume that all bulbs know all other bulbs' 64-bit uuids, assigned on program startup. We further assume that all bulbs know the layout of the system and all other bulbs' ids, ranging from 0-12, as described in Section \ref{layout}. 
+
+Each bulb has a process-safe  \texttt{election\_q}. In our first leader election, we know that all the processes will be participating and that all uuids in the system are on their own \texttt{election\_q}. We simplify the Bully algorithm by having each process find the max uuid in its queue and choose the process with the corresponding max uuid as the leader. All the processes agree because the main thread virtually guarantees that the same uuids are put on every \texttt{election\_q}---of course, a system failure is possible, but is very unlikely. In the event of a system failure, the bulbs may disagree on a leader. 
 
 After the leader is chosen, the other processes must make sure that it remains responsive. We achieve this by having each ``follower" ping the leader every several seconds and wait for a response. Each process is given a random \texttt{ping\_time} that determines how frequently they ping or respond to pings. This ensures that the leader is not overloaded with messages from the followers.
 
-If a follower does not receive a response from the leader after \texttt{max\_timeout}, a time greater than the largest possible \texttt{ping\_time}, it starts a new election that follows the procedure of the Bully algorithm. It sends a ``new election" message to all processes with uuids higher than its uuid, which causes these processes to stop pinging the leader and participate in the election, and then it waits for a response from these processes for a time of \texttt{max\_timeout}. If any processes with higher uuids respond, it waits to receive a message from a new leader. If it doesn't receive a message from a new leader within the timeout, it starts leader election again. 
+If a follower does not receive a response from the leader after \texttt{max\_timeout}, a time greater than the largest possible \texttt{ping\_time}, it starts a new election that follows the procedure of the Bully algorithm. It sends a ``new election" message to all processes with uuids higher than its own uuid, which causes these processes to stop pinging the leader and participate in the election. It then waits for a response from these processes for a time of \texttt{max\_timeout}. If any processes with a higher uuid respond, it waits to receive a message from a new leader. If it doesn't receive a message from a new leader within the timeout, it re-initiates a leader election. 
 
-If a process never receives responses from a higher uuid process, or it has a higher uuid than all the responses, it assumes it's the leader and broadcasts this message to all other processes in the system. If there is not agreement on the new leader, this procedure repeats. See Figure \ref{fig:bully} for a diagram of how this works in our system. After the broadcast from the new leader, all the followers begin pinging it and it responds to their pings. If a follower does not receive a response, then leader election starts again.\\ \textbf{Our Implementation Differences}
+If a process never receives a response from a higher uuid process, or it has a higher uuid than all the responses, it assumes the role of the leader and broadcasts this message to all other processes in the system. If there is not agreement on the new leader, this procedure repeats. See Figure \ref{fig:bully} for a diagram of how this works in our system. After the broadcast from the new leader, all the followers begin pinging it and it responds to their pings. If a follower does not receive a response, then leader election starts again.\\ \textbf{Our Implementation Differences}
 
 In our leader election, while a process waits for a response from all higher uuid processes, it also checks for ``new election" messages. If it receives a ``new election" message, it sends its uuid to the appropriate processes and continues waiting to hear back from the higher uuid processes.
 
 If a process every receives a ``new leader" message while it is pinging the leader, it starts a new leader election.
 
-To allow a process that was previously a leader to recover, the current leader pings any higher uuid processes with a ``new leader" message every \texttt{ping\_time}.
+To allow a process that was previously a leader to recover from a crash, the current leader pings any higher uuid processes with a ``new leader" message every \texttt{ping\_time}.
 
-\begin{figure}[h]
+\begin{figure}[t!]
   \centering
   \includegraphics[width=0.7\textwidth]{figures/bully}
   \caption{In the above graphic, we demonstrate the bully algorithm for determining a leader. In sub-image A, node 3 attempts to confirm that the known leader, node 5, is still alive. In sum-image B, node 5 does not respond to node 3 for a set period of time---a time set by node 3. Hence node 3 initiates an election by contacting all nodes with a higher id than itself. In sub-image C, node 4 responds to node 3's request to initiate an election by confirming it remains alive. Finally, in sub-image D, node 4 broadcasts a message to all nodes to inform them of its leader status. 
@@ -194,9 +196,9 @@ To allow a process that was previously a leader to recover, the current leader p
 
 \subsection{Realtime Synchronization via Gossip}
 
-In our system, each ``bulb'' process has its own SSH connection to the Linux Ubiquiti box by which it is powered. This process repeatedly sends message to the box of the form \texttt{echo X > /proc/power/relayY}, where \texttt{X} $\in \{0,1\}$, and \texttt{Y} represents the id of the relay controlling the power supply to the box. Commands to turn the box on are followed by some amount of wait, determined by the user's pulse, followed by a command to turn the box off and wait the same. However, as our system is ``distributed,'' and we have no concept of a global time, the bulb relay switches are poorly aligned lacking any inter-process synchronization. We thus implement a simple gossip algorithm, as inspired by Babaoglu et al, \cite{babaoglu2007firefly}. 
+In our system, each ``bulb'' process has its own SSH connection to the Linux Ubiquiti box by which it is powered. This process repeatedly sends message to the box of the form \texttt{echo X > /proc/power/relayY}, where \texttt{X} $\in \{0,1\}$, and \texttt{Y} represents the id of the relay controlling the power supply to the box. Commands to turn the box on are followed by some amount of wait, determined by the user's pulse, followed by a command to turn the box off and wait. However, as our system is ``distributed,'' and we have no concept of a global time, the bulb relay switches are poorly aligned lacking any inter-process synchronization. We thus implement a simple gossip algorithm, as inspired by Babaoglu et al, \cite{babaoglu2007firefly}. 
 
-As the physical layout of our system is fixed, we can select the more \emph{trustworthy} of our neighbors, an algorithm which we describe below. With this neighbor, we attempt to iteratively align our synchronization over time. This algorithm is further described in Algorithm \ref{CHalgorithm}. 
+Given that the physical layout of our system is fixed, we can select the more \emph{trustworthy} of our neighbors, an algorithm which we describe below. With this neighbor, we attempt to iteratively align our synchronization over time. This algorithm is further described in Algorithm \ref{CHalgorithm}. 
 
 \begin{algorithm}
 \caption{Synchronization via Gossip}
@@ -215,7 +217,21 @@ As the physical layout of our system is fixed, we can select the more \emph{trus
 \end{algorithmic}
 \end{algorithm}
 
+We note that in order to run this gossip procedure, we require a bulb control process to receive a message from its trusted neighbor, as well as from its own child process. When this does not happen, the amount of wait time is based solely on the pulse. On the other hand, when this bulb does received these communications, an invariant enforces that the bulb receives a message from its trusted neighbor before receiving a message from itself. 
+\\
+
+Given the following scenario, assuming that the pulse rate is $\frac{1}{2}$ second: 
+
+$$ \text{A) Trusted neighbor:  00:01}$$
+$$ \text{B) Trusted neighbor:  00:02}$$
+$$ \text{C) Trusted neighbor:  00:03}$$
+$$ \text{D) Self:  00:04}$$
+
+The process would ignore messages (A) and (B). It would consider message (C), message (D), as well as a calculated message (E): $\text{E} = \text{C} + 2 * \frac{1}{2} $, which estimates the time when the trusted neighbor will send its next message, based on the rate of the pulse. The process would then determine whether its own signal was closer to the trusted neighbor's previous time or if it was closer to the trusted neighbor's expected future time. In case of the former, the bulb would affect the rate of its blinking by waiting for \emph{less} time while in the ON state; in the latter, the bulb would affect its rate by waiting for \emph{more} time while in the OFF state. If the times of the messages are sufficiently close, the bulb will not adjust its rate of blink. 
+
+
 \subsubsection{Physical Layout}
+\label{layout}
 
 \begin{figure}[h]
   \centering
@@ -251,8 +267,10 @@ In order to analyze the success of our synchronization via gossip, we implement 
 
 \item Brightness timeseries computed. 
 
-- The brightness of these pixels are averaged for every frame in the video, and ultimately we produce a timeseries, which we graph in comparison to idealized data. A demonstration of this result is shown in Figure \ref{fig:res}. 
+- The brightness of these pixels are averaged for every frame in the video, and ultimately we produce a timeseries of this brightness data.
 \end{enumerate}
+
+In Figure \ref{fig:res}, we run this analysis procedure on our system without gossip and then with gossip. When we run the system without gossip, the system appears to be very bright for its entire operation. This is because, when a bulb is on, it illuminates its neighboring bulbs, which have reflective surfaces. Thus, to the camera, it is impossible to discern between one bulb or three bulbs being on. Due to the lack of synchronization in the absence of gossip, at all points in the operation, at least every other fourth bulbs is on at the same time, making the system appear to be entirely on for the full duration of the clip. 
 
 
 \section{Conclusion}
@@ -269,7 +287,11 @@ One intriguing aspect of our system is our dependence on unreliable Linux boxes.
 We encountered a bug that took several hours to unravel where all the processes shared a queue that we were sure had the same memory address. Despite this, when something was successfully added to the queue by one process, only that process was able to see the change in the queue. The queue was a non process safe \texttt{Queue.Queue}. After switching to a \texttt{multiprocessing.queues.Queue}, the problem disappeared and the processes were able to correctly share the queue.
 \end{enumerate}
 
+\subsection{Future Work} 
 
+While the synchronization of our heartbeat visualization is visually appealing when synchronizing via gossip, the precision of control we have is relatively poor. Instructions to turn relays on or off are sent over SSH connections; the amount of time required for this may vary, and may not be internally consistent. 
+
+A future improvement to this work could be to create a closed feedback loop. Instead have a process dispatch an SSH command to a Linux powerstrip and then send a message to another process indicating that the bulb has flashed with the heartbeat, we could position the camera internal to the mirror in such a way as to allow it to directly view the bulbs. Instead, then, of guessing when the physical bulb turned on, we could know precisely when it did so and only send a message indicating this when appropriate. 
 
 \subsection{Sap}
 
