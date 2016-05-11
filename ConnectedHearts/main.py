@@ -1,18 +1,22 @@
-from hearts import *
-from control_pi import *
-from multiprocessing.queues import Queue
-from multiprocessing import Array, Value
-import ctypes
+# defined within codebase
+from Bulb import *
+from Pi import *
 from webcam_pulse.get_pulse import *
 from webcam_pulse.lib.check_face_visible import *
 from webcam_pulse.lib.device import Camera
-import os
-import sys
 
-is_on_pi = 0
+# external libraries
+from multiprocessing.queues import Queue
+from multiprocessing import Array, Value, active_children
 
-# Open the camera once
-camera_obj = Camera(is_on_pi)
+import ctypes
+
+# set this to 1 if running with a webcam! 
+not_on_pi = 0
+
+# Open the camera _once_
+# Resource must be given up by running camera_obj.release()
+camera_obj = Camera(not_on_pi)
 
 def kill_all_processes(pi, bulbs):
     """ 

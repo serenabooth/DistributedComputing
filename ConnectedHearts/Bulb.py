@@ -3,53 +3,9 @@ import threading
 import sys, time, socket, random, os
 import uuid
 from multiprocessing import Array, Process, Value, Lock
-from multiprocessing.queues import Queue
 import ctypes 
 from BulbControl import *
-
-
-# cite: http://stackoverflow.com/questions/19846332/python-threading-inside-a-class
-# yay decorators
-def threaded(fn):
-    """ 
-    Creates a new thread to run the function fn. Use by writing "@threaded" 
-    above function to thread.
-
-    fn: function 
-    returns: None 
-    """
-    def wrapper(*args, **kwargs):
-        threading.Thread(target=fn, args=args, kwargs=kwargs).start()
-    return wrapper
-
-class BulbQueue(Queue):
-    """ 
-    BulbQueue inherits from multiprocessing.Queue, but has the added 
-    functionality that it keeps track of its size while putting and getting 
-    elements from the queue. Multiprocessing.Queue makes no guarantees when
-    calling its size method.
-    """
-    def __init__(self):
-        super(BulbQueue, self).__init__()
-        self.queuesize = 0
-
-    def empty(self):
-        return super(BulbQueue, self).empty()
-
-    def size(self):
-        queuesize = self.queuesize
-        return queuesize
-
-    def get(self):
-        if not self.empty():
-            self.queuesize -= 1
-            return super(BulbQueue, self).get() 
-        else:
-            return None
-
-    def put(self, item):
-        super(BulbQueue, self).put(item)
-        self.queuesize += 1
+from BulbQueue import *
 
 class Bulb(Process):
     """ Creates a Bulb process which runs leader election """
@@ -70,7 +26,7 @@ class Bulb(Process):
         :type bpm: int
         :param host: The ip address of the power strip that the bulb is physically
         plugged into.
-        :type host: string
+        :type host: string 
         :return: A Bulb Process
         :type return: Bulb()
         """
@@ -115,7 +71,7 @@ class Bulb(Process):
         self.turned_on_list = turned_on_list
         self.bpm = bpm
         self.host = host
-
+        
     def register_bulbs(self, bulb_objects_list):
         """
         Sets self.bulb_object_list equal to a list of all the bulb process 
@@ -267,14 +223,27 @@ class Bulb(Process):
         :return: None
         """
         self.turned_on_list[self.id] = 1
-
+        
+        adjustment = Queue()
+        my_bulb = BulbBlinker(  my_id = self.id,
+                                bpm = self.bpm, 
+                                host = self.host,
+                                adjustment = adjustment,
+                                bulb_objects_list = self.bulb_objects_list, 
+                                above_neighbor = (self.id + 1) % 13, 
+                                below_neighbor = (self.id - 1) % 13, 
+                                turned_on_list = self.turned_on_list)
+        my_bulb.daemon = True 
+        my_bulb.start()
         bulb_control = BulbControl(  my_id = self.id,
                                     bpm = self.bpm, 
                                     host = self.host,
+                                    adjustment = adjustment,
                                     leader_id = self.leader_id,
                                     state_q = self.state_q,
                                     bulb_objects_list = self.bulb_objects_list, 
                                     turned_on_list = self.turned_on_list)
+        bulb_control.daemon = True
         bulb_control.start()
         neighbor_above_id = (self.id + 1) % 13
         neighbor_below_id = (self.id - 1) % 13 

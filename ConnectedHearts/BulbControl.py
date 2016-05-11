@@ -1,12 +1,12 @@
+# our libraries
+from BulbBlinker import * 
+
+# external libraries
 from datetime import datetime
-import threading
 import sys, os
-import string, time, datetime, random
-import uuid
+import string, time, random
 from multiprocessing import Array, Process, Value
 from multiprocessing.queues import Queue
-import ctypes 
-import paramiko
 from ctypes import c_char_p
 
 """
@@ -19,7 +19,23 @@ def bulb_id_distance( bulb1, bulb2 ):
     return ((13 - bulbDiff) if (bulbDiff > 6) else bulbDiff)
 
 class BulbControl(Process):
-    def __init__(self, my_id, bpm, host, leader_id, state_q, bulb_objects_list, turned_on_list):
+    def __init__(self, my_id, bpm, host, adjustment, leader_id, state_q, bulb_objects_list, turned_on_list):
+        """
+        Initialize BulbControl process, set environment variables.
+        
+        :param my_id: id ranging from 0-12, specifying bulb position
+        :type my_id: int 
+        :param bpm: pulse rate in beats per minute
+        :type bpm: int
+        :param host: ip address of Ubiquiti strip with relevant relay
+        :type host: string (e.x. "192.168.1.20")
+        :param leader_id: id of leader bulb, ranging from 0-12
+        :type leader_id: int
+        :param state_q: Queue of bulb states corresponding to on/off messages
+        :type state_q: BulbQueue (see BulbQueue.py)
+        :param turned_on_list: List of bulbs turned on (process-safe) 
+        :type turned_on_list: Process safe list of c_type ints 
+        """
         super(BulbControl, self).__init__()
         self.id = my_id
         self.bpm = bpm
@@ -29,7 +45,7 @@ class BulbControl(Process):
         self.bulb_objects_list = bulb_objects_list
         self.turned_on_list = turned_on_list
 
-        self.adjustment = Queue()
+        self.adjustment = adjustment
 
         self.time_of_last_blink = None
         self.time_of_neighbor_below = None
@@ -39,14 +55,20 @@ class BulbControl(Process):
         self.below_bulb_id = (self.id - 1) % 13
 
     def check_ordering(self):
-
+        """
+        Receive messages from self and neighbors. Decide which neighbor to trust. 
+        Calculate necessary adjustment to time of bulb blinking. 
+        Send adjustment message to child process, BulbBlinker
+        
+        :return: None
+        """
         while True:
             if self.id == 1:
                 print self.id
             
             if self.id == self.leader_id.value:
                 # I am the leader.
-                # Go to sleep for a bit.
+                # Go to sleep for a bit; don't adjust synchronization.
                 time.sleep(5)
             else:
                 # I am not the leader.
@@ -61,7 +83,7 @@ class BulbControl(Process):
                 neighbor = 1 if steps_to_above < steps_to_below else -1
                 
                 # Loop until I have a message from my leading neighbor and a message from myself
-                tPrev = datetime.datetime.now()
+                tPrev = datetime.now()
                 relevant_neighbor_time = tPrev
                 
                 while True:
@@ -73,7 +95,7 @@ class BulbControl(Process):
                     if not self.state_q.empty():
                         # Get bulb uuid of either my self or my neighbors
                         message = self.state_q.get()
-                        time_received_message = datetime.datetime.now()
+                        time_received_message = datetime.now()
 
                         # If I 'sent' the message
                         if message == str(self.id):
@@ -89,7 +111,7 @@ class BulbControl(Process):
                             if self.id == 1:
                                 print "Received trusted neighbor message " + str(time_received_message)
                             
-                tBreak = datetime.datetime.now()
+                tBreak = datetime.now()
 
                 if self.id == 1:
                     print "I, " + str(self.id) + " broke out after " + str((tBreak-tPrev).total_seconds())
@@ -131,123 +153,19 @@ class BulbControl(Process):
                 self.adjustment.put( waitTime * adjustmentFactor )
                 
                 if self.id == 1:
-                    print "I, " + str(self.id) + " had times: self: " + str(self.time_of_last_blink) + " / " + str(relevant_neighbor_time) + "  Adjustment: " + str(waitTime * adjustmentFactor) + " at " + str(datetime.datetime.now()) 
+                    print ("I, " + str(self.id) + " had times: self: " + 
+                           str(self.time_of_last_blink) + " / " + str(relevant_neighbor_time) + 
+                           "  Adjustment: " + str(waitTime * adjustmentFactor) + 
+                           " at " + str(datetime.now()))
                 
                 time.sleep(0.00001)
                 
                 sys.stdout.flush();
       
 
-    def run(self):
-        #sys.stdout = open(str(os.getpid()) + ".out", "w")
-        
-        my_bulb = BulbBlinker(  my_id = self.id,
-                                bpm = self.bpm, 
-                                host = self.host,
-                                adjustment = self.adjustment,
-                                bulb_objects_list = self.bulb_objects_list, 
-                                above_neighbor = self.above_bulb_id, 
-                                below_neighbor = self.below_bulb_id, 
-                                turned_on_list = self.turned_on_list)
-        my_bulb.daemon=True
-
-        my_bulb.start()
-        
+    def run(self):  
+        """
+        Create a child process to turn bulb on and off
+        Start self continually checking ordering of bulbs 
+        """
         self.check_ordering()
-
-
-class BulbBlinker(Process):
-
-    def __init__(self, 
-                    my_id, 
-                    bpm, 
-                    host, 
-                    adjustment, 
-                    bulb_objects_list, 
-                    above_neighbor, 
-                    below_neighbor, 
-                    turned_on_list):
-        super(BulbBlinker, self).__init__()
-        self.id = my_id
-        self.bpm = bpm
-        self.host = host
-        self.adjustment = adjustment
-        self.bulb_objects_list = bulb_objects_list
-        self.above_neighbor = above_neighbor
-        self.below_neighbor = below_neighbor
-        self.turned_on_list = turned_on_list
-        self.on = 0
-        
-        self.my_relay_id = int(self.id * 1.0 / 2) + 1
-        
-
-    def send_message_to_neighbors(self):
-
-        # Check that all bulbs are on (and pulsing)
-        # If so, set self.on to true.
-        if self.on == 0:
-            tmp = 1
-            for i in range(0,13):
-                if self.turned_on_list[i] != 1:
-                    tmp = 0
-            
-            if tmp == 1: 
-                self.on = 1
-                print "Everyone turned on!"
-
-        #
-        if self.on == 1: 
-            self.bulb_objects_list[self.id].state_q.put(str(self.id))
-            self.bulb_objects_list[self.above_neighbor].state_q.put(str(self.id))
-            self.bulb_objects_list[self.below_neighbor].state_q.put(str(self.id))
-            
-            if self.id == 1:
-                print "============================================================================\nAdded messages to self and neighbor state_qs " + str(datetime.datetime.now())
-
-    def back_and_forth_forever(self):
-        
-        #print "connecting to " + self.host
-        #paramiko.util.log_to_file( "bulb" + str(self.id) + ".log" )
-        c = paramiko.SSHClient()
-        c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        c.connect(self.host, username='ubnt', password='ubnt') 
-        #print c
-        
-        while True: 
-            
-            #tStart = datetime.datetime.now()
-            
-            adjustment_value = 0
-            while not self.adjustment.empty():
-                adjustment_value = self.adjustment.get()
-        
-            on_cmd_builder = "echo 1 > /proc/power/relay" + str(self.my_relay_id) + " "
-            off_cmd_builder = "echo 0 > /proc/power/relay" + str(self.my_relay_id) + " "
-            
-            # Sleep for the adjustment time
-            if self.id == 1:
-                print "Adj value " + str(adjustment_value)
-            #time.sleep( adjustment_value )
-
-            # TURN ON
-            (stdin, stdout, stderr) = c.exec_command(on_cmd_builder)
-            
-            # WAIT (fixed amount of time)
-            timeWait = (60.0 / float(self.bpm)) * 2
-            time.sleep( timeWait )
-
-            # TURN OFF
-            (stdin, stdout, stderr) = c.exec_command(off_cmd_builder) 
-            time.sleep( timeWait + adjustment_value )
-            
-            # SIGNAL TO NEIGHBORS THAT I FINISHED MY CYCLE
-            self.send_message_to_neighbors()
-            
-            #tEnd = datetime.datetime.now()
-            #print "Time between messages: " + str((tEnd-tStart).total_seconds())
-            
-            #sys.stdout.flush();
-
-    def run(self):
-        #sys.stdout = open(str(os.getpid()) + ".out", "w")
-        self.back_and_forth_forever()
