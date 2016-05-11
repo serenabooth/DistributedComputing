@@ -28,6 +28,9 @@ def kill_all_processes(pi, bulbs):
     :param bulbs: A list of processes corresponding to # bulbs
     :type bulbs: A list of processes
     """
+
+    # Very hacky. Create a group of processes. Send a KeyboardInterrupt to all
+    # but catch it so we can continue living
     try: 
         os.killpg(0, signal.SIGINT)
     except KeyboardInterrupt:

@@ -22,6 +22,21 @@ class BulbBlinker(Process):
                     turned_on_list):
         """ 
         Initialize BulbBlinker
+
+        :param my_id: id ranging from 0-12, specifying bulb position
+        :type my_id: int 
+        :param bpm: pulse rate in beats per minute
+        :type bpm: int
+        :param host: ip address of Ubiquiti strip with relevant relay
+        :type host: string (e.x. "192.168.1.20")
+        :param adjustment: queue to receive adjustment instructions
+        :type adjustment: multiprocessing Queue
+        :param above_neighbor: id of above neighbor
+        :type above_neighbor: int
+        :param below_neighbor: id of below neighbor
+        :type below_neighbor: int
+        :param turned_on_list: List of bulbs turned on (process-safe) 
+        :type turned_on_list: Process safe list of c_type ints  
         """
         super(BulbBlinker, self).__init__()
         self.id = my_id
@@ -41,6 +56,8 @@ class BulbBlinker(Process):
         """
         Check all bulbs are on (using turned_on_list) 
         Put self.id on state_q's of self as well as of neighboring bulbs 
+
+        :return: None
         """
         # Check that all bulbs are on (and pulsing)
         # If so, set self.on to true.
@@ -71,6 +88,8 @@ class BulbBlinker(Process):
         - Connect to Ubiquiti box over ssh once
         - forever, blink. Adjust time based on messages sent by parent process
         - After blinking, send message to neighboring bulbs
+
+        :return: None
         """
         c = paramiko.SSHClient()
         c.set_missing_host_key_policy(paramiko.AutoAddPolicy())

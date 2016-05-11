@@ -3,9 +3,8 @@ from BulbBlinker import *
 
 # external libraries
 from datetime import datetime
-import sys, os
-import string, time, random
-from multiprocessing import Array, Process, Value
+import sys, os, time, random
+from multiprocessing import Process
 from multiprocessing.queues import Queue
 from ctypes import c_char_p
 
@@ -15,6 +14,17 @@ from ctypes import c_char_p
 """
 
 def bulb_id_distance( bulb1, bulb2 ):
+    """
+    Compute the distance between bulbs, accounting for modulus
+
+    :param bulb1: bulb id reference
+    :type bulb1: int
+    :param bulb2: second bulb id reference
+    :type bulb2: int
+    :return: distance between two bulbs, accounting for 12 and 0 being 1 apart
+    :type return: int
+    """
+
     bulbDiff = abs( int(bulb1) - int(bulb2) ) % 13
     return ((13 - bulbDiff) if (bulbDiff > 6) else bulbDiff)
 
@@ -29,8 +39,8 @@ class BulbControl(Process):
         :type bpm: int
         :param host: ip address of Ubiquiti strip with relevant relay
         :type host: string (e.x. "192.168.1.20")
-        :param leader_id: id of leader bulb, ranging from 0-12
-        :type leader_id: int
+        :param leader_id: array of length 1, value of leader id ranging from 0-12
+        :type leader_id: array of 1 integer
         :param state_q: Queue of bulb states corresponding to on/off messages
         :type state_q: BulbQueue (see BulbQueue.py)
         :param turned_on_list: List of bulbs turned on (process-safe) 
@@ -45,8 +55,10 @@ class BulbControl(Process):
         self.bulb_objects_list = bulb_objects_list
         self.turned_on_list = turned_on_list
 
+        # used to send messages to BulbBlinker
         self.adjustment = Queue()
 
+        # used to track message receipt times
         self.time_of_last_blink = None
         self.time_of_neighbor_below = None
         self.time_of_neighbor_above = None
@@ -64,7 +76,7 @@ class BulbControl(Process):
         """
         while True:
             if os.getppid() == 1: 
-                print " bulb control I SHOULD BE TERMINATINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+                print "TERMINATE"
                 os.kill(os.getpid(), 9)
             if self.id == self.leader_id[0]:
                 # I am the leader.
@@ -164,6 +176,10 @@ class BulbControl(Process):
       
 
     def run(self):  
+        """
+        Create a child process to turn bulb on and off
+        Start self continually checking ordering of bulbs 
+        """
         my_bulb = BulbBlinker(  my_id = self.id,
                                 bpm = self.bpm, 
                                 host = self.host,
@@ -174,8 +190,4 @@ class BulbControl(Process):
                                 turned_on_list = self.turned_on_list)
         my_bulb.daemon = True 
         my_bulb.start()
-        """
-        Create a child process to turn bulb on and off
-        Start self continually checking ordering of bulbs 
-        """
         self.check_ordering()

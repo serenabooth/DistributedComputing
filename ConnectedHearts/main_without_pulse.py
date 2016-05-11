@@ -8,6 +8,8 @@ import ctypes
 #from webcam_pulse.lib.check_face_visible import *
 #from webcam_pulse.lib.device import Camera
 
+# CLASS FOR TESTING ONLY
+
 """is_on_pi = 0
 
 camera_obj = Camera(is_on_pi)

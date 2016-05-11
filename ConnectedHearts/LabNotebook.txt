@@ -21,9 +21,9 @@ TO DO:
     X [DUE: 05/02] Presentation
     X [DUE: 05/07] Gossip algorithm! 
     X [DUE: 05/09] Whole project, including documentation
-        _ clean up code
-        _ comment code
-        _ create README
+        X clean up code
+        X comment code
+        X create README
         X write paper
             X idea introduction, implementation details, results, conclusion
         _ capture video demo 
