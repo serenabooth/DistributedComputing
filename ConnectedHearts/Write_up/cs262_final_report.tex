@@ -105,6 +105,7 @@
 
 \fntext[label0]{We, Serena Booth and Michelle Cone, affirm our awareness of the standards of the Harvard College Honor Code.}
 
+
 \begin{abstract}
 We present a physical distributed system for viewing the human heartbeat. We modified a medicine cabinet by embedding 13 light bulbs around the frame, as well as by replacing the cabinet's glass with one-way mirror. When a person stands in front of the cabinet, a webcam hidden behind the mirror measures their pulse. The 13 bulbs, each a virtual machine, run Bully leader election. First the leader starts pulsating with the captured pulse, and then instructs neighboring virtual machines to pulsate as well. Finally, we ensure the synchronization of the bulbs through a distributed gossip algorithm.
 \end{abstract}
@@ -125,6 +126,15 @@ We present a physical distributed system for viewing the human heartbeat. We mod
 
 
 %% main text
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/bulbs.JPG}
+  \caption{The visual presentation of the system. 
+ \label{fig:layout}}
+\end{figure}
+
 \section{Introduction}
 \label{sec1}
 
