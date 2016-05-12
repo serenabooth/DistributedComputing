@@ -41,7 +41,7 @@ Main.py also creates a CheckFace object, found in /webcam_pulse/lib/check_face_v
 
 Main.py first launches two "Pi" processes, from Pi.py. These processes establish SSH connections and shut off relays 1-7 on both Ubiquiti powerstrips. 
 
-Main.py then creates 13 "Bulb" processes, from Bulb.py. These processes run leader election. Once a leader is selected, the leader spawns a child process, "BulbControl" from BulbControl.py, which further spawns a process "BulbBlinker" in BulbBlinker.py. The leader then communicates with its neighboring (in the physical world) Bulb processes, and these bulbs follow this same process of spawning child processes. 
+Main.py then creates 13 "Bulb" processes, from Bulb.py. These processes run leader election. Once a leader is selected, the leader spawns a child process, "BulbControl" from control_bulb.py, which further spawns a process "BulbBlinker" in control_bulb.py. The leader then communicates with its neighboring (in the physical world) Bulb processes, and these bulbs follow this same process of spawning child processes. 
 
 BulbControl is used to determine how much the bulb should adjust its pulsating; BulbBlinker keeps the bulb pulsating continually. These two processes communicate via two queues. 
 

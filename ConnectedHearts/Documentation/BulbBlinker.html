@@ -1,0 +1,129 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module BulbBlinker</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>BulbBlinker</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/serena/DistributedComputing/ConnectedHearts/BulbBlinker.py">/home/serena/DistributedComputing/ConnectedHearts/BulbBlinker.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ctypes.html">ctypes</a><br>
+<a href="datetime.html">datetime</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="paramiko.html">paramiko</a><br>
+<a href="random.html">random</a><br>
+<a href="signal.html">signal</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+<a href="threading.html">threading</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+<a href="uuid.html">uuid</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>(<a href="__builtin__.html#object">__builtin__.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="BulbBlinker.html#BulbBlinker">BulbBlinker</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BulbBlinker">class <strong>BulbBlinker</strong></a>(<a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="BulbBlinker.html#BulbBlinker">BulbBlinker</a></dd>
+<dd><a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BulbBlinker-__init__"><strong>__init__</strong></a>(self, my_id, bpm, host, adjustment, bulb_objects_list, above_neighbor, below_neighbor, turned_on_list)</dt><dd><tt>Initialize&nbsp;<a href="#BulbBlinker">BulbBlinker</a><br>
+&nbsp;<br>
+:param&nbsp;my_id:&nbsp;id&nbsp;ranging&nbsp;from&nbsp;0-12,&nbsp;specifying&nbsp;bulb&nbsp;position<br>
+:type&nbsp;my_id:&nbsp;int&nbsp;<br>
+:param&nbsp;bpm:&nbsp;pulse&nbsp;rate&nbsp;in&nbsp;beats&nbsp;per&nbsp;minute<br>
+:type&nbsp;bpm:&nbsp;int<br>
+:param&nbsp;host:&nbsp;ip&nbsp;address&nbsp;of&nbsp;Ubiquiti&nbsp;strip&nbsp;with&nbsp;relevant&nbsp;relay<br>
+:type&nbsp;host:&nbsp;string&nbsp;(e.x.&nbsp;"192.168.1.20")<br>
+:param&nbsp;adjustment:&nbsp;queue&nbsp;to&nbsp;receive&nbsp;adjustment&nbsp;instructions<br>
+:type&nbsp;adjustment:&nbsp;multiprocessing&nbsp;Queue<br>
+:param&nbsp;above_neighbor:&nbsp;id&nbsp;of&nbsp;above&nbsp;neighbor<br>
+:type&nbsp;above_neighbor:&nbsp;int<br>
+:param&nbsp;below_neighbor:&nbsp;id&nbsp;of&nbsp;below&nbsp;neighbor<br>
+:type&nbsp;below_neighbor:&nbsp;int<br>
+:param&nbsp;turned_on_list:&nbsp;List&nbsp;of&nbsp;bulbs&nbsp;turned&nbsp;on&nbsp;(process-safe)&nbsp;<br>
+:type&nbsp;turned_on_list:&nbsp;<a href="multiprocessing.process.html#Process">Process</a>&nbsp;safe&nbsp;list&nbsp;of&nbsp;c_type&nbsp;ints</tt></dd></dl>
+
+<dl><dt><a name="BulbBlinker-back_and_forth_forever"><strong>back_and_forth_forever</strong></a>(self)</dt><dd><tt>Continue&nbsp;blinking&nbsp;<br>
+-&nbsp;Connect&nbsp;to&nbsp;Ubiquiti&nbsp;box&nbsp;over&nbsp;ssh&nbsp;once<br>
+-&nbsp;forever,&nbsp;blink.&nbsp;Adjust&nbsp;time&nbsp;based&nbsp;on&nbsp;messages&nbsp;sent&nbsp;by&nbsp;parent&nbsp;process<br>
+-&nbsp;After&nbsp;blinking,&nbsp;send&nbsp;message&nbsp;to&nbsp;neighboring&nbsp;bulbs<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="BulbBlinker-run"><strong>run</strong></a>(self)</dt><dd><tt>Start&nbsp;blinking</tt></dd></dl>
+
+<dl><dt><a name="BulbBlinker-send_message_to_neighbors"><strong>send_message_to_neighbors</strong></a>(self)</dt><dd><tt>Check&nbsp;all&nbsp;bulbs&nbsp;are&nbsp;on&nbsp;(using&nbsp;turned_on_list)&nbsp;<br>
+Put&nbsp;self.<strong>id</strong>&nbsp;on&nbsp;state_q's&nbsp;of&nbsp;self&nbsp;as&nbsp;well&nbsp;as&nbsp;of&nbsp;neighboring&nbsp;bulbs&nbsp;<br>
+&nbsp;<br>
+:return:&nbsp;None</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>:<br>
+<dl><dt><a name="BulbBlinker-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BulbBlinker-is_alive"><strong>is_alive</strong></a>(self)</dt><dd><tt>Return&nbsp;whether&nbsp;process&nbsp;is&nbsp;alive</tt></dd></dl>
+
+<dl><dt><a name="BulbBlinker-join"><strong>join</strong></a>(self, timeout<font color="#909090">=None</font>)</dt><dd><tt>Wait&nbsp;until&nbsp;child&nbsp;process&nbsp;terminates</tt></dd></dl>
+
+<dl><dt><a name="BulbBlinker-start"><strong>start</strong></a>(self)</dt><dd><tt>Start&nbsp;child&nbsp;process</tt></dd></dl>
+
+<dl><dt><a name="BulbBlinker-terminate"><strong>terminate</strong></a>(self)</dt><dd><tt>Terminate&nbsp;process;&nbsp;sends&nbsp;SIGTERM&nbsp;signal&nbsp;or&nbsp;uses&nbsp;TerminateProcess()</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="multiprocessing.process.html#Process">multiprocessing.process.Process</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>authkey</strong></dt>
+</dl>
+<dl><dt><strong>daemon</strong></dt>
+<dd><tt>Return&nbsp;whether&nbsp;process&nbsp;is&nbsp;a&nbsp;daemon</tt></dd>
+</dl>
+<dl><dt><strong>exitcode</strong></dt>
+<dd><tt>Return&nbsp;exit&nbsp;code&nbsp;of&nbsp;process&nbsp;or&nbsp;`None`&nbsp;if&nbsp;it&nbsp;has&nbsp;yet&nbsp;to&nbsp;stop</tt></dd>
+</dl>
+<dl><dt><strong>ident</strong></dt>
+<dd><tt>Return&nbsp;identifier&nbsp;(PID)&nbsp;of&nbsp;process&nbsp;or&nbsp;`None`&nbsp;if&nbsp;it&nbsp;has&nbsp;yet&nbsp;to&nbsp;start</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<dl><dt><strong>pid</strong></dt>
+<dd><tt>Return&nbsp;identifier&nbsp;(PID)&nbsp;of&nbsp;process&nbsp;or&nbsp;`None`&nbsp;if&nbsp;it&nbsp;has&nbsp;yet&nbsp;to&nbsp;start</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
